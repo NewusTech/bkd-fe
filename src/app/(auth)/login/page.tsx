@@ -16,6 +16,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import BackgroundImage from "@/components/layouts/background_images";
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -36,7 +37,9 @@ export default function LoginScreen() {
   };
 
   return (
-    <section className="flex justify-center items-center w-screen h-screen">
+    <section className="relative flex justify-center items-center w-screen h-screen">
+      <BackgroundImage />
+
       <div className="flex flex-col w-6/12 items-center justify-center gap-y-8 bg-white p-12 shadow-lg rounded-lg">
         <div className="w-full flex flex-col items-center gap-y-2">
           <h2 className="text-black-80 text-xl">

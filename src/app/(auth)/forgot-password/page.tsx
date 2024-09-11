@@ -1,5 +1,6 @@
 "use client";
 
+import BackgroundImage from "@/components/layouts/background_images";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -15,7 +16,9 @@ export default function ForgotPasswordScreen() {
   });
 
   return (
-    <section className="flex justify-center items-center w-screen h-screen">
+    <section className="relative flex flex-col justify-center items-center w-screen h-screen">
+      <BackgroundImage />
+
       <div className="flex flex-col w-6/12 items-center justify-center gap-y-8 bg-white p-12 shadow-lg rounded-lg">
         <div className="w-full flex flex-col items-center gap-y-8">
           <h5 className="text-black-80 text-lg">Lupa Password</h5>

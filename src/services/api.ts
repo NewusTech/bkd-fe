@@ -2,6 +2,7 @@
 
 import useSWR from "swr";
 import { fetcher, fetcherWithoutAuth } from "@/constants/fetcher";
+import { NewUserInterface } from "@/types/interface";
 
 // get
 
@@ -34,3 +35,49 @@ export function useCarousel() {
 //     throw error;
 //   }
 // };
+
+// get all subDistrict
+export const getAllSubDistrict = async () => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/user/kecamatan/get`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      cache: "no-store",
+    }
+  );
+
+  return await response.json();
+};
+
+//get all village
+export const getAllVillage = async () => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/user/desa/get`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      cache: "no-store",
+    }
+  );
+
+  return await response.json();
+};
+
+// post register user
+export const postRegisterUser = async (data: NewUserInterface) => {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/register`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+    cache: "no-store",
+  });
+
+  return await response.json();
+};

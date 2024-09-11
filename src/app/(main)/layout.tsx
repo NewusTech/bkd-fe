@@ -16,7 +16,7 @@ export default function MainLayout({
     <main
       className={`${poppins.className} w-full relative flex flex-col min-h-screen`}>
       <div className="flex-1 overflow-y-auto">
-        <div className="w-full flex flex-row gap-x-10">
+        <div className="w-full flex flex-row">
           <DashBoardSidebarPages />
           {children}
         </div>
