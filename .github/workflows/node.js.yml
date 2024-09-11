@@ -1,33 +1,32 @@
-name: CI CD BKD 
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: CI CD BKD
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   build:
+
     runs-on: self-hosted
     strategy:
       matrix:
         node-version: [20]
-        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
-
+    env:
+      NEXT_PUBLIC_API_URL: https://bkd.newus.id/api
     steps:
-    - uses: actions/checkout@v4
-    - name: Use Node.js ${{ matrix.node-version }}
+    - name: Checkout repository
+      uses: actions/checkout@v4
+    - name: Use Node.js
       uses: actions/setup-node@v4
       with:
         node-version: '20.x'
-    - name: Git pull
-      run: |
-          cd /home/newus-bkd/htdocs/bkd.newus.id
-          git pull
-    - name: Run migration if present
-      run: |
-          cd /home/newus-bkd/htdocs/bkd.newus.id
-          npx sequelize-cli db:migrate
-    - name: Run NPM
+    - name : Run NPM
       run: npm ci
+    - name : Run build
+      run: npm run build --if-present
     - name : restart PM2
       run : |
           APP_NAME="bkd.newus.id"
