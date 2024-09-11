@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import Cookies from "js-cookie";
 import {
   Select,
   SelectContent,
@@ -17,11 +18,22 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Eye, EyeOff, Loader } from "lucide-react";
 import { Label } from "@radix-ui/react-label";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
+import BackgroundImage from "@/components/layouts/background_images";
+import { SubDistrictInterface, VillageInterface } from "@/types/interface";
+import { useDebounce } from "@/hooks/useDebounce";
+import { z } from "zod";
+import { schemaRegister } from "@/validations";
+import {
+  getAllSubDistrict,
+  getAllVillage,
+  postRegisterUser,
+} from "@/services/api";
+import Swal from "sweetalert2";
 
 export default function RegisterScreen() {
   const router = useRouter();
@@ -41,6 +53,45 @@ export default function RegisterScreen() {
   const [isLoading, setIsLoading] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [subDistricts, setSubDistricts] = useState<SubDistrictInterface[]>();
+  const [villages, setVillages] = useState<VillageInterface[]>([]);
+  const [selectedSubDistrict, setSelectedSubDistrict] = useState<number | null>(
+    null
+  );
+  const [selectedVillage, setSelectedVillage] = useState<number | null>(null);
+  const [searchSubDistrict, setSearchSubDistrict] = useState<string>("");
+  const [searchVillage, setSearchVillage] = useState<string>("");
+  const debounceSearchSubDistrict = useDebounce(searchSubDistrict);
+  const debounceSearchVillage = useDebounce(searchVillage);
+  const [formValid, setFormValid] = useState(false);
+  const [errors, setErrors] = useState<any>({});
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+
+  const validateForm = async () => {
+    try {
+      await schemaRegister.parseAsync({
+        ...data,
+        kecamatan_id: String(selectedSubDistrict),
+        desa_id: String(selectedVillage),
+        term: isChecked,
+      });
+      setErrors({});
+      return true;
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const formattedErrors = error.format();
+        setErrors(formattedErrors);
+      }
+      setIsLoading(false);
+      return false;
+    }
+  };
+
+  useEffect(() => {
+    if (hasSubmitted) {
+      validateForm();
+    }
+  }, [data, selectedSubDistrict, selectedVillage, isChecked, hasSubmitted]);
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const checked = event.target.checked;
@@ -62,9 +113,112 @@ export default function RegisterScreen() {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
+  const fetchDataSubDistricts = async () => {
+    try {
+      const subdistrict = await getAllSubDistrict();
+
+      setSubDistricts(subdistrict.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchDataVillages = async () => {
+    try {
+      const village = await getAllVillage();
+      setVillages(village.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchDataSubDistricts();
+  }, []);
+
+  useEffect(() => {
+    if (selectedSubDistrict) {
+      fetchDataVillages();
+    }
+  }, [selectedSubDistrict]);
+
+  useEffect(() => {
+    const token = Cookies.get("Authorization");
+
+    if (token) {
+      router.push("/dashboard");
+    }
+  });
+
+  const handleNewUser = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    setHasSubmitted(true);
+
+    const isValid = await validateForm();
+
+    if (isValid) {
+      setIsLoading(true);
+      try {
+        const response = await postRegisterUser({
+          ...data,
+          role_id: 1,
+        });
+
+        if (response.ok) {
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil membuat akun, Silahkan Login!",
+            timer: 2000,
+            showConfirmButton: false,
+            position: "center",
+          });
+          return router.push("/login");
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: `${response.message} dan Gagal membuat akun!`,
+            timer: 2000,
+            showConfirmButton: false,
+            position: "center",
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+        setHasSubmitted(false);
+      }
+    }
+  };
+
+  useEffect(() => {
+    setFormValid(Object.keys(errors).length === 0 && isChecked);
+  }, [errors, isChecked]);
+
+  useEffect(() => {
+    if (selectedSubDistrict !== null) {
+      setData((prevUser) => ({
+        ...prevUser,
+        kecamatan_id: String(selectedSubDistrict),
+      }));
+    }
+  }, [selectedSubDistrict]);
+
+  useEffect(() => {
+    if (selectedVillage !== null) {
+      setData((prevUser) => ({
+        ...prevUser,
+        desa_id: String(selectedVillage),
+      }));
+    }
+  }, [selectedVillage]);
+
   return (
-    <section className="flex justify-center items-center w-screen h-full">
-      <div className="flex flex-col w-8/12 items-center my-12 justify-center gap-y-5 bg-white p-12 shadow-lg rounded-lg">
+    <section className="relative flex justify-center items-center w-screen h-full">
+      <BackgroundImage />
+
+      <div className="flex flex-col relative z-50 w-8/12 items-center my-12 justify-center gap-y-5 bg-white p-12 shadow-lg rounded-lg">
         <div className="w-full flex flex-col items-center gap-y-2">
           <h2 className="text-black-80 text-xl">
             Selamat Datang Di Aplikasi BKD
@@ -89,7 +243,7 @@ export default function RegisterScreen() {
             </div>
           </div>
 
-          <form className="flex flex-col md:w-full">
+          <form onSubmit={handleNewUser} className="flex flex-col md:w-full">
             <div className="w-full flex flex-col gap-y-5">
               <div className="w-full grid grid-cols-2 gap-x-5">
                 <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -108,6 +262,12 @@ export default function RegisterScreen() {
                     className="w-full focus-visible:text-neutral-70 focus-visible:border focus-visible:border-primary-70"
                     placeholder="Masukkan Nama Anda"
                   />
+
+                  {hasSubmitted && errors?.name?._errors && (
+                    <div className="text-red-500 text-[12px] md:text-[14px]">
+                      {errors.name._errors[0]}
+                    </div>
+                  )}
                 </div>
 
                 <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -117,12 +277,28 @@ export default function RegisterScreen() {
                     Kecamatan
                   </Label>
 
-                  <Select name="kecamatan_id">
+                  <Select
+                    name="kecamatan_id"
+                    value={
+                      selectedSubDistrict
+                        ? String(selectedSubDistrict)
+                        : undefined
+                    }
+                    onValueChange={(value) =>
+                      setSelectedSubDistrict(Number(value))
+                    }>
                     <SelectTrigger
-                      className={`bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
-                      <SelectValue placeholder="Pilih Kecamatan" className="" />
+                      className={`${
+                        !selectedSubDistrict ? "opacity-70" : ""
+                      } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                      <SelectValue
+                        placeholder="Pilih Kecamatan"
+                        className={
+                          selectedSubDistrict ? "" : "placeholder:opacity-50"
+                        }
+                      />
                     </SelectTrigger>
-                    <SelectContent className="w-full">
+                    <SelectContent className="w-full bg-line-10">
                       <div>
                         {/* <div className="w-full px-2 mt-2">
                             <SearchComponent
@@ -133,12 +309,28 @@ export default function RegisterScreen() {
                             />
                           </div> */}
 
-                        <SelectItem className="pr-none mt-2" value={"item-1"}>
-                          Hello
-                        </SelectItem>
+                        {subDistricts &&
+                          subDistricts?.map(
+                            (sub: SubDistrictInterface, i: number) => {
+                              return (
+                                <SelectItem
+                                  className="pr-none mt-2"
+                                  value={sub?.id.toString()}
+                                  key={i}>
+                                  {sub?.nama}
+                                </SelectItem>
+                              );
+                            }
+                          )}
                       </div>
                     </SelectContent>
                   </Select>
+
+                  {hasSubmitted && errors.kecamatan_id?._errors[0] && (
+                    <p className="text-red-500 text-[12px] md:text-[14px]">
+                      {errors.kecamatan_id?._errors[0]}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -160,6 +352,12 @@ export default function RegisterScreen() {
                     className="w-full focus-visible:text-neutral-70 focus-visible:border focus-visible:border-primary-70"
                     placeholder="Masukkan NIP Anda"
                   />
+
+                  {hasSubmitted && errors?.nip?._errors && (
+                    <div className="text-red-500 text-[12px] md:text-[14px]">
+                      {errors.nip._errors[0]}
+                    </div>
+                  )}
                 </div>
 
                 <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -169,12 +367,26 @@ export default function RegisterScreen() {
                     Desa
                   </Label>
 
-                  <Select name="kecamatan_id">
+                  <Select
+                    name="desa_id"
+                    value={
+                      selectedVillage ? String(selectedVillage) : undefined
+                    }
+                    onValueChange={(value) =>
+                      setSelectedVillage(Number(value))
+                    }>
                     <SelectTrigger
-                      className={`bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
-                      <SelectValue placeholder="Pilih Kecamatan" className="" />
+                      className={`${
+                        !selectedVillage ? "opacity-70" : ""
+                      } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                      <SelectValue
+                        placeholder="Pilih Kecamatan"
+                        className={
+                          selectedVillage ? "" : "placeholder:opacity-50"
+                        }
+                      />
                     </SelectTrigger>
-                    <SelectContent className="w-full">
+                    <SelectContent className="w-full bg-line-10">
                       <div>
                         {/* <div className="w-full px-2 mt-2">
                             <SearchComponent
@@ -185,12 +397,28 @@ export default function RegisterScreen() {
                             />
                           </div> */}
 
-                        <SelectItem className="pr-none mt-2" value={"item-1"}>
-                          World
-                        </SelectItem>
+                        {villages &&
+                          villages?.map(
+                            (village: VillageInterface, i: number) => {
+                              return (
+                                <SelectItem
+                                  className="pr-none mt-2"
+                                  value={village?.id.toString()}
+                                  key={i}>
+                                  {village?.nama}
+                                </SelectItem>
+                              );
+                            }
+                          )}
                       </div>
                     </SelectContent>
                   </Select>
+
+                  {hasSubmitted && errors.desa_id?._errors[0] && (
+                    <p className="text-red-500 text-[12px] md:text-[14px]">
+                      {errors.desa_id?._errors[0]}
+                    </p>
+                  )}
                 </div>
               </div>
 
@@ -208,9 +436,16 @@ export default function RegisterScreen() {
                     value={data.email}
                     onChange={changeUser}
                     type="email"
+                    required
                     className="w-full focus-visible:text-neutral-70 focus-visible:border focus-visible:border-primary-70"
                     placeholder="Masukkan Email Anda"
                   />
+
+                  {hasSubmitted && errors?.email?._errors && (
+                    <div className="text-red-500 text-[12px] md:text-[14px]">
+                      {errors.email._errors[0]}
+                    </div>
+                  )}
                 </div>
 
                 <div className="w-full grid grid-cols-2 gap-x-3">
@@ -230,6 +465,12 @@ export default function RegisterScreen() {
                       className="w-full focus-visible:text-neutral-70 focus-visible:border focus-visible:border-primary-70"
                       placeholder="Masukkan RT Anda"
                     />
+
+                    {hasSubmitted && errors?.rt?._errors && (
+                      <div className="text-red-500 text-[12px] md:text-[14px]">
+                        {errors.rt._errors[0]}
+                      </div>
+                    )}
                   </div>
 
                   <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -248,6 +489,12 @@ export default function RegisterScreen() {
                       className="w-full focus-visible:text-neutral-70 focus-visible:border focus-visible:border-primary-70"
                       placeholder="Masukkan RW Anda"
                     />
+
+                    {hasSubmitted && errors?.rw?._errors && (
+                      <div className="text-red-500 text-[12px] md:text-[14px]">
+                        {errors.rw._errors[0]}
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -270,6 +517,12 @@ export default function RegisterScreen() {
                       className="w-full focus-visible:text-neutral-70 focus-visible:border focus-visible:border-primary-70"
                       placeholder="Masukkan Nomor Telepon Anda"
                     />
+
+                    {hasSubmitted && errors?.telepon?._errors && (
+                      <div className="text-red-500 text-[12px] md:text-[14px]">
+                        {errors.telepon._errors[0]}
+                      </div>
+                    )}
                   </div>
 
                   <div className="w-full focus-within:text-black-70 flex flex-col gap-y-2">
@@ -306,6 +559,12 @@ export default function RegisterScreen() {
                         )}
                       </div>
                     </div>
+
+                    {hasSubmitted && errors?.password?._errors && (
+                      <div className="text-red-500 text-[12px] md:text-[14px]">
+                        {errors.password._errors[0]}
+                      </div>
+                    )}
                   </div>
                 </div>
 
@@ -321,6 +580,12 @@ export default function RegisterScreen() {
                     onChange={changeUser}
                     className="w-full rounded-3xl h-[74px] border border-black-10 md:h-[122px] text-[12px] placeholder:opacity-[70%]"
                   />
+
+                  {hasSubmitted && errors?.alamat?._errors && (
+                    <div className="text-red-500 text-[12px] md:text-[14px]">
+                      {errors.alamat._errors[0]}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -344,7 +609,7 @@ export default function RegisterScreen() {
 
                     <div
                       onClick={handleAgree}
-                      className="bg-primary-700 text-center cursor-pointer w-4/12 rounded-full text-neutral-50 py-1 px-5">
+                      className="bg-primary-40 text-center cursor-pointer w-4/12 rounded-full text-neutral-50 py-1 px-5">
                       Setuju
                     </div>
                   </div>

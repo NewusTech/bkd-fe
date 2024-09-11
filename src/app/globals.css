@@ -2,13 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* .background-blend {
-  background: url("../../public/assets/images/background-login-1.png") no-repeat
-    center;
-
-  background-size: 90%;
-  width: 100%;
-} */
+html {
+  scroll-behavior: smooth;
+}
 
 .verticalScroll {
   width: 100%;
@@ -18,4 +14,8 @@
 
 .verticalScroll::-webkit-scrollbar {
   display: none;
+}
+
+.background-about-us {
+  background-color: rgba(53, 114, 239);
 }
