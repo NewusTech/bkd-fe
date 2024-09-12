@@ -15,8 +15,13 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import BackgroundImage from "@/components/layouts/background_images";
+import { schemaLogin } from "@/validations";
+import { z } from "zod";
+import Swal from "sweetalert2";
+import Cookies from "js-cookie";
+import { postLoginUser } from "@/services/api";
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -27,9 +32,76 @@ export default function LoginScreen() {
     nip: "",
     password: "",
   });
+  const [errors, setErrors] = useState<any>({});
+  const [hasSubmitted, setHasSubmitted] = useState(false);
 
-  const handleLogin = () => {
-    console.log("hello World");
+  useEffect(() => {
+    const token = Cookies.get("Authorization");
+
+    if (token) {
+      router.push("/dashboard");
+    }
+  }, [router]);
+
+  const validateForm = useCallback(async () => {
+    try {
+      await schemaLogin.parseAsync(data);
+      setErrors({});
+      return true;
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const formattedErrors = error.format();
+        setErrors(formattedErrors);
+      }
+      setIsLoading(false);
+      return false;
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (hasSubmitted) {
+      validateForm();
+    }
+  }, [hasSubmitted, validateForm]);
+
+  const handleLoginUser = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setHasSubmitted(true);
+
+    const isValid = await validateForm();
+
+    if (isValid) {
+      setIsLoading(true);
+
+      try {
+        const response = await postLoginUser(data);
+
+        if (response.status === 200) {
+          Cookies.set("Authorization", response?.data?.token);
+          Swal.fire({
+            icon: "success",
+            title: "Login berhasil!",
+            timer: 2000,
+            showConfirmButton: false,
+            position: "center",
+          });
+          router.push("/dashboard");
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Login gagal. Periksa NIK dan password Anda.",
+            timer: 2000,
+            showConfirmButton: false,
+            position: "center",
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
+        setHasSubmitted(false);
+      }
+    }
   };
 
   const handleAgree = () => {
@@ -40,7 +112,7 @@ export default function LoginScreen() {
     <section className="relative flex justify-center items-center w-screen h-screen">
       <BackgroundImage />
 
-      <div className="flex flex-col w-6/12 items-center justify-center gap-y-8 bg-white p-12 shadow-lg rounded-lg">
+      <div className="relative z-50 flex flex-col w-6/12 items-center justify-center gap-y-8 bg-white p-12 shadow-lg rounded-lg">
         <div className="w-full flex flex-col items-center gap-y-2">
           <h2 className="text-black-80 text-xl">
             Selamat Datang Di Aplikasi BKD
@@ -55,7 +127,9 @@ export default function LoginScreen() {
         <div className="w-full flex flex-col items-center">
           <h5 className="text-black-80 text-lg">Login Akun!</h5>
 
-          <form className="w-full flex flex-col gap-y-3">
+          <form
+            onSubmit={handleLoginUser}
+            className="w-full flex flex-col gap-y-3">
             <div className="w-full flex flex-col gap-y-5">
               <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                 <Label
@@ -74,16 +148,17 @@ export default function LoginScreen() {
                       nip: e.target.value,
                     })
                   }
-                  type="number"
+                  type="text"
+                  inputMode="numeric"
                   className="w-full focus-visible:text-neutral-70 focus-visible:border focus-visible:border-primary-70"
                   placeholder="Masukkan NIP Anda"
                 />
 
-                {/* {hasSubmittedRegister && errorsRegister?.email?._errors && (
-                  <div className="text-error-700 text-[12px] md:text-[14px]">
-                    {errorsRegister.email._errors[0]}
+                {hasSubmitted && errors?.nip?._errors && (
+                  <div className="text-red-500 text-[12px] md:text-[14px]">
+                    {errors.nip._errors[0]}
                   </div>
-                )} */}
+                )}
               </div>
 
               <div className="w-full focus-within:text-black-70 flex flex-col gap-y-2">
@@ -120,6 +195,12 @@ export default function LoginScreen() {
                     )}
                   </div>
                 </div>
+
+                {hasSubmitted && errors?.password?._errors && (
+                  <div className="text-red-500 text-[12px] md:text-[14px]">
+                    {errors.password._errors[0]}
+                  </div>
+                )}
               </div>
             </div>
 
@@ -167,7 +248,7 @@ export default function LoginScreen() {
             <div className="w-3/12 mt-2 flex items-center justify-center self-center">
               {/* <Link className="w-full" href={`${process.env.NEXT_PUBLIC_API_URL_MPP_GOOGLE}/auth/google`}> */}
               <Button
-                onClick={handleLogin}
+                // onClick={handleLogin}
                 className="border border-line-50 rounded-lg bg-neutral-50 shadow-md w-full flex flex-row items-center py-3 px-1 gap-x-2">
                 <div className="w-[20px] flex items-center">
                   <Image

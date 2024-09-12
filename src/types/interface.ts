@@ -26,3 +26,52 @@ export interface NewUserInterface {
   alamat: string;
   role_id: number;
 }
+
+export interface LoginUserInterface {
+  nip: string;
+  password: string;
+}
+
+export interface PaginationInterface {
+  totalPages: number;
+  currentPage: number;
+  onPageChange: (page: number) => void;
+}
+
+// export interface SearchInterface {
+//   search: string;
+//   change: (e: React.ChangeEvent<HTMLInputElement>) => void;
+//   props: any;
+// }
+
+export interface AreasInterface {
+  id: number;
+  nama: string;
+  slug: string;
+  desc: string;
+  pj: string;
+  nip_pj: string;
+  createdAt: string;
+  jmlLayanan: number;
+}
+
+export interface OutputServiceInterface {
+  status: number;
+  message: string;
+  data: ServiceInterface[];
+  bidang: AreasInterface;
+}
+
+export interface ServiceInterface {
+  id: number;
+  nama: string;
+  slug: string;
+  desc: string;
+  penanggung_jawab: string;
+  syarat: string;
+  ketentuan: string;
+  langkah: string;
+  bidang_id: number;
+  createdAt: string;
+  Bidang_nama: string;
+}

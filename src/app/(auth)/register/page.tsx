@@ -18,7 +18,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Eye, EyeOff, Loader } from "lucide-react";
 import { Label } from "@radix-ui/react-label";
 import { Textarea } from "@/components/ui/textarea";
@@ -53,6 +53,7 @@ export default function RegisterScreen() {
   const [isLoading, setIsLoading] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [terms, setTerms] = useState("");
   const [subDistricts, setSubDistricts] = useState<SubDistrictInterface[]>();
   const [villages, setVillages] = useState<VillageInterface[]>([]);
   const [selectedSubDistrict, setSelectedSubDistrict] = useState<number | null>(
@@ -67,7 +68,15 @@ export default function RegisterScreen() {
   const [errors, setErrors] = useState<any>({});
   const [hasSubmitted, setHasSubmitted] = useState(false);
 
-  const validateForm = async () => {
+  useEffect(() => {
+    const token = Cookies.get("Authorization");
+
+    if (token) {
+      router.push("/dashboard");
+    }
+  }, [router]);
+
+  const validateForm = useCallback(async () => {
     try {
       await schemaRegister.parseAsync({
         ...data,
@@ -85,13 +94,13 @@ export default function RegisterScreen() {
       setIsLoading(false);
       return false;
     }
-  };
+  }, [data, isChecked, selectedSubDistrict, selectedVillage]);
 
   useEffect(() => {
     if (hasSubmitted) {
       validateForm();
     }
-  }, [data, selectedSubDistrict, selectedVillage, isChecked, hasSubmitted]);
+  }, [hasSubmitted, validateForm]);
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const checked = event.target.checked;
@@ -123,9 +132,9 @@ export default function RegisterScreen() {
     }
   };
 
-  const fetchDataVillages = async () => {
+  const fetchDataVillages = async (kecamatan_id: number) => {
     try {
-      const village = await getAllVillage();
+      const village = await getAllVillage(kecamatan_id);
       setVillages(village.data);
     } catch (error) {
       console.log(error);
@@ -138,7 +147,7 @@ export default function RegisterScreen() {
 
   useEffect(() => {
     if (selectedSubDistrict) {
-      fetchDataVillages();
+      fetchDataVillages(selectedSubDistrict);
     }
   }, [selectedSubDistrict]);
 
@@ -165,7 +174,7 @@ export default function RegisterScreen() {
           role_id: 1,
         });
 
-        if (response.ok) {
+        if (response.status === 201) {
           Swal.fire({
             icon: "success",
             title: "Berhasil membuat akun, Silahkan Login!",
@@ -259,7 +268,7 @@ export default function RegisterScreen() {
                     value={data.name}
                     onChange={changeUser}
                     type="text"
-                    className="w-full focus-visible:text-neutral-70 focus-visible:border focus-visible:border-primary-70"
+                    className="w-full focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                     placeholder="Masukkan Nama Anda"
                   />
 
@@ -349,7 +358,7 @@ export default function RegisterScreen() {
                     onChange={changeUser}
                     type="text"
                     inputMode="numeric"
-                    className="w-full focus-visible:text-neutral-70 focus-visible:border focus-visible:border-primary-70"
+                    className="w-full focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                     placeholder="Masukkan NIP Anda"
                   />
 
@@ -380,7 +389,7 @@ export default function RegisterScreen() {
                         !selectedVillage ? "opacity-70" : ""
                       } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
                       <SelectValue
-                        placeholder="Pilih Kecamatan"
+                        placeholder="Pilih Desa"
                         className={
                           selectedVillage ? "" : "placeholder:opacity-50"
                         }
@@ -436,8 +445,7 @@ export default function RegisterScreen() {
                     value={data.email}
                     onChange={changeUser}
                     type="email"
-                    required
-                    className="w-full focus-visible:text-neutral-70 focus-visible:border focus-visible:border-primary-70"
+                    className="w-full focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                     placeholder="Masukkan Email Anda"
                   />
 
@@ -462,7 +470,7 @@ export default function RegisterScreen() {
                       value={data.rt}
                       onChange={changeUser}
                       type="number"
-                      className="w-full focus-visible:text-neutral-70 focus-visible:border focus-visible:border-primary-70"
+                      className="w-full focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                       placeholder="Masukkan RT Anda"
                     />
 
@@ -486,7 +494,7 @@ export default function RegisterScreen() {
                       value={data.rw}
                       onChange={changeUser}
                       type="number"
-                      className="w-full focus-visible:text-neutral-70 focus-visible:border focus-visible:border-primary-70"
+                      className="w-full focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                       placeholder="Masukkan RW Anda"
                     />
 
@@ -514,7 +522,7 @@ export default function RegisterScreen() {
                       value={data.telepon}
                       onChange={changeUser}
                       type="number"
-                      className="w-full focus-visible:text-neutral-70 focus-visible:border focus-visible:border-primary-70"
+                      className="w-full focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                       placeholder="Masukkan Nomor Telepon Anda"
                     />
 
@@ -545,7 +553,7 @@ export default function RegisterScreen() {
                           })
                         }
                         type={!seen ? "text" : "password"}
-                        className="w-full focus-visible:text-neutral-70 border-none outline-none bg-transparent"
+                        className="w-full focus-visible:text-black-70 border-none outline-none bg-transparent"
                         placeholder="Masukkan Kata Sandi"
                       />
 

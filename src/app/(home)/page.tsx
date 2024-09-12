@@ -12,15 +12,88 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
+import { useRouter } from "next/navigation";
+import { getAreas, getCarouselSliders } from "@/services/api";
 
 export default function Home() {
+  const router = useRouter();
+  const [slides, setSlides] = useState([]);
+  const [areas, setAreas] = useState([]);
+
+  useEffect(() => {
+    const token = Cookies.get("Authorization");
+
+    if (token) {
+      router.push("/dashboard");
+    }
+  }, [router]);
+
+  const scrollToSection = (id: any) => {
+    const section = document.getElementById(id);
+    if (section) {
+      section.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+
+      history.pushState(null, "", " ");
+    }
+  };
+
+  useEffect(() => {
+    const anchorLinks = document.querySelectorAll("a[href^='#']");
+    anchorLinks.forEach((link: any) => {
+      link.addEventListener("click", (event: any) => {
+        event.preventDefault();
+        const href = link?.getAttribute("href").substring(1);
+        scrollToSection(href);
+      });
+    });
+
+    return () => {
+      anchorLinks.forEach((link) => {
+        link.removeEventListener("click", (event: any) => {});
+      });
+    };
+  }, []);
+
+  const fetchCarouselSliders = async () => {
+    try {
+      const response = await getCarouselSliders();
+
+      setSlides(response?.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // useEffect(() => {
+  //   fetchCarouselSliders();
+  // }, []);
+
+  const fetchAreas = async () => {
+    try {
+      const response = await getAreas();
+
+      setAreas(response?.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // useEffect(() => {
+  //   fetchAreas();
+  // }, []);
+
   return (
-    <main className="flex flex-col md:w-full h-full justify-center items-center relative md:mb-24 mb-24">
+    <main className="flex flex-col md:w-full h-full justify-center scroll-smooth snap-mandatory snap-y items-center relative md:mb-24 mb-24">
       <HeroScreen />
 
       <section
         id="about-us"
-        className="w-full background-about-us py-12 px-20 flex flex-row gap-x-8">
+        className="w-full background-about-us snap-start scroll-mt-24 py-12 px-20 flex flex-row gap-x-8">
         <div className="w-5/12 h-full">
           <Image
             src={about}
@@ -56,7 +129,9 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="submission" className="w-full flex flex-col p-12 gap-y-16">
+      <section
+        id="submission"
+        className="w-full snap-start scroll-mt-24 flex flex-col p-12 gap-y-16">
         <div className="w-full flex flex-col items-center gap-y-3">
           <h5 className="text-black-80 text-3xl font-semibold">
             PElAYANAN BKD LAMPUNG TIMUR
@@ -81,7 +156,7 @@ export default function Home() {
 
       <section
         id="gallery-image-activity"
-        className="w-full flex flex-col background-about-us py-12 px-20 gap-y-8">
+        className="w-full flex flex-col snap-start scroll-mt-24 background-about-us py-12 px-20 gap-y-8">
         <div className="w-full flex flex-col items-center gap-y-3">
           <h5 className="text-line-10 text-3xl font-semibold">
             FOTO KEGIATAN BKD LAMPUNG TIMUR
@@ -102,9 +177,9 @@ export default function Home() {
         </div>
       </section>
 
-      {/* <section
+      <section
         id="location"
-        className="w-full flex flex-col py-12 px-20 gap-y-8">
+        className="w-full flex snap-start scroll-mt-24 flex-col py-12 px-20 gap-y-8">
         <div className="w-full flex flex-col items-center gap-y-3">
           <h5 className="text-black-80 text-3xl font-semibold">
             MAPS BKD LAMPUNG TIMUR
@@ -123,9 +198,11 @@ export default function Home() {
               referrerPolicy="no-referrer-when-downgrade"></iframe>
           </div>
         </div>
-      </section> */}
+      </section>
 
-      <section id="faqs" className="w-full flex flex-col py-12 px-20 gap-y-8">
+      <section
+        id="faqs"
+        className="w-full snap-start flex flex-col py-12 px-20 gap-y-8">
         <div className="w-full flex flex-col items-center gap-y-3">
           <h5 className="text-black-80 text-3xl font-semibold">
             PERTANYAAN YANG SERING DIAJUKAN
