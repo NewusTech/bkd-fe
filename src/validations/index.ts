@@ -14,7 +14,7 @@ export const schemaRegister = z.object({
     .max(15, "Nomor telepon harus terdiri dari maksimal 13 digit"),
   email: z
     .string({ message: "Email tidak boleh kosong!" })
-    .email("Email tidak valid"),
+    .email({ message: "Email harus sesuai dengan format email" }),
   password: z
     .string({ message: "Harap atur kata sandi anda" })
     .length(6, { message: "Kata sandi minimal 6 karakter" }),
@@ -30,4 +30,14 @@ export const schemaRegister = z.object({
     .boolean()
     .refine((val) => val === true, "Syarat dan ketentuan harus disetujui"),
   // term: z.boolean({ message: "Syarat dan ketentuan harus disetujui" }),
+});
+
+export const schemaLogin = z.object({
+  nip: z
+    .string({ message: "NIP tidak boleh kosong!" })
+    .length(16, "NIP harus terdiri dari 16 karakter"),
+  password: z
+    .string({ message: "Kata sandi tidak boleh kosong!" })
+    .min(6, { message: "Kata sandi minimal 6 karakter" })
+    .max(32, { message: "Kata sandi maksimal 32 karakter" }),
 });

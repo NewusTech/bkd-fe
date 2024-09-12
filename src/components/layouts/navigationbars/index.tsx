@@ -33,7 +33,7 @@ export default function NavigationScreen() {
       <div className="flex flex-row justify-end items-center w-full">
         <div className="flex flex-row items-center gap-x-5">
           <Link
-            href="#"
+            href="/"
             className={`text-center lg:text-[16px] text-black-80 hover:text-primary-40 font-light`}>
             Beranda
           </Link>
