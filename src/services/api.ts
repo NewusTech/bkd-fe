@@ -38,9 +38,9 @@ export const getUserProfile = async () => {
 };
 
 // get all subDistrict
-export const getAllSubDistrict = async () => {
+export const getAllSubDistrict = async (limit: number) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/user/kecamatan/get`,
+    `${process.env.NEXT_PUBLIC_API_URL}/user/kecamatan/get?limit=${limit}`,
     {
       method: "GET",
       headers: {
@@ -54,9 +54,9 @@ export const getAllSubDistrict = async () => {
 };
 
 //get all village
-export const getAllVillage = async (kecamatan_id: number) => {
+export const getAllVillage = async (kecamatan_id: number, limit: number) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/user/desa/get?kecamatan_id=${kecamatan_id}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/user/desa/get?kecamatan_id=${kecamatan_id}&limit=${limit}`,
     {
       method: "GET",
       headers: {
@@ -178,9 +178,9 @@ export const getServices = async () => {
 };
 
 // get areas / bidang
-export const getAreas = async () => {
+export const getAreas = async (limit: number) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/user/bidang/get`,
+    `${process.env.NEXT_PUBLIC_API_URL}/user/bidang/get?limit=${limit}`,
     {
       method: "GET",
       headers: {

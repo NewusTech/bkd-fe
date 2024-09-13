@@ -4,7 +4,7 @@ import about from "@/../../public/assets/images/about-image.png";
 import ActivityCard from "@/components/all_cards/activityCard";
 import ServiceCard from "@/components/all_cards/serviceCard";
 import HeroScreen from "@/components/pages/hero";
-import { activivities, faqs, services } from "@/constants/main";
+import { activivities, faqs } from "@/constants/main";
 import {
   Accordion,
   AccordionContent,
@@ -16,9 +16,11 @@ import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import { getAreas, getCarouselSliders } from "@/services/api";
+import { AreasInterface } from "@/types/interface";
 
 export default function Home() {
   const router = useRouter();
+  const limitItem = 4;
   const [slides, setSlides] = useState([]);
   const [areas, setAreas] = useState([]);
 
@@ -73,9 +75,9 @@ export default function Home() {
   //   fetchCarouselSliders();
   // }, []);
 
-  const fetchAreas = async () => {
+  const fetchAreas = async (limit: number) => {
     try {
-      const response = await getAreas();
+      const response = await getAreas(limit);
 
       setAreas(response?.data);
     } catch (error) {
@@ -83,9 +85,9 @@ export default function Home() {
     }
   };
 
-  // useEffect(() => {
-  //   fetchAreas();
-  // }, []);
+  useEffect(() => {
+    fetchAreas(4);
+  }, []);
 
   return (
     <main className="flex flex-col md:w-full h-full justify-center scroll-smooth snap-mandatory snap-y items-center relative md:mb-24 mb-24">
@@ -148,8 +150,8 @@ export default function Home() {
         </div>
 
         <div className="w-full grid grid-cols-4 gap-x-5">
-          {services?.map((service: any, i: number) => {
-            return <ServiceCard key={i} item={service} />;
+          {areas?.map((area: AreasInterface, i: number) => {
+            return <ServiceCard key={i} item={area} />;
           })}
         </div>
       </section>

@@ -20,8 +20,10 @@ import BackgroundImage from "@/components/layouts/background_images";
 import { schemaLogin } from "@/validations";
 import { z } from "zod";
 import Swal from "sweetalert2";
+import parse from "html-react-parser";
 import Cookies from "js-cookie";
-import { postLoginUser } from "@/services/api";
+import { getTermConditions, postLoginUser } from "@/services/api";
+import { TermConditionInterface } from "@/types/interface";
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -32,6 +34,7 @@ export default function LoginScreen() {
     nip: "",
     password: "",
   });
+  const [terms, setTerms] = useState<TermConditionInterface>();
   const [errors, setErrors] = useState<any>({});
   const [hasSubmitted, setHasSubmitted] = useState(false);
 
@@ -103,6 +106,20 @@ export default function LoginScreen() {
       }
     }
   };
+
+  const fetchDataTerms = async () => {
+    try {
+      const response = await getTermConditions();
+
+      setTerms(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchDataTerms();
+  }, []);
 
   const handleAgree = () => {
     setIsDialogOpen(false);
@@ -278,7 +295,7 @@ export default function LoginScreen() {
                   <AlertDialogDescription>Ini Syarat</AlertDialogDescription>
 
                   <div className="m-3 px-4 flex flex-col items-center w-full verticalScroll gap-y-6">
-                    <div>Hello World</div>
+                    <div>{terms && parse(terms?.desc)}</div>
 
                     <div
                       onClick={handleAgree}
@@ -300,7 +317,7 @@ export default function LoginScreen() {
                   <AlertDialogDescription>Ini Ketentuan</AlertDialogDescription>
 
                   <div className="m-3 px-4 flex flex-col items-center w-full verticalScroll gap-y-6">
-                    <div>Hello World</div>
+                    <div>{terms && parse(terms?.desc)}</div>
 
                     <div
                       onClick={handleAgree}

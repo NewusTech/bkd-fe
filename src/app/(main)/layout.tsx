@@ -18,7 +18,9 @@ export default function MainLayout({
       <div className="flex-1 overflow-y-auto">
         <div className="w-full flex flex-row">
           <DashBoardSidebarPages />
-          {children}
+          <div className="w-full flex flex-row justify-end">
+            <div className="w-[72%]">{children}</div>
+          </div>
         </div>
       </div>
     </main>

@@ -24,19 +24,26 @@ import { Label } from "@radix-ui/react-label";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import BackgroundImage from "@/components/layouts/background_images";
-import { SubDistrictInterface, VillageInterface } from "@/types/interface";
+import {
+  SubDistrictInterface,
+  TermConditionInterface,
+  VillageInterface,
+} from "@/types/interface";
 import { useDebounce } from "@/hooks/useDebounce";
 import { z } from "zod";
 import { schemaRegister } from "@/validations";
 import {
   getAllSubDistrict,
   getAllVillage,
+  getTermConditions,
   postRegisterUser,
 } from "@/services/api";
 import Swal from "sweetalert2";
+import parse from "html-react-parser";
 
 export default function RegisterScreen() {
   const router = useRouter();
+  const limitItem = 35;
   const [data, setData] = useState({
     name: "",
     nip: "",
@@ -53,7 +60,7 @@ export default function RegisterScreen() {
   const [isLoading, setIsLoading] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [terms, setTerms] = useState("");
+  const [terms, setTerms] = useState<TermConditionInterface>();
   const [subDistricts, setSubDistricts] = useState<SubDistrictInterface[]>();
   const [villages, setVillages] = useState<VillageInterface[]>([]);
   const [selectedSubDistrict, setSelectedSubDistrict] = useState<number | null>(
@@ -122,9 +129,9 @@ export default function RegisterScreen() {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
-  const fetchDataSubDistricts = async () => {
+  const fetchDataSubDistricts = async (limit: number) => {
     try {
-      const subdistrict = await getAllSubDistrict();
+      const subdistrict = await getAllSubDistrict(limit);
 
       setSubDistricts(subdistrict.data);
     } catch (error) {
@@ -132,22 +139,33 @@ export default function RegisterScreen() {
     }
   };
 
-  const fetchDataVillages = async (kecamatan_id: number) => {
+  const fetchDataVillages = async (kecamatan_id: number, limit: number) => {
     try {
-      const village = await getAllVillage(kecamatan_id);
+      const village = await getAllVillage(kecamatan_id, limit);
       setVillages(village.data);
     } catch (error) {
       console.log(error);
     }
   };
 
+  const fetchDataTerms = async () => {
+    try {
+      const response = await getTermConditions();
+
+      setTerms(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
-    fetchDataSubDistricts();
+    fetchDataSubDistricts(limitItem);
+    fetchDataTerms();
   }, []);
 
   useEffect(() => {
     if (selectedSubDistrict) {
-      fetchDataVillages(selectedSubDistrict);
+      fetchDataVillages(selectedSubDistrict, limitItem);
     }
   }, [selectedSubDistrict]);
 
@@ -613,7 +631,7 @@ export default function RegisterScreen() {
                   <AlertDialogTitle>Ini Ketentuan Judul</AlertDialogTitle>
                   <AlertDialogDescription>Ini Ketentuan</AlertDialogDescription>
                   <div className="m-3 px-4 flex flex-col items-center w-full verticalScroll gap-y-6">
-                    <div>Hello World</div>
+                    <div>{terms && parse(terms?.desc)}</div>
 
                     <div
                       onClick={handleAgree}
