@@ -75,3 +75,8 @@ export interface ServiceInterface {
   createdAt: string;
   Bidang_nama: string;
 }
+
+export interface TermConditionInterface {
+  id: number;
+  desc: string;
+}
