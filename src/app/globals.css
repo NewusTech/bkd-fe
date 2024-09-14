@@ -7,6 +7,10 @@ html {
   /* scroll-padding-top: 6rem; */
 }
 
+body {
+  background: #f6f6f6;
+}
+
 .verticalScroll {
   width: 100%;
   overflow-y: scroll;

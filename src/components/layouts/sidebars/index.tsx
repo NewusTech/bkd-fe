@@ -16,10 +16,12 @@ import Image from "next/image";
 import Cookies from "js-cookie";
 import { getAreas, getServiceByAreas, getUserProfile } from "@/services/api";
 import { AreasInterface, ServiceInterface } from "@/types/interface";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 export default function DashBoardSidebarPages() {
   const router = useRouter();
   const pathName = usePathname();
+  const isMobile = useMediaQuery("(max-width: 768px)");
   const limitItem = 10;
   const [activeAccordionValue, setActiveAccordionValue] = useState("account");
   const [user, setUser] = useState({});
@@ -56,7 +58,7 @@ export default function DashBoardSidebarPages() {
 
   useEffect(() => {
     fetchUserProfile();
-    fetchAreas(10);
+    fetchAreas(limitItem);
   }, []);
 
   const fetchServices = async (bidang_id: number) => {
@@ -78,13 +80,15 @@ export default function DashBoardSidebarPages() {
   console.log(services, "ini service");
 
   return (
-    <section className="flex flex-col w-[28%] h-full justify-center items-center fixed">
+    <section className="flex flex-col w-10/12 md:w-[28%] h-full justify-center items-center fixed">
       <div className="w-full h-screen flex flex-col">
-        <div className="w-full h-[8%] flex flex-row items-center justify-center gap-x-3 bg-primary-40">
-          <BuildingApartment className="w-7 h-7 text-line-10" />
+        {!isMobile && (
+          <div className="w-full h-[8%] flex flex-row items-center justify-center gap-x-3 bg-primary-40">
+            <BuildingApartment className="w-7 h-7 text-line-10" />
 
-          <h3 className="text-line-10 text-xl">Instansi BKD</h3>
-        </div>
+            <h3 className="text-line-10 text-xl">Instansi BKD</h3>
+          </div>
+        )}
 
         <div className="w-full flex flex-col py-5 verticalScroll gap-y-5 h-full border bg-white shadow-md border-line-20">
           <Link

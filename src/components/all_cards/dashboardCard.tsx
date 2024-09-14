@@ -12,9 +12,22 @@ import {
   AlertDialogCancel,
   AlertDialogAction,
 } from "@/components/ui/alert-dialog";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 export default function DashboardCard({ item }: any) {
+  const isMobile = useMediaQuery("(max-width: 768px)");
   let background;
 
   switch (item?.keys) {
@@ -85,33 +98,113 @@ export default function DashboardCard({ item }: any) {
         </div>
       </div>
 
-      <AlertDialog>
-        <AlertDialogTrigger className="w-full p-3 text-line-10 text-sm bg-black-80 bg-opacity-30">
-          Ajukan Pengajuan &rarr;
-        </AlertDialogTrigger>
-        <AlertDialogContent className="flex flex-col bg-line-10 rounded-lg w-full max-w-4xl h-5/6 px-7">
-          <AlertDialogTitle className="text-center">
-            Ketentuan Pengajuan
-          </AlertDialogTitle>
+      {!isMobile ? (
+        <AlertDialog>
+          <AlertDialogTrigger className="w-full p-3 text-line-10 text-sm bg-black-80 bg-opacity-30">
+            Ajukan Pengajuan &rarr;
+          </AlertDialogTrigger>
+          <AlertDialogContent className="flex flex-col bg-line-10 rounded-lg w-full max-w-4xl h-5/6 px-7">
+            <AlertDialogTitle className="text-center">
+              Ketentuan Pengajuan
+            </AlertDialogTitle>
 
-          <AlertDialogDescription>
+            <AlertDialogDescription>
+              <div className="flex flex-col h-full items-center w-full verticalScroll gap-y-6">
+                <Tabs defaultValue="ketentuan" className="w-full flex flex-col">
+                  <TabsList className="w-full px-0 py-6 flex flex-row border border-line-20">
+                    <TabsTrigger
+                      className="w-full py-4 rounded-s-lg data-[state=active]:bg-primary-40 data-[state=active]:text-line-10"
+                      value="ketentuan">
+                      Ketentuan
+                    </TabsTrigger>
+                    <TabsTrigger
+                      className="w-full py-4 border-r border-grey-100 data-[state=active]:bg-primary-40 data-[state=active]:text-line-10"
+                      value="syarat">
+                      Syarat
+                    </TabsTrigger>
+                    <TabsTrigger
+                      className="w-full py-4 rounded-e-lg data-[state=active]:bg-primary-40 data-[state=active]:text-line-10"
+                      value="langkah">
+                      Langkah
+                    </TabsTrigger>
+                  </TabsList>
+
+                  <TabsContent
+                    value="ketentuan"
+                    className="w-full flex flex-col mt-4">
+                    <div className="w-full flex flex-col gap-y-5 border border-grey-100 rounded-lg p-4">
+                      <div>
+                        <div>Hello wkwkwk</div>
+                      </div>
+                    </div>
+                  </TabsContent>
+                  <TabsContent
+                    value="syarat"
+                    className="w-full flex flex-col mt-0">
+                    <div className="w-full flex flex-col gap-y-5 border border-grey-100 rounded-lg p-4">
+                      <div>
+                        <div>Hello ehehhe</div>
+                      </div>
+                    </div>
+                  </TabsContent>
+                  <TabsContent
+                    value="langkah"
+                    className="w-full flex flex-col mt-0">
+                    <div className="w-full flex flex-col gap-y-5 border border-grey-100 rounded-lg p-4">
+                      <div>
+                        <div>Hello hoho</div>
+                      </div>
+                    </div>
+                  </TabsContent>
+                </Tabs>
+              </div>
+
+              <div className="w-full flex flex-col items-center">
+                <AlertDialogFooter className="w-full flex flex-row justify-center">
+                  <AlertDialogCancel className="w-4/12 mt-0 py-4 border-none outline-none">
+                    <div className="bg-line-20 hover:bg-line-50 text-center cursor-pointer w-full rounded-lg text-sm text-primary-40 hover:text-line-10 py-4 px-5">
+                      Cancel
+                    </div>
+                  </AlertDialogCancel>
+                  <AlertDialogAction>
+                    <div
+                      // onClick={handleAgree}
+                      className="bg-primary-40 hover:bg-primary-70 text-center cursor-pointer w-full rounded-lg text-sm text-line-10 py-4 px-5">
+                      Ajukan Pengaduan Pangkat
+                    </div>
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </div>
+            </AlertDialogDescription>
+          </AlertDialogContent>
+        </AlertDialog>
+      ) : (
+        <Drawer>
+          <DrawerTrigger className="w-full p-3 text-line-10 text-sm bg-black-80 bg-opacity-30">
+            Ajukan Pengajuan &rarr;
+          </DrawerTrigger>
+          <DrawerContent className="flex flex-col gap-y-3 bg-line-10 rounded-lg w-full max-w-4xl h-5/6 px-3">
+            <DrawerTitle className="text-center">
+              Ketentuan Pengajuan
+            </DrawerTitle>
+
             <div className="flex flex-col h-full items-center w-full verticalScroll gap-y-6">
               <Tabs defaultValue="ketentuan" className="w-full flex flex-col">
                 <TabsList className="w-full px-0 py-6 flex flex-row border border-line-20">
                   <TabsTrigger
                     className="w-full py-4 rounded-s-lg data-[state=active]:bg-primary-40 data-[state=active]:text-line-10"
                     value="ketentuan">
-                    Ketentuan
+                    <DrawerDescription>Ketentuan</DrawerDescription>
                   </TabsTrigger>
                   <TabsTrigger
                     className="w-full py-4 border-r border-grey-100 data-[state=active]:bg-primary-40 data-[state=active]:text-line-10"
                     value="syarat">
-                    Syarat
+                    <DrawerDescription>Syarat</DrawerDescription>
                   </TabsTrigger>
                   <TabsTrigger
                     className="w-full py-4 rounded-e-lg data-[state=active]:bg-primary-40 data-[state=active]:text-line-10"
                     value="langkah">
-                    Langkah
+                    <DrawerDescription>Langkah</DrawerDescription>
                   </TabsTrigger>
                 </TabsList>
 
@@ -145,25 +238,16 @@ export default function DashboardCard({ item }: any) {
               </Tabs>
             </div>
 
-            <div className="w-full flex flex-col items-center">
-              <AlertDialogFooter className="w-full flex flex-row justify-center">
-                <AlertDialogCancel className="w-4/12 mt-0 py-4 border-none outline-none">
-                  <div className="bg-line-20 hover:bg-line-50 text-center cursor-pointer w-full rounded-lg text-sm text-primary-40 hover:text-line-10 py-4 px-5">
-                    Cancel
-                  </div>
-                </AlertDialogCancel>
-                <AlertDialogAction>
-                  <div
-                    // onClick={handleAgree}
-                    className="bg-primary-40 hover:bg-primary-70 text-center cursor-pointer w-full rounded-lg text-sm text-line-10 py-4 px-5">
-                    Ajukan Pengaduan Pangkat
-                  </div>
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </div>
-          </AlertDialogDescription>
-        </AlertDialogContent>
-      </AlertDialog>
+            <DrawerFooter>
+              <div
+                // onClick={handleAgree}
+                className="bg-primary-40 hover:bg-primary-70 text-center cursor-pointer w-full rounded-lg text-sm text-line-10 py-4 px-5">
+                Ajukan Pengaduan Pangkat
+              </div>
+            </DrawerFooter>
+          </DrawerContent>
+        </Drawer>
+      )}
     </div>
   );
 }

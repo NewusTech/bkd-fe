@@ -86,7 +86,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    fetchAreas(4);
+    fetchAreas(limitItem);
   }, []);
 
   return (

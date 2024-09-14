@@ -13,8 +13,11 @@ import {
 } from "@/components/ui/select";
 import { Checks } from "@phosphor-icons/react";
 import ApplicationHistoryTablePages from "@/components/tables/application_history_table";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import MobileApplicationHistoryCard from "@/components/mobile_all_cards/mobileApplicationHistoryCard";
 
 export default function ApplicationHistoryScreen() {
+  const isMobile = useMediaQuery("(max-width: 768px)");
   const [search, setSearch] = useState("");
   const now = new Date();
   const firstDayOfMonth = new Date(now.getFullYear(), 0, 1);
@@ -28,8 +31,10 @@ export default function ApplicationHistoryScreen() {
 
   return (
     <section className="w-full flex flex-col items-center px-5 mt-5">
-      <div className="w-full flex flex-col bg-white shadow-md rounded-lg p-5 gap-y-3">
-        <div className="w-full flex flex-row gap-x-5">
+      <div
+        className={`w-full flex flex-col ${!isMobile ? "bg-white shadow-md rounded-lg p-5" : ""} gap-y-3`}>
+        <div
+          className={`w-full flex flex-col md:flex-row ${!isMobile ? "" : "p-3 rounded-lg shadow-md"} bg-line-10 gap-y-5 gap-x-5`}>
           <SearchPages
             search={search}
             change={(e: any) => setSearch(e.target.value)}
@@ -85,7 +90,11 @@ export default function ApplicationHistoryScreen() {
         </div>
 
         <div className="w-full">
-          <ApplicationHistoryTablePages />
+          {!isMobile ? (
+            <ApplicationHistoryTablePages />
+          ) : (
+            <MobileApplicationHistoryCard />
+          )}
         </div>
       </div>
     </section>
