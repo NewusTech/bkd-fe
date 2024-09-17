@@ -12,7 +12,7 @@ export default function DashboardScreen() {
     const token = Cookies.get("Authorization");
 
     if (!token) {
-      router.push("/login");
+      router.push("/");
     }
   }, [router]);
 

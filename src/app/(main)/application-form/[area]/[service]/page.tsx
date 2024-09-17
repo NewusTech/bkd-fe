@@ -6,7 +6,6 @@ import { ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import Image from "next/image";
 
 export default function ApplicationFormScreen({
   params,
@@ -22,9 +21,9 @@ export default function ApplicationFormScreen({
   });
 
   return (
-    <section className="w-full flex flex-col my-6 px-6">
+    <section className="w-full flex flex-col my-6 px-3 md:px-6">
       <div className="w-full flex flex-col bg-line-10 py-6 shadow-md gap-y-8 rounded-lg">
-        <div className="grid grid-cols-2 px-4 md:grid-cols-none md:flex md:flex-row md:justify-between items-center md:w-full">
+        <div className="flex flex-row justify-between items-center w-full">
           <div className="flex flex-row items-center">
             <button onClick={() => router.back()}>
               <ChevronLeft className="w-7 h-7 text-black-80 mr-2" />
@@ -87,7 +86,7 @@ export default function ApplicationFormScreen({
         </div>
       </div>
 
-      <div className="w-full flex flex-col bg-line-10 py-6 shadow-md gap-y-8">
+      <div className="w-full flex flex-col bg-line-10 py-3 md:py-6 shadow-md gap-y-4 md:gap-y-8">
         <div className="grid grid-cols-2 px-4 md:grid-cols-none md:flex md:flex-row md:justify-between items-center md:w-full">
           <h5 className="text-xl text-start text-black-80 font-normal">
             Formulir
@@ -145,9 +144,9 @@ export default function ApplicationFormScreen({
         </div>
       </div>
 
-      <div className="w-full flex flex-col bg-line-10 py-6 shadow-md gap-y-8">
-        <div className="grid grid-cols-2 px-4 md:grid-cols-none md:flex md:flex-row md:justify-between items-center md:w-full">
-          <h5 className="text-xl text-start text-black-80 font-normal">
+      <div className="w-full flex flex-col bg-line-10 py-3 md:py-6 shadow-md gap-y-4 md:gap-y-8">
+        <div className="flex flex-row px-4 items-center w-full">
+          <h5 className="text-lg md:text-xl text-start text-black-80 font-normal">
             Dokumen Pendukung
           </h5>
         </div>
@@ -201,7 +200,7 @@ export default function ApplicationFormScreen({
                 </label>
 
                 <Dialog>
-                  <DialogTrigger>
+                  <DialogTrigger className="w-full md:w-3/12">
                     <div
                       // onClick={() =>
                       //   handleViewFile(

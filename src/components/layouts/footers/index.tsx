@@ -18,7 +18,7 @@ export default function FooterScreen() {
 
   return (
     <div className="flex w-full bg-primary-700">
-      <div className="flex flex-col md:flex-row items-center justify-between w-full px-[49px] my-[29px] text-center">
+      <div className="flex flex-col md:flex-row md:items-center justify-between w-full px-4 md:px-[49px] my-[29px] text-start md:text-center gap-y-4">
         <p className="text-[12px] text-white font-normal">
           Copyright &copy; 2024
           <span className="text-[12px] font-bold"> BKD Lampung Timur</span>. All
@@ -27,11 +27,11 @@ export default function FooterScreen() {
 
         <Link
           href="/kontak"
-          className="text-[12px] mt-2 md:mt-0 hover:underline text-neutral-50 font-normal cursor-pointer">
+          className="text-[12px] md:mt-0 hover:underline text-neutral-50 font-normal cursor-pointer">
           Hubungi Kami
         </Link>
 
-        <div className="w-3/12 text-center text-neutral-50 text-[12px]">
+        <div className="w-full md:w-3/12 text-start md:text-center text-neutral-50 text-[12px]">
           <Dialog open={isDialogOpen}>
             <DialogTrigger
               className="text-neutral-50 font-semibold hover:underline"

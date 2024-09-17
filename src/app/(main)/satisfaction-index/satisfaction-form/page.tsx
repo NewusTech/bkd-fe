@@ -14,9 +14,11 @@ import z from "zod";
 import { Loader } from "lucide-react";
 import Swal from "sweetalert2";
 import Image from "next/image";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 export default function SatisfactionFormScreen() {
   const router = useRouter();
+  const isMobile = useMediaQuery("(max-width: 768px)");
   const [input, setInput] = useState<{ [key: string]: any }>({});
   const [kritissaran, setKritissaran] = useState<string>("");
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
@@ -87,21 +89,23 @@ export default function SatisfactionFormScreen() {
   // };
 
   return (
-    <section className="flex md:w-full bg-line-10 mt-8">
-      <div className="flex flex-col md:w-full items-center md:mx-8">
-        <div className="flex flex-col w-10/12 md:w-full bg-line-10 rounded-xl shadow-lg px-4">
+    <section className={`flex w-full justify-center mt-8`}>
+      <div
+        className={`flex flex-col w-[95%] md:w-full ${!isMobile ? "" : "bg-line-10 rounded-lg shadow-md"} items-center md:mx-8`}>
+        <div
+          className={`flex flex-col w-full ${!isMobile ? "bg-line-10 rounded-xl shadow-lg" : ""} px-4`}>
           <div className="flex justify-center my-[22px] mb-4">
             <h6 className="text-xl text-black-80 font-semibold">
               Indeks Kepuasan
             </h6>
           </div>
 
-          <div className="flex flex-col md:w-full my-4 rounded-xl">
+          <div className="flex flex-col w-full md:w-full my-4 rounded-lg">
             <form className="flex flex-col md:w-full place-items-center">
               <div className="flex flex-col md:w-full rounded-xl mb-3 gap-6">
                 <div>
                   <div className="flex flex-col justify-center md:mt-4">
-                    <Label className="flex text-center md:self-center font-normal text-primary-800 text-[12px] md:text-[14px] mb-4 md:mb-8">
+                    <Label className="flex text-center md:self-center font-normal text-primary-800 text-sm md:text-sm mb-4 md:mb-8">
                       Apakah nyaman?
                     </Label>
 
@@ -212,11 +216,15 @@ export default function SatisfactionFormScreen() {
 
               <div className="flex self-center justify-center items-end mb-[22px] mt-8">
                 <Button
-                  className="w-full h-[30px] text-sm bg-primary-40 hover:bg-primary-70 text-line-10 font-light"
+                  className="w-full h-[30px] text-sm py-5 bg-primary-40 hover:bg-primary-70 text-line-10 font-light"
                   type="submit"
                   variant="link"
                   disabled={isLoading || !formValid}>
-                  {isLoading ? <Loader className="animate-spin" /> : "Selesai"}
+                  {isLoading ? (
+                    <Loader className="animate-spin" />
+                  ) : (
+                    "Kirim Jawaban"
+                  )}
                 </Button>
               </div>
             </form>

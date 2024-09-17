@@ -22,7 +22,16 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import ApplicationHistoryTablePages from "@/components/tables/application_history_table";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerDescription,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
 import { Label } from "@/components/ui/label";
 import { AreasInterface, ServiceInterface } from "@/types/interface";
 import { useRouter } from "next/navigation";
@@ -32,10 +41,13 @@ import { CircleX } from "lucide-react";
 import Image from "next/image";
 import { CloudArrowUp } from "@phosphor-icons/react";
 import UserComplaintTablePages from "@/components/tables/user_complaint_table";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import MobileUserComplaintCardPages from "@/components/mobile_all_cards/mobileUserComplaintCard";
 
 export default function UserComplaintScreen() {
   const router = useRouter();
   const dropRef = useRef<HTMLDivElement>(null);
+  const isMobile = useMediaQuery("(max-width: 768px)");
   const [search, setSearch] = useState("");
   const now = new Date();
   const firstDayOfMonth = new Date(now.getFullYear(), 0, 1);
@@ -106,12 +118,14 @@ export default function UserComplaintScreen() {
 
   return (
     <section className="w-full flex flex-col items-center px-5 mt-5">
-      <div className="w-full flex flex-col bg-white shadow-md rounded-lg p-5 gap-y-5">
-        <h2 className="text-2xl text-black-80 text-center mb-6">
+      <div
+        className={`w-full flex flex-col ${!isMobile ? "bg-white shadow-md rounded-lg p-5" : ""} gap-y-5`}>
+        <h2 className="text-2xl text-black-80 text-center md:mb-6">
           Pengaduan Layanan
         </h2>
 
-        <div className="w-full flex flex-row gap-x-5">
+        <div
+          className={`w-full flex flex-col md:flex-row ${!isMobile ? "" : "p-3 rounded-lg shadow-md"} bg-line-10 gap-y-5 gap-x-5`}>
           <SearchPages
             search={search}
             change={(e: any) => setSearch(e.target.value)}
@@ -166,20 +180,223 @@ export default function UserComplaintScreen() {
           </div>
 
           <div className="w-full">
-            <AlertDialog>
-              <AlertDialogTrigger className="w-full">
-                <div className="w-full text-sm bg-primary-40 flex items-center justify-center hover:bg-primary-70 h-10 text-line-10 rounded-lg">
-                  Ajukan Pengaduan
-                </div>
-              </AlertDialogTrigger>
-              <AlertDialogContent className="w-full max-w-2xl bg-line-10 rounded-lg shadow-md">
-                <AlertDialogHeader className="flex flex-col max-h-[500px]">
-                  <AlertDialogTitle className="text-center">
-                    Pengaduan
-                  </AlertDialogTitle>
-                  <AlertDialogDescription className="text-center">
+            {!isMobile ? (
+              <AlertDialog>
+                <AlertDialogTrigger className="w-full">
+                  <div className="w-full text-sm bg-primary-40 flex items-center justify-center hover:bg-primary-70 h-10 text-line-10 rounded-lg">
+                    Ajukan Pengaduan
+                  </div>
+                </AlertDialogTrigger>
+                <AlertDialogContent className="w-full max-w-2xl bg-line-10 rounded-lg shadow-md">
+                  <AlertDialogHeader className="flex flex-col max-h-[500px]">
+                    <AlertDialogTitle className="text-center">
+                      Pengaduan
+                    </AlertDialogTitle>
+                    <AlertDialogDescription className="text-center">
+                      Input data yang diperlukan
+                    </AlertDialogDescription>
+                    <div className="w-full flex flex-col gap-y-3 verticalScroll">
+                      <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                        <Label className="focus-within:text-primary-70 font-normal text-sm">
+                          Pilih Bidang
+                        </Label>
+
+                        <Select
+                          name="area_id"
+                          value={areaId ? String(areaId) : undefined}
+                          onValueChange={(value) => setAreaId(Number(value))}>
+                          <SelectTrigger
+                            className={`${
+                              !areaId ? "opacity-70" : ""
+                            } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                            <SelectValue
+                              placeholder="Pilih Bidang"
+                              className={areaId ? "" : "placeholder:opacity-50"}
+                            />
+                          </SelectTrigger>
+                          <SelectContent className="w-full bg-line-10">
+                            <div>
+                              {areas &&
+                                areas.length > 0 &&
+                                areas?.map(
+                                  (area: AreasInterface, i: number) => {
+                                    return (
+                                      <SelectItem
+                                        className="pr-none mt-2"
+                                        value={area?.id.toString()}
+                                        key={i}>
+                                        {area?.nama}
+                                      </SelectItem>
+                                    );
+                                  }
+                                )}
+                            </div>
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                        <Label className="focus-within:text-primary-70 font-normal text-sm">
+                          Pilih Layanan
+                        </Label>
+
+                        <Select
+                          name="service_id"
+                          value={serviceId ? String(serviceId) : undefined}
+                          onValueChange={(value) =>
+                            setServiceId(Number(value))
+                          }>
+                          <SelectTrigger
+                            className={`${
+                              !serviceId ? "opacity-70" : ""
+                            } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                            <SelectValue
+                              placeholder="Pilih Layanan"
+                              className={
+                                serviceId ? "" : "placeholder:opacity-50"
+                              }
+                            />
+                          </SelectTrigger>
+                          <SelectContent className="w-full bg-line-10">
+                            <div>
+                              {services &&
+                                services.length > 0 &&
+                                services?.map(
+                                  (service: ServiceInterface, i: number) => {
+                                    return (
+                                      <SelectItem
+                                        className="pr-none mt-2"
+                                        value={service?.id.toString()}
+                                        key={i}>
+                                        {service?.nama}
+                                      </SelectItem>
+                                    );
+                                  }
+                                )}
+                            </div>
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                        <Label
+                          htmlFor="judul-pengaduan"
+                          className="focus-within:text-primary-70 font-normal text-sm">
+                          Judul Pengaduan
+                        </Label>
+
+                        <Input
+                          id="judul-pengaduan"
+                          name="title"
+                          value={data.title}
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            setData({ ...data, title: e.target.value })
+                          }
+                          type="text"
+                          className="w-full focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
+                          placeholder="Judul Pengaduan Kamu"
+                        />
+                      </div>
+
+                      <div className="w-full flex flex-col gap-y-2">
+                        <Label className="text-sm text-black-70 font-normal">
+                          Isi Pengaduan
+                        </Label>
+
+                        <Textarea
+                          name="content"
+                          placeholder="Masukkan Isi Pengaduan Kamu"
+                          value={data.content}
+                          onChange={(
+                            e: React.ChangeEvent<HTMLTextAreaElement>
+                          ) => setData({ ...data, content: e.target.value })}
+                          className="w-full rounded-lg h-[74px] border border-line-20 md:h-[122px] text-[12px] placeholder:opacity-[70%]"
+                        />
+                      </div>
+
+                      <div className="flex flex-col mx-[1px]">
+                        <Label className="text-sm text-black-70 font-normal text-start mb-2">
+                          Upload Dokumen
+                        </Label>
+
+                        <div
+                          ref={dropRef}
+                          onDragOver={handleDragOver}
+                          onDragLeave={handleDragLeave}
+                          onDrop={handleDrop}
+                          className={`w-full h-[100px] border-2 border-dashed border-line-20 rounded-lg mt-1 flex flex-col items-center justify-center`}>
+                          <>
+                            <input
+                              type="file"
+                              id="file-input"
+                              name="image"
+                              accept="image/*,.pdf"
+                              onChange={handleFileChange}
+                              className="hidden"
+                            />
+                            <label
+                              htmlFor="file-input"
+                              className="text-[16px] text-center text-neutral-600 font-light cursor-pointer">
+                              {data.image ? (
+                                data.image
+                              ) : (
+                                <span className="flex flex-col items-center justify-center">
+                                  <CloudArrowUp className="w-8 h-8 text-black-70" />
+
+                                  <p>
+                                    Drag and drop file here or click to select
+                                    file
+                                  </p>
+                                </span>
+                              )}
+                            </label>
+                          </>
+                        </div>
+                      </div>
+
+                      {previewImage && (
+                        <div className="relative flex flex-row justify-center max-w-full max-h-full">
+                          <div className="w-full h-full">
+                            <Image
+                              src={previewImage}
+                              alt="Preview"
+                              width={1000}
+                              height={1000}
+                              className="w-full h-full rounded-lg p-2 max-w-full object-contain"
+                            />
+                          </div>
+
+                          <button
+                            type="button"
+                            onClick={handleRemoveFile}
+                            className="absolute bg-none -top-1 -right-1 text-neutral-800 p-1">
+                            <CircleX />
+                          </button>
+                        </div>
+                      )}
+                    </div>
+                  </AlertDialogHeader>
+                  <AlertDialogFooter className="w-full flex flex-row justify-center items-center gap-x-5">
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction className="bg-primary-40 hover:bg-primary-70 text-line-10">
+                      Ajukan Pengaduan
+                    </AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            ) : (
+              <Drawer>
+                <DrawerTrigger className="w-full">
+                  <div className="w-full text-sm bg-primary-40 flex items-center justify-center hover:bg-primary-70 h-10 text-line-10 rounded-lg">
+                    Ajukan Pengaduan
+                  </div>
+                </DrawerTrigger>
+                <DrawerContent className="flex flex-col gap-y-3 bg-line-10 rounded-lg w-full max-w-4xl h-5/6 px-3 mb-5">
+                  <DrawerTitle className="text-center">Pengaduan</DrawerTitle>
+                  <DrawerDescription className="text-center">
                     Input data yang diperlukan
-                  </AlertDialogDescription>
+                  </DrawerDescription>
+
                   <div className="w-full flex flex-col gap-y-3 verticalScroll">
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                       <Label className="focus-within:text-primary-70 font-normal text-sm">
@@ -356,20 +573,22 @@ export default function UserComplaintScreen() {
                       </div>
                     )}
                   </div>
-                </AlertDialogHeader>
-                <AlertDialogFooter className="w-full flex flex-row justify-center items-center gap-x-5">
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction className="bg-primary-40 hover:bg-primary-70 text-line-10">
+
+                  <DrawerFooter className="bg-primary-40 hover:bg-primary-70 text-line-10 text-center rounded-lg">
                     Ajukan Pengaduan
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
+                  </DrawerFooter>
+                </DrawerContent>
+              </Drawer>
+            )}
           </div>
         </div>
 
         <div className="w-full">
-          <UserComplaintTablePages />
+          {!isMobile ? (
+            <UserComplaintTablePages />
+          ) : (
+            <MobileUserComplaintCardPages />
+          )}
         </div>
       </div>
     </section>
