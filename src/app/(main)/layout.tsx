@@ -25,7 +25,7 @@ export default function MainLayout({
             <DashBoardSidebarPages />
 
             <div className="w-full flex flex-row justify-end">
-              <div className="w-[72%]">{children}</div>
+              <div className="w-[75%]">{children}</div>
             </div>
           </div>
         ) : (

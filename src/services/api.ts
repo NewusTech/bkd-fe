@@ -1,38 +1,35 @@
 "use client";
 
 import Cookies from "js-cookie";
-import useSWR from "swr";
-import { fetcher, fetcherWithoutAuth } from "@/constants/fetcher";
+// import useSWR from "swr";
+// import { fetcher, fetcherWithoutAuth } from "@/constants/fetcher";
 import { LoginUserInterface, NewUserInterface } from "@/types/interface";
 
 // get
-export function useCarousel() {
-  const { data, isLoading } = useSWR(
-    `${process.env.EXPO_PUBLIC_API_URL}/carousel/get`,
-    fetcher
-  );
+// export function useCarousel() {
+//   const { data, isLoading } = useSWR(
+//     `${process.env.EXPO_PUBLIC_API_URL}/carousel/get`,
+//     fetcher
+//   );
 
-  return {
-    data,
-    isLoading,
-  };
-}
+//   return {
+//     data,
+//     isLoading,
+//   };
+// }
 
 // get user profile
 export const getUserProfile = async () => {
   const token = Cookies.get("Authorization");
 
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/getforuser`,
-    {
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      cache: "no-store",
-    }
-  );
+  const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user/get`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    cache: "no-store",
+  });
 
   return await response.json();
 };

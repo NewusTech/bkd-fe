@@ -47,7 +47,7 @@ export default function MobileDashboardSideBarPages() {
           </SheetTrigger>
           <SheetContent className="bg-line-10 p-0 w-10/12">
             <SheetHeader>
-              <div className="w-full py-2 h-[8%] flex flex-col items-center justify-center gap-x-3 bg-primary-40">
+              <div className="w-full flex-row py-5 h-[8%] flex items-center justify-center gap-x-3 bg-primary-40">
                 <SheetTitle>
                   <BuildingApartment className="w-7 h-7 text-line-10" />
                 </SheetTitle>

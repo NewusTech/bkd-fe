@@ -11,6 +11,7 @@ import {
   AlertDialogFooter,
   AlertDialogCancel,
   AlertDialogAction,
+  AlertDialogHeader,
 } from "@/components/ui/alert-dialog";
 import {
   Drawer,
@@ -108,24 +109,24 @@ export default function DashboardCard({ item }: any) {
               Ketentuan Pengajuan
             </AlertDialogTitle>
 
-            <AlertDialogDescription>
+            <AlertDialogHeader>
               <div className="flex flex-col h-full items-center w-full verticalScroll gap-y-6">
                 <Tabs defaultValue="ketentuan" className="w-full flex flex-col">
                   <TabsList className="w-full px-0 py-6 flex flex-row border border-line-20">
                     <TabsTrigger
                       className="w-full py-4 rounded-s-lg data-[state=active]:bg-primary-40 data-[state=active]:text-line-10"
                       value="ketentuan">
-                      Ketentuan
+                      <AlertDialogDescription>Ketentuan</AlertDialogDescription>
                     </TabsTrigger>
                     <TabsTrigger
                       className="w-full py-4 border-r border-grey-100 data-[state=active]:bg-primary-40 data-[state=active]:text-line-10"
                       value="syarat">
-                      Syarat
+                      <AlertDialogDescription>Syarat</AlertDialogDescription>
                     </TabsTrigger>
                     <TabsTrigger
                       className="w-full py-4 rounded-e-lg data-[state=active]:bg-primary-40 data-[state=active]:text-line-10"
                       value="langkah">
-                      Langkah
+                      <AlertDialogDescription>Langkah</AlertDialogDescription>
                     </TabsTrigger>
                   </TabsList>
 
@@ -158,24 +159,24 @@ export default function DashboardCard({ item }: any) {
                   </TabsContent>
                 </Tabs>
               </div>
+            </AlertDialogHeader>
 
-              <div className="w-full flex flex-col items-center">
-                <AlertDialogFooter className="w-full flex flex-row justify-center">
-                  <AlertDialogCancel className="w-4/12 mt-0 py-4 border-none outline-none">
-                    <div className="bg-line-20 hover:bg-line-50 text-center cursor-pointer w-full rounded-lg text-sm text-primary-40 hover:text-line-10 py-4 px-5">
-                      Cancel
-                    </div>
-                  </AlertDialogCancel>
-                  <AlertDialogAction>
-                    <div
-                      // onClick={handleAgree}
-                      className="bg-primary-40 hover:bg-primary-70 text-center cursor-pointer w-full rounded-lg text-sm text-line-10 py-4 px-5">
-                      Ajukan Pengaduan Pangkat
-                    </div>
-                  </AlertDialogAction>
-                </AlertDialogFooter>
-              </div>
-            </AlertDialogDescription>
+            <div className="w-full flex flex-col items-center">
+              <AlertDialogFooter className="w-full flex flex-row justify-center">
+                <AlertDialogCancel className="w-4/12 mt-0 py-4 border-none outline-none">
+                  <div className="bg-line-20 hover:bg-line-50 text-center cursor-pointer w-full rounded-lg text-sm text-primary-40 hover:text-line-10 py-4 px-5">
+                    Cancel
+                  </div>
+                </AlertDialogCancel>
+                <AlertDialogAction>
+                  <div
+                    // onClick={handleAgree}
+                    className="bg-primary-40 hover:bg-primary-70 text-center cursor-pointer w-full rounded-lg text-sm text-line-10 py-4 px-5">
+                    Ajukan Pengaduan Pangkat
+                  </div>
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </div>
           </AlertDialogContent>
         </AlertDialog>
       ) : (

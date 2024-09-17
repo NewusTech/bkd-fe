@@ -48,7 +48,7 @@ export default function MobileApplicationHistoryCard() {
       </div>
 
       <div className="w-full">
-        <Button className="bg-primary-40 hover:bg-primary-70 text-line-10 w-full rounded-lg">
+        <Button className="bg-black-80 bg-opacity-20 hover:bg-black-80 hover:bg-opacity-50 text-black-80 w-full rounded-lg">
           Detail
         </Button>
       </div>

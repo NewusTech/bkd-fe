@@ -23,13 +23,15 @@ export default function HeroScreen() {
             {heros?.map((hero: any, i: number) => {
               return (
                 <CarouselItem key={i}>
-                  <Image
-                    src={hero.image}
-                    alt="carousel"
-                    width={1000}
-                    height={1000}
-                    className="w-full h-full object-cover"
-                  />
+                  <div className="w-full h-full">
+                    <Image
+                      src={hero.image}
+                      alt="carousel"
+                      width={1000}
+                      height={1000}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
                 </CarouselItem>
               );
             })}

@@ -21,6 +21,17 @@ body {
   display: none;
 }
 
+.horizontalScroll {
+  width: 100%;
+  overflow-x: scroll;
+  scrollbar-color: transparent transparent;
+  padding-left: 140px;
+}
+
+.horizontalScroll::-webkit-scrollbar {
+  display: none;
+}
+
 .background-about-us {
   background-color: rgba(53, 114, 239);
 }
