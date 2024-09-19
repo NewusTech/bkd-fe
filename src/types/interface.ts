@@ -89,3 +89,54 @@ export interface AdminApplicationHistoryInterface {
   search: string;
   setSearch: (e: string) => void;
 }
+
+export interface CarouselSliderInterface {
+  id: number;
+  image: string;
+  createdAt: string;
+}
+
+export interface StructureOrganizationInterface {
+  id: number;
+  nama: string;
+  slug: string;
+  jabatan: string;
+  image: string;
+  createdAt: string;
+}
+
+export interface NewsInterface {
+  id: number;
+  title: string;
+  slug: string;
+  desc: string;
+  image: string;
+  createdAt: string;
+}
+
+export interface GalleryActivitiesInterface {
+  id: number;
+  title: string;
+  slug: string;
+  image: string;
+  createdAt: string;
+}
+
+export interface FaqsInterface {
+  id: number;
+  answer: string;
+  question: string;
+}
+
+export interface InformationBKdInterface {
+  id: 1;
+  about_bkd: string;
+  image_bkd: string;
+  visi: string;
+  misi: string;
+  kontak: string;
+  long: string;
+  lang: string;
+  logo: string;
+  createdAt: string;
+}

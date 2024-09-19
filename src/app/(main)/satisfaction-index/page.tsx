@@ -71,9 +71,9 @@ export default function SatisfactionIndexScreen() {
     : undefined;
   const endDateFormatted = endDate ? formatDate(new Date(endDate)) : undefined;
 
-  const fetchAreas = async (limit: number) => {
+  const fetchAreas = async (page: number, limit: number) => {
     try {
-      const response = await getAreas(limit);
+      const response = await getAreas(page, limit);
 
       setAreas(response.data);
     } catch (error) {
@@ -82,7 +82,7 @@ export default function SatisfactionIndexScreen() {
   };
 
   useEffect(() => {
-    fetchAreas(limitItem);
+    fetchAreas(1, limitItem);
   }, []);
 
   const fetchServiceByArea = async (bidang_id: number) => {

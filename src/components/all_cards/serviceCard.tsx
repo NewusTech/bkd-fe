@@ -69,7 +69,13 @@ export default function ServiceCard({ item }: { item: AreasInterface }) {
         className="w-7/12 h-full"
       />
     ) : (
-      ""
+      <Image
+        src={fourthService}
+        alt="icons"
+        width={1000}
+        height={1000}
+        className="w-7/12 h-full"
+      />
     );
 
   const fetchServices = async (bidang_id: number) => {
@@ -92,71 +98,73 @@ export default function ServiceCard({ item }: { item: AreasInterface }) {
         <div className="w-full h-full flex p-8 justify-center">{areaImage}</div>
       </div>
 
-      {!isMobile ? (
-        <AlertDialog>
-          <AlertDialogTrigger className="w-full min-h-[60px] text-line-10 text-lg bg-primary-40 rounded-b-lg">
-            {item?.nama}
-          </AlertDialogTrigger>
-          <AlertDialogContent className="flex flex-col gap-y-0 bg-line-10 rounded-lg w-full max-w-4xl h-3/6 px-7">
-            <div className="w-full flex flex-col verticalScroll">
-              <div className="w-full flex flex-col items-end">
-                <AlertDialogFooter className="w-1/12 flex flex-row">
-                  <AlertDialogCancel className="w-full mt-0 py-1 border-none outline-none">
-                    <X className="w-6 h-6 text-black-80" />
-                  </AlertDialogCancel>
-                </AlertDialogFooter>
+      <div className="w-full flex flex-col justify-end">
+        {!isMobile ? (
+          <AlertDialog>
+            <AlertDialogTrigger className="w-full min-h-[60px] text-line-10 text-lg bg-primary-40 rounded-b-lg">
+              {item?.nama}
+            </AlertDialogTrigger>
+            <AlertDialogContent className="flex flex-col gap-y-0 bg-line-10 rounded-lg w-full max-w-4xl h-3/6 px-7">
+              <div className="w-full flex flex-col verticalScroll">
+                <div className="w-full flex flex-col items-end">
+                  <AlertDialogFooter className="w-1/12 flex flex-row">
+                    <AlertDialogCancel className="w-full mt-0 py-1 border-none outline-none">
+                      <X className="w-6 h-6 text-black-80" />
+                    </AlertDialogCancel>
+                  </AlertDialogFooter>
+                </div>
+
+                <AlertDialogTitle className="text-center text-3xl">
+                  {item?.nama}
+                </AlertDialogTitle>
+
+                <AlertDialogDescription className="text-center text-lg">
+                  {item?.desc}
+                </AlertDialogDescription>
+
+                <div className="mt-8">
+                  {services && services.length > 0 ? (
+                    <div className="flex flex-col h-full items-center w-full gap-y-6">
+                      {services?.map((service: ServiceInterface, i: number) => {
+                        return <AreaCard key={i} point={service} />;
+                      })}
+                    </div>
+                  ) : (
+                    <div className="text-center">Data Kosong</div>
+                  )}
+                </div>
               </div>
+            </AlertDialogContent>
+          </AlertDialog>
+        ) : (
+          <Drawer>
+            <DrawerTrigger className="w-full min-h-[60px] text-line-10 text-lg bg-primary-40 rounded-b-lg">
+              {item?.nama}
+            </DrawerTrigger>
+            <DrawerContent className="flex flex-col gap-y-3 bg-line-10 rounded-lg w-full max-w-4xl h-4/6 px-3">
+              <div className="w-full flex flex-col gap-y-3 verticalScroll">
+                <DrawerTitle className="text-center">{item?.nama}</DrawerTitle>
 
-              <AlertDialogTitle className="text-center text-3xl">
-                {item?.nama}
-              </AlertDialogTitle>
+                <DrawerDescription className="text-center">
+                  {item?.desc}
+                </DrawerDescription>
 
-              <AlertDialogDescription className="text-center text-lg">
-                {item?.desc}
-              </AlertDialogDescription>
-
-              <div className="mt-8">
-                {services && services.length > 0 ? (
-                  <div className="flex flex-col h-full items-center w-full gap-y-6">
-                    {services?.map((service: ServiceInterface, i: number) => {
-                      return <AreaCard key={i} point={service} />;
-                    })}
-                  </div>
-                ) : (
-                  <div className="text-center">Data Kosong</div>
-                )}
+                <div className="">
+                  {services && services.length > 0 ? (
+                    <div className="flex flex-col h-full items-center w-full gap-y-6">
+                      {services?.map((service: ServiceInterface, i: number) => {
+                        return <AreaCard key={i} point={service} />;
+                      })}
+                    </div>
+                  ) : (
+                    <div className="text-center">Data Kosong</div>
+                  )}
+                </div>
               </div>
-            </div>
-          </AlertDialogContent>
-        </AlertDialog>
-      ) : (
-        <Drawer>
-          <DrawerTrigger className="w-full min-h-[60px] text-line-10 text-lg bg-primary-40 rounded-b-lg">
-            {item?.nama}
-          </DrawerTrigger>
-          <DrawerContent className="flex flex-col gap-y-3 bg-line-10 rounded-lg w-full max-w-4xl h-4/6 px-3">
-            <div className="w-full flex flex-col gap-y-3 verticalScroll">
-              <DrawerTitle className="text-center">{item?.nama}</DrawerTitle>
-
-              <DrawerDescription className="text-center">
-                {item?.desc}
-              </DrawerDescription>
-
-              <div className="">
-                {services && services.length > 0 ? (
-                  <div className="flex flex-col h-full items-center w-full gap-y-6">
-                    {services?.map((service: ServiceInterface, i: number) => {
-                      return <AreaCard key={i} point={service} />;
-                    })}
-                  </div>
-                ) : (
-                  <div className="text-center">Data Kosong</div>
-                )}
-              </div>
-            </div>
-          </DrawerContent>
-        </Drawer>
-      )}
+            </DrawerContent>
+          </Drawer>
+        )}
+      </div>
     </div>
   );
 }

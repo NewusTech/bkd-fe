@@ -38,9 +38,9 @@ export default function DashBoardSidebarPages() {
     }
   }, [router]);
 
-  const fetchAreas = async (limit: number) => {
+  const fetchAreas = async (page: number, limit: number) => {
     try {
-      const response = await getAreas(limit);
+      const response = await getAreas(page, limit);
 
       setAreas(response.data);
     } catch (error) {
@@ -59,7 +59,7 @@ export default function DashBoardSidebarPages() {
 
   useEffect(() => {
     fetchUserProfile();
-    fetchAreas(limitItem);
+    fetchAreas(1, limitItem);
   }, []);
 
   const fetchServices = async (bidang_id: number) => {
