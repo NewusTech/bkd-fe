@@ -10,8 +10,13 @@ import {
 } from "@/components/ui/carousel";
 import { heros } from "@/constants/main";
 import Image from "next/image";
+import { CarouselSliderInterface } from "@/types/interface";
 
-export default function HeroScreen() {
+export default function HeroScreen({
+  slides,
+}: {
+  slides: CarouselSliderInterface[];
+}) {
   return (
     <section className="md:items-center md:flex md:justify-between h-full w-dvw md:w-full slide-right-animation">
       <div className="w-full md:self-end md:flex max-h-[320px] md:max-h-[680px]">
@@ -20,12 +25,12 @@ export default function HeroScreen() {
             loop: true,
           }}>
           <CarouselContent>
-            {heros?.map((hero: any, i: number) => {
+            {slides?.map((slide: CarouselSliderInterface, i: number) => {
               return (
                 <CarouselItem key={i}>
                   <div className="w-full h-full">
                     <Image
-                      src={hero.image}
+                      src={slide.image}
                       alt="carousel"
                       width={1000}
                       height={1000}
@@ -36,8 +41,6 @@ export default function HeroScreen() {
               );
             })}
           </CarouselContent>
-          <CarouselPrevious />
-          <CarouselNext />
         </Carousel>
       </div>
     </section>

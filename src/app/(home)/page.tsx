@@ -1,10 +1,10 @@
 "use client";
 
+import newsIcon from "@/../../public/assets/icons/news-news.png";
 import about from "@/../../public/assets/images/about-image.png";
 import ActivityCard from "@/components/all_cards/activityCard";
 import ServiceCard from "@/components/all_cards/serviceCard";
 import HeroScreen from "@/components/pages/hero";
-import { activivities, faqs } from "@/constants/main";
 import {
   Accordion,
   AccordionContent,
@@ -15,16 +15,42 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
-import { getAreas, getCarouselSliders } from "@/services/api";
-import { AreasInterface } from "@/types/interface";
+import {
+  getAreas,
+  getBkdGalleryActivities,
+  getCarouselSliders,
+  getFaqs,
+  getInformationBkd,
+  getNews,
+  getStructureOrganization,
+} from "@/services/api";
+import {
+  AreasInterface,
+  CarouselSliderInterface,
+  FaqsInterface,
+  GalleryActivitiesInterface,
+  InformationBKdInterface,
+  NewsInterface,
+  StructureOrganizationInterface,
+} from "@/types/interface";
 import { Button } from "@/components/ui/button";
 import { Loader } from "lucide-react";
+import StructureOrganizarionCard from "@/components/all_cards/structureOrganizationsCard";
+import EmblaCarousel from "@/components/elements/carousels/carousel_main";
+import { EmblaOptionsType } from "embla-carousel";
 
 export default function Home() {
   const router = useRouter();
-  const limitItem = 4;
-  const [slides, setSlides] = useState([]);
-  const [areas, setAreas] = useState([]);
+  const limitItem = 15;
+  const [slides, setSlides] = useState<CarouselSliderInterface[]>([]);
+  const [areas, setAreas] = useState<AreasInterface[]>([]);
+  const [news, setNews] = useState<NewsInterface[]>([]);
+  const [faqs, setFaqs] = useState<FaqsInterface[]>([]);
+  const [galleries, setGalleries] = useState<GalleryActivitiesInterface[]>([]);
+  const [informations, setInformations] = useState<InformationBKdInterface>();
+  const [organizations, setOrganizations] = useState<
+    StructureOrganizationInterface[]
+  >([]);
   const [isFirstLoading, setIsFirstLoading] = useState(false);
   const [isSecondLoading, setIsSecondLoading] = useState(false);
 
@@ -75,30 +101,61 @@ export default function Home() {
     }
   };
 
-  // useEffect(() => {
-  //   fetchCarouselSliders();
-  // }, []);
+  useEffect(() => {
+    fetchCarouselSliders();
+  }, []);
 
-  const fetchAreas = async (limit: number) => {
+  const fetchAreasStructureOrganization = async (
+    page: number,
+    limit: number
+  ) => {
     try {
-      const response = await getAreas(limit);
+      const response = await getAreas(page, limit);
+      const structures = await getStructureOrganization(page, limit);
 
       setAreas(response?.data);
+      setOrganizations(structures?.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchNews = async (page: number, limit: number) => {
+    try {
+      const response = await getNews(page, limit);
+      const activities = await getBkdGalleryActivities(page, limit);
+
+      setNews(response?.data);
+      setGalleries(activities?.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchFaqs = async () => {
+    try {
+      const response = await getFaqs();
+      const information = await getInformationBkd();
+
+      setFaqs(response.data);
+      setInformations(information.data);
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    fetchAreas(limitItem);
+    fetchAreasStructureOrganization(1, limitItem);
+    fetchNews(1, 8);
+    fetchFaqs();
   }, []);
 
-  const handleNextAreaPage = () => {
+  const handleNextNewsPage = () => {
     setIsFirstLoading(true);
 
     setTimeout(() => {
       setIsFirstLoading(false);
-      router.push("/bkd-areas");
+      router.push("/bkd-news");
     }, 1000);
   };
 
@@ -111,14 +168,21 @@ export default function Home() {
     }, 1000);
   };
 
+  const OPTIONS: EmblaOptionsType = { dragFree: true };
+
+  let iframeSrc = "https://www.google.com/maps?q=";
+  if (informations?.lang && informations?.long) {
+    iframeSrc +=
+      informations.lang + "," + informations.long + "&hl=es;z=14&output=embed";
+  }
+
   return (
     <main className="flex flex-col md:w-full h-full justify-center scroll-smooth snap-mandatory snap-y items-center relative mb-28 md:mb-24">
-      <HeroScreen />
+      {slides && slides.length > 0 && <HeroScreen slides={slides} />}
 
-      <section
-        id="about-us"
-        className="w-full background-about-us snap-start scroll-mt-24 py-12 px-4 md:px-20 flex flex-col md:flex-row items-center md:items-start gap-y-6 md:gap-x-8">
+      <section className="w-full background-about-us snap-start scroll-mt-24 py-12 px-4 md:px-20 flex flex-col md:flex-row items-center md:items-start gap-y-6 md:gap-x-8">
         <div className="w-10/12 md:w-5/12 h-full">
+          {/* {informations && ( */}
           <Image
             src={about}
             alt="About Us"
@@ -126,6 +190,7 @@ export default function Home() {
             height={1000}
             className="w-full h-full object-cover"
           />
+          {/* )} */}
         </div>
 
         <div className="w-full flex flex-col gap-y-4 md:gap-y-8">
@@ -137,25 +202,13 @@ export default function Home() {
 
           <div className="w-full">
             <p className="text-line-10 text-sm md:text-[16px] text-justify md:text-start leading-8">
-              Badan Kepegawaian Daerah (BKD) Lampung Timur merupakan sebuah
-              instansi pemerintah yang memiliki peran strategis dalam
-              pengelolaan administrasi kepegawaian di wilayah Lampung Timur.
-              Tugas utama BKD mencakup berbagai aspek penting, antara lain
-              pengembangan sumber daya manusia melalui pelatihan dan peningkatan
-              kompetensi, pengelolaan proses mutasi untuk memastikan pegawai
-              ditempatkan sesuai dengan kebutuhan organisasi, promosi jabatan
-              guna memberikan apresiasi terhadap prestasi dan kinerja pegawai,
-              serta pengurusan pengajuan pangkat yang dilakukan secara
-              terstruktur dan transparan untuk mendukung peningkatan karier
-              pegawai di wilayah tersebut.
+              {informations && informations.about_bkd}
             </p>
           </div>
         </div>
       </section>
 
-      <section
-        id="submission"
-        className="w-full snap-start scroll-mt-24 flex flex-col px-4 md:px-12 py-12 gap-y-16">
+      <section className="w-full snap-start scroll-mt-24 flex flex-col px-4 md:px-12 py-12 gap-y-16">
         <div className="w-full flex flex-col items-center gap-y-3">
           <h5 className="text-black-80 text-xl md:text-3xl font-semibold">
             PELAYANAN BKD LAMPUNG TIMUR
@@ -172,27 +225,67 @@ export default function Home() {
         </div>
 
         <div className="w-full flex flex-col md:grid grid-cols-4 gap-y-5 md:gap-x-5">
-          {areas?.map((area: AreasInterface, i: number) => {
-            return <ServiceCard key={i} item={area} />;
-          })}
-        </div>
-
-        <div className="w-full flex items-center justify-center">
-          <Button
-            onClick={handleNextAreaPage}
-            className="bg-secondary-40 hover:bg-secondary-70 text-line-10 rounded-lg">
-            {isFirstLoading ? (
-              <Loader className="animate-spin" />
-            ) : (
-              "Lihat Selengkapnya"
-            )}
-          </Button>
+          {areas &&
+            areas.length > 0 &&
+            areas?.map((area: AreasInterface, i: number) => {
+              return <ServiceCard key={i} item={area} />;
+            })}
         </div>
       </section>
 
-      <section
-        id="gallery-image-activity"
-        className="w-full flex flex-col snap-start scroll-mt-24 background-about-us py-12 px-4 md:px-20 gap-y-8">
+      <section className="w-full flex flex-row justify-between snap-start scroll-mt-24 background-about-us py-12 gap-y-8 gap-x-8">
+        <div className="w-6/12 flex flex-col items-center gap-y-3 px-20">
+          <div className="w-full h-4/6 flex justify-center items-center">
+            <Image
+              src={newsIcon}
+              alt="News Icons"
+              width={1000}
+              height={1000}
+              className="w-6/12 h-3/6"
+            />
+          </div>
+
+          <div className="w-full flex flex-col gap-y-5">
+            <h5 className="text-line-10 text-[22px] text-center font-semibold">
+              Berita Terkait BKD Lampung Timur
+            </h5>
+
+            <div className="w-full flex items-center justify-center">
+              <Button
+                onClick={handleNextNewsPage}
+                className="bg-line-10 hover:bg-primary-70 text-primary-40 rounded-lg">
+                {isFirstLoading ? (
+                  <Loader className="animate-spin" />
+                ) : (
+                  "Lihat Selengkapnya"
+                )}
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        <EmblaCarousel options={OPTIONS} items={news} />
+      </section>
+
+      <section className="w-full snap-start scroll-mt-24 flex flex-col px-4 md:px-12 py-12 gap-y-12">
+        <div className="w-full flex flex-col items-center gap-y-3">
+          <h5 className="text-black-80 text-xl md:text-3xl font-semibold">
+            Struktur Organisasi BKD Lampung Timur
+          </h5>
+        </div>
+
+        <div className="w-full flex flex-col md:grid grid-cols-5 gap-y-5 md:gap-x-5">
+          {organizations &&
+            organizations.length > 0 &&
+            organizations?.map(
+              (item: StructureOrganizationInterface, i: number) => {
+                return <StructureOrganizarionCard key={i} item={item} />;
+              }
+            )}
+        </div>
+      </section>
+
+      <section className="w-full flex flex-col snap-start scroll-mt-24 background-about-us py-12 px-4 md:px-20 gap-y-8">
         <div className="w-full flex flex-col items-center gap-y-3">
           <h5 className="text-line-10 text-xl md:text-3xl font-semibold text-center md:text-start">
             FOTO KEGIATAN BKD LAMPUNG TIMUR
@@ -207,15 +300,19 @@ export default function Home() {
         </div>
 
         <div className="w-full grid grid-cols-2 md:grid-cols-4 gap-5">
-          {activivities?.map((activity: any, i: number) => {
-            return <ActivityCard key={i} item={activity} />;
-          })}
+          {galleries &&
+            galleries.length > 0 &&
+            galleries?.map(
+              (activity: GalleryActivitiesInterface, i: number) => {
+                return <ActivityCard key={i} item={activity} />;
+              }
+            )}
         </div>
 
         <div className="w-full flex items-center justify-center">
           <Button
             onClick={handleNextGalleryPage}
-            className="bg-line-10 hover:bg-line-30 text-secondary-40 rounded-lg">
+            className="bg-line-10 hover:text-line-10 text-primary-40 hover:bg-primary-70 rounded-lg">
             {isSecondLoading ? (
               <Loader className="animate-spin" />
             ) : (
@@ -225,9 +322,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section
-        id="location"
-        className="w-full flex snap-start scroll-mt-24 flex-col py-12 px-4 md:px-20 gap-y-8">
+      <section className="w-full flex snap-start scroll-mt-24 flex-col py-12 px-4 md:px-20 gap-y-8">
         <div className="w-full flex flex-col items-center gap-y-3">
           <h5 className="text-black-80 text-xl md:text-3xl font-semibold">
             MAPS BKD LAMPUNG TIMUR
@@ -236,21 +331,32 @@ export default function Home() {
 
         <div className="w-full">
           <div className="w-full h-[300px] md:h-[500px]">
-            <iframe
+            {/* <iframe
               src={
                 "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3971.8333259987476!2d105.26985647507213!3d-5.442262654291578!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e40dbd15418dcc1%3A0x11cadd700e0e0339!2sJl.%20Salim%20Batubara%20No.118%2C%20Kupang%20Teba%2C%20Kec.%20Tlk.%20Betung%20Utara%2C%20Kota%20Bandar%20Lampung%2C%20Lampung%2035212!5e0!3m2!1sid!2sid!4v1723621727730!5m2!1sid!2sid"
               }
               className="border-none w-full h-full rounded-lg"
               allowFullScreen
               loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"></iframe>
+              referrerPolicy="no-referrer-when-downgrade"></iframe> */}
+            {informations && (
+              <iframe
+                src={iframeSrc}
+                width="600"
+                height="450"
+                style={{ border: "0" }}
+                className="border-0 w-full rounded-xl"
+                allowFullScreen
+                loading="lazy"
+                referrerPolicy="no-referrer-when-downgrade">
+                {informations?.kontak}
+              </iframe>
+            )}
           </div>
         </div>
       </section>
 
-      <section
-        id="faqs"
-        className="w-full snap-start flex flex-col py-12 px-4 md:px-20 gap-y-8">
+      <section className="w-full snap-start flex flex-col py-12 px-4 md:px-20 gap-y-8">
         <div className="w-full flex flex-col items-center gap-y-3">
           <h5 className="text-black-80 text-center text-xl md:text-3xl font-semibold">
             PERTANYAAN YANG SERING DIAJUKAN
@@ -258,7 +364,7 @@ export default function Home() {
         </div>
         <div className="flex flex-col md:w-full justify-center gap-[8px]">
           <Accordion type="single" collapsible>
-            {faqs.map((faq: any, index: number) => {
+            {faqs.map((faq: FaqsInterface, index: number) => {
               return (
                 <AccordionItem
                   key={index}

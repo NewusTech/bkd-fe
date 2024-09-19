@@ -142,6 +142,54 @@ export const getCarouselSliders = async () => {
   return await response.json();
 };
 
+// get structure organization
+export const getStructureOrganization = async (page: number, limit: number) => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/user/bkd/struktur/get?page=${page}&limit=${limit}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      cache: "no-store",
+    }
+  );
+
+  return await response.json();
+};
+
+// get gallery
+export const getBkdGalleryActivities = async (page: number, limit: number) => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/user/galeri/get?page=${page}&limit=${limit}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      cache: "no-store",
+    }
+  );
+
+  return await response.json();
+};
+
+// get structure organization
+export const getNews = async (page: number, limit: number) => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/user/berita/get?page=${page}&limit=${limit}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      cache: "no-store",
+    }
+  );
+
+  return await response.json();
+};
+
 // get gallery image activities
 export const getGalleryImageActivities = async () => {
   const response = await fetch(
@@ -175,9 +223,9 @@ export const getServices = async () => {
 };
 
 // get areas / bidang
-export const getAreas = async (limit: number) => {
+export const getAreas = async (page: number, limit: number) => {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/user/bidang/get?limit=${limit}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/user/bidang/get?page=${page}&limit=${limit}`,
     {
       method: "GET",
       headers: {
@@ -194,6 +242,22 @@ export const getAreas = async (limit: number) => {
 export const getServiceByAreas = async (bidang_id: number) => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/user/layanan/bidang/get/${bidang_id}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      cache: "no-store",
+    }
+  );
+
+  return await response.json();
+};
+
+// get information bkd
+export const getInformationBkd = async () => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/user/bkd/profile/get`,
     {
       method: "GET",
       headers: {
