@@ -5,7 +5,7 @@ import { Camera, X } from "@phosphor-icons/react";
 import Image from "next/image";
 import React, { useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { Loader, LogOut, User2 } from "lucide-react";
+import { HomeIcon, Loader, LogOut, User2 } from "lucide-react";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 import {
@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 export default function ProfileSideBarScreen() {
   const router = useRouter();
@@ -140,7 +141,7 @@ export default function ProfileSideBarScreen() {
   // };
 
   return (
-    <section className="flex flex-col md:w-4/12 h-full justify-center items-center relative md:mb-0 pb-8">
+    <section className="flex flex-col md:w-3/12 h-full justify-center items-center relative md:mb-0 pb-8">
       <div className="w-full flex flex-col gap-y-20 pb-12">
         <div className="w-full py-5 border bg-white shadow-md border-grey-100 rounded-lg">
           {/* {profile && ( */}
@@ -257,6 +258,14 @@ export default function ProfileSideBarScreen() {
           <div className="w-full h-[1px] bg-line-20 mt-5 mb-2"></div>
 
           <div className="w-full flex flex-col gap-y-1">
+            <Link
+              href={"/dashboard"}
+              className="w-full flex flex-row items-center cursor-pointer px-4 py-3 gap-x-2">
+              <HomeIcon className="w-6 h-6 text-black-80" />
+
+              <p className="text-[16px] text-black-80">Dashboard</p>
+            </Link>
+
             <div className="w-full flex flex-row px-4 py-3 bg-primary-40 bg-opacity-20 items-center gap-x-2">
               <User2 className="w-6 h-6 text-primary-40" />
 

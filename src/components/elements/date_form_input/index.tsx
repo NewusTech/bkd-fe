@@ -46,11 +46,10 @@ export default function DateFormInput(props: DateInputProps) {
           `flex flex-row items-center w-full bg-line-10 border border-line-20 rounded-full py-1 px-3 ${disabled ? "opacity-50" : ""}`,
           rest.className,
         ])}>
-        <CalendarIcons className="w-6 h-6 text-primary-40" />
         <Popover>
           <PopoverTrigger asChild>
             <Button
-              className="w-full justify-start text-left text-[14px]"
+              className="w-full pl-0 justify-start text-left text-[14px]"
               disabled={disabled}>
               {value ? format(value, "PPP") : "Pilih Tanggal"}
             </Button>
@@ -76,7 +75,8 @@ export default function DateFormInput(props: DateInputProps) {
             />
           </PopoverContent>
         </Popover>
-        <ChevronDown size={16} />
+        <CalendarIcons className="w-6 h-6 text-primary-40" />
+        {/* <ChevronDown size={16} /> */}
       </div>
     </div>
   );

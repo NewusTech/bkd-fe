@@ -15,9 +15,12 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Cookies from "js-cookie";
 import { getAreas, getServiceByAreas, getUserProfile } from "@/services/api";
-import { AreasInterface, ServiceInterface } from "@/types/interface";
+import {
+  AreasInterface,
+  ServiceInterface,
+  UserProfileInterface,
+} from "@/types/interface";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { adminBars, areasHeadBars, masterDataSupers } from "@/constants/main";
 
 export default function DashBoardSidebarPages() {
   const router = useRouter();
@@ -25,7 +28,7 @@ export default function DashBoardSidebarPages() {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const limitItem = 10;
   const [activeAccordionValue, setActiveAccordionValue] = useState("account");
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState<UserProfileInterface>();
   const [areas, setAreas] = useState<AreasInterface[]>([]);
   const [services, setServices] = useState<ServiceInterface[]>();
   const [serviceId, setServiceId] = useState<number | null>(null);
@@ -99,7 +102,7 @@ export default function DashBoardSidebarPages() {
           </Link>
 
           {/* user bars */}
-          {/* <div className="w-full flex flex-col">
+          <div className="w-full flex flex-col">
             <Accordion
               className="w-full flex flex-col gap-y-4"
               type="single"
@@ -152,10 +155,10 @@ export default function DashBoardSidebarPages() {
                   );
                 })}
             </Accordion>
-          </div> */}
+          </div>
 
           {/* user bars */}
-          {/* <div className="w-full flex flex-col gap-y-3">
+          <div className="w-full flex flex-col gap-y-3">
             <div
               className={`${pathName === "/application-history" ? "bg-primary-40 bg-opacity-20" : ""} w-full py-3`}>
               <Link
@@ -182,7 +185,7 @@ export default function DashBoardSidebarPages() {
                 Pengaduan
               </Link>
             </div>
-          </div> */}
+          </div>
 
           {/* render admin verified */}
           {/* <div className="w-full flex flex-col">
@@ -327,7 +330,7 @@ export default function DashBoardSidebarPages() {
           </div> */}
 
           {/* render Super Admin */}
-          <div className="w-full flex flex-col">
+          {/* <div className="w-full flex flex-col">
             <Accordion
               className="w-full flex flex-col gap-y-4"
               type="single"
@@ -422,7 +425,7 @@ export default function DashBoardSidebarPages() {
                 </AccordionContent>
               </AccordionItem>
             </Accordion>
-          </div>
+          </div> */}
 
           <div className="w-full flex flex-col items-center justify-center">
             <div className="w-11/12 h-[1px] bg-line-50"></div>
