@@ -33,9 +33,8 @@ export const schemaRegister = z.object({
 });
 
 export const schemaLogin = z.object({
-  nip: z
-    .string({ message: "NIP tidak boleh kosong!" })
-    .length(16, "NIP harus terdiri dari 16 karakter"),
+  nip: z.string({ message: "NIP tidak boleh kosong!" }),
+  // .length(16, "NIP harus terdiri dari 16 karakter"),
   password: z
     .string({ message: "Kata sandi tidak boleh kosong!" })
     .min(6, { message: "Kata sandi minimal 6 karakter" })

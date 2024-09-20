@@ -17,7 +17,7 @@ export default function UserProfileLayout({
     <main
       className={`${poppins.className} w-full relative flex flex-col min-h-screen`}>
       <div className="flex-1 overflow-y-auto">
-        <div className="relative bg-primary-40 h-32 mx-7 mt-7">
+        <div className="relative bg-primary-70 h-32">
           <div className="absolute w-full flex flex-row gap-x-5 px-5 pt-14">
             <ProfileSideBarScreen />
 

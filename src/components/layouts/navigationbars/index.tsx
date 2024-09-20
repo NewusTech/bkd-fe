@@ -67,7 +67,7 @@ export default function NavigationScreen() {
 
             <Link
               href="/login"
-              className="w-full text-[16px] px-6 py-2 border border-primary-40 hover:bg-primary-70 text-primary-40 rounded-lg cursor-pointer">
+              className="w-full text-[16px] px-6 py-2 border border-primary-40 hover:bg-primary-70 text-primary-40 hover:text-line-10 rounded-lg cursor-pointer">
               Masuk
             </Link>
           </div>
