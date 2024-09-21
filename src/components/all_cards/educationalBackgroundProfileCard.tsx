@@ -19,28 +19,83 @@ import {
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
+import { UserEducationInterface } from "@/types/interface";
+import { formatDate, formatDateString } from "@/lib/utils";
+import DateFormInput from "../elements/date_form_input";
 
-export default function EducationalBackgroundProfileCard() {
+export default function EducationalBackgroundProfileCard({
+  index,
+  item,
+  openEducationUpdate,
+  setOpenEducationUpdate,
+  education,
+  setEducation,
+  handleSubmitEducationUpdate,
+  isLoadingEducationUpdate,
+  returnDate,
+  setReturnDate,
+}: {
+  index: number;
+  item: UserEducationInterface;
+  openEducationUpdate: boolean;
+  setOpenEducationUpdate: React.Dispatch<React.SetStateAction<boolean>>;
+  education: {
+    tingkat_pendidikan: string;
+    program_study: string;
+    institut: string;
+    no_ijazah: string;
+    tgl_ijazah: string;
+  };
+  setEducation: React.Dispatch<
+    React.SetStateAction<{
+      tingkat_pendidikan: string;
+      program_study: string;
+      institut: string;
+      no_ijazah: string;
+      tgl_ijazah: string;
+    }>
+  >;
+  handleSubmitEducationUpdate: (
+    e: React.FormEvent<HTMLFormElement>,
+    id: number
+  ) => void;
+  isLoadingEducationUpdate: boolean;
+  returnDate: Date;
+  setReturnDate: React.Dispatch<React.SetStateAction<Date>>;
+}) {
+  const handleSetEducation = () => {
+    setEducation({
+      tingkat_pendidikan: item?.tingkat_pendidikan,
+      program_study: item?.program_study,
+      institut: item?.institut,
+      no_ijazah: item?.no_ijazah,
+      tgl_ijazah: item?.tgl_ijazah,
+    });
+
+    setReturnDate(new Date(item?.tgl_ijazah));
+  };
+
   return (
     <TableRow className="border border-line-20">
-      <TableCell className="text-center">1</TableCell>
-      <TableCell className="text-center">Irsyad Al-Haq Husein</TableCell>
-      <TableCell className="text-center">1234567812345678</TableCell>
-      <TableCell className="text-center">Pengajuan Pangkat</TableCell>
-      <TableCell className="text-center">22 Maret 2024</TableCell>
-      <TableCell className="text-center">22 Maret 2024</TableCell>
+      <TableCell className="text-center">{index + 1}</TableCell>
+      <TableCell className="text-center">{item?.tingkat_pendidikan}</TableCell>
+      <TableCell className="text-center">{item?.program_study}</TableCell>
+      <TableCell className="text-center">{item?.institut}</TableCell>
+      <TableCell className="text-center">{item?.no_ijazah}</TableCell>
+      <TableCell className="text-center">
+        {formatDateString(item?.tgl_ijazah)}
+      </TableCell>
       <TableCell className={`text-center`}>
         <div className="w-full flex flex-row items-center justify-center gap-x-2">
           <div className="w-full">
             <AlertDialog
-            // open={isDialogEditOpen}
-            // onOpenChange={setIsDialogEditOpen}
-            >
+              open={openEducationUpdate}
+              onOpenChange={setOpenEducationUpdate}>
               <AlertDialogTrigger
-                // onClick={() => {
-                //   handleSetArea();
-                //   setIsDialogEditOpen(true);
-                // }}
+                onClick={() => {
+                  handleSetEducation();
+                  setOpenEducationUpdate(true);
+                }}
                 className="w-full">
                 <div className="w-full px-6 text-sm bg-black-80 bg-opacity-20 hover:bg-opacity-40 flex items-center justify-center h-10 text-black-80 hover:text-line-10 rounded-lg">
                   Edit
@@ -55,80 +110,115 @@ export default function EducationalBackgroundProfileCard() {
                     Input data yang diperlukan
                   </AlertDialogDescription>
                   <form
-                    // onSubmit={(e: React.FormEvent<HTMLFormElement>) =>
-                    //   handleUpdateArea(e, area?.slug)
-                    // }
+                    onSubmit={(e: React.FormEvent<HTMLFormElement>) =>
+                      handleSubmitEducationUpdate(e, item.id)
+                    }
                     className="w-full flex flex-col gap-y-3 verticalScroll">
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                      <Label className="focus-within:text-primary-70 font-normal text-sm">
-                        Nama Bidang
+                      <Label
+                        htmlFor="tingkat-pendidikan"
+                        className="focus-within:text-primary-70 font-normal text-[16px]">
+                        Tingkat Pendidikan
                       </Label>
 
                       <Input
-                        id="nama-bidang"
-                        name="nama"
-                        // value={data?.nama}
-                        // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        //   setData({ ...data, nama: e.target.value })
-                        // }
+                        id="tingkat-pendidikan"
+                        name="tingkat_pendidikan"
+                        value={education.tingkat_pendidikan}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          setEducation({
+                            ...education,
+                            tingkat_pendidikan: e.target.value,
+                          })
+                        }
                         type="text"
-                        className="w-full focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
-                        placeholder="Masukkan Nama Bidang"
-                      />
-                    </div>
-
-                    <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                      <Label className="focus-within:text-primary-70 font-normal text-sm">
-                        Penanggung Jawab
-                      </Label>
-
-                      <Input
-                        id="pj"
-                        name="pj"
-                        // value={data.pj}
-                        // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        //   setData({ ...data, pj: e.target.value })
-                        // }
-                        type="text"
-                        className="w-full focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
-                        placeholder="Masukkan Nama Penanggung Jawab"
+                        className="w-full h-12 text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
+                        placeholder="Masukkan Tingkat Pendidikan Anda"
                       />
                     </div>
 
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                       <Label
-                        htmlFor="nip-pj"
-                        className="focus-within:text-primary-70 font-normal text-sm">
-                        NIP Penanggung Jawab
+                        htmlFor="program-studi"
+                        className="focus-within:text-primary-70 font-normal text-[16px]">
+                        Jurusan/Program Studi
                       </Label>
 
                       <Input
-                        id="nip-pj"
-                        name="nip_pj"
-                        // value={data.nip_pj}
-                        // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        //   setData({ ...data, nip_pj: e.target.value })
-                        // }
+                        id="program-studi"
+                        name="program_study"
+                        value={education.program_study}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          setEducation({
+                            ...education,
+                            program_study: e.target.value,
+                          })
+                        }
                         type="text"
-                        inputMode="numeric"
-                        className="w-full focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
-                        placeholder="Masukkan NIP Penanggung Jawab"
+                        className="w-full h-12 text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
+                        placeholder="Masukkan Jurusan/Program Studi Anda"
                       />
                     </div>
 
-                    <div className="w-full flex flex-col gap-y-2">
-                      <Label className="text-sm text-black-70 font-normal">
-                        Deskripsi Bidang
+                    <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                      <Label
+                        htmlFor="institut"
+                        className="focus-within:text-primary-70 font-normal text-[16px]">
+                        Nama Instansi/Lembaga
                       </Label>
 
-                      <Textarea
-                        name="desc"
-                        placeholder="Masukkan Deskripsi Bidang"
-                        // value={data.desc}
-                        // onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                        //   setData({ ...data, desc: e.target.value })
-                        // }
-                        className="w-full rounded-lg h-[74px] border border-line-20 md:h-[122px] text-sm placeholder:opacity-[70%]"
+                      <Input
+                        id="institut"
+                        name="institut"
+                        value={education.institut}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          setEducation({
+                            ...education,
+                            institut: e.target.value,
+                          })
+                        }
+                        type="text"
+                        className="w-full h-12 text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
+                        placeholder="Masukkan Nama Instansi/Lembaga Anda"
+                      />
+                    </div>
+
+                    <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                      <Label
+                        htmlFor="no-ijazah"
+                        className="focus-within:text-primary-70 font-normal text-[16px]">
+                        Nomor Ijazah
+                      </Label>
+
+                      <Input
+                        id="no-ijazah"
+                        name="no_ijazah"
+                        value={education.no_ijazah}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          setEducation({
+                            ...education,
+                            no_ijazah: e.target.value,
+                          })
+                        }
+                        type="text"
+                        className="w-full h-12 text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
+                        placeholder="Masukkan Nomor Ijazah Anda Anda"
+                      />
+                    </div>
+
+                    <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                      <DateFormInput
+                        value={returnDate}
+                        setValue={setReturnDate}
+                        label="Tanggal Ijazah"
+                        className={`bg-transparent w-full rounded-lg`}
+                        // ${errors.tanggal_akhir_sewa ? "text-error-700" : ""}
+                        onChange={(value) =>
+                          setEducation({
+                            ...education,
+                            tgl_ijazah: formatDate(value),
+                          })
+                        }
                       />
                     </div>
 
@@ -137,14 +227,13 @@ export default function EducationalBackgroundProfileCard() {
 
                       <Button
                         type="submit"
-                        // disabled={isUpdateLoading ? true : false}
+                        disabled={isLoadingEducationUpdate ? true : false}
                         className="bg-primary-40 hover:bg-primary-70 text-line-10">
-                        {/* {isUpdateLoading ? (
+                        {isLoadingEducationUpdate ? (
                           <Loader className="animate-spin" />
                         ) : (
                           "Simpan"
-                        )} */}
-                        Simpan
+                        )}
                       </Button>
                     </div>
                   </form>

@@ -129,7 +129,7 @@ export interface FaqsInterface {
 }
 
 export interface InformationBKdInterface {
-  id: 1;
+  id: number;
   about_bkd: string;
   image_bkd: string;
   visi: string;
@@ -142,6 +142,7 @@ export interface InformationBKdInterface {
 }
 
 export interface UserPositionInterface {
+  id: number;
   createdAt: string;
   nama_jabatan: string;
   no_sk_pangkat: string;
@@ -150,6 +151,7 @@ export interface UserPositionInterface {
 }
 
 export interface UserKGBInterface {
+  id: number;
   no_sk_pangkat: string;
   tgl_sk_pangkat: string;
   tmt: string;
@@ -157,6 +159,7 @@ export interface UserKGBInterface {
 }
 
 export interface UserGradesInterface {
+  id: number;
   jenjang_kepangkatan: string;
   no_sk_pangkat: string;
   tgl_sk_pangkat: string;
@@ -164,6 +167,7 @@ export interface UserGradesInterface {
 }
 
 export interface UserTrainingInterface {
+  id: number;
   lama_pelatihan: string;
   no_surat_pelatihan: string;
   tanggal_pelatihan: string;
@@ -172,6 +176,7 @@ export interface UserTrainingInterface {
 }
 
 export interface UserEducationInterface {
+  id: number;
   institut: string;
   no_ijazah: string;
   program_study: string;
@@ -180,6 +185,7 @@ export interface UserEducationInterface {
 }
 
 export interface UserAwardsInterface {
+  id: number;
   instansi_penghargaan: string;
   tanggal_penghargaan: string;
   uraian_penghargaan: string;

@@ -20,14 +20,66 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { UserTrainingInterface } from "@/types/interface";
+import { formatDate } from "@/lib/utils";
+import DateFormInput from "../elements/date_form_input";
 
 export default function TrainingHistoryProfileCard({
   item,
   index,
+  openTrainingUpdate,
+  setOpenTrainingUpdate,
+  training,
+  setTraining,
+  handleSubmitTrainingsUpdate,
+  isLoadingTrainingUpdate,
+  returnDate,
+  setReturnDate,
+  durationDate,
+  setDurationDate,
 }: {
   item: UserTrainingInterface;
   index: number;
+  openTrainingUpdate: boolean;
+  setOpenTrainingUpdate: React.Dispatch<React.SetStateAction<boolean>>;
+  training: {
+    lama_pelatihan: string;
+    no_surat_pelatihan: string;
+    tanggal_pelatihan: string;
+    tempat_pelatihan: string;
+    uraian_pelatihan: string;
+  };
+  setTraining: React.Dispatch<
+    React.SetStateAction<{
+      lama_pelatihan: string;
+      no_surat_pelatihan: string;
+      tanggal_pelatihan: string;
+      tempat_pelatihan: string;
+      uraian_pelatihan: string;
+    }>
+  >;
+  handleSubmitTrainingsUpdate: (
+    e: React.FormEvent<HTMLFormElement>,
+    id: number
+  ) => void;
+  isLoadingTrainingUpdate: boolean;
+  returnDate: Date;
+  setReturnDate: React.Dispatch<React.SetStateAction<Date>>;
+  durationDate: Date;
+  setDurationDate: React.Dispatch<React.SetStateAction<Date>>;
 }) {
+  const handleSetTraining = () => {
+    setTraining({
+      lama_pelatihan: item?.lama_pelatihan,
+      no_surat_pelatihan: item?.no_surat_pelatihan,
+      tanggal_pelatihan: item?.tanggal_pelatihan,
+      tempat_pelatihan: item?.tempat_pelatihan,
+      uraian_pelatihan: item?.uraian_pelatihan,
+    });
+
+    setReturnDate(new Date(item?.tanggal_pelatihan));
+    setDurationDate(new Date(item?.lama_pelatihan));
+  };
+
   return (
     <TableRow className="border border-line-20">
       <TableCell className="text-center">{index + 1}</TableCell>
@@ -40,14 +92,13 @@ export default function TrainingHistoryProfileCard({
         <div className="w-full flex flex-row items-center justify-center gap-x-2">
           <div className="w-full">
             <AlertDialog
-            // open={isDialogEditOpen}
-            // onOpenChange={setIsDialogEditOpen}
-            >
+              open={openTrainingUpdate}
+              onOpenChange={setOpenTrainingUpdate}>
               <AlertDialogTrigger
-                // onClick={() => {
-                //   handleSetArea();
-                //   setIsDialogEditOpen(true);
-                // }}
+                onClick={() => {
+                  handleSetTraining();
+                  setOpenTrainingUpdate(true);
+                }}
                 className="w-full">
                 <div className="w-full px-6 text-sm bg-black-80 bg-opacity-20 hover:bg-opacity-40 flex items-center justify-center h-10 text-black-80 hover:text-line-10 rounded-lg">
                   Edit
@@ -62,80 +113,108 @@ export default function TrainingHistoryProfileCard({
                     Input data yang diperlukan
                   </AlertDialogDescription>
                   <form
-                    // onSubmit={(e: React.FormEvent<HTMLFormElement>) =>
-                    //   handleUpdateArea(e, area?.slug)
-                    // }
+                    onSubmit={(e: React.FormEvent<HTMLFormElement>) =>
+                      handleSubmitTrainingsUpdate(e, item?.id)
+                    }
                     className="w-full flex flex-col gap-y-3 verticalScroll">
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                      <Label className="focus-within:text-primary-70 font-normal text-sm">
-                        Nama Bidang
+                      <Label
+                        htmlFor="uraian-pelatihan"
+                        className="focus-within:text-primary-70 font-normal text-[16px]">
+                        Uraian Pelatihan
                       </Label>
 
                       <Input
-                        id="nama-bidang"
-                        name="nama"
-                        // value={data?.nama}
-                        // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        //   setData({ ...data, nama: e.target.value })
-                        // }
+                        id="uraian-pelatihan"
+                        name="uraian_pelatihan"
+                        value={training.uraian_pelatihan}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          setTraining({
+                            ...training,
+                            uraian_pelatihan: e.target.value,
+                          })
+                        }
                         type="text"
-                        className="w-full focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
-                        placeholder="Masukkan Nama Bidang"
+                        className="w-full h-12 text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
+                        placeholder="Masukkan Uraian Pelatihan Anda"
                       />
                     </div>
 
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                      <Label className="focus-within:text-primary-70 font-normal text-sm">
-                        Penanggung Jawab
-                      </Label>
-
-                      <Input
-                        id="pj"
-                        name="pj"
-                        // value={data.pj}
-                        // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        //   setData({ ...data, pj: e.target.value })
-                        // }
-                        type="text"
-                        className="w-full focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
-                        placeholder="Masukkan Nama Penanggung Jawab"
+                      <DateFormInput
+                        value={durationDate}
+                        setValue={setDurationDate}
+                        label="Durasi Pelatihan"
+                        className={`bg-transparent w-full rounded-lg`}
+                        // ${errors.tanggal_akhir_sewa ? "text-error-700" : ""}
+                        onChange={(value) =>
+                          setTraining({
+                            ...training,
+                            lama_pelatihan: formatDate(value),
+                          })
+                        }
                       />
                     </div>
 
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                       <Label
-                        htmlFor="nip-pj"
-                        className="focus-within:text-primary-70 font-normal text-sm">
-                        NIP Penanggung Jawab
+                        htmlFor="no-surat"
+                        className="focus-within:text-primary-70 font-normal text-[16px]">
+                        Nomor Surat Tanda Lulus
                       </Label>
 
                       <Input
-                        id="nip-pj"
-                        name="nip_pj"
-                        // value={data.nip_pj}
-                        // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        //   setData({ ...data, nip_pj: e.target.value })
-                        // }
+                        id="no-surat"
+                        name="no_surat_pelatihan"
+                        value={training.no_surat_pelatihan}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          setTraining({
+                            ...training,
+                            no_surat_pelatihan: e.target.value,
+                          })
+                        }
                         type="text"
-                        inputMode="numeric"
-                        className="w-full focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
-                        placeholder="Masukkan NIP Penanggung Jawab"
+                        className="w-full h-12 text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
+                        placeholder="Masukkan Nomor Surat Tanda Lulus Anda"
                       />
                     </div>
 
-                    <div className="w-full flex flex-col gap-y-2">
-                      <Label className="text-sm text-black-70 font-normal">
-                        Deskripsi Bidang
+                    <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                      <DateFormInput
+                        value={returnDate}
+                        setValue={setReturnDate}
+                        label="Tanggal Surat Tanda Lulus"
+                        className={`bg-transparent w-full rounded-lg`}
+                        // ${errors.tanggal_akhir_sewa ? "text-error-700" : ""}
+                        onChange={(value) =>
+                          setTraining({
+                            ...training,
+                            tanggal_pelatihan: formatDate(value),
+                          })
+                        }
+                      />
+                    </div>
+
+                    <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                      <Label
+                        htmlFor="tempat-pelatihan"
+                        className="focus-within:text-primary-70 font-normal text-sm">
+                        Tempat Pelatihan
                       </Label>
 
-                      <Textarea
-                        name="desc"
-                        placeholder="Masukkan Deskripsi Bidang"
-                        // value={data.desc}
-                        // onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                        //   setData({ ...data, desc: e.target.value })
-                        // }
-                        className="w-full rounded-lg h-[74px] border border-line-20 md:h-[122px] text-sm placeholder:opacity-[70%]"
+                      <Input
+                        id="tempat-pelatihan"
+                        name="instansi_penghargaan"
+                        value={training.tempat_pelatihan}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          setTraining({
+                            ...training,
+                            tempat_pelatihan: e.target.value,
+                          })
+                        }
+                        type="text"
+                        className="w-full h-12 text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
+                        placeholder="Masukkan Tempat Instansi/Lembaga Anda"
                       />
                     </div>
 
@@ -144,14 +223,13 @@ export default function TrainingHistoryProfileCard({
 
                       <Button
                         type="submit"
-                        // disabled={isUpdateLoading ? true : false}
+                        disabled={isLoadingTrainingUpdate ? true : false}
                         className="bg-primary-40 hover:bg-primary-70 text-line-10">
-                        {/* {isUpdateLoading ? (
+                        {isLoadingTrainingUpdate ? (
                           <Loader className="animate-spin" />
                         ) : (
                           "Simpan"
-                        )} */}
-                        Simpan
+                        )}
                       </Button>
                     </div>
                   </form>

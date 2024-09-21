@@ -19,27 +19,86 @@ import {
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
+import { UserKGBInterface } from "@/types/interface";
+import DateFormInput from "../elements/date_form_input";
+import { formatDate, formatDateString } from "@/lib/utils";
 
-export default function KGBHistoryProfileCard() {
+export default function KGBHistoryProfileCard({
+  index,
+  item,
+  openIncomeUpdate,
+  setOpenIncomeUpdate,
+  income,
+  setIncome,
+  handleSubmitIncomeUpdate,
+  isLoadingIncomeUpdate,
+  returnDate,
+  setReturnDate,
+  durationDate,
+  setDurationDate,
+}: {
+  index: number;
+  item: UserKGBInterface;
+  openIncomeUpdate: boolean;
+  setOpenIncomeUpdate: React.Dispatch<React.SetStateAction<boolean>>;
+  income: {
+    uraian_berkala: string;
+    tmt: string;
+    no_sk_pangkat: string;
+    tgl_sk_pangkat: string;
+  };
+  setIncome: React.Dispatch<
+    React.SetStateAction<{
+      uraian_berkala: string;
+      tmt: string;
+      no_sk_pangkat: string;
+      tgl_sk_pangkat: string;
+    }>
+  >;
+  handleSubmitIncomeUpdate: (
+    e: React.FormEvent<HTMLFormElement>,
+    id: number
+  ) => void;
+  isLoadingIncomeUpdate: boolean;
+  returnDate: Date;
+  setReturnDate: React.Dispatch<React.SetStateAction<Date>>;
+  durationDate: Date;
+  setDurationDate: React.Dispatch<React.SetStateAction<Date>>;
+}) {
+  const handleSetIncome = () => {
+    setIncome({
+      uraian_berkala: item?.uraian_berkala,
+      tmt: item?.tmt,
+      no_sk_pangkat: item?.no_sk_pangkat,
+      tgl_sk_pangkat: item?.tgl_sk_pangkat,
+    });
+
+    setReturnDate(new Date(item?.tgl_sk_pangkat));
+    setDurationDate(new Date(item?.tmt));
+  };
+
   return (
     <TableRow className="border border-line-20">
-      <TableCell className="text-center">1</TableCell>
-      <TableCell className="text-center">Irsyad Al-Haq Husein</TableCell>
-      <TableCell className="text-center">1234567812345678</TableCell>
-      <TableCell className="text-center">Pengajuan Pangkat</TableCell>
-      <TableCell className="text-center">22 Maret 2024</TableCell>
+      <TableCell className="text-center">{index + 1}</TableCell>
+      <TableCell className="text-center">{item?.uraian_berkala}</TableCell>
+      <TableCell className="text-center">
+        {formatDateString(item?.tmt)}
+      </TableCell>
+      <TableCell className="text-center">{item?.no_sk_pangkat}</TableCell>
+      <TableCell className="text-center">
+        {formatDateString(item?.tgl_sk_pangkat)}
+      </TableCell>
       <TableCell className={`text-center`}>
         <div className="w-full flex flex-row items-center justify-center gap-x-2">
           <div className="w-full">
             <AlertDialog
-            // open={isDialogEditOpen}
-            // onOpenChange={setIsDialogEditOpen}
-            >
+              open={openIncomeUpdate}
+              onOpenChange={setOpenIncomeUpdate}>
               <AlertDialogTrigger
-                // onClick={() => {
-                //   handleSetArea();
-                //   setIsDialogEditOpen(true);
-                // }}
+                onClick={() => {
+                  handleSetIncome();
+                  setOpenIncomeUpdate(true);
+                }}
                 className="w-full">
                 <div className="w-full px-6 text-sm bg-black-80 bg-opacity-20 hover:bg-opacity-40 flex items-center justify-center h-10 text-black-80 hover:text-line-10 rounded-lg">
                   Edit
@@ -48,86 +107,91 @@ export default function KGBHistoryProfileCard() {
               <AlertDialogContent className="w-full max-w-2xl bg-line-10 rounded-lg shadow-md">
                 <AlertDialogHeader className="flex flex-col max-h-[500px]">
                   <AlertDialogTitle className="text-center">
-                    Master Data Bidang
+                    Master Data KGB
                   </AlertDialogTitle>
                   <AlertDialogDescription className="text-center">
                     Input data yang diperlukan
                   </AlertDialogDescription>
                   <form
-                    // onSubmit={(e: React.FormEvent<HTMLFormElement>) =>
-                    //   handleUpdateArea(e, area?.slug)
-                    // }
+                    onSubmit={(e: React.FormEvent<HTMLFormElement>) =>
+                      handleSubmitIncomeUpdate(e, item?.id)
+                    }
                     className="w-full flex flex-col gap-y-3 verticalScroll">
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                      <Label className="focus-within:text-primary-70 font-normal text-sm">
-                        Nama Bidang
+                      <Label
+                        htmlFor="uraian-berkala"
+                        className="focus-within:text-primary-70 font-normal text-[16px]">
+                        Uraian Berkala
                       </Label>
 
                       <Input
-                        id="nama-bidang"
-                        name="nama"
-                        // value={data?.nama}
-                        // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        //   setData({ ...data, nama: e.target.value })
-                        // }
+                        id="uraian-berkala"
+                        name="uraian_berkala"
+                        value={income.uraian_berkala}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          setIncome({
+                            ...income,
+                            uraian_berkala: e.target.value,
+                          })
+                        }
                         type="text"
-                        className="w-full focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
-                        placeholder="Masukkan Nama Bidang"
+                        className="w-full h-12 text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
+                        placeholder="Masukkan Uraian Berkala Anda"
                       />
                     </div>
 
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                      <Label className="focus-within:text-primary-70 font-normal text-sm">
-                        Penanggung Jawab
-                      </Label>
-
-                      <Input
-                        id="pj"
-                        name="pj"
-                        // value={data.pj}
-                        // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        //   setData({ ...data, pj: e.target.value })
-                        // }
-                        type="text"
-                        className="w-full focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
-                        placeholder="Masukkan Nama Penanggung Jawab"
+                      <DateFormInput
+                        value={durationDate}
+                        setValue={setDurationDate}
+                        label="Tanggal Terhitung Mulai"
+                        className={`bg-transparent w-full rounded-lg`}
+                        // ${errors.tanggal_akhir_sewa ? "text-error-700" : ""}
+                        onChange={(value) =>
+                          setIncome({
+                            ...income,
+                            tmt: formatDate(value),
+                          })
+                        }
                       />
                     </div>
 
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                       <Label
-                        htmlFor="nip-pj"
-                        className="focus-within:text-primary-70 font-normal text-sm">
-                        NIP Penanggung Jawab
+                        htmlFor="no-sk-pangkat"
+                        className="focus-within:text-primary-70 font-normal text-[16px]">
+                        Nomor SK Pangkat
                       </Label>
 
                       <Input
-                        id="nip-pj"
-                        name="nip_pj"
-                        // value={data.nip_pj}
-                        // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        //   setData({ ...data, nip_pj: e.target.value })
-                        // }
+                        id="no-sk-pangkat"
+                        name="no_sk_pangkat"
+                        value={income.no_sk_pangkat}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          setIncome({
+                            ...income,
+                            no_sk_pangkat: e.target.value,
+                          })
+                        }
                         type="text"
-                        inputMode="numeric"
-                        className="w-full focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
-                        placeholder="Masukkan NIP Penanggung Jawab"
+                        className="w-full h-12 text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
+                        placeholder="Masukkan Nomor SK Pangkat Anda"
                       />
                     </div>
 
-                    <div className="w-full flex flex-col gap-y-2">
-                      <Label className="text-sm text-black-70 font-normal">
-                        Deskripsi Bidang
-                      </Label>
-
-                      <Textarea
-                        name="desc"
-                        placeholder="Masukkan Deskripsi Bidang"
-                        // value={data.desc}
-                        // onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                        //   setData({ ...data, desc: e.target.value })
-                        // }
-                        className="w-full rounded-lg h-[74px] border border-line-20 md:h-[122px] text-sm placeholder:opacity-[70%]"
+                    <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                      <DateFormInput
+                        value={returnDate}
+                        setValue={setReturnDate}
+                        label="Tanggal SK Pangkat"
+                        className={`bg-transparent w-full rounded-lg`}
+                        // ${errors.tanggal_akhir_sewa ? "text-error-700" : ""}
+                        onChange={(value) =>
+                          setIncome({
+                            ...income,
+                            tgl_sk_pangkat: formatDate(value),
+                          })
+                        }
                       />
                     </div>
 
@@ -136,14 +200,13 @@ export default function KGBHistoryProfileCard() {
 
                       <Button
                         type="submit"
-                        // disabled={isUpdateLoading ? true : false}
+                        disabled={isLoadingIncomeUpdate ? true : false}
                         className="bg-primary-40 hover:bg-primary-70 text-line-10">
-                        {/* {isUpdateLoading ? (
+                        {isLoadingIncomeUpdate ? (
                           <Loader className="animate-spin" />
                         ) : (
                           "Simpan"
-                        )} */}
-                        Simpan
+                        )}
                       </Button>
                     </div>
                   </form>

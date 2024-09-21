@@ -38,10 +38,11 @@ import { Loader } from "lucide-react";
 import StructureOrganizarionCard from "@/components/all_cards/structureOrganizationsCard";
 import EmblaCarousel from "@/components/elements/carousels/carousel_main";
 import { EmblaOptionsType } from "embla-carousel";
+import EmblaCarouselStuctureOrganization from "@/components/elements/carousel-scroll-structure-organization/carousel_main_structure_organization";
 
 export default function Home() {
   const router = useRouter();
-  const limitItem = 15;
+  const limitItem = 30;
   const [slides, setSlides] = useState<CarouselSliderInterface[]>([]);
   const [areas, setAreas] = useState<AreasInterface[]>([]);
   const [news, setNews] = useState<NewsInterface[]>([]);
@@ -168,7 +169,17 @@ export default function Home() {
     }, 1000);
   };
 
-  const OPTIONS: EmblaOptionsType = { dragFree: true };
+  const OPTIONS: EmblaOptionsType = {
+    align: "start",
+    dragFree: false,
+    loop: true,
+    containScroll: "trimSnaps",
+  };
+
+  const OPTIONSORGANIZATIONS: EmblaOptionsType = {
+    loop: true,
+    dragFree: false,
+  };
 
   let iframeSrc = "https://www.google.com/maps?q=";
   if (informations?.lang && informations?.long) {
@@ -176,13 +187,16 @@ export default function Home() {
       informations.lang + "," + informations.long + "&hl=es;z=14&output=embed";
   }
 
+  const firstOrganizations = organizations.slice(0, 10);
+  const secondOrganizations = organizations.slice(10, 20);
+  const thirdOrganizations = organizations.slice(20);
+
   return (
     <main className="flex flex-col md:w-full h-full justify-center scroll-smooth snap-mandatory snap-y items-center relative mb-28 md:mb-24">
       {slides && slides.length > 0 && <HeroScreen slides={slides} />}
 
       <section className="w-full background-about-us snap-start scroll-mt-24 py-12 px-4 md:px-20 flex flex-col md:flex-row items-center md:items-start gap-y-6 md:gap-x-8">
         <div className="w-10/12 md:w-5/12 h-full">
-          {/* {informations && ( */}
           <Image
             src={about}
             alt="About Us"
@@ -190,7 +204,6 @@ export default function Home() {
             height={1000}
             className="w-full h-full object-cover"
           />
-          {/* )} */}
         </div>
 
         <div className="w-full flex flex-col gap-y-4 md:gap-y-8">
@@ -233,15 +246,15 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="w-full flex flex-row justify-between snap-start scroll-mt-24 background-about-us py-12 gap-y-8 gap-x-8">
-        <div className="w-6/12 flex flex-col items-center gap-y-3 px-20">
+      <section className="w-full flex flex-row justify-between snap-start scroll-mt-24 background-about-us py-12 gap-y-8 gap-x-3">
+        <div className="w-5/12 flex flex-col items-center gap-y-3 px-20">
           <div className="w-full h-4/6 flex justify-center items-center">
             <Image
               src={newsIcon}
               alt="News Icons"
               width={1000}
               height={1000}
-              className="w-6/12 h-3/6"
+              className="w-5/12 h-3/6"
             />
           </div>
 
@@ -267,20 +280,45 @@ export default function Home() {
         <EmblaCarousel options={OPTIONS} items={news} />
       </section>
 
-      <section className="w-full snap-start scroll-mt-24 flex flex-col px-4 md:px-12 py-12 gap-y-12">
+      <section className="w-full snap-start scroll-mt-24 flex flex-col py-12 gap-y-12">
         <div className="w-full flex flex-col items-center gap-y-3">
           <h5 className="text-black-80 text-xl md:text-3xl font-semibold">
             Struktur Organisasi BKD Lampung Timur
           </h5>
         </div>
 
-        <div className="w-full flex flex-col md:grid grid-cols-5 gap-y-5 md:gap-x-5">
+        <div className="w-full flex flex-col gap-y-5">
           {organizations &&
             organizations.length > 0 &&
-            organizations?.map(
-              (item: StructureOrganizationInterface, i: number) => {
-                return <StructureOrganizarionCard key={i} item={item} />;
-              }
+            firstOrganizations &&
+            firstOrganizations.length > 0 && (
+              <EmblaCarouselStuctureOrganization
+                items={firstOrganizations}
+                options={OPTIONSORGANIZATIONS}
+                direction="forward"
+              />
+            )}
+
+          {organizations &&
+            organizations.length > 0 &&
+            secondOrganizations &&
+            secondOrganizations.length > 0 && (
+              <EmblaCarouselStuctureOrganization
+                items={secondOrganizations}
+                options={OPTIONSORGANIZATIONS}
+                direction="backward"
+              />
+            )}
+
+          {organizations &&
+            organizations.length > 0 &&
+            thirdOrganizations &&
+            thirdOrganizations.length > 0 && (
+              <EmblaCarouselStuctureOrganization
+                items={thirdOrganizations}
+                options={OPTIONSORGANIZATIONS}
+                direction="forward"
+              />
             )}
         </div>
       </section>
@@ -331,14 +369,6 @@ export default function Home() {
 
         <div className="w-full">
           <div className="w-full h-[300px] md:h-[500px]">
-            {/* <iframe
-              src={
-                "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3971.8333259987476!2d105.26985647507213!3d-5.442262654291578!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e40dbd15418dcc1%3A0x11cadd700e0e0339!2sJl.%20Salim%20Batubara%20No.118%2C%20Kupang%20Teba%2C%20Kec.%20Tlk.%20Betung%20Utara%2C%20Kota%20Bandar%20Lampung%2C%20Lampung%2035212!5e0!3m2!1sid!2sid!4v1723621727730!5m2!1sid!2sid"
-              }
-              className="border-none w-full h-full rounded-lg"
-              allowFullScreen
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"></iframe> */}
             {informations && (
               <iframe
                 src={iframeSrc}
