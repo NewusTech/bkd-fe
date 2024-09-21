@@ -41,8 +41,10 @@ export default function AwardHistoryProfileScreen({
   setAward,
   handleSubmitAwards,
   handleSubmitAwardsUpdate,
+  handleSubmitAwardsDelete,
   isLoadingAwardCreate,
   isLoadingAwardUpdate,
+  isLoadingAwardDelete,
   returnDate,
   setReturnDate,
 }: {
@@ -64,9 +66,14 @@ export default function AwardHistoryProfileScreen({
     }>
   >;
   handleSubmitAwards: (e: React.FormEvent<HTMLFormElement>) => void;
-  handleSubmitAwardsUpdate: (e: React.FormEvent<HTMLFormElement>) => void;
+  handleSubmitAwardsUpdate: (
+    e: React.FormEvent<HTMLFormElement>,
+    id: number
+  ) => void;
+  handleSubmitAwardsDelete: (id: number) => void;
   isLoadingAwardCreate: boolean;
   isLoadingAwardUpdate: boolean;
+  isLoadingAwardDelete: boolean;
   returnDate: Date;
   setReturnDate: React.Dispatch<React.SetStateAction<Date>>;
 }) {
@@ -227,7 +234,9 @@ export default function AwardHistoryProfileScreen({
                         award={award}
                         setAward={setAward}
                         isLoadingAwardUpdate={isLoadingAwardUpdate}
+                        isLoadingAwardDelete={isLoadingAwardDelete}
                         handleSubmitAwardsUpdate={handleSubmitAwardsUpdate}
+                        handleSubmitAwardsDelete={handleSubmitAwardsDelete}
                         openAwardUpdate={openAwardUpdate}
                         setOpenAwardUpdate={setOpenAwardUpdate}
                         returnDate={returnDate}

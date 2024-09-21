@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useCallback, useEffect, useState } from "react";
 import { EmblaCarouselType, EmblaOptionsType } from "embla-carousel";
 import useEmblaCarousel from "embla-carousel-react";
@@ -50,12 +52,12 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
   }, [emblaApi, onScroll]);
 
   return (
-    <div className="embla w-full">
+    <div className="embla w-7/12">
       <div className="overflow-hidden" ref={emblaRef}>
-        <div className="embla__container gap-x-7">
+        <div className="embla__container">
           {items.map((item: NewsInterface, index: number) => (
             <div
-              className="embla__slide w-full min-h-[400px] bg-line-10 rounded-lg shadow-md"
+              className="embla__slide w-full min-h-[450px] bg-line-10 rounded-lg shadow-md"
               key={index}>
               <div className="embla__slide__number flex flex-col gap-y-3">
                 <div className="w-full h-full">
@@ -106,7 +108,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
           </div>
         </div>
 
-        <div className="embla__dots pr-10">
+        <div className="embla__dots w-full pr-4">
           {scrollSnaps.map((_, index) => (
             <DotButton
               key={index}

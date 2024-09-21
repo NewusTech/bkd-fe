@@ -1,9 +1,8 @@
 "use client";
 
 import ProfileSideBarScreen from "@/components/layouts/profilebars";
-import DashBoardSidebarPages from "@/components/layouts/sidebars";
 import { Poppins } from "next/font/google";
-import React from "react";
+import React, { Suspense } from "react";
 
 const poppins = Poppins({
   subsets: ["latin"],
@@ -16,15 +15,17 @@ export default function UserProfileLayout({
   return (
     <main
       className={`${poppins.className} w-full relative flex flex-col min-h-screen`}>
-      <div className="flex-1 overflow-y-auto">
-        <div className="relative bg-primary-70 h-32">
-          <div className="absolute w-full flex flex-row gap-x-5 px-5 pt-14">
-            <ProfileSideBarScreen />
+      <Suspense fallback={<div>Loading...</div>}>
+        <div className="flex-1 overflow-y-auto">
+          <div className="relative bg-primary-70 h-32">
+            <div className="absolute w-full flex flex-row gap-x-5 px-5 pt-14">
+              <ProfileSideBarScreen />
 
-            {children}
+              {children}
+            </div>
           </div>
         </div>
-      </div>
+      </Suspense>
     </main>
   );
 }

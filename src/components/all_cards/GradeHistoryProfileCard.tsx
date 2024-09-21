@@ -19,27 +19,86 @@ import {
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
+import { UserGradesInterface } from "@/types/interface";
+import { formatDate, formatDateString } from "@/lib/utils";
+import DateFormInput from "../elements/date_form_input";
 
-export default function GradeHistoryProfileCard() {
+export default function GradeHistoryProfileCard({
+  index,
+  item,
+  openGradeUpdate,
+  setOpenGradeUpdate,
+  grade,
+  setGrade,
+  handleSubmitGradeUpdate,
+  isLoadingGradeUpdate,
+  returnDate,
+  setReturnDate,
+  durationDate,
+  setDurationDate,
+}: {
+  index: number;
+  item: UserGradesInterface;
+  openGradeUpdate: boolean;
+  setOpenGradeUpdate: React.Dispatch<React.SetStateAction<boolean>>;
+  grade: {
+    jenjang_kepangkatan: string;
+    tmt: string;
+    no_sk_pangkat: string;
+    tgl_sk_pangkat: string;
+  };
+  setGrade: React.Dispatch<
+    React.SetStateAction<{
+      jenjang_kepangkatan: string;
+      tmt: string;
+      no_sk_pangkat: string;
+      tgl_sk_pangkat: string;
+    }>
+  >;
+  handleSubmitGradeUpdate: (
+    e: React.FormEvent<HTMLFormElement>,
+    id: number
+  ) => void;
+  isLoadingGradeUpdate: boolean;
+  returnDate: Date;
+  setReturnDate: React.Dispatch<React.SetStateAction<Date>>;
+  durationDate: Date;
+  setDurationDate: React.Dispatch<React.SetStateAction<Date>>;
+}) {
+  const handleSetGrade = () => {
+    setGrade({
+      jenjang_kepangkatan: item.jenjang_kepangkatan,
+      tmt: item.tmt,
+      no_sk_pangkat: item.no_sk_pangkat,
+      tgl_sk_pangkat: item.tgl_sk_pangkat,
+    });
+
+    setReturnDate(new Date(item.tgl_sk_pangkat));
+    setDurationDate(new Date(item.tmt));
+  };
+
   return (
     <TableRow className="border border-line-20">
-      <TableCell className="text-center">1</TableCell>
-      <TableCell className="text-center">Irsyad Al-Haq Husein</TableCell>
-      <TableCell className="text-center">1234567812345678</TableCell>
-      <TableCell className="text-center">Pengajuan Pangkat</TableCell>
-      <TableCell className="text-center">22 Maret 2024</TableCell>
+      <TableCell className="text-center">{index + 1}</TableCell>
+      <TableCell className="text-center">{item?.jenjang_kepangkatan}</TableCell>
+      <TableCell className="text-center">
+        {formatDateString(item?.tmt)}
+      </TableCell>
+      <TableCell className="text-center">{item?.no_sk_pangkat}</TableCell>
+      <TableCell className="text-center">
+        {formatDateString(item?.tgl_sk_pangkat)}
+      </TableCell>
       <TableCell className={`text-center`}>
         <div className="w-full flex flex-row items-center justify-center gap-x-2">
           <div className="w-full">
             <AlertDialog
-            // open={isDialogEditOpen}
-            // onOpenChange={setIsDialogEditOpen}
-            >
+              open={openGradeUpdate}
+              onOpenChange={setOpenGradeUpdate}>
               <AlertDialogTrigger
-                // onClick={() => {
-                //   handleSetArea();
-                //   setIsDialogEditOpen(true);
-                // }}
+                onClick={() => {
+                  handleSetGrade();
+                  setOpenGradeUpdate(true);
+                }}
                 className="w-full">
                 <div className="w-full px-6 text-sm bg-black-80 bg-opacity-20 hover:bg-opacity-40 flex items-center justify-center h-10 text-black-80 hover:text-line-10 rounded-lg">
                   Edit
@@ -54,80 +113,85 @@ export default function GradeHistoryProfileCard() {
                     Input data yang diperlukan
                   </AlertDialogDescription>
                   <form
-                    // onSubmit={(e: React.FormEvent<HTMLFormElement>) =>
-                    //   handleUpdateArea(e, area?.slug)
-                    // }
+                    onSubmit={(e: React.FormEvent<HTMLFormElement>) =>
+                      handleSubmitGradeUpdate(e, item.id)
+                    }
                     className="w-full flex flex-col gap-y-3 verticalScroll">
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                      <Label className="focus-within:text-primary-70 font-normal text-sm">
-                        Nama Bidang
+                      <Label
+                        htmlFor="jenjang-kepangkatan"
+                        className="focus-within:text-primary-70 font-normal text-[16px]">
+                        Jenjang Kepangkatan
                       </Label>
 
                       <Input
-                        id="nama-bidang"
-                        name="nama"
-                        // value={data?.nama}
-                        // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        //   setData({ ...data, nama: e.target.value })
-                        // }
+                        id="jenjang-kepangkatan"
+                        name="jenjang_kepangkatan"
+                        value={grade.jenjang_kepangkatan}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          setGrade({
+                            ...grade,
+                            jenjang_kepangkatan: e.target.value,
+                          })
+                        }
                         type="text"
-                        className="w-full focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
-                        placeholder="Masukkan Nama Bidang"
+                        className="w-full h-12 text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
+                        placeholder="Masukkan Jenjang Kepangkatan Anda"
                       />
                     </div>
 
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                      <Label className="focus-within:text-primary-70 font-normal text-sm">
-                        Penanggung Jawab
-                      </Label>
-
-                      <Input
-                        id="pj"
-                        name="pj"
-                        // value={data.pj}
-                        // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        //   setData({ ...data, pj: e.target.value })
-                        // }
-                        type="text"
-                        className="w-full focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
-                        placeholder="Masukkan Nama Penanggung Jawab"
+                      <DateFormInput
+                        value={durationDate}
+                        setValue={setDurationDate}
+                        label="Tanggal Terhitung Mulai"
+                        className={`bg-transparent w-full rounded-lg`}
+                        // ${errors.tanggal_akhir_sewa ? "text-error-700" : ""}
+                        onChange={(value) =>
+                          setGrade({
+                            ...grade,
+                            tmt: formatDate(value),
+                          })
+                        }
                       />
                     </div>
 
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                       <Label
-                        htmlFor="nip-pj"
-                        className="focus-within:text-primary-70 font-normal text-sm">
-                        NIP Penanggung Jawab
+                        htmlFor="no-sk-pangkat"
+                        className="focus-within:text-primary-70 font-normal text-[16px]">
+                        Nomor SK Pangkat
                       </Label>
 
                       <Input
-                        id="nip-pj"
-                        name="nip_pj"
-                        // value={data.nip_pj}
-                        // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        //   setData({ ...data, nip_pj: e.target.value })
-                        // }
+                        id="no-sk-pangkat"
+                        name="no_sk_pangkat"
+                        value={grade.no_sk_pangkat}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          setGrade({
+                            ...grade,
+                            no_sk_pangkat: e.target.value,
+                          })
+                        }
                         type="text"
-                        inputMode="numeric"
-                        className="w-full focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
-                        placeholder="Masukkan NIP Penanggung Jawab"
+                        className="w-full h-12 text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
+                        placeholder="Masukkan Nomor SK Pangkat Anda"
                       />
                     </div>
 
-                    <div className="w-full flex flex-col gap-y-2">
-                      <Label className="text-sm text-black-70 font-normal">
-                        Deskripsi Bidang
-                      </Label>
-
-                      <Textarea
-                        name="desc"
-                        placeholder="Masukkan Deskripsi Bidang"
-                        // value={data.desc}
-                        // onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                        //   setData({ ...data, desc: e.target.value })
-                        // }
-                        className="w-full rounded-lg h-[74px] border border-line-20 md:h-[122px] text-sm placeholder:opacity-[70%]"
+                    <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                      <DateFormInput
+                        value={returnDate}
+                        setValue={setReturnDate}
+                        label="Tanggal SK Pangkat"
+                        className={`bg-transparent w-full rounded-lg`}
+                        // ${errors.tanggal_akhir_sewa ? "text-error-700" : ""}
+                        onChange={(value) =>
+                          setGrade({
+                            ...grade,
+                            tgl_sk_pangkat: formatDate(value),
+                          })
+                        }
                       />
                     </div>
 
@@ -136,14 +200,13 @@ export default function GradeHistoryProfileCard() {
 
                       <Button
                         type="submit"
-                        // disabled={isUpdateLoading ? true : false}
+                        disabled={isLoadingGradeUpdate ? true : false}
                         className="bg-primary-40 hover:bg-primary-70 text-line-10">
-                        {/* {isUpdateLoading ? (
+                        {isLoadingGradeUpdate ? (
                           <Loader className="animate-spin" />
                         ) : (
                           "Simpan"
-                        )} */}
-                        Simpan
+                        )}
                       </Button>
                     </div>
                   </form>

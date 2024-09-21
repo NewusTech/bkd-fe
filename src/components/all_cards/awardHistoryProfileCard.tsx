@@ -32,7 +32,9 @@ export default function AwardHistoryProfileCard({
   award,
   setAward,
   handleSubmitAwardsUpdate,
+  handleSubmitAwardsDelete,
   isLoadingAwardUpdate,
+  isLoadingAwardDelete,
   returnDate,
   setReturnDate,
 }: {
@@ -52,8 +54,13 @@ export default function AwardHistoryProfileCard({
       instansi_penghargaan: string;
     }>
   >;
-  handleSubmitAwardsUpdate: (e: React.FormEvent<HTMLFormElement>) => void;
+  handleSubmitAwardsUpdate: (
+    e: React.FormEvent<HTMLFormElement>,
+    id: number
+  ) => void;
+  handleSubmitAwardsDelete: (id: number) => void;
   isLoadingAwardUpdate: boolean;
+  isLoadingAwardDelete: boolean;
   returnDate: Date;
   setReturnDate: React.Dispatch<React.SetStateAction<Date>>;
 }) {
@@ -66,6 +73,8 @@ export default function AwardHistoryProfileCard({
 
     setReturnDate(new Date(item?.tanggal_penghargaan));
   };
+
+  console.log(item, "item");
 
   return (
     <TableRow className="border border-line-20">
@@ -103,7 +112,7 @@ export default function AwardHistoryProfileCard({
                   </AlertDialogDescription>
                   <form
                     onSubmit={(e: React.FormEvent<HTMLFormElement>) =>
-                      handleSubmitAwardsUpdate(e)
+                      handleSubmitAwardsUpdate(e, item?.id)
                     }
                     className="w-full flex flex-col gap-y-3 verticalScroll">
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -190,17 +199,16 @@ export default function AwardHistoryProfileCard({
 
           <div className="w-full">
             <Button
-              // disabled={isDeleteLoading ? true : false}
-              // onClick={() => handleDeleteArea(area?.slug)}
+              disabled={isLoadingAwardDelete ? true : false}
+              onClick={() => handleSubmitAwardsDelete(item?.id)}
               className="w-full rounded-lg bg-error-60 hover:bg-error-70 text-line-10">
-              {/* {isDeleteLoading ? (
+              {isLoadingAwardDelete ? (
                 <Loader className="animate-spin" />
-              ) : isDeleteLoading ? (
+              ) : isLoadingAwardDelete ? (
                 ""
               ) : (
                 "Hapus"
-              )} */}
-              Hapus
+              )}
             </Button>
           </div>
         </div>

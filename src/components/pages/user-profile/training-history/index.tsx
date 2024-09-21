@@ -84,7 +84,10 @@ export default function TrainingHistoryProfileScreen({
     }>
   >;
   handleSubmitTrainings: (e: React.FormEvent<HTMLFormElement>) => void;
-  handleSubmitTrainingsUpdate: (e: React.FormEvent<HTMLFormElement>) => void;
+  handleSubmitTrainingsUpdate: (
+    e: React.FormEvent<HTMLFormElement>,
+    id: number
+  ) => void;
   isLoadingTrainingCreate: boolean;
   isLoadingTrainingUpdate: boolean;
   returnDate: Date;
@@ -289,6 +292,18 @@ export default function TrainingHistoryProfileScreen({
                         key={i}
                         item={item}
                         index={i}
+                        training={training}
+                        setTraining={setTraining}
+                        isLoadingTrainingUpdate={isLoadingTrainingUpdate}
+                        handleSubmitTrainingsUpdate={
+                          handleSubmitTrainingsUpdate
+                        }
+                        openTrainingUpdate={openTrainingUpdate}
+                        setOpenTrainingUpdate={setOpenTrainingUpdate}
+                        returnDate={returnDate}
+                        setReturnDate={setReturnDate}
+                        durationDate={durationDate}
+                        setDurationDate={setDurationDate}
                       />
                     );
                   })}
