@@ -164,6 +164,8 @@ export interface UserGradesInterface {
   no_sk_pangkat: string;
   tgl_sk_pangkat: string;
   tmt: string;
+  nama_pangkat: string;
+  pangkat_id: number;
 }
 
 export interface UserTrainingInterface {
@@ -191,6 +193,26 @@ export interface UserAwardsInterface {
   uraian_penghargaan: string;
 }
 
+export interface UserCouplesInterface {
+  id: number;
+  nama: string;
+  pekerjaan: string;
+  status: string;
+  tanggal_lahir: string;
+  tanggal_pernikahan: string;
+  tempat_lahir: string;
+}
+
+export interface UserChildrenInterface {
+  id: number;
+  jenis_kelamin: string;
+  nama: string;
+  pekerjaan: string;
+  status: string;
+  tanggal_lahir: string;
+  tempat_lahir: string;
+}
+
 export interface UserProfileInterface {
   id: number;
   agama: string;
@@ -208,6 +230,9 @@ export interface UserProfileInterface {
   kgb: UserKGBInterface[];
   nik: string;
   nip: string;
+  name: string;
+  pasangan: UserCouplesInterface[];
+  anak: UserChildrenInterface[];
   pangkats: UserGradesInterface[];
   pelatihan: UserTrainingInterface[];
   pendidikans: UserEducationInterface[];
@@ -239,4 +264,10 @@ export interface PopUpButtonInterface {
   isLoadingAdd: boolean;
   setIsOpen: (open: boolean) => void;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+}
+
+export interface GradeListsInterface {
+  id: number;
+  nama: string;
+  createdAt: string;
 }

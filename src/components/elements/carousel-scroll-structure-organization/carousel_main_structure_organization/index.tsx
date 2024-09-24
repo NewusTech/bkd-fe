@@ -6,6 +6,14 @@ import Image from "next/image";
 import useEmblaCarousel from "embla-carousel-react";
 import AutoScroll from "embla-carousel-auto-scroll";
 import { StructureOrganizationInterface } from "../../../../types/interface";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 
 type DirectionType = "forward" | "backward" | undefined;
 type PropType = {
@@ -28,7 +36,10 @@ const EmblaCarouselStuctureOrganization: React.FC<PropType> = (props) => {
   ]);
 
   useEffect(() => {
-    const autoScroll = emblaApi?.plugins()?.autoScroll;
+    if (!emblaApi) {
+      return;
+    }
+    const autoScroll = emblaApi.plugins().autoScroll;
     if (autoScroll && !autoScroll.isPlaying()) {
       autoScroll.play();
     }
@@ -43,14 +54,58 @@ const EmblaCarouselStuctureOrganization: React.FC<PropType> = (props) => {
             items.map((item: StructureOrganizationInterface, index: number) => (
               <div className="embla__slide" key={index}>
                 <div className="embla__slide__number flex flex-col gap-y-4">
-                  <div className="w-full h-full">
-                    <Image
-                      src={item.image}
-                      alt={item?.jabatan}
-                      width={1000}
-                      height={1000}
-                      className="w-full h-full object-cover rounded-lg"
-                    />
+                  {/* <div className="w-full h-full">
+                    {item && item?.image && (
+                      <Image
+                        src={item.image}
+                        alt={item?.jabatan}
+                        width={1000}
+                        height={1000}
+                        className="w-full h-full object-cover rounded-lg"
+                      />
+                    )}
+                  </div> */}
+                  <div className="w-full">
+                    <Dialog>
+                      <DialogTrigger className="w-full">
+                        <div className="w-full h-full">
+                          {item && item?.image && (
+                            <Image
+                              src={item.image}
+                              alt={item?.jabatan}
+                              width={1000}
+                              height={1000}
+                              className="w-full h-full object-cover rounded-lg"
+                            />
+                          )}
+                        </div>
+                      </DialogTrigger>
+                      <DialogContent className="w-full max-w-2xl bg-line-10 rounded-lg shadow-md">
+                        <DialogHeader className="flex flex-col gap-y-3 max-h-[500px]">
+                          <div className="w-full flex flex-row justify-center items-center">
+                            <div className="w-8/12 h-full">
+                              {item && item?.image && (
+                                <Image
+                                  src={item.image}
+                                  alt={item?.jabatan}
+                                  width={1000}
+                                  height={1000}
+                                  className="w-full h-full object-cover rounded-lg"
+                                />
+                              )}
+                            </div>
+                          </div>
+                          <div className="w-full flex flex-col gap-y-3">
+                            <DialogTitle className="text-center text-black-80 font-semibold text-[22px]">
+                              Master Data Bidang
+                            </DialogTitle>
+                            <DialogDescription className="text-center text-black-80 font-normal text-[18px]">
+                              Input data yang diperlukan
+                            </DialogDescription>
+                          </div>
+                        </DialogHeader>
+                      </DialogContent>
+                    </Dialog>
                   </div>
 
                   <div className="w-full flex flex-col items-center gap-y-1">

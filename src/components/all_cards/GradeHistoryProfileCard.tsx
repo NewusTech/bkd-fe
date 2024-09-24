@@ -31,7 +31,9 @@ export default function GradeHistoryProfileCard({
   grade,
   setGrade,
   handleSubmitGradeUpdate,
+  handleSubmitGradeDelete,
   isLoadingGradeUpdate,
+  isLoadingGradeDelete,
   returnDate,
   setReturnDate,
   durationDate,
@@ -59,7 +61,9 @@ export default function GradeHistoryProfileCard({
     e: React.FormEvent<HTMLFormElement>,
     id: number
   ) => void;
+  handleSubmitGradeDelete: (id: number) => void;
   isLoadingGradeUpdate: boolean;
+  isLoadingGradeDelete: boolean;
   returnDate: Date;
   setReturnDate: React.Dispatch<React.SetStateAction<Date>>;
   durationDate: Date;
@@ -67,7 +71,7 @@ export default function GradeHistoryProfileCard({
 }) {
   const handleSetGrade = () => {
     setGrade({
-      jenjang_kepangkatan: item.jenjang_kepangkatan,
+      jenjang_kepangkatan: item.nama_pangkat,
       tmt: item.tmt,
       no_sk_pangkat: item.no_sk_pangkat,
       tgl_sk_pangkat: item.tgl_sk_pangkat,
@@ -80,7 +84,7 @@ export default function GradeHistoryProfileCard({
   return (
     <TableRow className="border border-line-20">
       <TableCell className="text-center">{index + 1}</TableCell>
-      <TableCell className="text-center">{item?.jenjang_kepangkatan}</TableCell>
+      <TableCell className="text-center">{item?.nama_pangkat}</TableCell>
       <TableCell className="text-center">
         {formatDateString(item?.tmt)}
       </TableCell>
@@ -217,17 +221,16 @@ export default function GradeHistoryProfileCard({
 
           <div className="w-full">
             <Button
-              // disabled={isDeleteLoading ? true : false}
-              // onClick={() => handleDeleteArea(area?.slug)}
+              disabled={isLoadingGradeDelete ? true : false}
+              onClick={() => handleSubmitGradeDelete(item?.id)}
               className="w-full rounded-lg bg-error-60 hover:bg-error-70 text-line-10">
-              {/* {isDeleteLoading ? (
+              {isLoadingGradeDelete ? (
                 <Loader className="animate-spin" />
-              ) : isDeleteLoading ? (
+              ) : isLoadingGradeDelete ? (
                 ""
               ) : (
                 "Hapus"
-              )} */}
-              Hapus
+              )}
             </Button>
           </div>
         </div>

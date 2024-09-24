@@ -36,7 +36,7 @@ import FamilyDataMarriedProfileCard from "@/components/all_cards/familyDataMarri
 import FamilyDataChildrenProfileCard from "@/components/all_cards/familyDataChildrenProfileCard";
 import PopUpButton from "@/components/elements/popup_button";
 import GradeHistoryProfileCard from "@/components/all_cards/GradeHistoryProfileCard";
-import { UserGradesInterface } from "@/types/interface";
+import { GradeListsInterface, UserGradesInterface } from "@/types/interface";
 import DateFormInput from "@/components/elements/date_form_input";
 import { formatDate } from "@/lib/utils";
 import { Loader } from "lucide-react";
@@ -49,10 +49,13 @@ export default function GradeHistoryProfileScreen({
   setOpenGradeUpdate,
   grade,
   setGrade,
+  gradeLists,
   handleSubmitGrade,
   handleSubmitGradeUpdate,
+  handleSubmitGradeDelete,
   isLoadingGradeCreate,
   isLoadingGradeUpdate,
+  isLoadingGradeDelete,
   returnDate,
   setReturnDate,
   durationDate,
@@ -77,13 +80,16 @@ export default function GradeHistoryProfileScreen({
       tgl_sk_pangkat: string;
     }>
   >;
+  gradeLists: GradeListsInterface[];
   handleSubmitGrade: (e: React.FormEvent<HTMLFormElement>) => void;
   handleSubmitGradeUpdate: (
     e: React.FormEvent<HTMLFormElement>,
     id: number
   ) => void;
+  handleSubmitGradeDelete: (id: number) => void;
   isLoadingGradeCreate: boolean;
   isLoadingGradeUpdate: boolean;
+  isLoadingGradeDelete: boolean;
   returnDate: Date;
   setReturnDate: React.Dispatch<React.SetStateAction<Date>>;
   durationDate: Date;
@@ -133,28 +139,58 @@ export default function GradeHistoryProfileScreen({
                           }
                           className="w-full flex flex-col gap-y-5 verticalScroll">
                           <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                            <Label
-                              htmlFor="jenjang-kepangkatan"
-                              className="focus-within:text-primary-70 font-normal text-[16px]">
+                            <Label className="focus-within:text-primary-70 font-normal text-sm">
                               Jenjang Kepangkatan
                             </Label>
 
-                            <Input
-                              id="jenjang-kepangkatan"
+                            <Select
                               name="jenjang_kepangkatan"
-                              value={grade.jenjang_kepangkatan}
-                              onChange={(
-                                e: React.ChangeEvent<HTMLInputElement>
-                              ) =>
+                              value={
+                                grade.jenjang_kepangkatan
+                                  ? grade.jenjang_kepangkatan
+                                  : undefined
+                              }
+                              onValueChange={(value) =>
                                 setGrade({
                                   ...grade,
-                                  jenjang_kepangkatan: e.target.value,
+                                  jenjang_kepangkatan: value,
                                 })
-                              }
-                              type="text"
-                              className="w-full h-12 text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
-                              placeholder="Masukkan Jenjang Kepangkatan Anda"
-                            />
+                              }>
+                              <SelectTrigger
+                                className={`${
+                                  !grade.jenjang_kepangkatan ? "opacity-70" : ""
+                                } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                                <SelectValue
+                                  placeholder="Pilih Jenjang Kepangkatan..."
+                                  className={
+                                    grade.jenjang_kepangkatan
+                                      ? ""
+                                      : "placeholder:opacity-50"
+                                  }
+                                />
+                              </SelectTrigger>
+                              <SelectContent className="w-full bg-line-10">
+                                <div>
+                                  {gradeLists &&
+                                    gradeLists.length > 0 &&
+                                    gradeLists?.map(
+                                      (
+                                        grade: GradeListsInterface,
+                                        i: number
+                                      ) => {
+                                        return (
+                                          <SelectItem
+                                            className="pr-none mt-2"
+                                            value={grade.nama}
+                                            key={i}>
+                                            {grade.nama}
+                                          </SelectItem>
+                                        );
+                                      }
+                                    )}
+                                </div>
+                              </SelectContent>
+                            </Select>
                           </div>
 
                           <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -265,7 +301,9 @@ export default function GradeHistoryProfileScreen({
                         grade={grade}
                         setGrade={setGrade}
                         handleSubmitGradeUpdate={handleSubmitGradeUpdate}
+                        handleSubmitGradeDelete={handleSubmitGradeDelete}
                         isLoadingGradeUpdate={isLoadingGradeUpdate}
+                        isLoadingGradeDelete={isLoadingGradeDelete}
                         returnDate={returnDate}
                         setReturnDate={setReturnDate}
                         durationDate={durationDate}

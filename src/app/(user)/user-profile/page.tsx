@@ -12,22 +12,37 @@ import EducationalBackgroundProfileScreen from "@/components/pages/user-profile/
 import TrainingHistoryProfileScreen from "@/components/pages/user-profile/training-history";
 import AwardHistoryProfileScreen from "@/components/pages/user-profile/award-history";
 import { useRouter, useSearchParams } from "next/navigation";
-import { UserProfileInterface } from "@/types/interface";
 import {
+  GradeListsInterface,
+  SubDistrictInterface,
+  UserProfileInterface,
+  VillageInterface,
+} from "@/types/interface";
+import {
+  deleteChildrenDataFamily,
+  deleteCoupleDataFamily,
   deleteUserAwardHistory,
   deleteUserEducationHistory,
   deleteUserGradeHistory,
   deleteUserIncomeHistory,
   deleteUserPositionHistory,
   deleteUserTrainingHistory,
+  getAllSubDistrict,
+  getAllVillage,
+  getGradeLists,
   getUserProfile,
+  postChildrenDataFamily,
+  postCoupleDataFamily,
   postUserAwardHistory,
   postUserEducationHistory,
   postUserGradeHistory,
   postUserIncomeHistory,
   postUserPositionHistory,
   postUserTrainingHistory,
+  updateChildrenDataFamily,
+  updateCoupleDataFamily,
   updateUserAwardHistory,
+  updateUserData,
   updateUserEducationHistory,
   updateUserGradeHistory,
   updateUserIncomeHistory,
@@ -36,6 +51,7 @@ import {
 } from "@/services/api";
 import UserTabsTriggerScreen from "@/components/elements/tabs_user";
 import Swal from "sweetalert2";
+import { formatDate, formatDateShortString } from "@/lib/utils";
 
 export default function UserProfileScreen() {
   const isMobile = useMediaQuery("(max-width: 768px)");
@@ -43,6 +59,10 @@ export default function UserProfileScreen() {
   const searchParams = useSearchParams();
   const searchTabs = searchParams.get("tabs");
   const [isTabs, setIsTabs] = useState<string>("data-diri");
+  const [openCoupleCreate, setOpenCoupleCreate] = useState(false);
+  const [openCoupleUpdate, setOpenCoupleUpdate] = useState(false);
+  const [openChildrenCreate, setOpenChildrenCreate] = useState(false);
+  const [openChildrenUpdate, setOpenChildrenUpdate] = useState(false);
   const [openGradeCreate, setOpenGradeCreate] = useState(false);
   const [openGradeUpdate, setOpenGradeUpdate] = useState(false);
   const [openIncomeCreate, setOpenIncomeCreate] = useState(false);
@@ -55,6 +75,13 @@ export default function UserProfileScreen() {
   const [openTrainingUpdate, setOpenTrainingUpdate] = useState(false);
   const [openAwardCreate, setOpenAwardCreate] = useState(false);
   const [openAwardUpdate, setOpenAwardUpdate] = useState(false);
+  const [isLoadingUserCreate, setIsLoadingUserCreate] = useState(false);
+  const [isLoadingCoupleCreate, setIsLoadingCoupleCreate] = useState(false);
+  const [isLoadingCoupleUpdate, setIsLoadingCoupleUpdate] = useState(false);
+  const [isLoadingCoupleDelete, setIsLoadingCoupleDelete] = useState(false);
+  const [isLoadingChildrenCreate, setIsLoadingChildrenCreate] = useState(false);
+  const [isLoadingChildrenUpdate, setIsLoadingChildrenUpdate] = useState(false);
+  const [isLoadingChildrenDelete, setIsLoadingChildrenDelete] = useState(false);
   const [isLoadingGradeCreate, setIsLoadingGradeCreate] = useState(false);
   const [isLoadingGradeUpdate, setIsLoadingGradeUpdate] = useState(false);
   const [isLoadingGradeDelete, setIsLoadingGradeDelete] = useState(false);
@@ -77,6 +104,42 @@ export default function UserProfileScreen() {
   const [isLoadingAwardUpdate, setIsLoadingAwardUpdate] = useState(false);
   const [isLoadingAwardDelete, setIsLoadingAwardDelete] = useState(false);
   const [user, setUser] = useState<UserProfileInterface>();
+  const [gradeLists, setGradeLists] = useState<GradeListsInterface[]>([]);
+  const [subDistricts, setSubDistricts] = useState<SubDistrictInterface[]>();
+  const [villages, setVillages] = useState<VillageInterface[]>();
+  const [userData, setUserData] = useState({
+    name: "",
+    email: "",
+    telpon: "",
+    nik: "",
+    nip: "",
+    tempat_lahir: "",
+    agama: "",
+    gender: "",
+    tgl_lahir: "",
+    goldar: "",
+    alamat: "",
+    rt: "",
+    rw: "",
+    kecamatan_id: "",
+    desa_id: "",
+  });
+  const [couple, setCouple] = useState({
+    nama: "",
+    tempat_lahir: "",
+    tanggal_lahir: "",
+    tanggal_pernikahan: "",
+    pekerjaan: "",
+    status: "",
+  });
+  const [kid, setKid] = useState({
+    nama: "",
+    tempat_lahir: "",
+    tanggal_lahir: "",
+    jenis_kelamin: "",
+    pekerjaan: "",
+    status: "",
+  });
   const [training, setTraining] = useState({
     lama_pelatihan: "",
     no_surat_pelatihan: "",
@@ -142,6 +205,52 @@ export default function UserProfileScreen() {
       const response = await getUserProfile();
 
       setUser(response.data);
+      setUserData({
+        name: response.data.name,
+        email: response.data.email,
+        telpon: response.data.telpon,
+        nik: response.data.nik,
+        nip: response.data.nip,
+        tempat_lahir: response.data.tempat_lahir,
+        agama: response.data.agama,
+        gender: response.data.gender,
+        tgl_lahir: response.data.tgl_lahir,
+        goldar: response.data.goldar,
+        alamat: response.data.alamat,
+        rt: response.data.rt,
+        rw: response.data.rw,
+        kecamatan_id: response.data.kecamatan_id,
+        desa_id: response.data.desa_id,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchDataSubDistricts = async (limit: number) => {
+    try {
+      const subdistrict = await getAllSubDistrict(limit);
+
+      setSubDistricts(subdistrict.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchDataVillages = async (kecamatan_id: number, limit: number) => {
+    try {
+      const village = await getAllVillage(kecamatan_id, limit);
+      setVillages(village.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchGradeLists = async (limit: number) => {
+    try {
+      const response = await getGradeLists(limit);
+
+      setGradeLists(response.data);
     } catch (error) {
       console.log(error);
     }
@@ -149,9 +258,365 @@ export default function UserProfileScreen() {
 
   useEffect(() => {
     fetchUserProfile();
+    fetchGradeLists(30);
   }, []);
 
-  console.log(user, "ini user");
+  useEffect(() => {
+    fetchDataSubDistricts(30);
+    fetchDataVillages(Number(userData.kecamatan_id), 30);
+  }, [userData.kecamatan_id]);
+
+  // update user data profile
+  const handleSubmitPersonalDataUser = async (
+    e: React.FormEvent<HTMLFormElement>
+  ) => {
+    e.preventDefault();
+
+    setIsLoadingUserCreate(true);
+
+    const formData = new FormData();
+    formData.append("name", userData.name);
+    formData.append("email", userData.email);
+    formData.append("telpon", userData.telpon);
+    formData.append("nik", userData.nik);
+    formData.append("nip", userData.nip);
+    formData.append("tempat_lahir", userData.tempat_lahir);
+    formData.append("agama", userData.agama);
+    formData.append("gender", userData.gender);
+    formData.append("tgl_lahir", userData.tgl_lahir);
+    formData.append("goldar", userData.goldar);
+    formData.append("alamat", userData.alamat);
+    formData.append("rt", userData.rt);
+    formData.append("rw", userData.rw);
+    formData.append("kecamatan_id", userData.kecamatan_id);
+    formData.append("desa_id", userData.desa_id);
+
+    formData.forEach((value, key) => {
+      console.log(key + ": " + value);
+    });
+
+    try {
+      const response = await updateUserData(formData);
+
+      console.log(response, "ini response");
+
+      if (response.status === 200) {
+        setUserData({
+          name: "",
+          email: "",
+          telpon: "",
+          nik: "",
+          nip: "",
+          tempat_lahir: "",
+          agama: "",
+          gender: "",
+          tgl_lahir: "",
+          goldar: "",
+          alamat: "",
+          rt: "",
+          rw: "",
+          kecamatan_id: "",
+          desa_id: "",
+        });
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil Memperbarui Data Diri!",
+          timer: 2000,
+          showConfirmButton: false,
+          position: "center",
+        });
+        fetchUserProfile();
+        setIsLoadingUserCreate(false);
+        router.push(`/user-profile?tabs=${"data-diri"}`);
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Gagal Memperbarui Data Diri!",
+          timer: 2000,
+          showConfirmButton: false,
+          position: "center",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoadingUserCreate(false);
+    }
+  };
+
+  // post update user couple history
+  const handleSubmitCouple = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    setIsLoadingCoupleCreate(true);
+
+    const data = [];
+
+    data.push(couple);
+
+    try {
+      const response = await postCoupleDataFamily(data);
+
+      if (response.status === 200) {
+        setCouple({
+          nama: "",
+          tempat_lahir: "",
+          tanggal_lahir: "",
+          tanggal_pernikahan: "",
+          pekerjaan: "",
+          status: "",
+        });
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil Menambahkan Data Pasangan!",
+          timer: 2000,
+          showConfirmButton: false,
+          position: "center",
+        });
+        fetchUserProfile();
+        setIsLoadingCoupleCreate(false);
+        setOpenCoupleCreate(false);
+        router.push(`/user-profile?tabs=${"data-keluarga"}`);
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Gagal Menambahkan Data Pasangan!",
+          timer: 2000,
+          showConfirmButton: false,
+          position: "center",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoadingCoupleCreate(false);
+    }
+  };
+
+  // update user couple history
+  const handleSubmitCoupleUpdate = async (
+    e: React.FormEvent<HTMLFormElement>,
+    id: number
+  ) => {
+    e.preventDefault();
+
+    setIsLoadingCoupleUpdate(true);
+
+    try {
+      const response = await updateCoupleDataFamily(
+        {
+          ...couple,
+          tangga_lahir: formatDateShortString(couple.tanggal_lahir),
+          tanggal_pernikahan: formatDateShortString(couple.tanggal_pernikahan),
+        },
+        id
+      );
+
+      if (response.status === 200) {
+        setCouple({
+          nama: "",
+          tempat_lahir: "",
+          tanggal_lahir: "",
+          tanggal_pernikahan: "",
+          pekerjaan: "",
+          status: "",
+        });
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil Memperbarui Data Pasangan!",
+          timer: 2000,
+          showConfirmButton: false,
+          position: "center",
+        });
+        fetchUserProfile();
+        setIsLoadingCoupleUpdate(false);
+        setOpenCoupleUpdate(false);
+        router.push(`/user-profile?tabs=${"data-keluarga"}`);
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Gagal Memperbarui Data Pasangan!",
+          timer: 2000,
+          showConfirmButton: false,
+          position: "center",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoadingCoupleUpdate(false);
+    }
+  };
+
+  // delete user couple history
+  const handleSubmitCoupleDelete = async (id: number) => {
+    setIsLoadingCoupleDelete(true);
+    try {
+      const result = await Swal.fire({
+        title: "Apakah Anda Yakin Menghapus Data Pasangan?",
+        text: "Data Pasangan yang telah dihapus tidak dapat dipulihkan!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#0000FF",
+        cancelButtonColor: "#EE3F62",
+        confirmButtonText: "Delete",
+      });
+
+      if (result.isConfirmed) {
+        const response = await deleteCoupleDataFamily(id);
+
+        if (response.status === 200) {
+          await Swal.fire({
+            icon: "success",
+            title: `Data Pasangan Berhasil Dihapus!`,
+            timer: 2000,
+            position: "center",
+          });
+          fetchUserProfile();
+          setIsLoadingCoupleDelete(false);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoadingCoupleDelete(false);
+    }
+  };
+
+  // post update user children history
+  const handleSubmitChildren = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    setIsLoadingChildrenCreate(true);
+
+    const data = [];
+
+    data.push(kid);
+
+    try {
+      const response = await postChildrenDataFamily(data);
+
+      if (response.status === 200) {
+        setKid({
+          nama: "",
+          tempat_lahir: "",
+          tanggal_lahir: "",
+          jenis_kelamin: "",
+          pekerjaan: "",
+          status: "",
+        });
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil Menambahkan Data Anak!",
+          timer: 2000,
+          showConfirmButton: false,
+          position: "center",
+        });
+        fetchUserProfile();
+        setIsLoadingChildrenCreate(false);
+        setOpenChildrenCreate(false);
+        router.push(`/user-profile?tabs=${"data-keluarga"}`);
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Gagal Menambahkan Data Anak!",
+          timer: 2000,
+          showConfirmButton: false,
+          position: "center",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoadingChildrenCreate(false);
+    }
+  };
+
+  // update user children history
+  const handleSubmitChildrenUpdate = async (
+    e: React.FormEvent<HTMLFormElement>,
+    id: number
+  ) => {
+    e.preventDefault();
+
+    setIsLoadingChildrenUpdate(true);
+
+    try {
+      const response = await updateChildrenDataFamily(
+        { ...kid, tanggal_lahir: formatDateShortString(kid.tanggal_lahir) },
+        id
+      );
+
+      if (response.status === 200) {
+        setKid({
+          nama: "",
+          tempat_lahir: "",
+          tanggal_lahir: "",
+          jenis_kelamin: "",
+          pekerjaan: "",
+          status: "",
+        });
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil Memperbarui Data Anak!",
+          timer: 2000,
+          showConfirmButton: false,
+          position: "center",
+        });
+        fetchUserProfile();
+        setIsLoadingChildrenUpdate(false);
+        setOpenChildrenUpdate(false);
+        router.push(`/user-profile?tabs=${"data-keluarga"}`);
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Gagal Memperbarui Data Anak!",
+          timer: 2000,
+          showConfirmButton: false,
+          position: "center",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoadingChildrenUpdate(false);
+    }
+  };
+
+  // delete user children history
+  const handleSubmitChildrenDelete = async (id: number) => {
+    setIsLoadingChildrenDelete(true);
+    try {
+      const result = await Swal.fire({
+        title: "Apakah Anda Yakin Menghapus Data Anak?",
+        text: "Data Anak yang telah dihapus tidak dapat dipulihkan!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#0000FF",
+        cancelButtonColor: "#EE3F62",
+        confirmButtonText: "Delete",
+      });
+
+      if (result.isConfirmed) {
+        const response = await deleteChildrenDataFamily(id);
+
+        if (response.status === 200) {
+          await Swal.fire({
+            icon: "success",
+            title: `Data Anak Berhasil Dihapus!`,
+            timer: 2000,
+            position: "center",
+          });
+          fetchUserProfile();
+          setIsLoadingChildrenDelete(false);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoadingChildrenDelete(false);
+    }
+  };
 
   // post update user award history
   const handleSubmitAwards = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -208,16 +673,14 @@ export default function UserProfileScreen() {
 
     setIsLoadingAwardUpdate(true);
 
-    const data = [];
-
-    data.push(award);
-
-    console.log(data, "ini data");
-
     try {
-      const response = await updateUserAwardHistory(data, id);
-
-      console.log(response, "response");
+      const response = await updateUserAwardHistory(
+        {
+          ...award,
+          tanggal_penghargaan: formatDateShortString(award.tanggal_penghargaan),
+        },
+        id
+      );
 
       if (response.status === 200) {
         setAward({
@@ -300,8 +763,6 @@ export default function UserProfileScreen() {
     try {
       const response = await postUserTrainingHistory(data);
 
-      console.log(response, "ini response");
-
       if (response.status === 200) {
         setTraining({
           lama_pelatihan: "",
@@ -346,14 +807,14 @@ export default function UserProfileScreen() {
 
     setIsLoadingTrainingUpdate(true);
 
-    const data = [];
-
-    data.push(training);
-
     try {
-      const response = await updateUserTrainingHistory(data, id);
-
-      console.log(response, "response");
+      const response = await updateUserTrainingHistory(
+        {
+          ...training,
+          tanggal_pelatihan: formatDateShortString(training.tanggal_pelatihan),
+        },
+        id
+      );
 
       if (response.status === 200) {
         setTraining({
@@ -438,8 +899,6 @@ export default function UserProfileScreen() {
     try {
       const response = await postUserEducationHistory(data);
 
-      console.log(response, "ini response");
-
       if (response.status === 200) {
         setEducation({
           tingkat_pendidikan: "",
@@ -484,14 +943,14 @@ export default function UserProfileScreen() {
 
     setIsLoadingEducationUpdate(true);
 
-    const data = [];
-
-    data.push(education);
-
     try {
-      const response = await updateUserEducationHistory(data, id);
-
-      console.log(response, "response");
+      const response = await updateUserEducationHistory(
+        {
+          ...education,
+          tgl_ijazah: formatDateShortString(education.tgl_ijazah),
+        },
+        id
+      );
 
       if (response.status === 200) {
         setEducation({
@@ -576,8 +1035,6 @@ export default function UserProfileScreen() {
     try {
       const response = await postUserPositionHistory(data);
 
-      console.log(response, "ini response");
-
       if (response.status === 200) {
         setPosition({
           nama_jabatan: "",
@@ -621,14 +1078,15 @@ export default function UserProfileScreen() {
 
     setIsLoadingPositionUpdate(true);
 
-    const data = [];
-
-    data.push(position);
-
     try {
-      const response = await updateUserPositionHistory(data, id);
-
-      console.log(response, "response");
+      const response = await updateUserPositionHistory(
+        {
+          ...position,
+          tmt: formatDateShortString(position.tmt),
+          tgl_sk_pangkat: formatDateShortString(position.tgl_sk_pangkat),
+        },
+        id
+      );
 
       if (response.status === 200) {
         setPosition({
@@ -712,8 +1170,6 @@ export default function UserProfileScreen() {
     try {
       const response = await postUserIncomeHistory(data);
 
-      console.log(response, "ini response");
-
       if (response.status === 200) {
         setIncome({
           uraian_berkala: "",
@@ -757,14 +1213,15 @@ export default function UserProfileScreen() {
 
     setIsLoadingIncomeUpdate(true);
 
-    const data = [];
-
-    data.push(income);
-
     try {
-      const response = await updateUserIncomeHistory(data, id);
-
-      console.log(response, "response");
+      const response = await updateUserIncomeHistory(
+        {
+          ...income,
+          tmt: formatDateShortString(income.tmt),
+          tgl_sk_pangkat: formatDateShortString(income.tgl_sk_pangkat),
+        },
+        id
+      );
 
       if (response.status === 200) {
         setIncome({
@@ -800,7 +1257,7 @@ export default function UserProfileScreen() {
     }
   };
 
-  // delete user position history
+  // delete user income history
   const handleSubmitIncomeDelete = async (id: number) => {
     setIsLoadingIncomeDelete(true);
     try {
@@ -847,8 +1304,6 @@ export default function UserProfileScreen() {
 
     try {
       const response = await postUserGradeHistory(data);
-
-      console.log(response, "ini response");
 
       if (response.status === 200) {
         setGrade({
@@ -899,8 +1354,6 @@ export default function UserProfileScreen() {
 
     try {
       const response = await updateUserGradeHistory(data, id);
-
-      console.log(response, "response");
 
       if (response.status === 200) {
         setGrade({
@@ -991,12 +1444,56 @@ export default function UserProfileScreen() {
           </TabsList>
 
           <TabsContent value="data-diri" className="w-full flex flex-col mt-4">
-            <PersonalDataProfileScreen />
+            {user && subDistricts && villages && (
+              <PersonalDataProfileScreen
+                userData={userData}
+                setUserData={setUserData}
+                returnDate={returnDate}
+                setReturnDate={setReturnDate}
+                subDistricts={subDistricts}
+                villages={villages}
+                isLoadingUserCreate={isLoadingUserCreate}
+                handleSubmitPersonalDataUser={handleSubmitPersonalDataUser}
+              />
+            )}
           </TabsContent>
           <TabsContent
             value="data-keluarga"
             className="w-full flex flex-col mt-0">
-            <FamilyDataProfileScreen />
+            {user && (
+              <FamilyDataProfileScreen
+                couples={user?.pasangan}
+                childrens={user?.anak}
+                openCoupleCreate={openCoupleCreate}
+                openCoupleUpdate={openCoupleUpdate}
+                setOpenCoupleCreate={setOpenCoupleCreate}
+                setOpenCoupleUpdate={setOpenCoupleUpdate}
+                openChildrenCreate={openChildrenCreate}
+                openChildrenUpdate={openChildrenUpdate}
+                setOpenChildrenCreate={setOpenChildrenCreate}
+                setOpenChildrenUpdate={setOpenChildrenUpdate}
+                couple={couple}
+                setCouple={setCouple}
+                kid={kid}
+                setKid={setKid}
+                handleSubmitCouple={handleSubmitCouple}
+                handleSubmitCoupleUpdate={handleSubmitCoupleUpdate}
+                handleSubmitCoupleDelete={handleSubmitCoupleDelete}
+                handleSubmitChildren={handleSubmitChildren}
+                handleSubmitChildrenUpdate={handleSubmitChildrenUpdate}
+                handleSubmitChildrenDelete={handleSubmitChildrenDelete}
+                isLoadingCoupleCreate={isLoadingCoupleCreate}
+                isLoadingCoupleUpdate={isLoadingCoupleUpdate}
+                isLoadingCoupleDelete={isLoadingCoupleDelete}
+                isLoadingChildrenCreate={isLoadingChildrenCreate}
+                isLoadingChildrenUpdate={isLoadingChildrenUpdate}
+                isLoadingChildrenDelete={isLoadingChildrenDelete}
+                returnDate={returnDate}
+                setReturnDate={setReturnDate}
+                durationDate={durationDate}
+                setDurationDate={setDurationDate}
+              />
+            )}
           </TabsContent>
           <TabsContent
             value="riwayat-pangkat"
@@ -1010,10 +1507,13 @@ export default function UserProfileScreen() {
                 setOpenGradeUpdate={setOpenGradeUpdate}
                 grade={grade}
                 setGrade={setGrade}
+                gradeLists={gradeLists}
                 handleSubmitGrade={handleSubmitGrade}
                 handleSubmitGradeUpdate={handleSubmitGradeUpdate}
+                handleSubmitGradeDelete={handleSubmitGradeDelete}
                 isLoadingGradeCreate={isLoadingGradeCreate}
                 isLoadingGradeUpdate={isLoadingGradeUpdate}
+                isLoadingGradeDelete={isLoadingGradeDelete}
                 returnDate={returnDate}
                 setReturnDate={setReturnDate}
                 durationDate={durationDate}
@@ -1035,8 +1535,10 @@ export default function UserProfileScreen() {
                 setIncome={setIncome}
                 handleSubmitIncome={handleSubmitIncome}
                 handleSubmitIncomeUpdate={handleSubmitIncomeUpdate}
+                handleSubmitIncomeDelete={handleSubmitIncomeDelete}
                 isLoadingIncomeCreate={isLoadingIncomeCreate}
                 isLoadingIncomeUpdate={isLoadingIncomeUpdate}
+                isLoadingIncomeDelete={isLoadingIncomeDelete}
                 returnDate={returnDate}
                 setReturnDate={setReturnDate}
                 durationDate={durationDate}
@@ -1058,8 +1560,10 @@ export default function UserProfileScreen() {
                 setPosition={setPosition}
                 handleSubmitPosition={handleSubmitPosition}
                 handleSubmitPositionUpdate={handleSubmitPositionUpdate}
+                handleSubmitPositionDelete={handleSubmitPositionDelete}
                 isLoadingPositionCreate={isLoadingPositionCreate}
                 isLoadingPositionUpdate={isLoadingPositionUpdate}
+                isLoadingPositionDelete={isLoadingPositionDelete}
                 returnDate={returnDate}
                 setReturnDate={setReturnDate}
                 durationDate={durationDate}
@@ -1081,8 +1585,10 @@ export default function UserProfileScreen() {
                 setEducation={setEducation}
                 handleSubmitEducation={handleSubmitEducation}
                 handleSubmitEducationUpdate={handleSubmitEducationUpdate}
+                handleSubmitEducationDelete={handleSubmitEducationDelete}
                 isLoadingEducationCreate={isLoadingEducationCreate}
                 isLoadingEducationUpdate={isLoadingEducationUpdate}
+                isLoadingEducationDelete={isLoadingEducationDelete}
                 returnDate={returnDate}
                 setReturnDate={setReturnDate}
               />
@@ -1102,12 +1608,12 @@ export default function UserProfileScreen() {
                 setTraining={setTraining}
                 handleSubmitTrainings={handleSubmitTrainings}
                 handleSubmitTrainingsUpdate={handleSubmitTrainingsUpdate}
+                handleSubmitTrainingsDelete={handleSubmitTrainingsDelete}
                 isLoadingTrainingCreate={isLoadingTrainingCreate}
                 isLoadingTrainingUpdate={isLoadingTrainingUpdate}
+                isLoadingTrainingDelete={isLoadingTrainingDelete}
                 returnDate={returnDate}
                 setReturnDate={setReturnDate}
-                durationDate={durationDate}
-                setDurationDate={setDurationDate}
               />
             )}
           </TabsContent>

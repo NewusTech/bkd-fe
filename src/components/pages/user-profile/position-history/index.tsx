@@ -46,8 +46,10 @@ export default function PositionHistoryProfileScreen({
   setPosition,
   handleSubmitPosition,
   handleSubmitPositionUpdate,
+  handleSubmitPositionDelete,
   isLoadingPositionCreate,
   isLoadingPositionUpdate,
+  isLoadingPositionDelete,
   returnDate,
   setReturnDate,
   durationDate,
@@ -77,8 +79,10 @@ export default function PositionHistoryProfileScreen({
     e: React.FormEvent<HTMLFormElement>,
     id: number
   ) => void;
+  handleSubmitPositionDelete: (id: number) => void;
   isLoadingPositionCreate: boolean;
   isLoadingPositionUpdate: boolean;
+  isLoadingPositionDelete: boolean;
   returnDate: Date;
   setReturnDate: React.Dispatch<React.SetStateAction<Date>>;
   durationDate: Date;
@@ -246,7 +250,7 @@ export default function PositionHistoryProfileScreen({
               </TableHeader>
               <TableBody>
                 {positions &&
-                  positions.length &&
+                  positions.length > 0 &&
                   positions.map((item: UserPositionInterface, i: number) => {
                     return (
                       <PositionHistoryProfileCard
@@ -258,7 +262,9 @@ export default function PositionHistoryProfileScreen({
                         position={position}
                         setPosition={setPosition}
                         handleSubmitPositionUpdate={handleSubmitPositionUpdate}
+                        handleSubmitPositionDelete={handleSubmitPositionDelete}
                         isLoadingPositionUpdate={isLoadingPositionUpdate}
+                        isLoadingPositionDelete={isLoadingPositionDelete}
                         returnDate={returnDate}
                         setReturnDate={setReturnDate}
                         durationDate={durationDate}

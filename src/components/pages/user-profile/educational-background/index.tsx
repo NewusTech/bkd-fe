@@ -40,8 +40,10 @@ export default function EducationalBackgroundProfileScreen({
   setEducation,
   handleSubmitEducation,
   handleSubmitEducationUpdate,
+  handleSubmitEducationDelete,
   isLoadingEducationCreate,
   isLoadingEducationUpdate,
+  isLoadingEducationDelete,
   returnDate,
   setReturnDate,
 }: {
@@ -71,8 +73,10 @@ export default function EducationalBackgroundProfileScreen({
     e: React.FormEvent<HTMLFormElement>,
     id: number
   ) => void;
+  handleSubmitEducationDelete: (id: number) => void;
   isLoadingEducationCreate: boolean;
   isLoadingEducationUpdate: boolean;
+  isLoadingEducationDelete: boolean;
   returnDate: Date;
   setReturnDate: React.Dispatch<React.SetStateAction<Date>>;
 }) {
@@ -287,7 +291,11 @@ export default function EducationalBackgroundProfileScreen({
                         handleSubmitEducationUpdate={
                           handleSubmitEducationUpdate
                         }
+                        handleSubmitEducationDelete={
+                          handleSubmitEducationDelete
+                        }
                         isLoadingEducationUpdate={isLoadingEducationUpdate}
+                        isLoadingEducationDelete={isLoadingEducationDelete}
                         returnDate={returnDate}
                         setReturnDate={setReturnDate}
                       />

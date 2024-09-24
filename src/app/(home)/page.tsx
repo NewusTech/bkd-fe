@@ -147,7 +147,7 @@ export default function Home() {
 
   useEffect(() => {
     fetchAreasStructureOrganization(1, limitItem);
-    fetchNews(1, 8);
+    fetchNews(1, 5);
     fetchFaqs();
   }, []);
 
@@ -179,6 +179,9 @@ export default function Home() {
   const OPTIONSORGANIZATIONS: EmblaOptionsType = {
     loop: true,
     dragFree: false,
+    containScroll: "trimSnaps",
+    align: "start",
+    slidesToScroll: "auto",
   };
 
   let iframeSrc = "https://www.google.com/maps?q=";
@@ -187,9 +190,18 @@ export default function Home() {
       informations.lang + "," + informations.long + "&hl=es;z=14&output=embed";
   }
 
-  const firstOrganizations = organizations.slice(0, 10);
-  const secondOrganizations = organizations.slice(10, 20);
-  const thirdOrganizations = organizations.slice(20);
+  let firstOrganizations;
+  if (organizations) {
+    firstOrganizations = organizations.slice(0, 10);
+  }
+  let secondOrganizations;
+  if (organizations) {
+    secondOrganizations = organizations.slice(10, 20);
+  }
+  let thirdOrganizations;
+  if (organizations) {
+    thirdOrganizations = organizations.slice(20);
+  }
 
   return (
     <main className="flex flex-col md:w-full h-full justify-center scroll-smooth snap-mandatory snap-y items-center relative mb-28 md:mb-24">
@@ -277,7 +289,9 @@ export default function Home() {
           </div>
         </div>
 
-        <EmblaCarousel options={OPTIONS} items={news} />
+        {news && news.length > 0 && (
+          <EmblaCarousel options={OPTIONS} items={news} />
+        )}
       </section>
 
       <section className="w-full snap-start scroll-mt-24 flex flex-col py-12 gap-y-12">
@@ -288,16 +302,13 @@ export default function Home() {
         </div>
 
         <div className="w-full flex flex-col gap-y-5">
-          {organizations &&
-            organizations.length > 0 &&
-            firstOrganizations &&
-            firstOrganizations.length > 0 && (
-              <EmblaCarouselStuctureOrganization
-                items={firstOrganizations}
-                options={OPTIONSORGANIZATIONS}
-                direction="forward"
-              />
-            )}
+          {firstOrganizations && firstOrganizations.length > 0 && (
+            <EmblaCarouselStuctureOrganization
+              items={firstOrganizations}
+              options={OPTIONSORGANIZATIONS}
+              direction="forward"
+            />
+          )}
 
           {organizations &&
             organizations.length > 0 &&

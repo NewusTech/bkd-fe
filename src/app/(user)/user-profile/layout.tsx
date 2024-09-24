@@ -2,7 +2,7 @@
 
 import ProfileSideBarScreen from "@/components/layouts/profilebars";
 import { Poppins } from "next/font/google";
-import React, { Suspense } from "react";
+import React, { Suspense, useEffect, useState } from "react";
 
 const poppins = Poppins({
   subsets: ["latin"],

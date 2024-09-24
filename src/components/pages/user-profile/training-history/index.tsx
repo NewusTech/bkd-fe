@@ -55,12 +55,12 @@ export default function TrainingHistoryProfileScreen({
   setTraining,
   handleSubmitTrainings,
   handleSubmitTrainingsUpdate,
+  handleSubmitTrainingsDelete,
   isLoadingTrainingCreate,
   isLoadingTrainingUpdate,
+  isLoadingTrainingDelete,
   returnDate,
   setReturnDate,
-  durationDate,
-  setDurationDate,
 }: {
   trainings: UserTrainingInterface[];
   openTrainingCreate: boolean;
@@ -88,12 +88,12 @@ export default function TrainingHistoryProfileScreen({
     e: React.FormEvent<HTMLFormElement>,
     id: number
   ) => void;
+  handleSubmitTrainingsDelete: (id: number) => void;
   isLoadingTrainingCreate: boolean;
   isLoadingTrainingUpdate: boolean;
+  isLoadingTrainingDelete: boolean;
   returnDate: Date;
   setReturnDate: React.Dispatch<React.SetStateAction<Date>>;
-  durationDate: Date;
-  setDurationDate: React.Dispatch<React.SetStateAction<Date>>;
 }) {
   return (
     <div className="w-full flex flex-col gap-y-5 border-t border-line-20 py-4">
@@ -163,7 +163,7 @@ export default function TrainingHistoryProfileScreen({
                             />
                           </div>
 
-                          <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                          {/* <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                             <DateFormInput
                               value={durationDate}
                               setValue={setDurationDate}
@@ -176,6 +176,30 @@ export default function TrainingHistoryProfileScreen({
                                   lama_pelatihan: formatDate(value),
                                 })
                               }
+                            />
+                          </div> */}
+                          <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                            <Label
+                              htmlFor="lama-pelatihan"
+                              className="focus-within:text-primary-70 font-normal text-[16px]">
+                              Durasi Pelatihan
+                            </Label>
+
+                            <Input
+                              id="lama-pelatihan"
+                              name="lama_pelatihan"
+                              value={training.lama_pelatihan}
+                              onChange={(
+                                e: React.ChangeEvent<HTMLInputElement>
+                              ) =>
+                                setTraining({
+                                  ...training,
+                                  lama_pelatihan: e.target.value,
+                                })
+                              }
+                              type="text"
+                              className="w-full h-12 text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
+                              placeholder="Masukkan Durasi Pelatihan Anda"
                             />
                           </div>
 
@@ -295,15 +319,17 @@ export default function TrainingHistoryProfileScreen({
                         training={training}
                         setTraining={setTraining}
                         isLoadingTrainingUpdate={isLoadingTrainingUpdate}
+                        isLoadingTrainingDelete={isLoadingTrainingDelete}
                         handleSubmitTrainingsUpdate={
                           handleSubmitTrainingsUpdate
+                        }
+                        handleSubmitTrainingsDelete={
+                          handleSubmitTrainingsDelete
                         }
                         openTrainingUpdate={openTrainingUpdate}
                         setOpenTrainingUpdate={setOpenTrainingUpdate}
                         returnDate={returnDate}
                         setReturnDate={setReturnDate}
-                        durationDate={durationDate}
-                        setDurationDate={setDurationDate}
                       />
                     );
                   })}

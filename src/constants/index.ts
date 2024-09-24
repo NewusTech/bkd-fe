@@ -1,4 +1,4 @@
-export const bloodTypes = [
+export const bloodTypess = [
   { id: 1, key: "A" },
   { id: 2, key: "B" },
   { id: 3, key: "AB" },
