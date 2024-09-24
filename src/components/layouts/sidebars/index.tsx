@@ -82,7 +82,7 @@ export default function DashBoardSidebarPages() {
   }, [serviceId]);
 
   return (
-    <section className="flex flex-col w-10/12 md:w-[25%] h-full justify-center items-center fixed">
+    <section className="flex flex-col w-10/12 md:w-[23%] h-full justify-center items-center fixed">
       <div className="w-full h-screen flex flex-col">
         {!isMobile && (
           <div className="w-full h-[8%] flex flex-row items-center justify-center gap-x-3 bg-primary-40">
@@ -435,10 +435,10 @@ export default function DashBoardSidebarPages() {
             <Link
               href={"/user-profile"}
               className="w-full flex flex-row gap-x-3 px-4">
-              <div className="w-3/12 h-full">
+              <div className="w-4/12 h-full">
                 <Image
-                  src={profilePicture}
-                  alt="Profile-Picture"
+                  src={user?.image_profile || profilePicture}
+                  alt={user?.name}
                   width={1000}
                   height={1000}
                   className="w-16 h-16 rounded-full"
@@ -446,9 +446,15 @@ export default function DashBoardSidebarPages() {
               </div>
 
               <div className="w-full flex flex-col justify-center gap-y-1">
-                <h5 className="text-black-80 text-[16px]">Irsyad Al-Haq</h5>
+                <h5 className="text-black-80 text-[16px]">
+                  {user && user.name && user.name}
+                </h5>
 
-                <p className="text-black-40 text-sm">Bandar Lampung</p>
+                <p className="text-black-40 text-sm">
+                  {user &&
+                    user.jabatans.length > 0 &&
+                    user?.jabatans[0]?.nama_jabatan}
+                </p>
               </div>
             </Link>
           )}

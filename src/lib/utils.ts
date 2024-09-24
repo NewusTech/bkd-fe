@@ -12,6 +12,14 @@ export const formatDate = (date: Date) => {
   return `${year}-${month}-${day}`;
 };
 
+export const formatDateShortString = (date: string) => {
+  const dateObject = new Date(date);
+  const year = dateObject.getFullYear();
+  const month = String(dateObject.getMonth() + 1).padStart(2, "0");
+  const day = String(dateObject.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
 export const formatDateString = (date: string) => {
   const bulanIndonesia = [
     "Januari",

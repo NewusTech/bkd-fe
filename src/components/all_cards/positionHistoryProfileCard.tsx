@@ -21,7 +21,7 @@ import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { UserPositionInterface } from "@/types/interface";
 import DateFormInput from "../elements/date_form_input";
-import { formatDate } from "@/lib/utils";
+import { formatDate, formatDateString } from "@/lib/utils";
 
 export default function PositionHistoryProfileCard({
   index,
@@ -31,7 +31,9 @@ export default function PositionHistoryProfileCard({
   position,
   setPosition,
   handleSubmitPositionUpdate,
+  handleSubmitPositionDelete,
   isLoadingPositionUpdate,
+  isLoadingPositionDelete,
   returnDate,
   setReturnDate,
   durationDate,
@@ -59,7 +61,9 @@ export default function PositionHistoryProfileCard({
     e: React.FormEvent<HTMLFormElement>,
     id: number
   ) => void;
+  handleSubmitPositionDelete: (id: number) => void;
   isLoadingPositionUpdate: boolean;
+  isLoadingPositionDelete: boolean;
   returnDate: Date;
   setReturnDate: React.Dispatch<React.SetStateAction<Date>>;
   durationDate: Date;
@@ -81,9 +85,13 @@ export default function PositionHistoryProfileCard({
     <TableRow className="border border-line-20">
       <TableCell className="text-center">{index + 1}</TableCell>
       <TableCell className="text-center">{item?.nama_jabatan}</TableCell>
-      <TableCell className="text-center">{item?.tmt}</TableCell>
+      <TableCell className="text-center">
+        {formatDateString(item?.tmt)}
+      </TableCell>
       <TableCell className="text-center">{item?.no_sk_pangkat}</TableCell>
-      <TableCell className="text-center">{item?.tgl_sk_pangkat}</TableCell>
+      <TableCell className="text-center">
+        {formatDateString(item?.tgl_sk_pangkat)}
+      </TableCell>
       <TableCell className={`text-center`}>
         <div className="w-full flex flex-row items-center justify-center gap-x-2">
           <div className="w-full">
@@ -213,17 +221,16 @@ export default function PositionHistoryProfileCard({
 
           <div className="w-full">
             <Button
-              // disabled={isDeleteLoading ? true : false}
-              // onClick={() => handleDeleteArea(area?.slug)}
+              disabled={isLoadingPositionDelete ? true : false}
+              onClick={() => handleSubmitPositionDelete(item?.id)}
               className="w-full rounded-lg bg-error-60 hover:bg-error-70 text-line-10">
-              {/* {isDeleteLoading ? (
+              {isLoadingPositionDelete ? (
                 <Loader className="animate-spin" />
-              ) : isDeleteLoading ? (
+              ) : isLoadingPositionDelete ? (
                 ""
               ) : (
                 "Hapus"
-              )} */}
-              Hapus
+              )}
             </Button>
           </div>
         </div>

@@ -47,8 +47,10 @@ export default function KGBHistoryProfileScreen({
   setIncome,
   handleSubmitIncome,
   handleSubmitIncomeUpdate,
+  handleSubmitIncomeDelete,
   isLoadingIncomeCreate,
   isLoadingIncomeUpdate,
+  isLoadingIncomeDelete,
   returnDate,
   setReturnDate,
   durationDate,
@@ -78,8 +80,10 @@ export default function KGBHistoryProfileScreen({
     e: React.FormEvent<HTMLFormElement>,
     id: number
   ) => void;
+  handleSubmitIncomeDelete: (id: number) => void;
   isLoadingIncomeCreate: boolean;
   isLoadingIncomeUpdate: boolean;
+  isLoadingIncomeDelete: boolean;
   returnDate: Date;
   setReturnDate: React.Dispatch<React.SetStateAction<Date>>;
   durationDate: Date;
@@ -259,7 +263,9 @@ export default function KGBHistoryProfileScreen({
                         income={income}
                         setIncome={setIncome}
                         handleSubmitIncomeUpdate={handleSubmitIncomeUpdate}
+                        handleSubmitIncomeDelete={handleSubmitIncomeDelete}
                         isLoadingIncomeUpdate={isLoadingIncomeUpdate}
+                        isLoadingIncomeDelete={isLoadingIncomeDelete}
                         returnDate={returnDate}
                         setReturnDate={setReturnDate}
                         durationDate={durationDate}

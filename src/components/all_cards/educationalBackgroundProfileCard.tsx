@@ -31,7 +31,9 @@ export default function EducationalBackgroundProfileCard({
   education,
   setEducation,
   handleSubmitEducationUpdate,
+  handleSubmitEducationDelete,
   isLoadingEducationUpdate,
+  isLoadingEducationDelete,
   returnDate,
   setReturnDate,
 }: {
@@ -59,7 +61,9 @@ export default function EducationalBackgroundProfileCard({
     e: React.FormEvent<HTMLFormElement>,
     id: number
   ) => void;
+  handleSubmitEducationDelete: (id: number) => void;
   isLoadingEducationUpdate: boolean;
+  isLoadingEducationDelete: boolean;
   returnDate: Date;
   setReturnDate: React.Dispatch<React.SetStateAction<Date>>;
 }) {
@@ -244,17 +248,16 @@ export default function EducationalBackgroundProfileCard({
 
           <div className="w-full">
             <Button
-              // disabled={isDeleteLoading ? true : false}
-              // onClick={() => handleDeleteArea(area?.slug)}
+              disabled={isLoadingEducationDelete ? true : false}
+              onClick={() => handleSubmitEducationDelete(item?.id)}
               className="w-full rounded-lg bg-error-60 hover:bg-error-70 text-line-10">
-              {/* {isDeleteLoading ? (
+              {isLoadingEducationDelete ? (
                 <Loader className="animate-spin" />
-              ) : isDeleteLoading ? (
+              ) : isLoadingEducationDelete ? (
                 ""
               ) : (
                 "Hapus"
-              )} */}
-              Hapus
+              )}
             </Button>
           </div>
         </div>

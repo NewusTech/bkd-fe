@@ -20,7 +20,7 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
 import { UserTrainingInterface } from "@/types/interface";
-import { formatDate } from "@/lib/utils";
+import { formatDate, formatDateString } from "@/lib/utils";
 import DateFormInput from "../elements/date_form_input";
 
 export default function TrainingHistoryProfileCard({
@@ -31,11 +31,11 @@ export default function TrainingHistoryProfileCard({
   training,
   setTraining,
   handleSubmitTrainingsUpdate,
+  handleSubmitTrainingsDelete,
   isLoadingTrainingUpdate,
+  isLoadingTrainingDelete,
   returnDate,
   setReturnDate,
-  durationDate,
-  setDurationDate,
 }: {
   item: UserTrainingInterface;
   index: number;
@@ -61,11 +61,11 @@ export default function TrainingHistoryProfileCard({
     e: React.FormEvent<HTMLFormElement>,
     id: number
   ) => void;
+  handleSubmitTrainingsDelete: (id: number) => void;
   isLoadingTrainingUpdate: boolean;
+  isLoadingTrainingDelete: boolean;
   returnDate: Date;
   setReturnDate: React.Dispatch<React.SetStateAction<Date>>;
-  durationDate: Date;
-  setDurationDate: React.Dispatch<React.SetStateAction<Date>>;
 }) {
   const handleSetTraining = () => {
     setTraining({
@@ -77,7 +77,6 @@ export default function TrainingHistoryProfileCard({
     });
 
     setReturnDate(new Date(item?.tanggal_pelatihan));
-    setDurationDate(new Date(item?.lama_pelatihan));
   };
 
   return (
@@ -86,7 +85,9 @@ export default function TrainingHistoryProfileCard({
       <TableCell className="text-center">{item?.uraian_pelatihan}</TableCell>
       <TableCell className="text-center">{item?.lama_pelatihan}</TableCell>
       <TableCell className="text-center">{item?.no_surat_pelatihan}</TableCell>
-      <TableCell className="text-center">{item?.tanggal_pelatihan}</TableCell>
+      <TableCell className="text-center">
+        {formatDateString(item?.tanggal_pelatihan)}
+      </TableCell>
       <TableCell className="text-center">{item?.tempat_pelatihan}</TableCell>
       <TableCell className={`text-center`}>
         <div className="w-full flex flex-row items-center justify-center gap-x-2">
@@ -140,7 +141,7 @@ export default function TrainingHistoryProfileCard({
                       />
                     </div>
 
-                    <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                    {/* <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                       <DateFormInput
                         value={durationDate}
                         setValue={setDurationDate}
@@ -153,6 +154,28 @@ export default function TrainingHistoryProfileCard({
                             lama_pelatihan: formatDate(value),
                           })
                         }
+                      />
+                    </div> */}
+                    <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                      <Label
+                        htmlFor="lama-pelatihan"
+                        className="focus-within:text-primary-70 font-normal text-[16px]">
+                        Durasi Pelatihan
+                      </Label>
+
+                      <Input
+                        id="lama-pelatihan"
+                        name="lama_pelatihan"
+                        value={training.lama_pelatihan}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          setTraining({
+                            ...training,
+                            lama_pelatihan: e.target.value,
+                          })
+                        }
+                        type="text"
+                        className="w-full h-12 text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
+                        placeholder="Masukkan Durasi Pelatihan Anda"
                       />
                     </div>
 
@@ -240,17 +263,16 @@ export default function TrainingHistoryProfileCard({
 
           <div className="w-full">
             <Button
-              // disabled={isDeleteLoading ? true : false}
-              // onClick={() => handleDeleteArea(area?.slug)}
+              disabled={isLoadingTrainingDelete ? true : false}
+              onClick={() => handleSubmitTrainingsDelete(item?.id)}
               className="w-full rounded-lg bg-error-60 hover:bg-error-70 text-line-10">
-              {/* {isDeleteLoading ? (
+              {isLoadingTrainingDelete ? (
                 <Loader className="animate-spin" />
-              ) : isDeleteLoading ? (
+              ) : isLoadingTrainingDelete ? (
                 ""
               ) : (
                 "Hapus"
-              )} */}
-              Hapus
+              )}
             </Button>
           </div>
         </div>

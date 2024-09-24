@@ -6,6 +6,13 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import { Loader } from "lucide-react";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -19,28 +26,91 @@ import {
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
+import { UserChildrenInterface } from "@/types/interface";
+import { formatDate, formatDateString } from "@/lib/utils";
+import { childrenStatus, genders } from "@/constants/main";
+import DateFormInput from "../elements/date_form_input";
 
-export default function FamilyDataChildrenProfileCard() {
+export default function FamilyDataChildrenProfileCard({
+  index,
+  item,
+  openChildrenUpdate,
+  setOpenChildrenUpdate,
+  kid,
+  setKid,
+  handleSubmitChildrenUpdate,
+  handleSubmitChildrenDelete,
+  isLoadingChildrenUpdate,
+  isLoadingChildrenDelete,
+  durationDate,
+  setDurationDate,
+}: {
+  index: number;
+  item: UserChildrenInterface;
+  openChildrenUpdate: boolean;
+  setOpenChildrenUpdate: React.Dispatch<React.SetStateAction<boolean>>;
+  kid: {
+    nama: string;
+    tempat_lahir: string;
+    tanggal_lahir: string;
+    jenis_kelamin: string;
+    pekerjaan: string;
+    status: string;
+  };
+  setKid: React.Dispatch<
+    React.SetStateAction<{
+      nama: string;
+      tempat_lahir: string;
+      tanggal_lahir: string;
+      jenis_kelamin: string;
+      pekerjaan: string;
+      status: string;
+    }>
+  >;
+  handleSubmitChildrenUpdate: (
+    e: React.FormEvent<HTMLFormElement>,
+    id: number
+  ) => void;
+  handleSubmitChildrenDelete: (id: number) => void;
+  isLoadingChildrenUpdate: boolean;
+  isLoadingChildrenDelete: boolean;
+  durationDate: Date;
+  setDurationDate: React.Dispatch<React.SetStateAction<Date>>;
+}) {
+  const handleSetChildren = () => {
+    setKid({
+      nama: item?.nama,
+      tempat_lahir: item?.tempat_lahir,
+      tanggal_lahir: item?.tanggal_lahir,
+      jenis_kelamin: item?.jenis_kelamin,
+      pekerjaan: item?.pekerjaan,
+      status: item?.status,
+    });
+
+    setDurationDate(new Date(item?.tanggal_lahir));
+  };
+
   return (
     <TableRow className="border border-line-20">
-      <TableCell className="text-center">1</TableCell>
-      <TableCell className="text-center">Irsyad Al-Haq Husein</TableCell>
-      <TableCell className="text-center">1234567812345678</TableCell>
-      <TableCell className="text-center">Pengajuan Pangkat</TableCell>
-      <TableCell className="text-center">22 Maret 2024</TableCell>
-      <TableCell className="text-center">22.00 WIB</TableCell>
+      <TableCell className="text-center">{index + 1}</TableCell>
+      <TableCell className="text-center">{item?.nama}</TableCell>
+      <TableCell className="text-center">
+        {item?.tempat_lahir}/{formatDateString(item?.tanggal_lahir)}
+      </TableCell>
+      <TableCell className="text-center">{item?.jenis_kelamin}</TableCell>
+      <TableCell className="text-center">{item?.pekerjaan}</TableCell>
+      <TableCell className="text-center">{item?.status}</TableCell>
       <TableCell className={`text-center`}>
         <div className="w-full flex flex-row items-center justify-center gap-x-2">
           <div className="w-full">
             <AlertDialog
-            // open={isDialogEditOpen}
-            // onOpenChange={setIsDialogEditOpen}
-            >
+              open={openChildrenUpdate}
+              onOpenChange={setOpenChildrenUpdate}>
               <AlertDialogTrigger
-                // onClick={() => {
-                //   handleSetArea();
-                //   setIsDialogEditOpen(true);
-                // }}
+                onClick={() => {
+                  handleSetChildren();
+                  setOpenChildrenUpdate(true);
+                }}
                 className="w-full">
                 <div className="w-full px-6 text-sm bg-black-80 bg-opacity-20 hover:bg-opacity-40 flex items-center justify-center h-10 text-black-80 hover:text-line-10 rounded-lg">
                   Edit
@@ -49,87 +119,201 @@ export default function FamilyDataChildrenProfileCard() {
               <AlertDialogContent className="w-full max-w-2xl bg-line-10 rounded-lg shadow-md">
                 <AlertDialogHeader className="flex flex-col max-h-[500px]">
                   <AlertDialogTitle className="text-center">
-                    Master Data Bidang
+                    Master Data Anak
                   </AlertDialogTitle>
                   <AlertDialogDescription className="text-center">
                     Input data yang diperlukan
                   </AlertDialogDescription>
                   <form
-                    // onSubmit={(e: React.FormEvent<HTMLFormElement>) =>
-                    //   handleUpdateArea(e, area?.slug)
-                    // }
+                    onSubmit={(e: React.FormEvent<HTMLFormElement>) =>
+                      handleSubmitChildrenUpdate(e, item?.id)
+                    }
                     className="w-full flex flex-col gap-y-3 verticalScroll">
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                      <Label className="focus-within:text-primary-70 font-normal text-sm">
-                        Nama Bidang
+                      <Label
+                        htmlFor="nama-anak"
+                        className="focus-within:text-primary-70 font-normal text-[16px]">
+                        Nama Anak
                       </Label>
 
                       <Input
-                        id="nama-bidang"
+                        id="nama-anak"
                         name="nama"
-                        // value={data?.nama}
-                        // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        //   setData({ ...data, nama: e.target.value })
-                        // }
+                        value={kid.nama}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          setKid({
+                            ...kid,
+                            nama: e.target.value,
+                          })
+                        }
                         type="text"
-                        className="w-full focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
-                        placeholder="Masukkan Nama Bidang"
+                        className="w-full h-12 text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
+                        placeholder="Masukkan Nama Anak Anda"
                       />
+                    </div>
+
+                    <div className="w-full flex flex-row gap-x-5">
+                      <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                        <Label
+                          htmlFor="tempat-lahir"
+                          className="focus-within:text-primary-70 font-normal text-[16px]">
+                          Tampat Lahir
+                        </Label>
+
+                        <Input
+                          id="tempat-lahir"
+                          name="tempat_lahir"
+                          value={kid.tempat_lahir}
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            setKid({
+                              ...kid,
+                              tempat_lahir: e.target.value,
+                            })
+                          }
+                          type="text"
+                          className="w-full h-12 text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
+                          placeholder="Masukkan Nama Anak Anda"
+                        />
+                      </div>
+
+                      <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                        <DateFormInput
+                          value={durationDate}
+                          setValue={setDurationDate}
+                          label="Tanggal Lahir"
+                          className={`bg-transparent w-full rounded-lg`}
+                          // ${errors.tanggal_akhir_sewa ? "text-error-700" : ""}
+                          onChange={(value) =>
+                            setKid({
+                              ...kid,
+                              tanggal_lahir: formatDate(value),
+                            })
+                          }
+                        />
+                      </div>
                     </div>
 
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                       <Label className="focus-within:text-primary-70 font-normal text-sm">
-                        Penanggung Jawab
+                        Jenis Kelamin
                       </Label>
 
-                      <Input
-                        id="pj"
-                        name="pj"
-                        // value={data.pj}
-                        // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        //   setData({ ...data, pj: e.target.value })
-                        // }
-                        type="text"
-                        className="w-full focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
-                        placeholder="Masukkan Nama Penanggung Jawab"
-                      />
+                      <Select
+                        name="status"
+                        value={
+                          kid.jenis_kelamin ? kid.jenis_kelamin : undefined
+                        }
+                        onValueChange={(value) =>
+                          setKid({
+                            ...kid,
+                            jenis_kelamin: value,
+                          })
+                        }>
+                        <SelectTrigger
+                          className={`${
+                            !kid.jenis_kelamin ? "opacity-70" : ""
+                          } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                          <SelectValue
+                            placeholder="Pilih Jenis Kelamin..."
+                            className={
+                              kid.jenis_kelamin ? "" : "placeholder:opacity-50"
+                            }
+                          />
+                        </SelectTrigger>
+                        <SelectContent className="w-full bg-line-10">
+                          <div>
+                            {genders &&
+                              genders.length > 0 &&
+                              genders?.map(
+                                (
+                                  item: { id: number; value: string },
+                                  i: number
+                                ) => {
+                                  return (
+                                    <SelectItem
+                                      className="pr-none mt-2"
+                                      value={item?.value}
+                                      key={i}>
+                                      {item?.value}
+                                    </SelectItem>
+                                  );
+                                }
+                              )}
+                          </div>
+                        </SelectContent>
+                      </Select>
                     </div>
 
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                       <Label
-                        htmlFor="nip-pj"
-                        className="focus-within:text-primary-70 font-normal text-sm">
-                        NIP Penanggung Jawab
+                        htmlFor="pekerjaan"
+                        className="focus-within:text-primary-70 font-normal text-[16px]">
+                        Pekerjaan
                       </Label>
 
                       <Input
-                        id="nip-pj"
-                        name="nip_pj"
-                        // value={data.nip_pj}
-                        // onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        //   setData({ ...data, nip_pj: e.target.value })
-                        // }
+                        id="pekerjaan"
+                        name="pekerjaan"
+                        value={kid.pekerjaan}
+                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                          setKid({
+                            ...kid,
+                            pekerjaan: e.target.value,
+                          })
+                        }
                         type="text"
-                        inputMode="numeric"
-                        className="w-full focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
-                        placeholder="Masukkan NIP Penanggung Jawab"
+                        className="w-full h-12 text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
+                        placeholder="Masukkan Pekerjaan Anak Anda"
                       />
                     </div>
 
-                    <div className="w-full flex flex-col gap-y-2">
-                      <Label className="text-sm text-black-70 font-normal">
-                        Deskripsi Bidang
+                    <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                      <Label className="focus-within:text-primary-70 font-normal text-sm">
+                        Status
                       </Label>
 
-                      <Textarea
-                        name="desc"
-                        placeholder="Masukkan Deskripsi Bidang"
-                        // value={data.desc}
-                        // onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                        //   setData({ ...data, desc: e.target.value })
-                        // }
-                        className="w-full rounded-lg h-[74px] border border-line-20 md:h-[122px] text-sm placeholder:opacity-[70%]"
-                      />
+                      <Select
+                        name="status"
+                        value={kid.status ? kid.status : undefined}
+                        onValueChange={(value) =>
+                          setKid({
+                            ...kid,
+                            status: value,
+                          })
+                        }>
+                        <SelectTrigger
+                          className={`${
+                            !kid.status ? "opacity-70" : ""
+                          } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                          <SelectValue
+                            placeholder="Pilih Status..."
+                            className={
+                              kid.status ? "" : "placeholder:opacity-50"
+                            }
+                          />
+                        </SelectTrigger>
+                        <SelectContent className="w-full bg-line-10">
+                          <div>
+                            {childrenStatus &&
+                              childrenStatus.length > 0 &&
+                              childrenStatus?.map(
+                                (
+                                  item: { id: number; name: string },
+                                  i: number
+                                ) => {
+                                  return (
+                                    <SelectItem
+                                      className="pr-none mt-2"
+                                      value={item?.name}
+                                      key={i}>
+                                      {item?.name}
+                                    </SelectItem>
+                                  );
+                                }
+                              )}
+                          </div>
+                        </SelectContent>
+                      </Select>
                     </div>
 
                     <div className="w-full flex flex-row justify-center items-center gap-x-5">
@@ -137,14 +321,13 @@ export default function FamilyDataChildrenProfileCard() {
 
                       <Button
                         type="submit"
-                        // disabled={isUpdateLoading ? true : false}
+                        disabled={isLoadingChildrenUpdate ? true : false}
                         className="bg-primary-40 hover:bg-primary-70 text-line-10">
-                        {/* {isUpdateLoading ? (
+                        {isLoadingChildrenUpdate ? (
                           <Loader className="animate-spin" />
                         ) : (
                           "Simpan"
-                        )} */}
-                        Simpan
+                        )}
                       </Button>
                     </div>
                   </form>
@@ -155,17 +338,16 @@ export default function FamilyDataChildrenProfileCard() {
 
           <div className="w-full">
             <Button
-              // disabled={isDeleteLoading ? true : false}
-              // onClick={() => handleDeleteArea(area?.slug)}
+              disabled={isLoadingChildrenDelete ? true : false}
+              onClick={() => handleSubmitChildrenDelete(item?.id)}
               className="w-full rounded-lg bg-error-60 hover:bg-error-70 text-line-10">
-              {/* {isDeleteLoading ? (
+              {isLoadingChildrenDelete ? (
                 <Loader className="animate-spin" />
-              ) : isDeleteLoading ? (
+              ) : isLoadingChildrenDelete ? (
                 ""
               ) : (
                 "Hapus"
-              )} */}
-              Hapus
+              )}
             </Button>
           </div>
         </div>

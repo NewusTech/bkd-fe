@@ -341,27 +341,33 @@ export const genders = [
 export const religions = [
   {
     id: 1,
-    value: "Islam",
+    name: "Islam",
+    value: "islam",
   },
   {
     id: 2,
-    value: "Kristen",
+    name: "Kristen",
+    value: "kristen",
   },
   {
     id: 3,
-    value: "Katolik",
+    name: "Katolik",
+    value: "katolik",
   },
   {
     id: 4,
-    value: "Hindu",
+    name: "Hindu",
+    value: "hindu",
   },
   {
     id: 5,
-    value: "Buddha",
+    name: "Buddha",
+    value: "buddha",
   },
   {
     id: 6,
-    value: "Konghucu",
+    name: "Konghucu",
+    value: "konghucu",
   },
 ];
 
@@ -443,5 +449,31 @@ export const bloodTypes = [
   {
     id: 4,
     value: "O",
+  },
+];
+
+export const coupleStatus = [
+  {
+    id: 1,
+    name: "Hidup",
+  },
+  {
+    id: 2,
+    name: "Mati",
+  },
+];
+
+export const childrenStatus = [
+  {
+    id: 1,
+    name: "Anak Kandung",
+  },
+  {
+    id: 2,
+    name: "Anak Tiri",
+  },
+  {
+    id: 3,
+    name: "Anak Angkat",
   },
 ];

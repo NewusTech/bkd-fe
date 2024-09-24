@@ -31,7 +31,9 @@ export default function KGBHistoryProfileCard({
   income,
   setIncome,
   handleSubmitIncomeUpdate,
+  handleSubmitIncomeDelete,
   isLoadingIncomeUpdate,
+  isLoadingIncomeDelete,
   returnDate,
   setReturnDate,
   durationDate,
@@ -59,7 +61,9 @@ export default function KGBHistoryProfileCard({
     e: React.FormEvent<HTMLFormElement>,
     id: number
   ) => void;
+  handleSubmitIncomeDelete: (id: number) => void;
   isLoadingIncomeUpdate: boolean;
+  isLoadingIncomeDelete: boolean;
   returnDate: Date;
   setReturnDate: React.Dispatch<React.SetStateAction<Date>>;
   durationDate: Date;
@@ -217,17 +221,16 @@ export default function KGBHistoryProfileCard({
 
           <div className="w-full">
             <Button
-              // disabled={isDeleteLoading ? true : false}
-              // onClick={() => handleDeleteArea(area?.slug)}
+              disabled={isLoadingIncomeDelete ? true : false}
+              onClick={() => handleSubmitIncomeDelete(item?.id)}
               className="w-full rounded-lg bg-error-60 hover:bg-error-70 text-line-10">
-              {/* {isDeleteLoading ? (
+              {isLoadingIncomeDelete ? (
                 <Loader className="animate-spin" />
-              ) : isDeleteLoading ? (
+              ) : isLoadingIncomeDelete ? (
                 ""
               ) : (
                 "Hapus"
-              )} */}
-              Hapus
+              )}
             </Button>
           </div>
         </div>

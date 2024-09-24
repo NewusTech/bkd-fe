@@ -3,7 +3,7 @@
 import profilePic from "@/../../public/assets/images/foto-profile.jpg";
 import { Camera, X } from "@phosphor-icons/react";
 import Image from "next/image";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { HomeIcon, Loader, LogOut, User2 } from "lucide-react";
 import Cookies from "js-cookie";
@@ -18,6 +18,9 @@ import {
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { UserProfileInterface } from "@/types/interface";
+import { getUserProfile, updateUserProfile } from "@/services/api";
+import { log } from "console";
 
 export default function ProfileSideBarScreen() {
   const router = useRouter();
@@ -26,7 +29,7 @@ export default function ProfileSideBarScreen() {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoadingOut, setIsLoadingOut] = useState(false);
-  const [profile, setProfile] = useState<any>();
+  const [profile, setProfile] = useState<UserProfileInterface>();
   const [fotoProfile, setFotoProfile] = useState<File | null>(null);
   const [newProfileImage, setNewProfileImage] = useState({
     image_url: "",
@@ -34,18 +37,18 @@ export default function ProfileSideBarScreen() {
   const [previewPPImage, setPreviewPPImage] = useState<string>("");
   const [activeAccordionValue, setActiveAccordionValue] = useState("account");
 
-  // const fetchUserProfile = async () => {
-  //   try {
-  //     const response = await profileUser();
-  //     setProfile(response.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
+  const fetchUserProfile = async () => {
+    try {
+      const response = await getUserProfile();
+      setProfile(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
-  // useEffect(() => {
-  //   fetchUserProfile();
-  // }, []);
+  useEffect(() => {
+    fetchUserProfile();
+  }, []);
 
   // useEffect(() => {
   //   if (pathName.includes("/order-histories")) {
@@ -107,38 +110,38 @@ export default function ProfileSideBarScreen() {
     }
   };
 
-  // const handleNewUpdateImageProfile = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   setIsLoading(true);
+  const handleNewUpdateImageProfile = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
 
-  //   const formData = new FormData();
-  //   if (fotoProfile) {
-  //     formData.append("image_url", fotoProfile);
-  //   }
+    const formData = new FormData();
+    if (fotoProfile) {
+      formData.append("image_profile", fotoProfile);
+    }
 
-  //   try {
-  //     const response = await updateProfileImage(formData);
+    try {
+      const response = await updateUserProfile(formData);
 
-  //     if (response.success === true) {
-  //       Swal.fire({
-  //         icon: "success",
-  //         title: "Berhasil mengupdate foto profile!",
-  //         text: "Berhasil mengupdate foto profile!",
-  //         timer: 2000,
-  //         showConfirmButton: false,
-  //         position: "center",
-  //       });
-  //       setIsOpen(false);
-  //       setIsLoading(false);
-  //       fetchUserProfile();
-  //     } else {
-  //       setIsOpen(true);
-  //     }
-  //   } catch (error) {
-  //   } finally {
-  //     setIsLoading(false);
-  //   }
-  // };
+      if (response.status === 200) {
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil mengupdate foto profile!",
+          text: "Berhasil mengupdate foto profile!",
+          timer: 2000,
+          showConfirmButton: false,
+          position: "center",
+        });
+        setIsOpen(false);
+        setIsLoading(false);
+        fetchUserProfile();
+      } else {
+        setIsOpen(true);
+      }
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <section className="flex flex-col md:w-3/12 h-full justify-center items-center relative md:mb-0 pb-8">
@@ -148,13 +151,15 @@ export default function ProfileSideBarScreen() {
           <div className="w-full flex flex-col gap-y-3">
             <div className="w-full flex flex-col items-center relative">
               <div className="w-24 h-24 relative">
+                {/* {profile && profile.image_profile && ( */}
                 <Image
-                  src={profilePic}
-                  alt={"profile"}
+                  src={profile?.image_profile || profilePic}
+                  alt={profile?.name || ""}
                   width={1000}
                   height={1000}
                   className="w-full h-full outline outline-line-10 rounded-full"
                 />
+                {/* )} */}
                 <div className="bg-line-10 p-0.5 rounded-full absolute bottom-0 right-0">
                   {/* camera */}
                   <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -181,21 +186,21 @@ export default function ProfileSideBarScreen() {
                         </DialogTitle>
                       </DialogHeader>
                       <form
-                        // onSubmit={handleNewUpdateImageProfile}
+                        onSubmit={handleNewUpdateImageProfile}
                         className="flex flex-col w-full mt-2 md:mt-4">
                         <div className="flex flex-col w-full h-full mt-2 px-4">
                           <div className="flex flex-col w-full gap-y-5">
-                            {/* {(previewPPImage || profile.image_url) && ( */}
-                            {previewPPImage && (
+                            {(previewPPImage || profile?.image_profile) && (
                               <div className="relative flex justify-center items-center self-center w-[150px] md:w-[200px] h-[150px] md:h-[200px] border-2 border-dashed border-neutral-800 rounded-full">
-                                <Image
-                                  // src={previewPPImage || profile?.image_url}
-                                  src={previewPPImage}
-                                  alt="Preview"
-                                  width={200}
-                                  height={200}
-                                  className="h-full rounded-full w-full object-cover object-center"
-                                />
+                                {previewPPImage && (
+                                  <Image
+                                    src={previewPPImage}
+                                    alt="Preview"
+                                    width={200}
+                                    height={200}
+                                    className="h-full rounded-full w-full object-cover object-center"
+                                  />
+                                )}
                               </div>
                             )}
 
@@ -226,7 +231,7 @@ export default function ProfileSideBarScreen() {
                         </div>
                         <div className="flex justify-center items-end self-end w-4/12 md:self-center my-4 md:pb-[30px] mt-4 pr-2 md:pr-0">
                           <Button
-                            className="w-full bg-primary-700 text-neutral-50 h-[30px] md:h-[40px] text-[12px] md:text-[16px]"
+                            className="w-full bg-primary-40 hover:bg-primary-70 text-neutral-50 h-[30px] md:h-[40px] text-[12px] md:text-[16px]"
                             type="submit"
                             disabled={isLoading ? true : false}>
                             {isLoading ? (
@@ -245,11 +250,13 @@ export default function ProfileSideBarScreen() {
 
             <div className="w-full flex flex-col items-center gap-y-1">
               <h5 className="text-neutral-700 font-normal text-[18px]">
-                {/* {profile.nama} */} Irsyad AL-Haq
+                {profile && profile.name && profile?.name}
               </h5>
 
               <p className="text-neutral-700 font-normal text-[16px]">
-                {/* {profile?.kota} */} Bandar Lampung
+                {profile &&
+                  profile.jabatans.length > 0 &&
+                  profile?.jabatans[0]?.nama_jabatan}
               </p>
             </div>
           </div>
