@@ -48,7 +48,7 @@ const EmblaCarouselStuctureOrganization: React.FC<PropType> = (props) => {
   return (
     <div className="embla_organization flex flex-col gap-y-4">
       <div className="embla__viewport overflow-hidden" ref={emblaRef}>
-        <div className="embla__container w-[35%]">
+        <div className="embla__container w-6/12 md:w-[35%]">
           {items &&
             items.length > 0 &&
             items.map((item: StructureOrganizationInterface, index: number) => (

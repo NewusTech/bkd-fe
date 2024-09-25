@@ -129,15 +129,16 @@ export default function LoginScreen() {
     <section className="relative flex justify-center items-center w-screen h-screen">
       <BackgroundImage />
 
-      <div className="relative z-50 flex flex-col w-6/12 items-center justify-center gap-y-8 bg-white p-12 shadow-lg rounded-lg">
+      <div className="relative z-50 flex flex-col w-11/12 md:w-6/12 items-center justify-center gap-y-8 bg-white p-4 md:p-12 shadow-lg rounded-lg">
         <div className="w-full flex flex-col items-center gap-y-2">
-          <h2 className="text-black-80 text-xl">
+          <h2 className="text-black-80 text-xl text-center">
             Selamat Datang Di Aplikasi BKD
           </h2>
 
-          <p className="text-black-80 text-center text-sm">
-            Lorem ipsum sit amet Lorem ipsum sit amet Lorem ipsum sit amet Lorem
-            ipsum sit amet
+          <p className="text-black-80 text-center text-[13px] md:text-sm">
+            Aplikasi BKD mempermudah pengelolaan administrasi kepegawaian dengan
+            proses cepat, efisien, dan transparan. Login untuk mengakses fitur
+            sesuai kebutuhan Anda.
           </p>
         </div>
 
@@ -229,12 +230,15 @@ export default function LoginScreen() {
                   Lupa kata sandi?
                 </Link>
 
-                <div className="flex flex-row gap-x-1 text-sm">
-                  <p className="text-black-70">Kamu belum punya akun?</p>
-
-                  <Link className="text-primary-40" href={"/register"}>
-                    Daftar
-                  </Link>
+                <div className="flex flex-row md:gap-x-1 text-sm">
+                  <p className="text-black-70 text-end">
+                    Kamu belum punya akun?{" "}
+                    <span>
+                      <Link className="text-primary-40" href={"/register"}>
+                        Daftar
+                      </Link>
+                    </span>
+                  </p>
                 </div>
               </div>
 
@@ -262,7 +266,7 @@ export default function LoginScreen() {
               <div className="w-full h-0.5 bg-line-40"></div>
             </div>
 
-            <div className="w-3/12 mt-2 flex items-center justify-center self-center">
+            <div className="w-5/12 md:w-3/12 mt-2 flex items-center justify-center self-center">
               {/* <Link className="w-full" href={`${process.env.NEXT_PUBLIC_API_URL_MPP_GOOGLE}/auth/google`}> */}
               <Button
                 // onClick={handleLogin}

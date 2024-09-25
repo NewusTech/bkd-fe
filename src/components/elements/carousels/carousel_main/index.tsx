@@ -14,6 +14,7 @@ import { ArrowUpRight } from "@phosphor-icons/react";
 import Image from "next/image";
 import { formatDateString } from "@/lib/utils";
 import { DotButton, useDotButton } from "../carousel_dot_button";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 type PropType = {
   options?: EmblaOptionsType;
@@ -21,6 +22,7 @@ type PropType = {
 };
 
 const EmblaCarousel: React.FC<PropType> = (props) => {
+  const isMobile = useMediaQuery("(max-width: 768px)");
   const { options, items } = props;
   const [emblaRef, emblaApi] = useEmblaCarousel(options, [
     Autoplay({ playOnInit: true, delay: 3000 }),
@@ -52,12 +54,13 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
   }, [emblaApi, onScroll]);
 
   return (
-    <div className="embla w-7/12">
+    <div
+      className={`${!isMobile ? "embla" : "embla_mobile"} w-full px-12 md:px-0 relative`}>
       <div className="overflow-hidden" ref={emblaRef}>
         <div className="embla__container">
           {items.map((item: NewsInterface, index: number) => (
             <div
-              className="embla__slide w-full min-h-[450px] bg-line-10 rounded-lg shadow-md"
+              className="embla__slide w-full min-h-[400px] bg-line-10 rounded-lg shadow-md"
               key={index}>
               <div className="embla__slide__number flex flex-col gap-y-3">
                 <div className="w-full h-full">
@@ -92,33 +95,55 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
       </div>
 
       <div className="embla__controls">
-        <div className="embla__buttons">
-          <div className="bg-line-10 rounded-full">
-            <PrevButton
-              onClick={onPrevButtonClick}
-              disabled={prevBtnDisabled}
-            />
-          </div>
+        {!isMobile && (
+          <div className="embla__buttons">
+            <div className="bg-line-10 rounded-full">
+              <PrevButton
+                onClick={onPrevButtonClick}
+                disabled={prevBtnDisabled}
+              />
+            </div>
 
-          <div className="bg-line-10 rounded-full">
-            <NextButton
-              onClick={onNextButtonClick}
-              disabled={nextBtnDisabled}
-            />
+            <div className="bg-line-10 rounded-full">
+              <NextButton
+                onClick={onNextButtonClick}
+                disabled={nextBtnDisabled}
+              />
+            </div>
           </div>
-        </div>
+        )}
 
-        <div className="embla__dots w-full pr-4">
-          {scrollSnaps.map((_, index) => (
-            <DotButton
-              key={index}
-              onClick={() => onDotButtonClick(index)}
-              className={"embla__dot".concat(
-                index === selectedIndex ? " embla__dot--selected" : ""
-              )}
-            />
-          ))}
-        </div>
+        {isMobile && (
+          <div className="embla__buttons relative">
+            <div className="bg-line-10 border shadow-md rounded-full mx-1 absolute -top-[16rem] -left-12">
+              <PrevButton
+                onClick={onPrevButtonClick}
+                disabled={prevBtnDisabled}
+              />
+            </div>
+
+            <div className="bg-line-10 border shadow-md rounded-full mx-1 absolute bottom-[12.9rem] left-[17.2rem]">
+              <NextButton
+                onClick={onNextButtonClick}
+                disabled={nextBtnDisabled}
+              />
+            </div>
+          </div>
+        )}
+
+        {!isMobile && (
+          <div className="embla__dots w-full pr-4">
+            {scrollSnaps.map((_, index) => (
+              <DotButton
+                key={index}
+                onClick={() => onDotButtonClick(index)}
+                className={"embla__dot".concat(
+                  index === selectedIndex ? " embla__dot--selected" : ""
+                )}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

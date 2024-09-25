@@ -40,9 +40,11 @@ import {
 } from "@/services/api";
 import Swal from "sweetalert2";
 import parse from "html-react-parser";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 export default function RegisterScreen() {
   const router = useRouter();
+  const isMobile = useMediaQuery("(max-width: 768px)");
   const limitItem = 35;
   const [data, setData] = useState({
     name: "",
@@ -245,15 +247,16 @@ export default function RegisterScreen() {
     <section className="relative flex justify-center items-center w-screen h-full">
       <BackgroundImage />
 
-      <div className="flex flex-col relative z-50 w-8/12 items-center my-12 justify-center gap-y-5 bg-white p-12 shadow-lg rounded-lg">
+      <div className="flex flex-col relative z-50 w-11/12 md:w-8/12 items-center my-12 justify-center gap-y-5 bg-white p-4 md:p-12 shadow-lg rounded-lg">
         <div className="w-full flex flex-col items-center gap-y-2">
           <h2 className="text-black-80 text-xl">
             Selamat Datang Di Aplikasi BKD
           </h2>
 
-          <p className="text-black-80 text-center text-sm">
-            Lorem ipsum sit amet Lorem ipsum sit amet Lorem ipsum sit amet Lorem
-            ipsum sit amet
+          <p className="text-black-80 text-center text-[13px] md:text-sm">
+            Daftarkan akun Anda sekarang untuk akses penuh ke layanan
+            administrasi kepegawaian yang mudah, cepat, dan transparan melalui
+            Aplikasi BKD.
           </p>
         </div>
 
@@ -272,7 +275,7 @@ export default function RegisterScreen() {
 
           <form onSubmit={handleNewUser} className="flex flex-col md:w-full">
             <div className="w-full flex flex-col gap-y-5">
-              <div className="w-full grid grid-cols-2 gap-x-5">
+              <div className="w-full flex flex-col md:grid grid-cols-2 gap-x-5">
                 <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                   <Label
                     htmlFor="name"
@@ -297,37 +300,38 @@ export default function RegisterScreen() {
                   )}
                 </div>
 
-                <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                  <Label
-                    htmlFor="name"
-                    className="focus-within:text-primary-70 font-normal text-sm">
-                    Kecamatan
-                  </Label>
+                {!isMobile && (
+                  <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                    <Label
+                      htmlFor="name"
+                      className="focus-within:text-primary-70 font-normal text-sm">
+                      Kecamatan
+                    </Label>
 
-                  <Select
-                    name="kecamatan_id"
-                    value={
-                      selectedSubDistrict
-                        ? String(selectedSubDistrict)
-                        : undefined
-                    }
-                    onValueChange={(value) =>
-                      setSelectedSubDistrict(Number(value))
-                    }>
-                    <SelectTrigger
-                      className={`${
-                        !selectedSubDistrict ? "opacity-70" : ""
-                      } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
-                      <SelectValue
-                        placeholder="Pilih Kecamatan"
-                        className={
-                          selectedSubDistrict ? "" : "placeholder:opacity-50"
-                        }
-                      />
-                    </SelectTrigger>
-                    <SelectContent className="w-full bg-line-10">
-                      <div>
-                        {/* <div className="w-full px-2 mt-2">
+                    <Select
+                      name="kecamatan_id"
+                      value={
+                        selectedSubDistrict
+                          ? String(selectedSubDistrict)
+                          : undefined
+                      }
+                      onValueChange={(value) =>
+                        setSelectedSubDistrict(Number(value))
+                      }>
+                      <SelectTrigger
+                        className={`${
+                          !selectedSubDistrict ? "opacity-70" : ""
+                        } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                        <SelectValue
+                          placeholder="Pilih Kecamatan"
+                          className={
+                            selectedSubDistrict ? "" : "placeholder:opacity-50"
+                          }
+                        />
+                      </SelectTrigger>
+                      <SelectContent className="w-full bg-line-10">
+                        <div>
+                          {/* <div className="w-full px-2 mt-2">
                             <SearchComponent
                               change={(
                                 e: React.ChangeEvent<HTMLInputElement>
@@ -336,32 +340,33 @@ export default function RegisterScreen() {
                             />
                           </div> */}
 
-                        {subDistricts &&
-                          subDistricts?.map(
-                            (sub: SubDistrictInterface, i: number) => {
-                              return (
-                                <SelectItem
-                                  className="pr-none mt-2"
-                                  value={sub?.id.toString()}
-                                  key={i}>
-                                  {sub?.nama}
-                                </SelectItem>
-                              );
-                            }
-                          )}
-                      </div>
-                    </SelectContent>
-                  </Select>
+                          {subDistricts &&
+                            subDistricts?.map(
+                              (sub: SubDistrictInterface, i: number) => {
+                                return (
+                                  <SelectItem
+                                    className="pr-none mt-2"
+                                    value={sub?.id.toString()}
+                                    key={i}>
+                                    {sub?.nama}
+                                  </SelectItem>
+                                );
+                              }
+                            )}
+                        </div>
+                      </SelectContent>
+                    </Select>
 
-                  {hasSubmitted && errors.kecamatan_id?._errors[0] && (
-                    <p className="text-red-500 text-[12px] md:text-[14px]">
-                      {errors.kecamatan_id?._errors[0]}
-                    </p>
-                  )}
-                </div>
+                    {hasSubmitted && errors.kecamatan_id?._errors[0] && (
+                      <p className="text-red-500 text-[12px] md:text-[14px]">
+                        {errors.kecamatan_id?._errors[0]}
+                      </p>
+                    )}
+                  </div>
+                )}
               </div>
 
-              <div className="w-full grid grid-cols-2 gap-x-5">
+              <div className="w-full flex flex-col md:grid grid-cols-2 gap-x-5">
                 <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                   <Label
                     htmlFor="nip"
@@ -387,35 +392,36 @@ export default function RegisterScreen() {
                   )}
                 </div>
 
-                <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                  <Label
-                    htmlFor="name"
-                    className="focus-within:text-primary-70 font-normal text-sm">
-                    Desa
-                  </Label>
+                {!isMobile && (
+                  <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                    <Label
+                      htmlFor="name"
+                      className="focus-within:text-primary-70 font-normal text-sm">
+                      Desa
+                    </Label>
 
-                  <Select
-                    name="desa_id"
-                    value={
-                      selectedVillage ? String(selectedVillage) : undefined
-                    }
-                    onValueChange={(value) =>
-                      setSelectedVillage(Number(value))
-                    }>
-                    <SelectTrigger
-                      className={`${
-                        !selectedVillage ? "opacity-70" : ""
-                      } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
-                      <SelectValue
-                        placeholder="Pilih Desa"
-                        className={
-                          selectedVillage ? "" : "placeholder:opacity-50"
-                        }
-                      />
-                    </SelectTrigger>
-                    <SelectContent className="w-full bg-line-10">
-                      <div>
-                        {/* <div className="w-full px-2 mt-2">
+                    <Select
+                      name="desa_id"
+                      value={
+                        selectedVillage ? String(selectedVillage) : undefined
+                      }
+                      onValueChange={(value) =>
+                        setSelectedVillage(Number(value))
+                      }>
+                      <SelectTrigger
+                        className={`${
+                          !selectedVillage ? "opacity-70" : ""
+                        } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                        <SelectValue
+                          placeholder="Pilih Desa"
+                          className={
+                            selectedVillage ? "" : "placeholder:opacity-50"
+                          }
+                        />
+                      </SelectTrigger>
+                      <SelectContent className="w-full bg-line-10">
+                        <div>
+                          {/* <div className="w-full px-2 mt-2">
                             <SearchComponent
                               change={(
                                 e: React.ChangeEvent<HTMLInputElement>
@@ -424,32 +430,33 @@ export default function RegisterScreen() {
                             />
                           </div> */}
 
-                        {villages &&
-                          villages?.map(
-                            (village: VillageInterface, i: number) => {
-                              return (
-                                <SelectItem
-                                  className="pr-none mt-2"
-                                  value={village?.id.toString()}
-                                  key={i}>
-                                  {village?.nama}
-                                </SelectItem>
-                              );
-                            }
-                          )}
-                      </div>
-                    </SelectContent>
-                  </Select>
+                          {villages &&
+                            villages?.map(
+                              (village: VillageInterface, i: number) => {
+                                return (
+                                  <SelectItem
+                                    className="pr-none mt-2"
+                                    value={village?.id.toString()}
+                                    key={i}>
+                                    {village?.nama}
+                                  </SelectItem>
+                                );
+                              }
+                            )}
+                        </div>
+                      </SelectContent>
+                    </Select>
 
-                  {hasSubmitted && errors.desa_id?._errors[0] && (
-                    <p className="text-red-500 text-[12px] md:text-[14px]">
-                      {errors.desa_id?._errors[0]}
-                    </p>
-                  )}
-                </div>
+                    {hasSubmitted && errors.desa_id?._errors[0] && (
+                      <p className="text-red-500 text-[12px] md:text-[14px]">
+                        {errors.desa_id?._errors[0]}
+                      </p>
+                    )}
+                  </div>
+                )}
               </div>
 
-              <div className="w-full grid grid-cols-2 gap-x-5">
+              <div className="w-full flex flex-col md:grid grid-cols-2 gap-x-5">
                 <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                   <Label
                     htmlFor="email"
@@ -474,63 +481,65 @@ export default function RegisterScreen() {
                   )}
                 </div>
 
-                <div className="w-full grid grid-cols-2 gap-x-3">
-                  <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                    <Label
-                      htmlFor="rt"
-                      className="focus-within:text-primary-70 font-normal text-sm">
-                      RT
-                    </Label>
+                {!isMobile && (
+                  <div className="w-full grid grid-cols-2 gap-x-3">
+                    <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                      <Label
+                        htmlFor="rt"
+                        className="focus-within:text-primary-70 font-normal text-sm">
+                        RT
+                      </Label>
 
-                    <Input
-                      id="rt"
-                      name="rt"
-                      value={data.rt}
-                      onChange={changeUser}
-                      type="number"
-                      className="w-full focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
-                      placeholder="Masukkan RT Anda"
-                    />
+                      <Input
+                        id="rt"
+                        name="rt"
+                        value={data.rt}
+                        onChange={changeUser}
+                        type="number"
+                        className="w-full focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
+                        placeholder="Masukkan RT Anda"
+                      />
 
-                    {hasSubmitted && errors?.rt?._errors && (
-                      <div className="text-red-500 text-[12px] md:text-[14px]">
-                        {errors.rt._errors[0]}
-                      </div>
-                    )}
+                      {hasSubmitted && errors?.rt?._errors && (
+                        <div className="text-red-500 text-[12px] md:text-[14px]">
+                          {errors.rt._errors[0]}
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                      <Label
+                        htmlFor="rw"
+                        className="focus-within:text-primary-70 font-normal text-sm">
+                        RW
+                      </Label>
+
+                      <Input
+                        id="rw"
+                        name="rw"
+                        value={data.rw}
+                        onChange={changeUser}
+                        type="number"
+                        className="w-full focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
+                        placeholder="Masukkan RW Anda"
+                      />
+
+                      {hasSubmitted && errors?.rw?._errors && (
+                        <div className="text-red-500 text-[12px] md:text-[14px]">
+                          {errors.rw._errors[0]}
+                        </div>
+                      )}
+                    </div>
                   </div>
-
-                  <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                    <Label
-                      htmlFor="rw"
-                      className="focus-within:text-primary-70 font-normal text-sm">
-                      RW
-                    </Label>
-
-                    <Input
-                      id="rw"
-                      name="rw"
-                      value={data.rw}
-                      onChange={changeUser}
-                      type="number"
-                      className="w-full focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
-                      placeholder="Masukkan RW Anda"
-                    />
-
-                    {hasSubmitted && errors?.rw?._errors && (
-                      <div className="text-red-500 text-[12px] md:text-[14px]">
-                        {errors.rw._errors[0]}
-                      </div>
-                    )}
-                  </div>
-                </div>
+                )}
               </div>
 
-              <div className="w-full grid grid-cols-2 gap-x-5">
-                <div className="w-full grid grid-rows-2">
+              <div className="w-full flex flex-col md:grid grid-cols-2 gap-x-5">
+                <div className="w-full flex flex-col md:grid grid-rows-2 gap-y-3">
                   <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                     <Label
                       htmlFor="no-telp"
-                      className="focus-within:text-primary-70 font-normal text-sm">
+                      className="focus-within:text-primary-70 font-normal text-[14px]">
                       Nomor Telepon
                     </Label>
 
@@ -554,7 +563,7 @@ export default function RegisterScreen() {
                   <div className="w-full focus-within:text-black-70 flex flex-col gap-y-2">
                     <Label
                       htmlFor="password"
-                      className="focus-within:text-primary-40 font-normal">
+                      className="focus-within:text-primary-40 text-[14px] font-normal">
                       Kata Sandi
                     </Label>
 
@@ -594,26 +603,226 @@ export default function RegisterScreen() {
                   </div>
                 </div>
 
-                <div className="w-full">
-                  <Label className="text-[12px] text-primary-800 font-semibold">
-                    Alamat
-                  </Label>
+                {!isMobile && (
+                  <div className="w-full flex flex-col gap-y-2">
+                    <Label className="text-[16px] text-primary-800 font-normal">
+                      Alamat
+                    </Label>
 
-                  <Textarea
-                    name="alamat"
-                    placeholder="Alamat"
-                    value={data.alamat}
-                    onChange={changeUser}
-                    className="w-full rounded-3xl h-[74px] border border-black-10 md:h-[122px] text-[12px] placeholder:opacity-[70%]"
-                  />
+                    <Textarea
+                      name="alamat"
+                      placeholder="Alamat"
+                      value={data.alamat}
+                      onChange={changeUser}
+                      className="w-full rounded-lg h-[74px] border border-black-10 md:h-[122px] text-[12px] placeholder:opacity-[70%]"
+                    />
 
-                  {hasSubmitted && errors?.alamat?._errors && (
-                    <div className="text-red-500 text-[12px] md:text-[14px]">
-                      {errors.alamat._errors[0]}
-                    </div>
-                  )}
-                </div>
+                    {hasSubmitted && errors?.alamat?._errors && (
+                      <div className="text-red-500 text-[12px] md:text-[14px]">
+                        {errors.alamat._errors[0]}
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
+
+              {isMobile && (
+                <>
+                  <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                    <Label
+                      htmlFor="name"
+                      className="focus-within:text-primary-70 font-normal text-sm">
+                      Kecamatan
+                    </Label>
+
+                    <Select
+                      name="kecamatan_id"
+                      value={
+                        selectedSubDistrict
+                          ? String(selectedSubDistrict)
+                          : undefined
+                      }
+                      onValueChange={(value) =>
+                        setSelectedSubDistrict(Number(value))
+                      }>
+                      <SelectTrigger
+                        className={`${
+                          !selectedSubDistrict ? "opacity-70" : ""
+                        } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                        <SelectValue
+                          placeholder="Pilih Kecamatan"
+                          className={
+                            selectedSubDistrict ? "" : "placeholder:opacity-50"
+                          }
+                        />
+                      </SelectTrigger>
+                      <SelectContent className="w-full bg-line-10">
+                        <div>
+                          {/* <div className="w-full px-2 mt-2">
+                          <SearchComponent
+                          change={(
+                            e: React.ChangeEvent<HTMLInputElement>
+                            ) => setSearchKecamatan(e.target.value)}
+                            search={searchKecamatan}
+                            />
+                            </div> */}
+
+                          {subDistricts &&
+                            subDistricts?.map(
+                              (sub: SubDistrictInterface, i: number) => {
+                                return (
+                                  <SelectItem
+                                    className="pr-none mt-2"
+                                    value={sub?.id.toString()}
+                                    key={i}>
+                                    {sub?.nama}
+                                  </SelectItem>
+                                );
+                              }
+                            )}
+                        </div>
+                      </SelectContent>
+                    </Select>
+
+                    {hasSubmitted && errors.kecamatan_id?._errors[0] && (
+                      <p className="text-red-500 text-[12px] md:text-[14px]">
+                        {errors.kecamatan_id?._errors[0]}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                    <Label
+                      htmlFor="name"
+                      className="focus-within:text-primary-70 font-normal text-sm">
+                      Desa
+                    </Label>
+
+                    <Select
+                      name="desa_id"
+                      value={
+                        selectedVillage ? String(selectedVillage) : undefined
+                      }
+                      onValueChange={(value) =>
+                        setSelectedVillage(Number(value))
+                      }>
+                      <SelectTrigger
+                        className={`${
+                          !selectedVillage ? "opacity-70" : ""
+                        } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                        <SelectValue
+                          placeholder="Pilih Desa"
+                          className={
+                            selectedVillage ? "" : "placeholder:opacity-50"
+                          }
+                        />
+                      </SelectTrigger>
+                      <SelectContent className="w-full bg-line-10">
+                        <div>
+                          {/* <div className="w-full px-2 mt-2">
+                            <SearchComponent
+                              change={(
+                                e: React.ChangeEvent<HTMLInputElement>
+                              ) => setSearchKecamatan(e.target.value)}
+                              search={searchKecamatan}
+                            />
+                          </div> */}
+
+                          {villages &&
+                            villages?.map(
+                              (village: VillageInterface, i: number) => {
+                                return (
+                                  <SelectItem
+                                    className="pr-none mt-2"
+                                    value={village?.id.toString()}
+                                    key={i}>
+                                    {village?.nama}
+                                  </SelectItem>
+                                );
+                              }
+                            )}
+                        </div>
+                      </SelectContent>
+                    </Select>
+
+                    {hasSubmitted && errors.desa_id?._errors[0] && (
+                      <p className="text-red-500 text-[12px] md:text-[14px]">
+                        {errors.desa_id?._errors[0]}
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="w-full grid grid-cols-2 gap-x-3">
+                    <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                      <Label
+                        htmlFor="rt"
+                        className="focus-within:text-primary-70 font-normal text-sm">
+                        RT
+                      </Label>
+
+                      <Input
+                        id="rt"
+                        name="rt"
+                        value={data.rt}
+                        onChange={changeUser}
+                        type="number"
+                        className="w-full focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
+                        placeholder="Masukkan RT Anda"
+                      />
+
+                      {hasSubmitted && errors?.rt?._errors && (
+                        <div className="text-red-500 text-[12px] md:text-[14px]">
+                          {errors.rt._errors[0]}
+                        </div>
+                      )}
+                    </div>
+
+                    <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                      <Label
+                        htmlFor="rw"
+                        className="focus-within:text-primary-70 font-normal text-sm">
+                        RW
+                      </Label>
+
+                      <Input
+                        id="rw"
+                        name="rw"
+                        value={data.rw}
+                        onChange={changeUser}
+                        type="number"
+                        className="w-full focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
+                        placeholder="Masukkan RW Anda"
+                      />
+
+                      {hasSubmitted && errors?.rw?._errors && (
+                        <div className="text-red-500 text-[12px] md:text-[14px]">
+                          {errors.rw._errors[0]}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+
+                  <div className="w-full flex flex-col gap-y-2">
+                    <Label className="text-[14px] text-primary-800 font-normal">
+                      Alamat
+                    </Label>
+
+                    <Textarea
+                      name="alamat"
+                      placeholder="Alamat"
+                      value={data.alamat}
+                      onChange={changeUser}
+                      className="w-full rounded-lg h-[74px] border border-black-10 md:h-[122px] text-[12px] placeholder:opacity-[70%]"
+                    />
+
+                    {hasSubmitted && errors?.alamat?._errors && (
+                      <div className="text-red-500 text-[12px] md:text-[14px]">
+                        {errors.alamat._errors[0]}
+                      </div>
+                    )}
+                  </div>
+                </>
+              )}
             </div>
 
             <div className="mt-4 flex flex-row gap-x-2">
@@ -642,13 +851,13 @@ export default function RegisterScreen() {
                 </AlertDialogContent>
               </AlertDialog>
 
-              <div className="text-black-80 font-normal text-sm">
+              <div className="text-black-80 font-normal text-[13px] md:text-sm">
                 Dengan mendaftar, Anda menyetujui{" "}
-                <span className="font-semibold text-primary-40">
+                <span className="font-semibold text-primary-40 text-[13px] md:text-sm">
                   Syarat & Ketentuan
                 </span>{" "}
                 kami dan Anda telah membaca{" "}
-                <span className="font-semibold text-primary-40">
+                <span className="font-semibold text-primary-40 text-[13px] md:text-sm">
                   Kebijakan Privasi
                 </span>{" "}
                 kami.

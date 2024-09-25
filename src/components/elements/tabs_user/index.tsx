@@ -8,7 +8,7 @@ export default function UserTabsTriggerScreen({ value }: { value: string }) {
   if (value === "data-diri") {
     return (dataRender = (
       <TabsTrigger
-        className="w-full py-3 rounded-s-md data-[state=active]:bg-primary-40 data-[state=active]:text-line-10"
+        className="w-full px-10 md:px-3 pl-[500px] md:pl-0 py-3 rounded-s-md data-[state=active]:bg-primary-40 data-[state=active]:text-line-10"
         value="data-diri">
         Data Diri
       </TabsTrigger>

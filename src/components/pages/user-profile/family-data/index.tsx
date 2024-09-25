@@ -40,6 +40,8 @@ import DateFormInput from "@/components/elements/date_form_input";
 import { formatDate } from "@/lib/utils";
 import { UserChildrenInterface, UserCouplesInterface } from "@/types/interface";
 import { childrenStatus, coupleStatus, genders } from "@/constants/main";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
+import MobileUserProfileFamilyDataCardPages from "@/components/mobile_all_cards/mobileUserProfileFamilyDataCard";
 
 export default function FamilyDataProfileScreen({
   couples,
@@ -142,18 +144,20 @@ export default function FamilyDataProfileScreen({
   durationDate: Date;
   setDurationDate: React.Dispatch<React.SetStateAction<Date>>;
 }) {
+  const isMobile = useMediaQuery("(max-width: 768px)");
+
   return (
     <div className="w-full flex flex-col gap-y-5 border-t border-line-20 py-4">
       <div className="w-full flex flex-col gap-y-8">
         <div className="w-full flex flex-col gap-y-5">
-          <div className="w-full flex flex-row justify-between">
-            <div className="w-3/12 py-3 border border-black-80 rounded-md">
-              <p className="text-center text-[16px] text-black-80">
+          <div className="w-full flex flex-col md:flex-row md:justify-between gap-y-3">
+            <div className="w-5/12 md:w-3/12 py-3 border border-black-80 rounded-md">
+              <p className="text-center text-[14px] md:text-[16px] text-black-80">
                 Data Suami/Istri
               </p>
             </div>
 
-            <div className="w-4/12">
+            <div className="w-full md:w-4/12">
               <div className="w-full flex flex-row items-center justify-center gap-x-2">
                 <div className="w-full">
                   <AlertDialog
@@ -369,58 +373,64 @@ export default function FamilyDataProfileScreen({
           </div>
 
           <div className="w-full">
-            <Table className="w-full border border-line-20">
-              <TableHeader className="bg-primary-40 text-line-10">
-                <TableRow className="">
-                  <TableHead className="">No.</TableHead>
-                  <TableHead className="text-center">Nama</TableHead>
-                  <TableHead className="text-center">
-                    Tempat/Tanggal Lahir
-                  </TableHead>
-                  <TableHead className="text-center">Tanggal Nikah</TableHead>
-                  <TableHead className="text-center">Pekerjaan</TableHead>
-                  <TableHead className="text-center">Status</TableHead>
-                  <TableHead className="text-center">Aksi</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {couples &&
-                  couples.length > 0 &&
-                  couples.map((item: UserCouplesInterface, i: number) => {
-                    return (
-                      <FamilyDataProfileCard
-                        key={i}
-                        index={i}
-                        item={item}
-                        couple={couple}
-                        setCouple={setCouple}
-                        openCoupleUpdate={openCoupleUpdate}
-                        setOpenCoupleUpdate={setOpenCoupleUpdate}
-                        handleSubmitCoupleDelete={handleSubmitCoupleDelete}
-                        handleSubmitCoupleUpdate={handleSubmitCoupleUpdate}
-                        isLoadingCoupleUpdate={isLoadingCoupleUpdate}
-                        isLoadingCoupleDelete={isLoadingCoupleDelete}
-                        returnDate={returnDate}
-                        setReturnDate={setReturnDate}
-                        durationDate={durationDate}
-                        setDurationDate={setDurationDate}
-                      />
-                    );
-                  })}
-              </TableBody>
-            </Table>
+            {isMobile ? (
+              <MobileUserProfileFamilyDataCardPages />
+            ) : (
+              <Table className="w-full border border-line-20">
+                <TableHeader className="bg-primary-40 text-line-10">
+                  <TableRow className="">
+                    <TableHead className="">No.</TableHead>
+                    <TableHead className="text-center">Nama</TableHead>
+                    <TableHead className="text-center">
+                      Tempat/Tanggal Lahir
+                    </TableHead>
+                    <TableHead className="text-center">Tanggal Nikah</TableHead>
+                    <TableHead className="text-center">Pekerjaan</TableHead>
+                    <TableHead className="text-center">Status</TableHead>
+                    <TableHead className="text-center">Aksi</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {couples &&
+                    couples.length > 0 &&
+                    couples.map((item: UserCouplesInterface, i: number) => {
+                      return (
+                        <FamilyDataProfileCard
+                          key={i}
+                          index={i}
+                          item={item}
+                          couple={couple}
+                          setCouple={setCouple}
+                          openCoupleUpdate={openCoupleUpdate}
+                          setOpenCoupleUpdate={setOpenCoupleUpdate}
+                          handleSubmitCoupleDelete={handleSubmitCoupleDelete}
+                          handleSubmitCoupleUpdate={handleSubmitCoupleUpdate}
+                          isLoadingCoupleUpdate={isLoadingCoupleUpdate}
+                          isLoadingCoupleDelete={isLoadingCoupleDelete}
+                          returnDate={returnDate}
+                          setReturnDate={setReturnDate}
+                          durationDate={durationDate}
+                          setDurationDate={setDurationDate}
+                        />
+                      );
+                    })}
+                </TableBody>
+              </Table>
+            )}
           </div>
         </div>
 
         <div className="w-full h-0.5 bg-line-20"></div>
 
         <div className="w-full flex flex-col gap-y-5">
-          <div className="w-full flex flex-row justify-between">
-            <div className="w-2/12 py-3 border border-black-80 rounded-md">
-              <p className="text-center text-[16px] text-black-80">Data Anak</p>
+          <div className="w-full flex flex-col md:flex-row md:justify-between gap-y-3">
+            <div className="w-5/12 md:w-2/12 py-3 border border-black-80 rounded-md">
+              <p className="text-center text-[14px] md:text-[16px] text-black-80">
+                Data Anak
+              </p>
             </div>
 
-            <div className="w-3/12">
+            <div className="w-full md:w-3/12">
               <div className="w-full flex flex-row items-center justify-center gap-x-2">
                 <div className="w-full">
                   <AlertDialog

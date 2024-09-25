@@ -86,16 +86,20 @@ export default function DashboardCard({ item }: any) {
     <div
       className={`w-full ${background} flex flex-col items-center justify-between rounded-lg shadow-md`}>
       <div className="w-full flex flex-col py-5 gap-y-5 items-center">
-        <h5 className="text-line-10 text-lg text-center">{item?.name}</h5>
+        <h5 className="text-line-10 h-10 text-[14px] md:text-lg text-center">
+          {item?.name}
+        </h5>
 
-        <div className="w-full h-full flex justify-center">
-          <Image
-            src={item?.icon}
-            alt="icons"
-            width={200}
-            height={200}
-            className="w-2/12 h-full"
-          />
+        <div className="w-full">
+          <div className="w-full h-full flex justify-center">
+            <Image
+              src={item?.icon}
+              alt="icons"
+              width={200}
+              height={200}
+              className="w-3/12 md:w-2/12 h-full"
+            />
+          </div>
         </div>
       </div>
 
@@ -181,7 +185,7 @@ export default function DashboardCard({ item }: any) {
         </AlertDialog>
       ) : (
         <Drawer>
-          <DrawerTrigger className="w-full p-3 text-line-10 text-sm bg-black-80 bg-opacity-30">
+          <DrawerTrigger className="w-full p-3 text-line-10 text-[12px] md:text-sm bg-black-80 bg-opacity-30">
             Ajukan Pengajuan &rarr;
           </DrawerTrigger>
           <DrawerContent className="flex flex-col gap-y-3 bg-line-10 rounded-lg w-full max-w-4xl h-5/6 px-3">

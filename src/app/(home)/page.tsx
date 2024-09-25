@@ -35,14 +35,15 @@ import {
 } from "@/types/interface";
 import { Button } from "@/components/ui/button";
 import { Loader } from "lucide-react";
-import StructureOrganizarionCard from "@/components/all_cards/structureOrganizationsCard";
 import EmblaCarousel from "@/components/elements/carousels/carousel_main";
 import { EmblaOptionsType } from "embla-carousel";
 import EmblaCarouselStuctureOrganization from "@/components/elements/carousel-scroll-structure-organization/carousel_main_structure_organization";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 export default function Home() {
   const router = useRouter();
   const limitItem = 30;
+  const isMobile = useMediaQuery("(max-width: 768px)");
   const [slides, setSlides] = useState<CarouselSliderInterface[]>([]);
   const [areas, setAreas] = useState<AreasInterface[]>([]);
   const [news, setNews] = useState<NewsInterface[]>([]);
@@ -62,35 +63,6 @@ export default function Home() {
       router.push("/dashboard");
     }
   }, [router]);
-
-  const scrollToSection = (id: any) => {
-    const section = document.getElementById(id);
-    if (section) {
-      section.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-
-      history.pushState(null, "", " ");
-    }
-  };
-
-  useEffect(() => {
-    const anchorLinks = document.querySelectorAll("a[href^='#']");
-    anchorLinks.forEach((link: any) => {
-      link.addEventListener("click", (event: any) => {
-        event.preventDefault();
-        const href = link?.getAttribute("href").substring(1);
-        scrollToSection(href);
-      });
-    });
-
-    return () => {
-      anchorLinks.forEach((link) => {
-        link.removeEventListener("click", (event: any) => {});
-      });
-    };
-  }, []);
 
   const fetchCarouselSliders = async () => {
     try {
@@ -233,7 +205,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="w-full snap-start scroll-mt-24 flex flex-col px-4 md:px-12 py-12 gap-y-16">
+      <section className="w-full snap-start scroll-mt-24 flex flex-col px-4 md:px-12 py-12 gap-y-8 md:gap-y-16">
         <div className="w-full flex flex-col items-center gap-y-3">
           <h5 className="text-black-80 text-xl md:text-3xl font-semibold">
             PELAYANAN BKD LAMPUNG TIMUR
@@ -249,7 +221,7 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="w-full flex flex-col md:grid grid-cols-4 gap-y-5 md:gap-x-5">
+        <div className="w-full grid grid-cols-2 md:grid-cols-4 gap-y-3 gap-x-3 md:gap-x-5">
           {areas &&
             areas.length > 0 &&
             areas?.map((area: AreasInterface, i: number) => {
@@ -258,27 +230,51 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="w-full flex flex-row justify-between snap-start scroll-mt-24 background-about-us py-12 gap-y-8 gap-x-3">
-        <div className="w-5/12 flex flex-col items-center gap-y-3 px-20">
-          <div className="w-full h-4/6 flex justify-center items-center">
-            <Image
-              src={newsIcon}
-              alt="News Icons"
-              width={1000}
-              height={1000}
-              className="w-5/12 h-3/6"
-            />
+      <section className="w-full flex flex-col md:flex-row snap-start scroll-mt-24 background-about-us pt-2 pb-16 md:py-12 gap-y-8 gap-x-3">
+        <div className="w-full md:w-4/12 flex flex-col items-center gap-y-8 px-2 md:px-8">
+          <div className="w-full flex flex-row items-center justify-center pt-12">
+            <div className="w-3/12 md:w-5/12 h-full">
+              <Image
+                src={newsIcon}
+                alt="News Icons"
+                width={1000}
+                height={1000}
+                className="w-full h-full"
+              />
+            </div>
           </div>
 
           <div className="w-full flex flex-col gap-y-5">
-            <h5 className="text-line-10 text-[22px] text-center font-semibold">
-              Berita Terkait BKD Lampung Timur
+            <h5 className="text-line-10 text-[20px] text-center font-light">
+              Berita Terkait Tentang BKD Lampung Timur
             </h5>
 
+            {!isMobile && (
+              <div className="w-full flex items-center justify-center">
+                <Button
+                  onClick={handleNextNewsPage}
+                  className="bg-line-10 hover:bg-primary-70 text-primary-40 hover:text-line-10 rounded-lg">
+                  {isFirstLoading ? (
+                    <Loader className="animate-spin" />
+                  ) : (
+                    "Lihat Selengkapnya"
+                  )}
+                </Button>
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="w-full flex flex-col">
+          {news && news.length > 0 && (
+            <EmblaCarousel options={OPTIONS} items={news} />
+          )}
+
+          {isMobile && (
             <div className="w-full flex items-center justify-center">
               <Button
                 onClick={handleNextNewsPage}
-                className="bg-line-10 hover:bg-primary-70 text-primary-40 rounded-lg">
+                className="bg-line-10 hover:bg-primary-70 text-primary-40 hover:text-line-10 rounded-lg">
                 {isFirstLoading ? (
                   <Loader className="animate-spin" />
                 ) : (
@@ -286,17 +282,13 @@ export default function Home() {
                 )}
               </Button>
             </div>
-          </div>
+          )}
         </div>
-
-        {news && news.length > 0 && (
-          <EmblaCarousel options={OPTIONS} items={news} />
-        )}
       </section>
 
       <section className="w-full snap-start scroll-mt-24 flex flex-col py-12 gap-y-12">
         <div className="w-full flex flex-col items-center gap-y-3">
-          <h5 className="text-black-80 text-xl md:text-3xl font-semibold">
+          <h5 className="text-black-80 text-center text-xl md:text-3xl font-semibold">
             Struktur Organisasi BKD Lampung Timur
           </h5>
         </div>
@@ -397,7 +389,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="w-full snap-start flex flex-col py-12 px-4 md:px-20 gap-y-8">
+      <section className="w-full snap-start flex flex-col mt-28 pt-8 md:pt-0 md:mt-0 pb-12 px-4 md:px-20 gap-y-8">
         <div className="w-full flex flex-col items-center gap-y-3">
           <h5 className="text-black-80 text-center text-xl md:text-3xl font-semibold">
             PERTANYAAN YANG SERING DIAJUKAN
