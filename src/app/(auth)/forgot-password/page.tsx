@@ -19,7 +19,7 @@ export default function ForgotPasswordScreen() {
     <section className="relative flex flex-col justify-center items-center w-screen h-screen">
       <BackgroundImage />
 
-      <div className="relative z-50 flex flex-col w-6/12 items-center justify-center gap-y-8 bg-white p-12 shadow-lg rounded-lg">
+      <div className="relative z-50 flex flex-col w-11/12 md:w-6/12 items-center justify-center gap-y-8 bg-white p-4 pb-8 md:p-12 shadow-lg rounded-lg">
         <div className="w-full flex flex-col items-center gap-y-8">
           <h5 className="text-black-80 text-lg">Lupa Password</h5>
 
