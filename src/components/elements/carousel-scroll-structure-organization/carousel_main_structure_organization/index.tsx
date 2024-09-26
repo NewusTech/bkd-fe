@@ -54,22 +54,11 @@ const EmblaCarouselStuctureOrganization: React.FC<PropType> = (props) => {
             items.map((item: StructureOrganizationInterface, index: number) => (
               <div className="embla__slide" key={index}>
                 <div className="embla__slide__number flex flex-col gap-y-4">
-                  {/* <div className="w-full h-full">
-                    {item && item?.image && (
-                      <Image
-                        src={item.image}
-                        alt={item?.jabatan}
-                        width={1000}
-                        height={1000}
-                        className="w-full h-full object-cover rounded-lg"
-                      />
-                    )}
-                  </div> */}
                   <div className="w-full">
                     <Dialog>
                       <DialogTrigger className="w-full">
                         <div className="w-full h-full">
-                          {item && item?.image && (
+                          {item?.jabatan && item?.image && (
                             <Image
                               src={item.image}
                               alt={item?.jabatan}
@@ -80,11 +69,11 @@ const EmblaCarouselStuctureOrganization: React.FC<PropType> = (props) => {
                           )}
                         </div>
                       </DialogTrigger>
-                      <DialogContent className="w-full max-w-2xl bg-line-10 rounded-lg shadow-md">
+                      <DialogContent className="w-11/12 max-w-2xl bg-line-10 rounded-lg shadow-md">
                         <DialogHeader className="flex flex-col gap-y-3 max-h-[500px]">
                           <div className="w-full flex flex-row justify-center items-center">
                             <div className="w-8/12 h-full">
-                              {item && item?.image && (
+                              {item?.jabatan && item?.image && (
                                 <Image
                                   src={item.image}
                                   alt={item?.jabatan}
@@ -97,10 +86,10 @@ const EmblaCarouselStuctureOrganization: React.FC<PropType> = (props) => {
                           </div>
                           <div className="w-full flex flex-col gap-y-3">
                             <DialogTitle className="text-center text-black-80 font-semibold text-[22px]">
-                              Master Data Bidang
+                              {item?.nama && item?.nama}
                             </DialogTitle>
                             <DialogDescription className="text-center text-black-80 font-normal text-[18px]">
-                              Input data yang diperlukan
+                              {item?.jabatan && item?.jabatan}
                             </DialogDescription>
                           </div>
                         </DialogHeader>
@@ -108,12 +97,14 @@ const EmblaCarouselStuctureOrganization: React.FC<PropType> = (props) => {
                     </Dialog>
                   </div>
 
-                  <div className="w-full flex flex-col items-center gap-y-1">
+                  <div className="w-full flex flex-col items-center justify-center gap-y-1">
                     <h5 className="text-black-80 font-semibold text-[16px]">
-                      {item?.nama}
+                      {item?.nama && item?.nama}
                     </h5>
 
-                    <p className="text-black-80">{item?.jabatan}</p>
+                    <p className="text-black-80">
+                      {item?.jabatan && item?.jabatan}
+                    </p>
                   </div>
                 </div>
               </div>

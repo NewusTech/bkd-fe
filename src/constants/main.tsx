@@ -331,10 +331,12 @@ export const genders = [
   {
     id: 1,
     value: "Laki-laki",
+    name: "laki-laki",
   },
   {
     id: 2,
     value: "Perempuan",
+    name: "perempuan",
   },
 ];
 

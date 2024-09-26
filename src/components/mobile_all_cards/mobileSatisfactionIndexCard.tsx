@@ -7,39 +7,49 @@ export default function MobileSatisfactionIndexCardPages() {
   return (
     <section className="w-full bg-line-10 rounded-lg shadow-md flex flex-col gap-y-7 p-4">
       <div className="w-full grid grid-cols-3">
-        <div className="w-full">No.</div>
+        <div className="w-full text-[14px] md:text-[16px]">No.</div>
 
-        <div className="w-full col-span-2">: 1</div>
+        <div className="w-full col-span-2 text-[14px] md:text-[16px]">: 1</div>
       </div>
 
       <div className="w-full grid grid-cols-3">
-        <div className="w-full">Bidang</div>
+        <div className="w-full text-[14px] md:text-[16px]">Bidang</div>
 
-        <div className="w-full col-span-2">: Bidang Mutasi</div>
+        <div className="w-full col-span-2 text-[14px] md:text-[16px]">
+          : Bidang Mutasi
+        </div>
       </div>
 
       <div className="w-full grid grid-cols-3">
-        <div className="w-full">Layanan</div>
+        <div className="w-full text-[14px] md:text-[16px]">Layanan</div>
 
-        <div className="w-full col-span-2">: Pengajuan Pangkat</div>
+        <div className="w-full col-span-2 text-[14px] md:text-[16px]">
+          : Pengajuan Pangkat
+        </div>
       </div>
 
       <div className="w-full grid grid-cols-3">
-        <div className="w-full">Tanggal</div>
+        <div className="w-full text-[14px] md:text-[16px]">Tanggal</div>
 
-        <div className="w-full col-span-2">: 22 Januari 2022</div>
+        <div className="w-full col-span-2 text-[14px] md:text-[16px]">
+          : 22 Januari 2022
+        </div>
       </div>
 
       <div className="w-full grid grid-cols-3">
-        <div className="w-full">Waktu</div>
+        <div className="w-full text-[14px] md:text-[16px]">Waktu</div>
 
-        <div className="w-full col-span-2">: 08.30 WIB</div>
+        <div className="w-full col-span-2 text-[14px] md:text-[16px]">
+          : 08.30 WIB
+        </div>
       </div>
 
       <div className="w-full grid grid-cols-3">
-        <div className="w-full">Kritik dan Saran</div>
+        <div className="w-full text-[14px] md:text-[16px]">
+          Kritik dan Saran
+        </div>
 
-        <div className="w-full col-span-2">
+        <div className="w-full col-span-2 text-[14px] md:text-[16px]">
           : Sedikit Kesulitan dan juga saya mengalami kendala
         </div>
       </div>

@@ -74,8 +74,6 @@ export default function AwardHistoryProfileCard({
     setReturnDate(new Date(item?.tanggal_penghargaan));
   };
 
-  console.log(item, "award");
-
   return (
     <TableRow className="border border-line-20">
       <TableCell className="text-center">{index + 1}</TableCell>
