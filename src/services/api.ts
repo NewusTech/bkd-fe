@@ -174,10 +174,26 @@ export const getBkdGalleryActivities = async (page: number, limit: number) => {
   return await response.json();
 };
 
-// get structure organization
+// get news
 export const getNews = async (page: number, limit: number) => {
   const response = await fetch(
     `${process.env.NEXT_PUBLIC_API_URL}/user/berita/get?page=${page}&limit=${limit}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      cache: "no-store",
+    }
+  );
+
+  return await response.json();
+};
+
+// get detail news
+export const getDetailNews = async (slug: string) => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/user/berita/get/${slug}`,
     {
       method: "GET",
       headers: {

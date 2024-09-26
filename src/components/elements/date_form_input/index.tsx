@@ -40,7 +40,11 @@ export default function DateFormInput(props: DateInputProps) {
 
   return (
     <div className={twMerge(["flex flex-col w-full gap-y-2", rest.className])}>
-      {typeof label !== "string" ? label : <p className="">{label}</p>}
+      {typeof label !== "string" ? (
+        label
+      ) : (
+        <p className="text-[14px] md:text-[16px]">{label}</p>
+      )}
       <div
         className={twMerge([
           `flex flex-row items-center w-full bg-line-10 border border-line-20 rounded-full py-1 px-3 ${disabled ? "opacity-50" : ""}`,
@@ -49,7 +53,7 @@ export default function DateFormInput(props: DateInputProps) {
         <Popover>
           <PopoverTrigger asChild>
             <Button
-              className="w-full pl-0 justify-start text-left text-[14px]"
+              className="w-full pl-0 justify-start text-left text-[13px] md:text-[14px]"
               disabled={disabled}>
               {value ? format(value, "PPP") : "Pilih Tanggal"}
             </Button>

@@ -7,41 +7,49 @@ export default function MobileApplicationHistoryCard() {
   return (
     <section className="w-full bg-line-10 rounded-lg shadow-md flex flex-col gap-y-7 p-4">
       <div className="w-full grid grid-cols-3">
-        <div className="w-full">No.</div>
+        <div className="w-full text-[14px] md:text-[16px]">No.</div>
 
-        <div className="w-full col-span-2">: 1</div>
+        <div className="w-full col-span-2 text-[14px] md:text-[16px]">: 1</div>
       </div>
 
       <div className="w-full grid grid-cols-3">
-        <div className="w-full">Nama</div>
+        <div className="w-full text-[14px] md:text-[16px]">Nama</div>
 
-        <div className="w-full col-span-2">: Irsyad Al-Haq</div>
+        <div className="w-full col-span-2 text-[14px] md:text-[16px]">
+          : Irsyad Al-Haq
+        </div>
       </div>
 
       <div className="w-full grid grid-cols-3">
-        <div className="w-full">NIP</div>
+        <div className="w-full text-[14px] md:text-[16px]">NIP</div>
 
-        <div className="w-full col-span-2">: 19191908080080001</div>
+        <div className="w-full col-span-2 text-[14px] md:text-[16px]">
+          : 19191908080080001
+        </div>
       </div>
 
       <div className="w-full grid grid-cols-3">
-        <div className="w-full">Layanan</div>
+        <div className="w-full text-[14px] md:text-[16px]">Layanan</div>
 
-        <div className="w-full col-span-2">: Layanan Mutasi</div>
+        <div className="w-full col-span-2 text-[14px] md:text-[16px]">
+          : Layanan Mutasi
+        </div>
       </div>
 
       <div className="w-full grid grid-cols-3">
-        <div className="w-full">Tanggal</div>
+        <div className="w-full text-[14px] md:text-[16px]">Tanggal</div>
 
-        <div className="w-full col-span-2">: 1 Januari 2022</div>
+        <div className="w-full col-span-2 text-[14px] md:text-[16px]">
+          : 1 Januari 2022
+        </div>
       </div>
 
       <div className="w-full grid grid-cols-3 items-center">
-        <div className="w-full">Status</div>
+        <div className="w-full text-[14px] md:text-[16px]">Status</div>
 
         <div className="w-full flex flex-row items-center gap-x-1">
           <p>:</p>
-          <div className="w-full col-span-2 bg-green-500 bg-opacity-20 p-2 px-2 rounded-lg">
+          <div className="w-full col-span-2 bg-green-500 bg-opacity-20 p-2 px-2 rounded-lg text-[14px] md:text-[16px]">
             Divalidasi
           </div>
         </div>

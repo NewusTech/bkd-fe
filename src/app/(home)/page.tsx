@@ -198,14 +198,14 @@ export default function Home() {
           </div>
 
           <div className="w-full">
-            <p className="text-line-10 text-sm md:text-[16px] text-justify md:text-start leading-8">
+            <p className="text-line-10 text-sm md:text-[16px] text-start leading-8">
               {informations && informations.about_bkd}
             </p>
           </div>
         </div>
       </section>
 
-      <section className="w-full snap-start scroll-mt-24 flex flex-col px-4 md:px-12 py-12 gap-y-8 md:gap-y-16">
+      <section className="w-full snap-start scroll-mt-24 flex flex-col px-4 md:px-12 py-8 md:py-8 gap-y-8 md:gap-y-16">
         <div className="w-full flex flex-col items-center gap-y-3">
           <h5 className="text-black-80 text-xl md:text-3xl font-semibold">
             PELAYANAN BKD LAMPUNG TIMUR
@@ -231,8 +231,8 @@ export default function Home() {
       </section>
 
       <section className="w-full flex flex-col md:flex-row snap-start scroll-mt-24 background-about-us pt-2 pb-16 md:py-12 gap-y-8 gap-x-3">
-        <div className="w-full md:w-4/12 flex flex-col items-center gap-y-8 px-2 md:px-8">
-          <div className="w-full flex flex-row items-center justify-center pt-12">
+        <div className="w-full md:w-4/12 flex flex-col items-center gap-y-8 px-4 md:px-8">
+          <div className="w-full flex flex-row items-center justify-center pt-8 md:pt-12">
             <div className="w-3/12 md:w-5/12 h-full">
               <Image
                 src={newsIcon}
@@ -326,7 +326,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="w-full flex flex-col snap-start scroll-mt-24 background-about-us py-12 px-4 md:px-20 gap-y-8">
+      <section className="w-full flex flex-col snap-start scroll-mt-24 background-about-us py-8 md:py-12 px-4 md:px-20 gap-y-8">
         <div className="w-full flex flex-col items-center gap-y-3">
           <h5 className="text-line-10 text-xl md:text-3xl font-semibold text-center md:text-start">
             FOTO KEGIATAN BKD LAMPUNG TIMUR
@@ -363,7 +363,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="w-full flex snap-start scroll-mt-24 flex-col py-12 px-4 md:px-20 gap-y-8">
+      <section className="w-full flex snap-start scroll-mt-24 flex-col py-8 md:py-12 px-4 md:px-20 gap-y-8">
         <div className="w-full flex flex-col items-center gap-y-3">
           <h5 className="text-black-80 text-xl md:text-3xl font-semibold">
             MAPS BKD LAMPUNG TIMUR

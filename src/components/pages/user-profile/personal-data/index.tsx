@@ -187,7 +187,7 @@ export default function PersonalDataProfileScreen({
                 />
               </div>
 
-              <div className="w-full flex flex-row gap-x-5">
+              <div className="w-full flex flex-row gap-x-3 md:gap-x-5">
                 <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                   <Label
                     htmlFor="tempat-lahir"
@@ -203,12 +203,12 @@ export default function PersonalDataProfileScreen({
                       setUserData({ ...userData, tempat_lahir: e.target.value })
                     }
                     type="text"
-                    className="w-full h-12 focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
+                    className="w-full h-[50px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                     placeholder="Masukkan Tempat Lahir Anda"
                   />
                 </div>
 
-                <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                <div className="w-[48%] md:w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                   <DateFormInput
                     value={returnDate}
                     setValue={setReturnDate}
@@ -307,13 +307,13 @@ export default function PersonalDataProfileScreen({
                         genders.length > 0 &&
                         genders?.map(
                           (
-                            gender: { id: number; value: string },
+                            gender: { id: number; value: string; name: string },
                             i: number
                           ) => {
                             return (
                               <SelectItem
                                 className="pr-none mt-2"
-                                value={gender.id.toString()}
+                                value={gender.name}
                                 key={i}>
                                 {gender.value}
                               </SelectItem>
@@ -359,7 +359,7 @@ export default function PersonalDataProfileScreen({
                             return (
                               <SelectItem
                                 className="pr-none mt-2"
-                                value={blood.id.toString()}
+                                value={blood.value}
                                 key={i}>
                                 {blood.value}
                               </SelectItem>
@@ -558,7 +558,7 @@ export default function PersonalDataProfileScreen({
                       alamat: e.target.value,
                     })
                   }
-                  className="w-full rounded-lg h-[74px] border border-black-10 md:h-[122px] text-[12px] placeholder:opacity-[70%]"
+                  className="w-full rounded-lg h-[74px] border border-black-10 md:h-[122px] text-[14px] placeholder:opacity-[70%]"
                 />
               </div>
             </div>

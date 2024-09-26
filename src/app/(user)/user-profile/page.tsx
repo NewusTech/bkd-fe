@@ -291,14 +291,12 @@ export default function UserProfileScreen() {
     formData.append("kecamatan_id", userData.kecamatan_id);
     formData.append("desa_id", userData.desa_id);
 
-    formData.forEach((value, key) => {
-      console.log(key + ": " + value);
-    });
+    // formData.forEach((value, key) => {
+    //   console.log(key + ": " + value);
+    // });
 
     try {
       const response = await updateUserData(formData);
-
-      console.log(response, "ini response");
 
       if (response.status === 200) {
         setUserData({

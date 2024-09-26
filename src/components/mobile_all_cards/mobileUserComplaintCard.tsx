@@ -7,37 +7,45 @@ export default function MobileUserComplaintCardPages() {
   return (
     <section className="w-full bg-line-10 rounded-lg shadow-md flex flex-col gap-y-7 p-4 mb-12">
       <div className="w-full grid grid-cols-3">
-        <div className="w-full">No.</div>
+        <div className="w-full text-[14px] md:text-[16px]">No.</div>
 
-        <div className="w-full col-span-2">: 1</div>
+        <div className="w-full col-span-2 text-[14px] md:text-[16px]">: 1</div>
       </div>
 
       <div className="w-full grid grid-cols-3">
-        <div className="w-full">Tanggal</div>
+        <div className="w-full text-[14px] md:text-[16px]">Tanggal</div>
 
-        <div className="w-full col-span-2">: 22 Januari 2022</div>
+        <div className="w-full col-span-2 text-[14px] md:text-[16px]">
+          : 22 Januari 2022
+        </div>
       </div>
 
       <div className="w-full grid grid-cols-3">
-        <div className="w-full">Bidang</div>
+        <div className="w-full text-[14px] md:text-[16px]">Bidang</div>
 
-        <div className="w-full col-span-2">: Bidang Mutasi</div>
+        <div className="w-full col-span-2 text-[14px] md:text-[16px]">
+          : Bidang Mutasi
+        </div>
       </div>
 
       <div className="w-full grid grid-cols-3">
-        <div className="w-full">Layanan</div>
+        <div className="w-ful text-[14px] md:text-[16px]">Layanan</div>
 
-        <div className="w-full col-span-2">: Layanan Mutasi</div>
+        <div className="w-full col-span-2 text-[14px] md:text-[16px]">
+          : Layanan Mutasi
+        </div>
       </div>
 
       <div className="w-full grid grid-cols-3">
-        <div className="w-full">Judul Pengaduan</div>
+        <div className="w-full text-[14px] md:text-[16px]">Judul Pengaduan</div>
 
-        <div className="w-full col-span-2">: NIK Tidak Terdaftar</div>
+        <div className="w-full col-span-2 text-[14px] md:text-[16px]">
+          : NIK Tidak Terdaftar
+        </div>
       </div>
 
       <div className="w-full grid grid-cols-3 items-center">
-        <div className="w-full">Status</div>
+        <div className="w-full text-[14px] md:text-[16px]">Status</div>
 
         <div className="w-full flex flex-row items-center gap-x-1">
           <p>:</p>
