@@ -2,13 +2,14 @@
 
 import NewsCardScreen from "@/components/all_cards/newsCard";
 import PaginationComponent from "@/components/elements/pagination";
-import { formatDateString } from "@/lib/utils";
+import { formatDateString, truncateTitle } from "@/lib/utils";
 import { getNews } from "@/services/api";
 import { NewsInterface } from "@/types/interface";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import parse from "html-react-parser";
 
 export default function ProfileAboutScreen() {
   const router = useRouter();
@@ -94,9 +95,9 @@ export default function ProfileAboutScreen() {
               </div>
 
               <h5 className="md:text-[16px] md:text-justify md:text-black md:font-light">
-                {desc}
+                {parse(truncateTitle(desc, 700))}
                 <Link href={`/bkd-news/${slug}`}>
-                  <span className="text-primary-700 pl-1 font-normal hover:underline text-[16px]">
+                  <span className="text-primary-40 pl-1 font-normal hover:underline text-[16px]">
                     Lihat Selengkapnya
                   </span>
                 </Link>

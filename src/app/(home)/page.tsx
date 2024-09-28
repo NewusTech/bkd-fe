@@ -190,20 +190,17 @@ export default function Home() {
     const newSlide = currentSlide + 1;
     setCurrentSlide(newSlide);
 
-    // Jika sudah mencapai slide ke-3, aktifkan fullscreen
     if (newSlide === 1) {
-      setIsCarouselFullscreen(true); // Menghilangkan gambar/teks, dan memperluas carousel ke fullscreen
+      setIsCarouselFullscreen(true);
     }
   };
 
-  // Fungsi untuk mengubah state dan mengembalikan tampilan awal saat tombol previous di klik
   const handlePrevSlide = () => {
     const newSlide = currentSlide - 1;
     setCurrentSlide(newSlide);
 
-    // Jika kembali ke slide awal, kembalikan tampilan normal
     if (newSlide < 3) {
-      setIsCarouselFullscreen(false); // Kembalikan gambar/teks dan ukuran carousel
+      setIsCarouselFullscreen(false);
     }
   };
 
@@ -373,10 +370,10 @@ export default function Home() {
                 dragFree: false,
                 containScroll: "trimSnaps",
               }}
-              items={news} // Data berita yang ditampilkan
-              onNext={handleNextSlide} // Menjalankan fungsi saat next
-              onPrev={handlePrevSlide} // Menjalankan fungsi saat previous
-              currentSlide={currentSlide} // Memberikan informasi slide aktif
+              items={news}
+              onNext={handleNextSlide}
+              onPrev={handlePrevSlide}
+              currentSlide={currentSlide}
             />
           </div>
         </div>

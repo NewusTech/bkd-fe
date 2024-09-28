@@ -70,7 +70,7 @@ export default async function NewsDetailScreen({
           </div>
 
           <div className="text-[14px] md:text-[16px] text-justify leading-8 font-normal text-neutral-900">
-            {detail.data?.desc}
+            {parse(detail.data?.desc)}
             {/* {detail?.data?.desc && (
                 <RichTextDisplay content={detail?.data?.desc} />
               )} */}

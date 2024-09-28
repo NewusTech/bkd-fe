@@ -12,9 +12,10 @@ import {
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { DotButton, useDotButton } from "../carousel_dot_button";
 import { ArrowUpRight } from "@phosphor-icons/react";
-import { formatDateString } from "@/lib/utils";
+import { formatDateString, truncateTitle } from "@/lib/utils";
 import Image from "next/image";
 import { NewsInterface } from "@/types/interface";
+import parse from "html-react-parser";
 
 type PropType = {
   options?: EmblaOptionsType;
@@ -83,17 +84,19 @@ const EmblaCarousel: React.FC<PropType> = ({
         <div className="embla__container gap-x-3 md:gap-x-6">
           {items.map((item: NewsInterface, index: number) => (
             <div
-              className="embla__slide w-full min-h-[400px] bg-line-10 rounded-lg shadow-md"
+              className="embla__slide w-full min-h-[400px] bg-line-10 pb-5 rounded-lg shadow-md"
               key={index}>
               <div className="embla__slide__number flex flex-col gap-y-3">
-                <div className="w-full h-full">
-                  <Image
-                    src={item.image}
-                    alt={item?.title}
-                    width={1000}
-                    height={1000}
-                    className="w-full h-full object-cover rounded-t-lg"
-                  />
+                <div className="w-full h-[150px]">
+                  <div className="w-full h-full">
+                    <Image
+                      src={item.image}
+                      alt={item?.title}
+                      width={1000}
+                      height={1000}
+                      className="w-full h-full object-cover rounded-t-lg"
+                    />
+                  </div>
                 </div>
 
                 <div className="w-full flex flex-col gap-y-3 px-5">
@@ -103,13 +106,15 @@ const EmblaCarousel: React.FC<PropType> = ({
 
                   <div className="w-full flex flex-row justify-between">
                     <h4 className="text-primary-40 text-[16px]">
-                      {item?.title}
+                      {truncateTitle(item?.title, 32)}
                     </h4>
 
                     <ArrowUpRight className="w-7 h-7 text-primary-40" />
                   </div>
 
-                  <p className="text-black-80 text-[14px]">{item?.desc}</p>
+                  <p className="text-black-80 text-[14px]">
+                    {parse(truncateTitle(item?.desc, 200))}
+                  </p>
                 </div>
               </div>
             </div>

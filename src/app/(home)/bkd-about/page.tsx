@@ -9,6 +9,8 @@ import {
 } from "@/types/interface";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import parse from "html-react-parser";
+import { RichTextDisplay } from "@/components/elements/rich_text_display";
 
 export default function ProfileAboutScreen() {
   const router = useRouter();
@@ -69,7 +71,7 @@ export default function ProfileAboutScreen() {
           </h5>
 
           <p className="text-line-10 text-sm md:text-[14px] text-center">
-            {informations?.visi && informations?.visi}
+            {informations?.visi && parse(informations?.visi)}
           </p>
         </div>
       </div>
@@ -81,7 +83,10 @@ export default function ProfileAboutScreen() {
           </h5>
 
           <p className="text-black-80 text-sm md:text-[14px] text-justify md:text-center">
-            {informations?.misi && informations?.misi}
+            {/* {informations?.misi && informations?.misi} */}
+            {informations?.misi && (
+              <RichTextDisplay content={informations?.misi} />
+            )}
           </p>
         </div>
       </div>
