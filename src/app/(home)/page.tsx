@@ -55,6 +55,8 @@ export default function Home() {
   >([]);
   const [isFirstLoading, setIsFirstLoading] = useState(false);
   const [isSecondLoading, setIsSecondLoading] = useState(false);
+  const [isCarouselFullscreen, setIsCarouselFullscreen] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
 
   useEffect(() => {
     const token = Cookies.get("Authorization");
@@ -96,9 +98,17 @@ export default function Home() {
   const fetchNews = async (page: number, limit: number) => {
     try {
       const response = await getNews(page, limit);
-      const activities = await getBkdGalleryActivities(page, limit);
 
       setNews(response?.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const fetchActivities = async (page: number, limit: number) => {
+    try {
+      const activities = await getBkdGalleryActivities(page, limit);
+
       setGalleries(activities?.data);
     } catch (error) {
       console.log(error);
@@ -119,7 +129,8 @@ export default function Home() {
 
   useEffect(() => {
     fetchAreasStructureOrganization(1, limitItem);
-    fetchNews(1, 5);
+    fetchNews(1, 15);
+    fetchActivities(1, 8);
     fetchFaqs();
   }, []);
 
@@ -174,6 +185,27 @@ export default function Home() {
   if (organizations) {
     thirdOrganizations = organizations.slice(20);
   }
+
+  const handleNextSlide = () => {
+    const newSlide = currentSlide + 1;
+    setCurrentSlide(newSlide);
+
+    // Jika sudah mencapai slide ke-3, aktifkan fullscreen
+    if (newSlide === 1) {
+      setIsCarouselFullscreen(true); // Menghilangkan gambar/teks, dan memperluas carousel ke fullscreen
+    }
+  };
+
+  // Fungsi untuk mengubah state dan mengembalikan tampilan awal saat tombol previous di klik
+  const handlePrevSlide = () => {
+    const newSlide = currentSlide - 1;
+    setCurrentSlide(newSlide);
+
+    // Jika kembali ke slide awal, kembalikan tampilan normal
+    if (newSlide < 3) {
+      setIsCarouselFullscreen(false); // Kembalikan gambar/teks dan ukuran carousel
+    }
+  };
 
   return (
     <main className="flex flex-col md:w-full h-full justify-center scroll-smooth snap-mandatory snap-y items-center relative mb-28 md:mb-24">
@@ -230,7 +262,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="w-full flex flex-col md:flex-row snap-start scroll-mt-24 background-about-us pt-2 pb-16 md:py-12 gap-y-8 gap-x-3">
+      {/* <section className="w-full flex flex-col md:flex-row snap-start scroll-mt-24 background-about-us pt-2 pb-16 md:py-12 gap-y-8 gap-x-3">
         <div className="w-full md:w-4/12 flex flex-col items-center gap-y-8 px-4 md:px-8">
           <div className="w-full flex flex-row items-center justify-center pt-8 md:pt-12">
             <div className="w-3/12 md:w-5/12 h-full">
@@ -283,6 +315,70 @@ export default function Home() {
               </Button>
             </div>
           )}
+        </div>
+      </section> */}
+
+      <section
+        className={`w-full flex flex-col md:flex-row snap-start scroll-mt-24 background-about-us pt-2 pb-16 md:py-12 gap-y-8 gap-x-3`}>
+        {/* Bagian gambar dan teks akan hilang saat isCarouselFullscreen true */}
+        <div
+          className={`px-4 md:px-4 ${isMobile ? "" : "carousel-wrapper"} transition-opacity duration-700 ease-in-out ${
+            isCarouselFullscreen && !isMobile
+              ? "hidden"
+              : "slide-in opacity-visible"
+          }`}>
+          <div className="w-full flex flex-row items-center justify-center pt-8 md:pt-12">
+            <div className="w-3/12 md:w-5/12 h-full">
+              <Image
+                src={newsIcon}
+                alt="News Icons"
+                width={1000}
+                height={1000}
+                className="w-full h-full"
+              />
+            </div>
+          </div>
+
+          <div className="w-full flex flex-col gap-y-5">
+            <h5 className="text-line-10 text-[20px] text-center font-light">
+              Berita Terkait Tentang BKD Lampung Timur
+            </h5>
+
+            {!isMobile && (
+              <div className="w-full flex items-center justify-center">
+                <Button
+                  onClick={handleNextNewsPage}
+                  className="bg-line-10 hover:bg-primary-70 text-primary-40 hover:text-line-10 rounded-lg">
+                  {isFirstLoading ? (
+                    <Loader className="animate-spin" />
+                  ) : (
+                    "Lihat Selengkapnya"
+                  )}
+                </Button>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Bagian carousel akan memenuhi lebar penuh jika isCarouselFullscreen true */}
+        <div
+          className={` ${isCarouselFullscreen && !isMobile ? "w-full px-8" : "md:w-8/12"}`}>
+          <div
+            className={`embla ${isCarouselFullscreen && !isMobile ? "fullscreen" : ""}`}>
+            <EmblaCarousel
+              options={{
+                loop: false,
+                slidesToScroll: isCarouselFullscreen ? 1 : 1,
+                align: "start",
+                dragFree: false,
+                containScroll: "trimSnaps",
+              }}
+              items={news} // Data berita yang ditampilkan
+              onNext={handleNextSlide} // Menjalankan fungsi saat next
+              onPrev={handlePrevSlide} // Menjalankan fungsi saat previous
+              currentSlide={currentSlide} // Memberikan informasi slide aktif
+            />
+          </div>
         </div>
       </section>
 
