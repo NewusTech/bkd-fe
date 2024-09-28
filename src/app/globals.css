@@ -51,7 +51,7 @@ body {
   /* margin: auto; */
   --slide-height: 19rem;
   --slide-spacing: 1rem;
-  --slide-size: 31.1%;
+  --slide-size: 31.5%;
   /* --slide-size: calc(100% / 3); */
   width: 100%;
 }
@@ -320,4 +320,29 @@ body {
 
 .prose-maklumat li > span {
   color: white !important;
+}
+
+/* Animasi untuk setiap huruf */
+.animated-text .letter {
+  display: inline-block;
+  transition:
+    transform 0.5s ease,
+    opacity 0.5s ease;
+}
+
+/* Ketika kelas 'fall' ditambahkan, jalankan animasi 'fall' */
+.animated-text .letter.fall {
+  animation: fall 0.5s forwards;
+}
+
+/* Definisi keyframes untuk animasi 'fall' */
+@keyframes fall {
+  0% {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }

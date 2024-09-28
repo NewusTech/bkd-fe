@@ -12,7 +12,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
 import {
@@ -58,6 +58,8 @@ export default function Home() {
   const [isSecondLoading, setIsSecondLoading] = useState(false);
   const [isCarouselFullscreen, setIsCarouselFullscreen] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const lettersRef = useRef<(HTMLSpanElement | null)[]>([]);
 
   useEffect(() => {
     const token = Cookies.get("Authorization");
@@ -130,7 +132,7 @@ export default function Home() {
 
   useEffect(() => {
     fetchAreasStructureOrganization(1, limitItem);
-    fetchNews(1, 15);
+    fetchNews(1, 8);
     fetchActivities(1, 8);
     fetchFaqs();
   }, []);
@@ -151,21 +153,6 @@ export default function Home() {
       setIsSecondLoading(false);
       router.push("/bkd-gallery-activities");
     }, 1000);
-  };
-
-  const OPTIONS: EmblaOptionsType = {
-    align: "start",
-    dragFree: false,
-    loop: true,
-    containScroll: "trimSnaps",
-  };
-
-  const OPTIONSORGANIZATIONS: EmblaOptionsType = {
-    loop: true,
-    dragFree: false,
-    containScroll: "trimSnaps",
-    align: "start",
-    slidesToScroll: "auto",
   };
 
   let iframeSrc = "https://www.google.com/maps?q=";
@@ -205,9 +192,33 @@ export default function Home() {
     }
   };
 
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+    // Tambahkan event listener untuk menghapus kelas setelah animasi
+    lettersRef.current.forEach((letter, index) => {
+      if (letter) {
+        letter.classList.add("fall");
+        letter.style.animationDelay = `${index * 0.05}s`;
+        letter.addEventListener(
+          "animationend",
+          () => {
+            letter.classList.remove("fall");
+          },
+          { once: true }
+        );
+      }
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
   return (
     <main className="flex flex-col md:w-full h-full justify-center scroll-smooth snap-mandatory snap-y items-center relative mb-28 md:mb-24">
-      {slides && slides.length > 0 && <HeroScreen slides={slides} />}
+      <section className="md:items-center md:flex md:justify-between h-full w-dvw md:w-full slide-right-animation">
+        {slides && slides.length > 0 && <HeroScreen slides={slides} />}
+      </section>
 
       <section className="w-full background-about-us snap-start scroll-mt-24 py-12 px-4 md:px-20 flex flex-col md:flex-row items-center md:items-start gap-y-6 md:gap-x-8">
         <div className="w-10/12 md:w-5/12 h-full">
@@ -237,7 +248,7 @@ export default function Home() {
 
       <section className="w-full snap-start scroll-mt-24 flex flex-col px-4 md:px-12 py-8 md:py-8 gap-y-8 md:gap-y-16">
         <div className="w-full flex flex-col items-center gap-y-3">
-          <h5 className="text-black-80 text-xl md:text-3xl font-semibold">
+          <h5 className="text-black-80 px-6 md:px-0 text-xl md:text-3xl font-semibold">
             PELAYANAN BKD LAMPUNG TIMUR
           </h5>
 
@@ -257,70 +268,13 @@ export default function Home() {
         </div>
       </section>
 
-      {/* <section className="w-full flex flex-col md:flex-row snap-start scroll-mt-24 background-about-us pt-2 pb-16 md:py-12 gap-y-8 gap-x-3">
-        <div className="w-full md:w-4/12 flex flex-col items-center gap-y-8 px-4 md:px-8">
-          <div className="w-full flex flex-row items-center justify-center pt-8 md:pt-12">
-            <div className="w-3/12 md:w-5/12 h-full">
-              <Image
-                src={newsIcon}
-                alt="News Icons"
-                width={1000}
-                height={1000}
-                className="w-full h-full"
-              />
-            </div>
-          </div>
-
-          <div className="w-full flex flex-col gap-y-5">
-            <h5 className="text-line-10 text-[20px] text-center font-light">
-              Berita Terkait Tentang BKD Lampung Timur
-            </h5>
-
-            {!isMobile && (
-              <div className="w-full flex items-center justify-center">
-                <Button
-                  onClick={handleNextNewsPage}
-                  className="bg-line-10 hover:bg-primary-70 text-primary-40 hover:text-line-10 rounded-lg">
-                  {isFirstLoading ? (
-                    <Loader className="animate-spin" />
-                  ) : (
-                    "Lihat Selengkapnya"
-                  )}
-                </Button>
-              </div>
-            )}
-          </div>
-        </div>
-
-        <div className="w-full flex flex-col">
-          {news && news.length > 0 && (
-            <EmblaCarousel options={OPTIONS} items={news} />
-          )}
-
-          {isMobile && (
-            <div className="w-full flex items-center justify-center">
-              <Button
-                onClick={handleNextNewsPage}
-                className="bg-line-10 hover:bg-primary-70 text-primary-40 hover:text-line-10 rounded-lg">
-                {isFirstLoading ? (
-                  <Loader className="animate-spin" />
-                ) : (
-                  "Lihat Selengkapnya"
-                )}
-              </Button>
-            </div>
-          )}
-        </div>
-      </section> */}
-
       <section
-        className={`w-full flex flex-col md:flex-row snap-start scroll-mt-24 background-about-us pt-2 pb-16 md:py-12 gap-y-8 gap-x-3`}>
-        {/* Bagian gambar dan teks akan hilang saat isCarouselFullscreen true */}
+        className={`w-full flex flex-col md:flex-row snap-start scroll-mt-24 background-about-us pt-2 pb-16 md:py-12 gap-y-6 md:gap-y-8 gap-x-3`}>
         <div
           className={`px-4 ${isMobile ? "" : "carousel-wrapper"} transition-opacity duration-700 ease-in-out ${
             isCarouselFullscreen && !isMobile
               ? "hidden"
-              : "slide-in opacity-visible"
+              : "slide-in opacity-visible flex flex-col gap-y-5 md:w-[30%]"
           }`}>
           <div className="w-full flex flex-row items-center justify-center pt-8 md:pt-12">
             <div className="w-3/12 md:w-4/12 h-full">
@@ -343,11 +297,34 @@ export default function Home() {
               <div className="w-full flex items-center justify-center">
                 <Button
                   onClick={handleNextNewsPage}
+                  onMouseEnter={handleMouseEnter}
+                  onMouseLeave={handleMouseLeave}
                   className="bg-line-10 hover:bg-primary-70 text-primary-40 hover:text-line-10 rounded-lg">
                   {isFirstLoading ? (
                     <Loader className="animate-spin" />
                   ) : (
-                    "Lihat Selengkapnya"
+                    // "Lihat Selengkapnya"
+                    <span className="animated-text">
+                      {"Lihat Selengkapnya".split("").map((letter, index) => {
+                        if (letter === " ") {
+                          return (
+                            <span key={index} className="space">
+                              &nbsp;
+                            </span>
+                          );
+                        }
+                        return (
+                          <span
+                            key={index}
+                            ref={(el) => {
+                              lettersRef.current[index] = el;
+                            }}
+                            className="letter">
+                            {letter}
+                          </span>
+                        );
+                      })}
+                    </span>
                   )}
                 </Button>
               </div>
@@ -355,7 +332,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Bagian carousel akan memenuhi lebar penuh jika isCarouselFullscreen true */}
         <div
           className={` ${isCarouselFullscreen && !isMobile ? "w-full px-8" : "md:w-8/12"}`}>
           <div
@@ -377,11 +353,25 @@ export default function Home() {
             )}
           </div>
         </div>
+
+        {isMobile && (
+          <div className="w-full flex items-center justify-center">
+            <Button
+              onClick={handleNextNewsPage}
+              className="bg-line-10 hover:bg-primary-70 text-primary-40 hover:text-line-10 rounded-lg">
+              {isFirstLoading ? (
+                <Loader className="animate-spin" />
+              ) : (
+                "Lihat Selengkapnya"
+              )}
+            </Button>
+          </div>
+        )}
       </section>
 
-      <section className="w-full snap-start scroll-mt-24 flex flex-col py-12 gap-y-12">
+      <section className="w-full snap-start scroll-mt-24 flex flex-col py-12 gap-y-8 md:gap-y-12">
         <div className="w-full flex flex-col items-center gap-y-3">
-          <h5 className="text-black-80 text-center text-xl md:text-3xl font-semibold">
+          <h5 className="text-black-80 text-center px-6 md:px-0 text-xl md:text-3xl font-semibold">
             Struktur Organisasi BKD Lampung Timur
           </h5>
         </div>
@@ -390,7 +380,6 @@ export default function Home() {
           {firstOrganizations && firstOrganizations.length > 0 && (
             <EmblaCarouselStuctureOrganization
               items={firstOrganizations}
-              options={OPTIONSORGANIZATIONS}
               direction="forward"
             />
           )}
@@ -398,7 +387,6 @@ export default function Home() {
           {secondOrganizations && secondOrganizations.length > 0 && (
             <EmblaCarouselStuctureOrganization
               items={secondOrganizations}
-              options={OPTIONSORGANIZATIONS}
               direction="backward"
             />
           )}
@@ -406,7 +394,6 @@ export default function Home() {
           {thirdOrganizations && thirdOrganizations.length > 0 && (
             <EmblaCarouselStuctureOrganization
               items={thirdOrganizations}
-              options={OPTIONSORGANIZATIONS}
               direction="forward"
             />
           )}
@@ -415,7 +402,7 @@ export default function Home() {
 
       <section className="w-full flex flex-col snap-start scroll-mt-24 background-about-us py-8 md:py-12 px-4 md:px-20 gap-y-8">
         <div className="w-full flex flex-col items-center gap-y-3">
-          <h5 className="text-line-10 text-xl md:text-3xl font-semibold text-center md:text-start">
+          <h5 className="text-line-10 px-6 md:px-0 text-xl md:text-3xl font-semibold text-center md:text-start">
             FOTO KEGIATAN BKD LAMPUNG TIMUR
           </h5>
 
@@ -452,7 +439,7 @@ export default function Home() {
 
       <section className="w-full flex snap-start scroll-mt-24 flex-col py-8 md:py-12 px-4 md:px-20 gap-y-8">
         <div className="w-full flex flex-col items-center gap-y-3">
-          <h5 className="text-black-80 text-xl md:text-3xl font-semibold">
+          <h5 className="text-black-80 px-6 md:px-0 text-xl md:text-3xl font-semibold">
             MAPS BKD LAMPUNG TIMUR
           </h5>
         </div>
@@ -478,7 +465,7 @@ export default function Home() {
 
       <section className="w-full snap-start flex flex-col mt-28 pt-8 md:pt-0 md:mt-0 pb-12 px-4 md:px-20 gap-y-8">
         <div className="w-full flex flex-col items-center gap-y-3">
-          <h5 className="text-black-80 text-center text-xl md:text-3xl font-semibold">
+          <h5 className="text-black-80 px-6 md:px-0 text-center text-xl md:text-3xl font-semibold">
             PERTANYAAN YANG SERING DIAJUKAN
           </h5>
         </div>

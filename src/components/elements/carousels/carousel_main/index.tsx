@@ -16,6 +16,7 @@ import { formatDateString, truncateTitle } from "@/lib/utils";
 import Image from "next/image";
 import { NewsInterface } from "@/types/interface";
 import parse from "html-react-parser";
+import Link from "next/link";
 
 type PropType = {
   options?: EmblaOptionsType;
@@ -84,10 +85,12 @@ const EmblaCarousel: React.FC<PropType> = ({
         <div className="embla__container gap-x-3 md:gap-x-6">
           {items.map((item: NewsInterface, index: number) => (
             <div
-              className="embla__slide w-full min-h-[400px] bg-line-10 pb-5 rounded-lg shadow-md"
+              className="embla__slide w-full min-h-[400px] bg-line-10 pb-5 rounded-lg shadow-md transition-transform duration-300 transform hover:scale-[1.02] hover:shadow-lg"
               key={index}>
               <div className="embla__slide__number flex flex-col gap-y-3">
-                <div className="w-full h-[150px]">
+                <Link
+                  href={`/bkd-news/${item?.slug}`}
+                  className="w-full h-[220px]">
                   <div className="w-full h-full">
                     {item?.image && item?.title && (
                       <Image
@@ -99,9 +102,11 @@ const EmblaCarousel: React.FC<PropType> = ({
                       />
                     )}
                   </div>
-                </div>
+                </Link>
 
-                <div className="w-full flex flex-col gap-y-3 px-5">
+                <Link
+                  href={`/bkd-news/${item?.slug}`}
+                  className="w-full flex flex-col gap-y-3 px-5">
                   <p className="text-black-80 text-opacity-75 text-[14px]">
                     {formatDateString(item?.createdAt)}
                   </p>
@@ -115,9 +120,9 @@ const EmblaCarousel: React.FC<PropType> = ({
                   </div>
 
                   <div className="text-black-80 text-[14px]">
-                    {parse(truncateTitle(item?.desc, 200))}
+                    {parse(truncateTitle(item?.desc, 250))}
                   </div>
-                </div>
+                </Link>
               </div>
             </div>
           ))}
@@ -144,7 +149,7 @@ const EmblaCarousel: React.FC<PropType> = ({
         )}
 
         {isMobile && (
-          <div className="embla__buttons w-full flex flex-row justify-between absolute right-0 top-32">
+          <div className="embla__buttons w-full flex flex-row justify-between absolute right-0 top-48 px-1">
             {/* absolute -top-[20rem] -left-9 */}
             <div className="bg-line-10 max-w-[30%] border shadow-md h-full rounded-full">
               <PrevButton

@@ -45,7 +45,7 @@ export default function MobileNavigationScreen() {
           <SheetTrigger>
             <Menu className="w-7 h-7 text-line-80" />
           </SheetTrigger>
-          <SheetContent className="flex flex-col bg-line-10 p-0 w-full h-[35%] py-4 mt-20 gap-y-5">
+          <SheetContent className="flex flex-col bg-line-10 p-0 w-full h-[37%] py-4 mt-20 gap-y-5">
             <div className="flex flex-row justify-center items-center gap-x-5 px-4">
               <Link
                 href="/register"
