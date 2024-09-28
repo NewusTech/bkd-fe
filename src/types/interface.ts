@@ -3,6 +3,12 @@ export interface debounceInterface {
   delay: number;
 }
 
+export interface PaginationProps {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+}
+
 export interface SubDistrictInterface {
   id: number;
   nama: string;

@@ -1,17 +1,31 @@
 "use client";
 
 import ActivityCard from "@/components/all_cards/activityCard";
+import PaginationComponent from "@/components/elements/pagination";
 import { getBkdGalleryActivities } from "@/services/api";
 import { GalleryActivitiesInterface } from "@/types/interface";
 import React, { useEffect, useState } from "react";
 
 export default function BKDGalleryActivitiesScreen() {
   const [galleries, setGalleries] = useState<GalleryActivitiesInterface[]>([]);
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    perPage: 10,
+    totalPages: 1,
+    totalCount: 0,
+  });
+
   const fetchActivities = async (page: number, limit: number) => {
     try {
       const activities = await getBkdGalleryActivities(page, limit);
 
       setGalleries(activities?.data);
+      setPagination((prev) => ({
+        ...prev,
+        currentPage: page,
+        totalPages: activities.pagination.totalPages,
+        totalCount: activities.pagination.totalCount,
+      }));
     } catch (error) {
       console.log(error);
     }
@@ -20,6 +34,12 @@ export default function BKDGalleryActivitiesScreen() {
   useEffect(() => {
     fetchActivities(1, 12);
   }, []);
+
+  const handlePageChange = (newPage: number) => {
+    if (newPage !== pagination.currentPage) {
+      fetchActivities(newPage, 12);
+    }
+  };
 
   return (
     <section className="w-full h-screen flex flex-col background-about-us py-12 px-4 md:px-20 gap-y-8 mb-20">
@@ -41,6 +61,14 @@ export default function BKDGalleryActivitiesScreen() {
           galleries?.map((activity: GalleryActivitiesInterface, i: number) => {
             return <ActivityCard key={i} item={activity} />;
           })}
+      </div>
+
+      <div className="w-full">
+        <PaginationComponent
+          currentPage={pagination.currentPage}
+          totalPages={pagination.totalPages}
+          onPageChange={handlePageChange}
+        />
       </div>
     </section>
   );

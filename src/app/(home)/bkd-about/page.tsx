@@ -1,6 +1,7 @@
 "use client";
 
 import StructureOrganizarionCard from "@/components/all_cards/structureOrganizationsCard";
+import PaginationComponent from "@/components/elements/pagination";
 import { getInformationBkd, getStructureOrganization } from "@/services/api";
 import {
   InformationBKdInterface,
@@ -15,12 +16,24 @@ export default function ProfileAboutScreen() {
     StructureOrganizationInterface[]
   >([]);
   const [informations, setInformations] = useState<InformationBKdInterface>();
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    perPage: 10,
+    totalPages: 1,
+    totalCount: 0,
+  });
 
   const fetchGalleries = async (page: number, limit: number) => {
     try {
       const structures = await getStructureOrganization(page, limit);
 
       setOrganizations(structures?.data);
+      setPagination((prev) => ({
+        ...prev,
+        currentPage: page,
+        totalPages: structures.pagination.totalPages,
+        totalCount: structures.pagination.totalCount,
+      }));
     } catch (error) {
       console.log(error);
     }
@@ -40,6 +53,12 @@ export default function ProfileAboutScreen() {
     fetchGalleries(1, 100);
     fetchInformations();
   }, []);
+
+  const handlePageChange = (newPage: number) => {
+    if (newPage !== pagination.currentPage) {
+      fetchGalleries(newPage, 15);
+    }
+  };
 
   return (
     <section className="w-full flex flex-col gap-y-8 md:gap-y-16 mb-20">
@@ -81,6 +100,14 @@ export default function ProfileAboutScreen() {
                   return <StructureOrganizarionCard key={i} item={item} />;
                 }
               )}
+          </div>
+
+          <div className="w-full">
+            <PaginationComponent
+              currentPage={pagination.currentPage}
+              totalPages={pagination.totalPages}
+              onPageChange={handlePageChange}
+            />
           </div>
         </div>
       </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import NewsCardScreen from "@/components/all_cards/newsCard";
+import PaginationComponent from "@/components/elements/pagination";
 import { formatDateString } from "@/lib/utils";
 import { getNews } from "@/services/api";
 import { NewsInterface } from "@/types/interface";
@@ -12,12 +13,24 @@ import { useEffect, useState } from "react";
 export default function ProfileAboutScreen() {
   const router = useRouter();
   const [news, setNews] = useState<NewsInterface[]>([]);
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    perPage: 10,
+    totalPages: 1,
+    totalCount: 0,
+  });
 
   const fetchNews = async (page: number, limit: number) => {
     try {
       const response = await getNews(page, limit);
 
       setNews(response?.data);
+      setPagination((prev) => ({
+        ...prev,
+        currentPage: page,
+        totalPages: response.pagination.totalPages,
+        totalCount: response.pagination.totalCount,
+      }));
     } catch (error) {
       console.log(error);
     }
@@ -37,8 +50,14 @@ export default function ProfileAboutScreen() {
   const desc = news?.[news?.length - 1]?.desc;
   const title = news?.[news?.length - 1]?.title;
 
+  const handlePageChange = (newPage: number) => {
+    if (newPage !== pagination.currentPage) {
+      fetchNews(newPage, 9);
+    }
+  };
+
   return (
-    <section className="w-full flex bg-line-10 flex-col gap-y-8 md:gap-y-4 py-8 px-5 md:px-20 pb-20 md:pb-0 mb-20">
+    <section className="w-full flex bg-line-10 flex-col gap-y-8 md:gap-y-4 py-8 px-5 md:px-20 pb-20 md:pb-10 mb-20">
       <div className="hidden md:flex md:flex-rows md:w-full md:gap-8">
         {slug && (
           <Link
@@ -93,6 +112,14 @@ export default function ProfileAboutScreen() {
           news?.map((item: NewsInterface, i: number) => {
             return <NewsCardScreen key={i} item={item} />;
           })}
+      </div>
+
+      <div className="w-full">
+        <PaginationComponent
+          currentPage={pagination.currentPage}
+          totalPages={pagination.totalPages}
+          onPageChange={handlePageChange}
+        />
       </div>
     </section>
   );
