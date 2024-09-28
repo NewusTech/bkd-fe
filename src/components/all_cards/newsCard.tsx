@@ -14,13 +14,15 @@ export default function NewsCardScreen({ item }: { item: NewsInterface }) {
       <div className="flex flex-col gap-y-3">
         <Link href={`/bkd-news/${item?.slug}`} className="w-full h-[230px]">
           <div className="w-full h-full">
-            <Image
-              src={item.image}
-              alt={item?.title}
-              width={1000}
-              height={1000}
-              className="w-full h-full object-cover rounded-t-lg"
-            />
+            {item?.image && item?.title && (
+              <Image
+                src={item.image}
+                alt={item?.title}
+                width={1000}
+                height={1000}
+                className="w-full h-full object-cover rounded-t-lg"
+              />
+            )}
           </div>
         </Link>
 
@@ -39,9 +41,9 @@ export default function NewsCardScreen({ item }: { item: NewsInterface }) {
             <ArrowUpRight className="w-7 h-7 text-primary-40" />
           </div>
 
-          <p className="text-black-80 text-[14px]">
+          <div className="text-black-80 text-[14px]">
             {parse(truncateTitle(item?.desc, 240))}
-          </p>
+          </div>
         </Link>
       </div>
     </div>
