@@ -39,16 +39,16 @@ const EmblaCarouselStuctureOrganization: React.FC<PropType> = (props) => {
     if (!emblaApi) {
       return;
     }
-    const autoScroll = emblaApi.plugins().autoScroll;
-    if (autoScroll && !autoScroll.isPlaying()) {
-      autoScroll.play();
+    const autoScroll = emblaApi?.plugins()?.autoScroll;
+    if (autoScroll && !autoScroll?.isPlaying()) {
+      autoScroll?.play();
     }
   }, [emblaApi]);
 
   return (
     <div className="embla_organization flex flex-col gap-y-4">
       <div className="embla__viewport overflow-hidden" ref={emblaRef}>
-        <div className="embla__container w-6/12 md:w-[35%]">
+        <div className="embla__container w-6/12 md:w-[35%] flex flex-row gap-x-3">
           {items &&
             items.length > 0 &&
             items.map((item: StructureOrganizationInterface, index: number) => (
@@ -70,7 +70,7 @@ const EmblaCarouselStuctureOrganization: React.FC<PropType> = (props) => {
                         </div>
                       </DialogTrigger>
                       <DialogContent className="w-11/12 max-w-2xl bg-line-10 rounded-lg shadow-md">
-                        <DialogHeader className="flex flex-col gap-y-3 max-h-[500px]">
+                        <DialogHeader className="flex flex-col gap-y-3 max-h-[600px]">
                           <div className="w-full flex flex-row justify-center items-center">
                             <div className="w-8/12 h-full">
                               {item?.jabatan && item?.image && (
@@ -98,11 +98,11 @@ const EmblaCarouselStuctureOrganization: React.FC<PropType> = (props) => {
                   </div>
 
                   <div className="w-full flex flex-col items-center justify-center gap-y-1">
-                    <h5 className="text-black-80 font-semibold text-[16px]">
+                    <h5 className="text-black-80 text-center font-semibold text-[14px] md:text-[16px]">
                       {item?.nama && item?.nama}
                     </h5>
 
-                    <p className="text-black-80">
+                    <p className="text-black-80 text-[12px] md:text-[14px]">
                       {item?.jabatan && item?.jabatan}
                     </p>
                   </div>

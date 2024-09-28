@@ -295,15 +295,17 @@ export default function LoginScreen() {
                   Syarat & Ketentuan
                 </AlertDialogTrigger>
                 <AlertDialogContent className="flex flex-col bg-line-10 rounded-xl p-1 justify-center items-center w-10/12 md:w-4/12 max-h-[550px]">
-                  <AlertDialogTitle>Ini Syarat Judul</AlertDialogTitle>
-                  <AlertDialogDescription>Ini Syarat</AlertDialogDescription>
+                  <AlertDialogTitle>Syarat & Ketentuan</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Harap Baca Terlebih Dahulu
+                  </AlertDialogDescription>
 
                   <div className="m-3 px-4 flex flex-col items-center w-full verticalScroll gap-y-6">
                     <div>{terms && parse(terms?.desc)}</div>
 
                     <div
                       onClick={handleAgree}
-                      className="bg-primary-40 text-center cursor-pointer w-4/12 rounded-full text-line-10 py-1 px-5">
+                      className="bg-primary-40 text-center cursor-pointer w-4/12 rounded-lg text-line-10 py-2 px-5">
                       Setuju
                     </div>
                   </div>
@@ -317,15 +319,17 @@ export default function LoginScreen() {
                   Kebijakan Privasi
                 </AlertDialogTrigger>
                 <AlertDialogContent className="flex flex-col bg-line-10 rounded-xl p-1 justify-center items-center w-10/12 md:w-4/12 max-h-[550px]">
-                  <AlertDialogTitle>Ini Ketentuan Judul</AlertDialogTitle>
-                  <AlertDialogDescription>Ini Ketentuan</AlertDialogDescription>
+                  <AlertDialogTitle>Kebijakan Privasi</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Harap Baca Terlebih Dahulu
+                  </AlertDialogDescription>
 
                   <div className="m-3 px-4 flex flex-col items-center w-full verticalScroll gap-y-6">
                     <div>{terms && parse(terms?.desc)}</div>
 
                     <div
                       onClick={handleAgree}
-                      className="bg-primary-40 text-center cursor-pointer w-4/12 rounded-full text-line-10 py-1 px-5">
+                      className="bg-primary-40 text-center cursor-pointer w-4/12 rounded-lg text-line-10 py-2 px-5">
                       Setuju
                     </div>
                   </div>

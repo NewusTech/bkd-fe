@@ -46,7 +46,7 @@ export default function ServiceCard({ item }: { item: AreasInterface }) {
         height={1000}
         className="w-7/12 h-full"
       />
-    ) : item?.nama === "Bidang Pengadaan" ? (
+    ) : item?.nama === "Bidang Formasi Pengadaan" ? (
       <Image
         src={secondService}
         alt="icons"
@@ -54,7 +54,7 @@ export default function ServiceCard({ item }: { item: AreasInterface }) {
         height={1000}
         className="w-7/12 h-full"
       />
-    ) : item?.nama === "Bidang Pengembangan Karir" ? (
+    ) : item?.nama === "Bidang Pembinaan" ? (
       <Image
         src={thirdService}
         alt="icons"
@@ -62,7 +62,7 @@ export default function ServiceCard({ item }: { item: AreasInterface }) {
         height={1000}
         className="w-7/12 h-full"
       />
-    ) : item?.nama === "Bidang Kesejahteraan Pegawai" ? (
+    ) : item?.nama === "Bidang Diklat" ? (
       <Image
         src={fourthService}
         alt="icons"

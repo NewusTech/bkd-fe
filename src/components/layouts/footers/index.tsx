@@ -5,25 +5,45 @@ import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogOverlay,
+  DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { Dot } from "@phosphor-icons/react";
+import { TermConditionInterface } from "@/types/interface";
+import { getTermConditions } from "@/services/api";
+import parse from "html-react-parser";
 
 export default function FooterScreen() {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [terms, setTerms] = useState<TermConditionInterface>();
 
   const handleAgree = () => {
     setIsDialogOpen(false);
   };
 
+  const fetchDataTerms = async () => {
+    try {
+      const response = await getTermConditions();
+
+      setTerms(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchDataTerms();
+  }, []);
+
   return (
     <div className="flex w-full bg-primary-700">
       {!isMobile ? (
         <div className="flex flex-col md:flex-row md:items-center justify-between w-full px-4 md:px-[49px] my-[29px] text-start md:text-center gap-y-4">
-          <p className="text-[12px] text-line-10 font-normal">
+          <p className="text-[12px] md:text-[14px] text-line-10 font-normal">
             Copyright &copy; 2024
             <span className="text-[12px] font-bold"> BKD Lampung Timur</span>.
             All rights reserved
@@ -31,11 +51,11 @@ export default function FooterScreen() {
 
           <Link
             href="/kontak"
-            className="text-[12px] md:mt-0 hover:underline text-line-10 font-normal cursor-pointer">
+            className="text-[12px] md:text-[14px] md:mt-0 hover:underline text-line-10 font-normal cursor-pointer">
             Hubungi Kami
           </Link>
 
-          <div className="w-full md:w-3/12 text-start md:text-center text-line-10 text-[12px]">
+          <div className="w-full md:w-3/12 text-start md:text-center text-line-10 text-[12px] md:text-[14px]">
             <Dialog open={isDialogOpen}>
               <DialogTrigger
                 className="text-line-10 font-semibold hover:underline"
@@ -44,11 +64,20 @@ export default function FooterScreen() {
               </DialogTrigger>
               <DialogContent className="flex flex-col bg-line-10 rounded-xl p-1 justify-center items-center w-10/12 max-h-[700px]">
                 <div className="py-4 px-6 flex flex-col items-center w-full verticalScroll gap-y-6">
-                  <div>Hello World</div>
+                  <div className="w-full flex flex-col gap-y-1">
+                    <DialogTitle className="text-center">
+                      Syarat Ketentuan
+                    </DialogTitle>
+                    <DialogDescription className="text-center">
+                      Harap Baca Terlebih Dahulu
+                    </DialogDescription>
+                  </div>
+
+                  <div>{terms && parse(terms?.desc)}</div>
 
                   <div
                     onClick={handleAgree}
-                    className="bg-primary-700 text-center cursor-pointer w-2/12 rounded-full text-line-10 py-1 px-5">
+                    className="bg-primary-40 text-[14px] md:text-[16px] text-center cursor-pointer w-5/12 rounded-md text-line-10 py-2 px-3">
                     Setuju
                   </div>
                 </div>
@@ -61,13 +90,22 @@ export default function FooterScreen() {
                 onClick={() => setIsDialogOpen(true)}>
                 Kebijakan Privasi
               </DialogTrigger>
-              <DialogContent className="flex flex-col bg-line-10 rounded-lg p-1 justify-center items-center w-10/12 max-h-[700px]">
+              <DialogContent className="flex py-4 flex-col bg-line-10 rounded-lg p-1 justify-center items-center w-10/12 max-h-[700px]">
                 <div className="m-3 py-4 px-8 flex flex-col items-center w-full verticalScroll gap-y-6">
-                  <div>Hello World</div>
+                  <div className="w-full flex flex-col gap-y-1">
+                    <DialogTitle className="text-center">
+                      Kebijakan Privasi
+                    </DialogTitle>
+                    <DialogDescription className="text-center">
+                      Harap Baca Terlebih Dahulu
+                    </DialogDescription>
+                  </div>
+
+                  <div>{terms && parse(terms?.desc)}</div>
 
                   <div
                     onClick={handleAgree}
-                    className="bg-primary-40 text-sm text-center cursor-pointer w-2/12 rounded-md text-line-10 py-1 px-3">
+                    className="bg-primary-40 text-[14px] md:text-[16px] text-center cursor-pointer w-5/12 rounded-md text-line-10 py-2 px-3">
                     Setuju
                   </div>
                 </div>
@@ -91,13 +129,22 @@ export default function FooterScreen() {
                   onClick={() => setIsDialogOpen(true)}>
                   Syarat Ketentuan
                 </DialogTrigger>
-                <DialogContent className="flex flex-col bg-line-10 rounded-xl p-1 justify-center items-center w-10/12 max-h-[700px]">
+                <DialogContent className="flex flex-col bg-line-10 rounded-xl p-1 justify-center items-center w-11/12 max-h-[700px]">
                   <div className="py-4 px-6 flex flex-col items-center w-full verticalScroll gap-y-6">
-                    <div>Hello World</div>
+                    <div className="w-full flex flex-col gap-y-1">
+                      <DialogTitle className="text-center">
+                        Syarat Ketentuan
+                      </DialogTitle>
+                      <DialogDescription className="text-center">
+                        Harap Baca Terlebih Dahulu
+                      </DialogDescription>
+                    </div>
+
+                    <div>{terms && parse(terms?.desc)}</div>
 
                     <div
                       onClick={handleAgree}
-                      className="bg-primary-700 text-center cursor-pointer w-2/12 rounded-full text-line-10 py-1 px-5">
+                      className="bg-primary-40 text-[14px] md:text-[16px] text-center cursor-pointer w-5/12 rounded-md text-line-10 py-2 px-3">
                       Setuju
                     </div>
                   </div>
@@ -110,13 +157,22 @@ export default function FooterScreen() {
                   onClick={() => setIsDialogOpen(true)}>
                   Kebijakan Privasi
                 </DialogTrigger>
-                <DialogContent className="flex flex-col bg-line-10 rounded-lg p-1 justify-center items-center w-10/12 max-h-[700px]">
+                <DialogContent className="flex flex-col bg-line-10 rounded-lg p-1 justify-center items-center w-11/12 max-h-[700px]">
                   <div className="m-3 py-4 px-8 flex flex-col items-center w-full verticalScroll gap-y-6">
-                    <div>Hello World</div>
+                    <div className="w-full flex flex-col gap-y-1">
+                      <DialogTitle className="text-center">
+                        Kebijakan Privasi
+                      </DialogTitle>
+                      <DialogDescription className="text-center">
+                        Harap Baca Terlebih Dahulu
+                      </DialogDescription>
+                    </div>
+
+                    <div>{terms && parse(terms?.desc)}</div>
 
                     <div
                       onClick={handleAgree}
-                      className="bg-primary-40 text-sm text-center cursor-pointer w-2/12 rounded-md text-line-10 py-1 px-3">
+                      className="bg-primary-40 text-[14px] md:text-[16px] text-center cursor-pointer w-5/12 rounded-md text-line-10 py-2 px-3">
                       Setuju
                     </div>
                   </div>

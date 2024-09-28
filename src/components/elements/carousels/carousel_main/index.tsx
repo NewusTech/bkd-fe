@@ -89,13 +89,15 @@ const EmblaCarousel: React.FC<PropType> = ({
               <div className="embla__slide__number flex flex-col gap-y-3">
                 <div className="w-full h-[150px]">
                   <div className="w-full h-full">
-                    <Image
-                      src={item.image}
-                      alt={item?.title}
-                      width={1000}
-                      height={1000}
-                      className="w-full h-full object-cover rounded-t-lg"
-                    />
+                    {item?.image && item?.title && (
+                      <Image
+                        src={item.image}
+                        alt={item?.title}
+                        width={1000}
+                        height={1000}
+                        className="w-full h-full object-cover rounded-t-lg"
+                      />
+                    )}
                   </div>
                 </div>
 
@@ -112,9 +114,9 @@ const EmblaCarousel: React.FC<PropType> = ({
                     <ArrowUpRight className="w-7 h-7 text-primary-40" />
                   </div>
 
-                  <p className="text-black-80 text-[14px]">
+                  <div className="text-black-80 text-[14px]">
                     {parse(truncateTitle(item?.desc, 200))}
-                  </p>
+                  </div>
                 </div>
               </div>
             </div>
@@ -143,14 +145,14 @@ const EmblaCarousel: React.FC<PropType> = ({
 
         {isMobile && (
           <div className="embla__buttons relative">
-            <div className="bg-line-10 border shadow-md rounded-full mx-1 absolute -top-[16.2rem] -left-9">
+            <div className="bg-line-10 border shadow-md rounded-full mx-1 absolute -top-[20rem] -left-9">
               <PrevButton
                 onClick={onPrevButtonClick}
                 disabled={prevBtnDisabled}
               />
             </div>
 
-            <div className="bg-line-10 border shadow-md rounded-full mx-1 absolute bottom-[12.9rem] left-[17.1rem]">
+            <div className="bg-line-10 border shadow-md rounded-full mx-1 absolute -top-[321px] -right-[300px]">
               <NextButton
                 onClick={onNextButtonClick}
                 disabled={nextBtnDisabled}
