@@ -19,12 +19,13 @@ export default function HeroScreen({
 }) {
   return (
     <section className="md:items-center md:flex md:justify-between h-full w-dvw md:w-full slide-right-animation">
-      <div className="w-full md:self-end md:flex max-h-[320px] md:max-h-[680px]">
+      <div className="w-full md:self-center md:flex md:justify-center md:items-center max-h-[320px] md:max-h-[750px]">
         <Carousel
           opts={{
             loop: true,
-          }}>
-          <CarouselContent>
+          }}
+          className="w-full">
+          <CarouselContent className="w-full pl-4">
             {slides?.map((slide: CarouselSliderInterface, i: number) => {
               return (
                 <CarouselItem key={i}>
@@ -34,7 +35,7 @@ export default function HeroScreen({
                       alt="carousel"
                       width={1000}
                       height={1000}
-                      className="w-full h-full object-cover"
+                      className="w-full h-full object-contain"
                     />
                   </div>
                 </CarouselItem>

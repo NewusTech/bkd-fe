@@ -30,6 +30,8 @@ import { X } from "@phosphor-icons/react";
 import { AreasInterface, ServiceInterface } from "@/types/interface";
 import { getServiceByAreas } from "@/services/api";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import parse from "html-react-parser";
+import DataNotFound from "../elements/data_not_found";
 
 export default function ServiceCard({ item }: { item: AreasInterface }) {
   const isMobile = useMediaQuery("(max-width: 768px)");
@@ -121,7 +123,7 @@ export default function ServiceCard({ item }: { item: AreasInterface }) {
                 </AlertDialogTitle>
 
                 <AlertDialogDescription className="text-center text-lg">
-                  {item?.desc}
+                  {parse(item?.desc)}
                 </AlertDialogDescription>
 
                 <div className="mt-8">
@@ -132,7 +134,9 @@ export default function ServiceCard({ item }: { item: AreasInterface }) {
                       })}
                     </div>
                   ) : (
-                    <div className="text-center">Data Kosong</div>
+                    <div>
+                      <DataNotFound />
+                    </div>
                   )}
                 </div>
               </div>
@@ -148,7 +152,7 @@ export default function ServiceCard({ item }: { item: AreasInterface }) {
                 <DrawerTitle className="text-center">{item?.nama}</DrawerTitle>
 
                 <DrawerDescription className="text-center">
-                  {item?.desc}
+                  {parse(item?.desc)}
                 </DrawerDescription>
 
                 <div className="">
@@ -159,7 +163,9 @@ export default function ServiceCard({ item }: { item: AreasInterface }) {
                       })}
                     </div>
                   ) : (
-                    <div className="text-center">Data Kosong</div>
+                    <div>
+                      <DataNotFound />
+                    </div>
                   )}
                 </div>
               </div>

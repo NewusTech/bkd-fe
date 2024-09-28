@@ -44,3 +44,47 @@ export const formatDateString = (date: string) => {
 
   return `${hari} ${bulan} ${tahun}`;
 };
+
+export function truncateTitle(title: string, maxLength = 35) {
+  if (title.length > maxLength) {
+    return title.slice(0, maxLength) + "...";
+  } else {
+    return title;
+  }
+}
+
+export default function truncateText(str: string, maxLength: number = 10) {
+  let result = "";
+  let line = "";
+
+  for (let i = 0; i < str.length; i++) {
+    line += str[i];
+    if (line.length === maxLength) {
+      result += line + "\n";
+      line = "";
+    }
+  }
+
+  if (line.length > 0) {
+    result += line;
+  }
+
+  return result;
+}
+
+export function formatTime(timeString: string) {
+  const [hours, minutes] = timeString.split(":");
+  return `${hours}.${minutes} WIB`;
+}
+
+export function formatCreateTime(isoString: string) {
+  const date = new Date(isoString);
+
+  const hours = date.getUTCHours();
+  const minutes = date.getUTCMinutes();
+
+  const formattedHours = hours.toString().padStart(2, "0");
+  const formattedMinutes = minutes.toString().padStart(2, "0");
+
+  return `${formattedHours}.${formattedMinutes} WIB`;
+}
