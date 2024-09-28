@@ -317,7 +317,7 @@ export default function Home() {
         className={`w-full flex flex-col md:flex-row snap-start scroll-mt-24 background-about-us pt-2 pb-16 md:py-12 gap-y-8 gap-x-3`}>
         {/* Bagian gambar dan teks akan hilang saat isCarouselFullscreen true */}
         <div
-          className={`px-4 md:px-4 md:flex md:flex-col md:gap-y-4 ${isMobile ? "" : "carousel-wrapper"} transition-opacity duration-700 ease-in-out ${
+          className={`px-4 ${isMobile ? "" : "carousel-wrapper"} transition-opacity duration-700 ease-in-out ${
             isCarouselFullscreen && !isMobile
               ? "hidden"
               : "slide-in opacity-visible"

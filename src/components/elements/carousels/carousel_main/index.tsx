@@ -144,19 +144,23 @@ const EmblaCarousel: React.FC<PropType> = ({
         )}
 
         {isMobile && (
-          <div className="embla__buttons relative">
-            <div className="bg-line-10 border shadow-md rounded-full mx-1 absolute -top-[20rem] -left-9">
+          <div className="embla__buttons w-full flex flex-row justify-between absolute right-0 top-32">
+            {/* absolute -top-[20rem] -left-9 */}
+            <div className="bg-line-10 w-[30%] border shadow-md rounded-full mx-1">
               <PrevButton
                 onClick={onPrevButtonClick}
                 disabled={prevBtnDisabled}
               />
             </div>
 
-            <div className="bg-line-10 border shadow-md rounded-full mx-1 absolute -top-[321px] -right-[300px]">
-              <NextButton
-                onClick={onNextButtonClick}
-                disabled={nextBtnDisabled}
-              />
+            {/* absolute -top-[321px] -right-[300px] */}
+            <div className="w-full flex flex-row justify-end">
+              <div className="bg-line-10 w-[30%] border shadow-md rounded-full mx-1">
+                <NextButton
+                  onClick={onNextButtonClick}
+                  disabled={nextBtnDisabled}
+                />
+              </div>
             </div>
           </div>
         )}
