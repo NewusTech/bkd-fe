@@ -39,6 +39,7 @@ import EmblaCarousel from "@/components/elements/carousels/carousel_main";
 import { EmblaOptionsType } from "embla-carousel";
 import EmblaCarouselStuctureOrganization from "@/components/elements/carousel-scroll-structure-organization/carousel_main_structure_organization";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import parse from "html-react-parser";
 
 export default function Home() {
   const router = useRouter();
@@ -227,9 +228,9 @@ export default function Home() {
           </div>
 
           <div className="w-full">
-            <p className="text-line-10 text-sm md:text-[16px] text-start leading-8">
-              {informations && informations.about_bkd}
-            </p>
+            <div className="text-line-10 text-sm md:text-[16px] text-start leading-8">
+              {informations && parse(informations.about_bkd)}
+            </div>
           </div>
         </div>
       </section>
@@ -241,12 +242,9 @@ export default function Home() {
           </h5>
 
           <p className="text-black-80 text-center text-sm md:text-[16px]">
-            BKD memberikan pelayanan kepegawaian yang meliputi bidang mutasi
-            untuk perpindahan pegawai, bidang diklat untuk peningkatan
-            kompetensi melalui pendidikan dan pelatihan, bidang pengadaan yang
-            mengelola rekrutmen dan formasi pegawai baru, serta bidang pembinaan
-            untuk pengawasan, pengembangan karier, dan peningkatan kinerja
-            pegawai.
+            BKD memberikan pelayanan kepegawaian yang meliputi berbagai bidang,
+            seperti: bidang mutasi, bidang diklat, bidang formasi pengadaan, dan
+            bidang pembinaan.
           </p>
         </div>
 
@@ -319,13 +317,13 @@ export default function Home() {
         className={`w-full flex flex-col md:flex-row snap-start scroll-mt-24 background-about-us pt-2 pb-16 md:py-12 gap-y-8 gap-x-3`}>
         {/* Bagian gambar dan teks akan hilang saat isCarouselFullscreen true */}
         <div
-          className={`px-4 md:px-4 ${isMobile ? "" : "carousel-wrapper"} transition-opacity duration-700 ease-in-out ${
+          className={`px-4 md:px-4 md:flex md:flex-col md:gap-y-4 ${isMobile ? "" : "carousel-wrapper"} transition-opacity duration-700 ease-in-out ${
             isCarouselFullscreen && !isMobile
               ? "hidden"
               : "slide-in opacity-visible"
           }`}>
           <div className="w-full flex flex-row items-center justify-center pt-8 md:pt-12">
-            <div className="w-3/12 md:w-5/12 h-full">
+            <div className="w-3/12 md:w-4/12 h-full">
               <Image
                 src={newsIcon}
                 alt="News Icons"
@@ -337,7 +335,7 @@ export default function Home() {
           </div>
 
           <div className="w-full flex flex-col gap-y-5">
-            <h5 className="text-line-10 text-[20px] text-center font-light">
+            <h5 className="text-line-10 text-[20px] md:px-8 text-center font-light">
               Berita Terkait Tentang BKD Lampung Timur
             </h5>
 
@@ -362,19 +360,21 @@ export default function Home() {
           className={` ${isCarouselFullscreen && !isMobile ? "w-full px-8" : "md:w-8/12"}`}>
           <div
             className={`embla ${isCarouselFullscreen && !isMobile ? "fullscreen" : ""}`}>
-            <EmblaCarousel
-              options={{
-                loop: false,
-                slidesToScroll: isCarouselFullscreen ? 1 : 1,
-                align: "start",
-                dragFree: false,
-                containScroll: "trimSnaps",
-              }}
-              items={news}
-              onNext={handleNextSlide}
-              onPrev={handlePrevSlide}
-              currentSlide={currentSlide}
-            />
+            {news && news.length > 0 && (
+              <EmblaCarousel
+                options={{
+                  loop: false,
+                  slidesToScroll: isCarouselFullscreen ? 1 : 1,
+                  align: "start",
+                  dragFree: false,
+                  containScroll: "trimSnaps",
+                }}
+                items={news}
+                onNext={handleNextSlide}
+                onPrev={handlePrevSlide}
+                currentSlide={currentSlide}
+              />
+            )}
           </div>
         </div>
       </section>
@@ -395,27 +395,21 @@ export default function Home() {
             />
           )}
 
-          {organizations &&
-            organizations.length > 0 &&
-            secondOrganizations &&
-            secondOrganizations.length > 0 && (
-              <EmblaCarouselStuctureOrganization
-                items={secondOrganizations}
-                options={OPTIONSORGANIZATIONS}
-                direction="backward"
-              />
-            )}
+          {secondOrganizations && secondOrganizations.length > 0 && (
+            <EmblaCarouselStuctureOrganization
+              items={secondOrganizations}
+              options={OPTIONSORGANIZATIONS}
+              direction="backward"
+            />
+          )}
 
-          {organizations &&
-            organizations.length > 0 &&
-            thirdOrganizations &&
-            thirdOrganizations.length > 0 && (
-              <EmblaCarouselStuctureOrganization
-                items={thirdOrganizations}
-                options={OPTIONSORGANIZATIONS}
-                direction="forward"
-              />
-            )}
+          {thirdOrganizations && thirdOrganizations.length > 0 && (
+            <EmblaCarouselStuctureOrganization
+              items={thirdOrganizations}
+              options={OPTIONSORGANIZATIONS}
+              direction="forward"
+            />
+          )}
         </div>
       </section>
 
@@ -425,12 +419,12 @@ export default function Home() {
             FOTO KEGIATAN BKD LAMPUNG TIMUR
           </h5>
 
-          <p className="text-line-10 text-center text-sm md:text-[16px]">
+          {/* <p className="text-line-10 text-center text-sm md:text-[16px]">
             Foto kegiatan BKD Lampung Timur menampilkan pelatihan pegawai, serah
             terima jabatan, sosialisasi kepegawaian, dan seleksi rekrutmen, yang
             mencerminkan komitmen BKD dalam pengelolaan SDM dan pelayanan
             publik.
-          </p>
+          </p> */}
         </div>
 
         <div className="w-full grid grid-cols-2 md:grid-cols-4 gap-5">
