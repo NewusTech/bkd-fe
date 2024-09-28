@@ -50,7 +50,7 @@ export default function FooterScreen() {
           </p>
 
           <Link
-            href="/kontak"
+            href="/"
             className="text-[12px] md:text-[14px] md:mt-0 hover:underline text-line-10 font-normal cursor-pointer">
             Hubungi Kami
           </Link>
@@ -183,7 +183,7 @@ export default function FooterScreen() {
             <span className="text-line-10">|</span>
 
             <Link
-              href="/kontak"
+              href="/"
               className="text-[12px] px-2 md:mt-0 hover:underline text-line-10 font-normal cursor-pointer">
               Hubungi Kami
             </Link>
