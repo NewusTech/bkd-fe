@@ -58,22 +58,22 @@ export default function ProfileAboutScreen() {
   };
 
   return (
-    <section className="w-full flex bg-line-10 flex-col gap-y-8 md:gap-y-4 py-8 px-5 md:px-20 pb-20 md:pb-10 mb-20">
+    <section className="w-full flex bg-line-10 flex-col gap-y-8 md:gap-y-6 py-8 px-5 md:px-20 pb-20 md:pb-10 mb-20">
       <div className="hidden md:flex md:flex-rows md:w-full md:gap-8">
         {slug && (
-          <Link
-            href={`/bkd-news/${slug}`}
-            className="md:w-full md:min-h-[380px]">
-            {image && (
-              <Image
-                className="md:w-full md:h-full md:object-cover md:rounded-xl"
-                src={image}
-                alt="Berita"
-                width={960}
-                height={670}
-                layout="responsive"
-              />
-            )}
+          <Link href={`/bkd-news/${slug}`} className="md:w-full md:h-full">
+            <div className="w-full h-[430px]">
+              {image && (
+                <Image
+                  className="md:w-full md:h-full md:object-contain md:rounded-lg"
+                  src={image}
+                  alt="Berita"
+                  width={960}
+                  height={300}
+                  // layout="responsive"
+                />
+              )}
+            </div>
           </Link>
         )}
 

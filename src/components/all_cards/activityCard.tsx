@@ -58,7 +58,7 @@ export default function ActivityCard({
                     alt="activity"
                     width={1000}
                     height={1000}
-                    className="w-full h-full object-cover transform transition-transform duration-300 ease-in-out group-hover:scale-110"
+                    className="w-full h-full rounded-lg object-cover transform transition-transform duration-300 ease-in-out group-hover:scale-110"
                   />
                 )}
 

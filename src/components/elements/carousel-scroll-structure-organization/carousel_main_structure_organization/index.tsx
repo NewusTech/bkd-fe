@@ -1,6 +1,6 @@
 "uce client";
 
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import { EmblaOptionsType } from "embla-carousel";
 import Image from "next/image";
 import useEmblaCarousel from "embla-carousel-react";
@@ -18,41 +18,97 @@ import {
 type DirectionType = "forward" | "backward" | undefined;
 type PropType = {
   items: StructureOrganizationInterface[];
-  options?: EmblaOptionsType;
+  // options?: EmblaOptionsType;
   direction: DirectionType;
 };
 
 const EmblaCarouselStuctureOrganization: React.FC<PropType> = (props) => {
-  const { items, options, direction } = props;
-  const [emblaRef, emblaApi] = useEmblaCarousel(options, [
-    AutoScroll({
-      playOnInit: true,
-      direction: direction,
-      stopOnInteraction: false,
-      startDelay: 0,
-      stopOnMouseEnter: true,
-      speed: 1,
-    }),
-  ]);
+  const { items, direction } = props;
+  const [emblaRef, emblaApi] = useEmblaCarousel(
+    {
+      loop: true,
+      dragFree: false,
+      containScroll: "trimSnaps",
+      // align: "end",
+      slidesToScroll: "auto",
+    },
+    [
+      AutoScroll({
+        playOnInit: true,
+        direction: direction,
+        stopOnInteraction: false,
+        startDelay: 0,
+        stopOnMouseEnter: true,
+        speed: 1,
+      }),
+    ]
+  );
 
-  useEffect(() => {
-    if (!emblaApi) {
-      return;
-    }
+  // useEffect(() => {
+  //   if (!emblaApi) {
+  //     return;
+  //   }
+  //   const autoScroll = emblaApi?.plugins()?.autoScroll;
+  //   if (autoScroll && !autoScroll?.isPlaying()) {
+  //     autoScroll?.play();
+  //   }
+  // }, [emblaApi]);
+
+  const observerRef = useRef(null);
+
+  const handleAutoScrollResume = useCallback(() => {
     const autoScroll = emblaApi?.plugins()?.autoScroll;
-    if (autoScroll && !autoScroll?.isPlaying()) {
-      autoScroll?.play();
+    if (autoScroll && !autoScroll.isPlaying()) {
+      autoScroll.play();
     }
   }, [emblaApi]);
 
+  const handleVisibilityChange = useCallback(
+    (entries: IntersectionObserverEntry[]) => {
+      const autoScroll = emblaApi?.plugins()?.autoScroll;
+      if (!autoScroll) return;
+
+      if (entries[0].isIntersecting) {
+        autoScroll.play(); // Play when visible
+      } else {
+        autoScroll.stop(); // Stop when not visible
+      }
+    },
+    [emblaApi]
+  );
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(handleVisibilityChange, {
+      threshold: 0, // Trigger when % of the carousel is visible
+    });
+
+    if (observerRef.current) {
+      observer.observe(observerRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, [emblaRef, handleVisibilityChange]);
+
+  useEffect(() => {
+    if (!emblaApi) return;
+
+    emblaApi.on("pointerUp", handleAutoScrollResume); // Resume after drag
+
+    return () => {
+      emblaApi.off("pointerUp", handleAutoScrollResume);
+    };
+  }, [emblaApi, handleAutoScrollResume]);
+
   return (
-    <div className="embla_organization flex flex-col gap-y-4">
+    <div className="embla_organization flex flex-col gap-y-4" ref={observerRef}>
       <div className="embla__viewport overflow-hidden" ref={emblaRef}>
-        <div className="embla__container w-6/12 md:w-[35%] flex flex-row gap-x-3">
+        <div className="embla__container w-6/12 md:w-[35%]">
           {items &&
             items.length > 0 &&
             items.map((item: StructureOrganizationInterface, index: number) => (
-              <div className="embla__slide" key={index}>
+              <div
+                className="embla__slide pl-2 md:pl-4  transition-transform duration-300 transform hover:scale-[1.05]"
+                key={index}>
                 <div className="embla__slide__number flex flex-col gap-y-4">
                   <div className="w-full">
                     <Dialog>
@@ -69,7 +125,7 @@ const EmblaCarouselStuctureOrganization: React.FC<PropType> = (props) => {
                           )}
                         </div>
                       </DialogTrigger>
-                      <DialogContent className="w-11/12 max-w-2xl bg-line-10 rounded-lg shadow-md">
+                      <DialogContent className="w-11/12 max-w-2xl border border-primary-40 shadow-md bg-line-10 rounded-lg">
                         <DialogHeader className="flex flex-col gap-y-3 max-h-[600px]">
                           <div className="w-full flex flex-row justify-center items-center">
                             <div className="w-8/12 h-full">

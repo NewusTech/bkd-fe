@@ -35,7 +35,7 @@ export default function NewsCardScreen({ item }: { item: NewsInterface }) {
 
           <div className="w-full flex flex-row justify-between">
             <h4 className="text-primary-40 text-[16px] hover:text-primary-70 hover:underline">
-              {truncateTitle(item?.title, 32)}
+              {truncateTitle(item?.title, 36)}
             </h4>
 
             <ArrowUpRight className="w-7 h-7 text-primary-40" />
