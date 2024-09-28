@@ -146,7 +146,7 @@ const EmblaCarousel: React.FC<PropType> = ({
         {isMobile && (
           <div className="embla__buttons w-full flex flex-row justify-between absolute right-0 top-32">
             {/* absolute -top-[20rem] -left-9 */}
-            <div className="bg-line-10 w-[30%] border shadow-md rounded-full mx-1">
+            <div className="bg-line-10 max-w-[30%] border shadow-md h-full rounded-full">
               <PrevButton
                 onClick={onPrevButtonClick}
                 disabled={prevBtnDisabled}
@@ -155,7 +155,7 @@ const EmblaCarousel: React.FC<PropType> = ({
 
             {/* absolute -top-[321px] -right-[300px] */}
             <div className="w-full flex flex-row justify-end">
-              <div className="bg-line-10 w-[30%] border shadow-md rounded-full mx-1">
+              <div className="flex flex-col items-center justify-center pl-[3px] bg-line-10 max-w-[30%] h-full border shadow-md rounded-full">
                 <NextButton
                   onClick={onNextButtonClick}
                   disabled={nextBtnDisabled}
