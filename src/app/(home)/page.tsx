@@ -297,58 +297,60 @@ export default function Home() {
               ? "hidden"
               : "slide-in opacity-visible flex flex-col gap-y-5 md:w-[30%]"
           }`}>
-          <div className="w-full flex flex-row items-center justify-center pt-8 md:pt-12">
-            <div className="w-3/12 md:w-4/12 h-full">
-              <Image
-                src={newsIcon}
-                alt="News Icons"
-                width={1000}
-                height={1000}
-                className="w-full h-full"
-              />
+          <div data-aos="fade-right" className="w-full flex flex-col gap-y-5">
+            <div className="w-full flex flex-row items-center justify-center pt-8 md:pt-12">
+              <div className="w-3/12 md:w-4/12 h-full">
+                <Image
+                  src={newsIcon}
+                  alt="News Icons"
+                  width={1000}
+                  height={1000}
+                  className="w-full h-full"
+                />
+              </div>
             </div>
-          </div>
 
-          <div className="w-full flex flex-col gap-y-5">
-            <h5 className="text-line-10 text-[20px] md:px-8 text-center font-light">
-              Berita Terkait Tentang BKD Lampung Timur
-            </h5>
+            <div className="w-full flex flex-col gap-y-5">
+              <h5 className="text-line-10 text-[20px] md:px-8 text-center font-light">
+                Berita Terkait Tentang BKD Lampung Timur
+              </h5>
 
-            {!isMobile && (
-              <div className="w-full flex items-center justify-center">
-                <Button
-                  onClick={handleNextNewsPage}
-                  onMouseEnter={handleMouseEnter}
-                  onMouseLeave={handleMouseLeave}
-                  className="bg-line-10 hover:bg-primary-70 text-primary-40 hover:text-line-10 rounded-lg">
-                  {isFirstLoading ? (
-                    <Loader className="animate-spin" />
-                  ) : (
-                    <span className="animated-text">
-                      {"Lihat Selengkapnya".split("").map((letter, index) => {
-                        if (letter === " ") {
+              {!isMobile && (
+                <div className="w-full flex items-center justify-center">
+                  <Button
+                    onClick={handleNextNewsPage}
+                    onMouseEnter={handleMouseEnter}
+                    onMouseLeave={handleMouseLeave}
+                    className="bg-line-10 hover:bg-primary-70 text-primary-40 hover:text-line-10 rounded-lg">
+                    {isFirstLoading ? (
+                      <Loader className="animate-spin" />
+                    ) : (
+                      <span className="animated-text">
+                        {"Lihat Selengkapnya".split("").map((letter, index) => {
+                          if (letter === " ") {
+                            return (
+                              <span key={index} className="space">
+                                &nbsp;
+                              </span>
+                            );
+                          }
                           return (
-                            <span key={index} className="space">
-                              &nbsp;
+                            <span
+                              key={index}
+                              ref={(el) => {
+                                lettersRef.current[index] = el;
+                              }}
+                              className="letter">
+                              {letter}
                             </span>
                           );
-                        }
-                        return (
-                          <span
-                            key={index}
-                            ref={(el) => {
-                              lettersRef.current[index] = el;
-                            }}
-                            className="letter">
-                            {letter}
-                          </span>
-                        );
-                      })}
-                    </span>
-                  )}
-                </Button>
-              </div>
-            )}
+                        })}
+                      </span>
+                    )}
+                  </Button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 
@@ -425,13 +427,6 @@ export default function Home() {
           <h5 className="text-line-10 px-6 md:px-0 text-xl md:text-3xl font-semibold text-center md:text-start">
             FOTO KEGIATAN BKD LAMPUNG TIMUR
           </h5>
-
-          {/* <p className="text-line-10 text-center text-sm md:text-[16px]">
-            Foto kegiatan BKD Lampung Timur menampilkan pelatihan pegawai, serah
-            terima jabatan, sosialisasi kepegawaian, dan seleksi rekrutmen, yang
-            mencerminkan komitmen BKD dalam pengelolaan SDM dan pelayanan
-            publik.
-          </p> */}
         </div>
 
         <div className="w-full grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5">

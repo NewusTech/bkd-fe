@@ -102,7 +102,9 @@ export default function ProfileAboutScreen() {
           className={`w-full flex flex-col md:flex-row snap-start scroll-mt-24 pt-2 gap-y-6 md:gap-y-8 gap-x-3`}>
           <Carousel className="w-full">
             <div className="w-full flex flex-col md:flex-row gap-x-2 gap-y-5">
-              <div className="w-full h-[280px] flex flex-col bg-line-10 shadow-md rounded-e-lg py-5 gap-y-12">
+              <div
+                data-aos="fade-right"
+                className="w-full h-[280px] flex flex-col bg-line-10 shadow-md rounded-e-lg py-5 gap-y-12">
                 <div className="w-full flex flex-col gap-y-5 px-5">
                   <h5 className="text-black-80 font-semibold text-[20px] text-start">
                     VISI
@@ -119,7 +121,7 @@ export default function ProfileAboutScreen() {
                 </div>
               </div>
 
-              <div className="w-full px-3 md:pr-5">
+              <div data-aos="fade-left" className="w-full px-3 md:pr-5">
                 <CarouselContent className="w-full md:w-6/12 h-[280px] flex flex-row gap-x-5">
                   {missions &&
                     missions.length > 0 &&
