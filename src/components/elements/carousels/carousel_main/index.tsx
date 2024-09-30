@@ -85,6 +85,9 @@ const EmblaCarousel: React.FC<PropType> = ({
         <div className="embla__container gap-x-3 md:gap-x-6">
           {items.map((item: NewsInterface, index: number) => (
             <div
+              data-aos="fade-down"
+              data-aos-easing="linear"
+              data-aos-duration="1500"
               className="embla__slide w-full min-h-[400px] bg-line-10 pb-5 rounded-lg shadow-md transition-transform duration-300 transform hover:scale-[1.02] hover:shadow-lg"
               key={index}>
               <div className="embla__slide__number flex flex-col gap-y-3">

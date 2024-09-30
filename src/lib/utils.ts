@@ -1,3 +1,4 @@
+import { MissionInterface } from "@/types/interface";
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -87,4 +88,18 @@ export function formatCreateTime(isoString: string) {
   const formattedMinutes = minutes.toString().padStart(2, "0");
 
   return `${formattedHours}.${formattedMinutes} WIB`;
+}
+
+export function splitStringAndCreateObjectArray(input: string) {
+  // Split string berdasarkan angka dan filter out hasil yang kosong
+  const splitArray = input.split(/\d+/).filter(Boolean);
+
+  // Membuat array of objects dengan id dan value tanpa titik atau spasi di depan
+  const arrayOfObjects = splitArray.map((item, index) => ({
+    id: index + 1,
+    // Menghapus titik dan spasi di awal value jika ada
+    value: item.trim().replace(/^[. ]+/, ""),
+  }));
+
+  return arrayOfObjects;
 }

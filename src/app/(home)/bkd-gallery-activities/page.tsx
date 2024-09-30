@@ -32,12 +32,12 @@ export default function BKDGalleryActivitiesScreen() {
   };
 
   useEffect(() => {
-    fetchActivities(1, 12);
+    fetchActivities(1, 8);
   }, []);
 
   const handlePageChange = (newPage: number) => {
     if (newPage !== pagination.currentPage) {
-      fetchActivities(newPage, 12);
+      fetchActivities(newPage, 8);
     }
   };
 

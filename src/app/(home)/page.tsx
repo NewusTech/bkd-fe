@@ -1,7 +1,7 @@
 "use client";
 
 import newsIcon from "@/../../public/assets/icons/news-news.png";
-import about from "@/../../public/assets/images/about-image.png";
+import about from "@/../../public/assets/images/tentang-bkd.png";
 import ActivityCard from "@/components/all_cards/activityCard";
 import ServiceCard from "@/components/all_cards/serviceCard";
 import HeroScreen from "@/components/pages/hero";
@@ -59,7 +59,9 @@ export default function Home() {
   const [isCarouselFullscreen, setIsCarouselFullscreen] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
+  const [isSecondHovered, setIsSecondHovered] = useState(false);
   const lettersRef = useRef<(HTMLSpanElement | null)[]>([]);
+  const lettersSecondRef = useRef<(HTMLSpanElement | null)[]>([]);
 
   useEffect(() => {
     const token = Cookies.get("Authorization");
@@ -163,15 +165,15 @@ export default function Home() {
 
   let firstOrganizations;
   if (organizations) {
-    firstOrganizations = organizations.slice(0, 10);
+    firstOrganizations = organizations.slice(0, 12);
   }
   let secondOrganizations;
   if (organizations) {
-    secondOrganizations = organizations.slice(10, 20);
+    secondOrganizations = organizations.slice(12, 24);
   }
   let thirdOrganizations;
   if (organizations) {
-    thirdOrganizations = organizations.slice(20);
+    thirdOrganizations = organizations.slice(24);
   }
 
   const handleNextSlide = () => {
@@ -194,8 +196,24 @@ export default function Home() {
 
   const handleMouseEnter = () => {
     setIsHovered(true);
-    // Tambahkan event listener untuk menghapus kelas setelah animasi
     lettersRef.current.forEach((letter, index) => {
+      if (letter) {
+        letter.classList.add("fall");
+        letter.style.animationDelay = `${index * 0.05}s`;
+        letter.addEventListener(
+          "animationend",
+          () => {
+            letter.classList.remove("fall");
+          },
+          { once: true }
+        );
+      }
+    });
+  };
+
+  const handleSecondMouseEnter = () => {
+    setIsSecondHovered(true);
+    lettersSecondRef.current.forEach((letter, index) => {
       if (letter) {
         letter.classList.add("fall");
         letter.style.animationDelay = `${index * 0.05}s`;
@@ -212,6 +230,7 @@ export default function Home() {
 
   const handleMouseLeave = () => {
     setIsHovered(false);
+    setIsSecondHovered(false);
   };
 
   return (
@@ -221,17 +240,19 @@ export default function Home() {
       </section>
 
       <section className="w-full background-about-us snap-start scroll-mt-24 py-12 px-4 md:px-20 flex flex-col md:flex-row items-center md:items-start gap-y-6 md:gap-x-8">
-        <div className="w-10/12 md:w-5/12 h-full">
+        <div data-aos="fade-right" className="w-10/12 md:w-7/12 h-full">
           <Image
             src={about}
             alt="About Us"
             width={1000}
             height={1000}
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover rounded-lg"
           />
         </div>
 
-        <div className="w-full flex flex-col gap-y-4 md:gap-y-8">
+        <div
+          data-aos="fade-left"
+          className="w-full flex flex-col gap-y-4 md:gap-y-8">
           <div className="w-full flex flex-col items-center md:items-start gap-y-2">
             <p className="text-line-10 text-sm md:text-[16px]">Tentang BKD</p>
 
@@ -259,7 +280,7 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="w-full grid grid-cols-2 md:grid-cols-4 gap-y-3 gap-x-3 md:gap-x-5">
+        <div className="w-full grid grid-cols-2 md:grid-cols-4 group gap-y-3 gap-x-3 md:gap-x-5">
           {areas &&
             areas.length > 0 &&
             areas?.map((area: AreasInterface, i: number) => {
@@ -303,7 +324,6 @@ export default function Home() {
                   {isFirstLoading ? (
                     <Loader className="animate-spin" />
                   ) : (
-                    // "Lihat Selengkapnya"
                     <span className="animated-text">
                       {"Lihat Selengkapnya".split("").map((letter, index) => {
                         if (letter === " ") {
@@ -376,7 +396,7 @@ export default function Home() {
           </h5>
         </div>
 
-        <div className="w-full flex flex-col gap-y-5">
+        <div className="w-full flex flex-col">
           {firstOrganizations && firstOrganizations.length > 0 && (
             <EmblaCarouselStuctureOrganization
               items={firstOrganizations}
@@ -391,12 +411,12 @@ export default function Home() {
             />
           )}
 
-          {thirdOrganizations && thirdOrganizations.length > 0 && (
+          {/* {thirdOrganizations && thirdOrganizations.length > 0 && (
             <EmblaCarouselStuctureOrganization
               items={thirdOrganizations}
               direction="forward"
             />
-          )}
+          )} */}
         </div>
       </section>
 
@@ -414,7 +434,7 @@ export default function Home() {
           </p> */}
         </div>
 
-        <div className="w-full grid grid-cols-2 md:grid-cols-4 gap-5">
+        <div className="w-full grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5">
           {galleries &&
             galleries.length > 0 &&
             galleries?.map(
@@ -427,11 +447,33 @@ export default function Home() {
         <div className="w-full flex items-center justify-center">
           <Button
             onClick={handleNextGalleryPage}
+            onMouseEnter={handleSecondMouseEnter}
+            onMouseLeave={handleMouseLeave}
             className="bg-line-10 hover:text-line-10 text-primary-40 hover:bg-primary-70 rounded-lg">
             {isSecondLoading ? (
               <Loader className="animate-spin" />
             ) : (
-              "Lihat Selengkapnya"
+              <span className="animated-text">
+                {"Lihat Selengkapnya".split("").map((letter, index) => {
+                  if (letter === " ") {
+                    return (
+                      <span key={index} className="space">
+                        &nbsp;
+                      </span>
+                    );
+                  }
+                  return (
+                    <span
+                      key={index}
+                      ref={(el) => {
+                        lettersSecondRef.current[index] = el;
+                      }}
+                      className="letter">
+                      {letter}
+                    </span>
+                  );
+                })}
+              </span>
             )}
           </Button>
         </div>
@@ -475,12 +517,12 @@ export default function Home() {
               return (
                 <AccordionItem
                   key={index}
-                  className="w-full h-full mb-2"
+                  className="w-full h-full mb-2 border-none flex flex-col gap-y-3"
                   value={`item-${index}`}>
-                  <AccordionTrigger className="text-[14px] md:text-[16px] text-start h-[50px] md:h-full">
+                  <AccordionTrigger className="text-[14px] md:text-[16px] hover:bg-primary-40 hover:text-line-10 hover:px-2 hover:rounded-lg text-start h-[50px] md:h-full">
                     {faq.question}
                   </AccordionTrigger>
-                  <AccordionContent className="md:text-start text-justify w-full h-full">
+                  <AccordionContent className="md:text-start text-justify w-full h-full border border-line-20 rounded-lg p-5">
                     {faq.answer}
                   </AccordionContent>
                 </AccordionItem>
