@@ -58,7 +58,7 @@ export default function ProfileAboutScreen() {
   };
 
   return (
-    <section className="w-full flex bg-line-10 flex-col gap-y-8 md:gap-y-6 py-8 px-5 md:px-20 pb-20 md:pb-10 mb-20">
+    <section className="w-full flex bg-line-10 shadow-md flex-col gap-y-8 md:gap-y-6 py-8 px-5 md:px-20 pb-20 md:pb-10 mb-20">
       <div className="hidden md:flex md:flex-rows md:w-full md:gap-8">
         {slug && (
           <Link href={`/bkd-news/${slug}`} className="md:w-full md:h-full">
@@ -107,7 +107,7 @@ export default function ProfileAboutScreen() {
         )}
       </div>
 
-      <div className="w-full flex flex-col md:grid grid-cols-3 gap-y-5 gap-x-5">
+      <div className="w-full flex flex-col group md:grid grid-cols-3 gap-y-5 gap-x-5">
         {news &&
           news.length > 0 &&
           news?.map((item: NewsInterface, i: number) => {

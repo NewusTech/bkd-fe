@@ -147,6 +147,11 @@ export interface InformationBKdInterface {
   createdAt: string;
 }
 
+export interface MissionInterface {
+  id: number;
+  value: string;
+}
+
 export interface UserPositionInterface {
   id: number;
   createdAt: string;

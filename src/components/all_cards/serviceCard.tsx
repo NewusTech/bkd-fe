@@ -95,17 +95,19 @@ export default function ServiceCard({ item }: { item: AreasInterface }) {
   }, [item.id]);
 
   return (
-    <div className="w-full rounded-lg shadow-md border border-line-20 bg-line-10">
+    <div
+      data-aos="zoom-in-up"
+      className="w-full rounded-lg shadow-md group-hover:shadow-primary-20 border border-line-20 duration-300 ease-in-out transition-all group-hover:[&:not(:hover)]:opacity-60 group-hover:[&:not(:hover)]:shadow-none group-hover:[&:not(:hover)]:bg-line-10 group-hover:bg-primary-40">
       <div className="w-full flex flex-col py-5 gap-y-5 items-center">
         <div className="w-full h-full flex p-4 md:p-8 justify-center">
           {areaImage}
         </div>
       </div>
 
-      <div className="w-full flex flex-col justify-end">
+      <div className="w-full flex flex-col group justify-end">
         {!isMobile ? (
           <AlertDialog>
-            <AlertDialogTrigger className="w-full min-h-[60px] text-line-10 text-lg bg-primary-40 hover:bg-primary-70 rounded-b-lg">
+            <AlertDialogTrigger className="w-full min-h-[60px] duration-300 ease-in-out transition-all text-line-10 text-lg group-hover:[&:not(:hover)]:bg-line-10 group-hover:[&:not(:hover)]:text-primary-40 bg-primary-40 hover:bg-primary-70 rounded-b-lg">
               {item?.nama}
             </AlertDialogTrigger>
             <AlertDialogContent className="flex flex-col gap-y-0 bg-line-10 rounded-lg w-full max-w-4xl h-3/6 px-7">

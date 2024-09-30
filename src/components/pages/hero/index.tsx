@@ -11,6 +11,7 @@ import {
 import { heros } from "@/constants/main";
 import Image from "next/image";
 import { CarouselSliderInterface } from "@/types/interface";
+import Autoplay from "embla-carousel-autoplay";
 
 export default function HeroScreen({
   slides,
@@ -23,6 +24,11 @@ export default function HeroScreen({
         opts={{
           loop: true,
         }}
+        plugins={[
+          Autoplay({
+            delay: 3000,
+          }),
+        ]}
         className="w-full">
         <CarouselContent className="w-full">
           {slides?.map((slide: CarouselSliderInterface, i: number) => {

@@ -19,11 +19,11 @@ export default function ActivityCard({
 }) {
   return (
     <div className="relative w-full h-full overflow-hidden group">
-      <div className="w-full h-full">
+      <div data-aos="zoom-in-down" className="w-full h-full">
         <Dialog>
           <DialogTrigger className="w-full h-full">
             <div className="w-full h-full">
-              <div className="w-full h-full">
+              <div className="w-full h-[150px] md:h-[220px]">
                 {item?.image && (
                   <Image
                     src={item?.image}
