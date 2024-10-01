@@ -53,7 +53,7 @@ export default function DateFormInput(props: DateInputProps) {
         <Popover>
           <PopoverTrigger asChild>
             <Button
-              className="w-full pl-0 justify-start text-left text-[13px] md:text-[14px]"
+              className="w-full pl-0 font-normal justify-start text-left text-[13px] md:text-[14px]"
               disabled={disabled}>
               {value ? format(value, "PPP") : "Pilih Tanggal"}
             </Button>
