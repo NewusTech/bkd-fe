@@ -58,16 +58,16 @@ export default function NavigationScreen() {
             </Link>
           </div>
 
-          <div className="w-3/12 flex flex-row justify-between gap-x-3">
+          <div className="w-3/12 flex flex-row justify-between gap-x-2">
             <Link
               href="/register"
-              className="w-full text-[16px] px-6 py-2 bg-primary-40 hover:bg-primary-70 text-line-10 rounded-lg cursor-pointer">
+              className="w-full text-[16px] text-center px-6 py-2 bg-primary-40 hover:bg-primary-70 text-line-10 rounded-lg cursor-pointer">
               Register
             </Link>
 
             <Link
               href="/login"
-              className="w-full text-[16px] px-6 py-2 border border-primary-40 hover:bg-primary-70 text-primary-40 hover:text-line-10 rounded-lg cursor-pointer">
+              className="w-full text-[16px] text-center px-6 py-2 border border-primary-40 hover:bg-primary-70 text-primary-40 hover:text-line-10 rounded-lg cursor-pointer">
               Masuk
             </Link>
           </div>

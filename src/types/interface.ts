@@ -282,3 +282,29 @@ export interface GradeListsInterface {
   nama: string;
   createdAt: string;
 }
+
+export interface DataJsonServiceForm {
+  id: number;
+  key: string;
+}
+
+export interface FormServiceInterface {
+  id: number;
+  field: string;
+  tipedata: string;
+  datajson: DataJsonServiceForm[] | null;
+  maxinput: number;
+  mininput: number;
+  layanan_id: number;
+  isrequired: number;
+  status: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ApplicationFormServiceInterface {
+  nama: string;
+  slug: string;
+  desc: string;
+  Layanan_forms: FormServiceInterface[];
+}

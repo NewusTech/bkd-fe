@@ -270,6 +270,22 @@ export const getServiceByAreas = async (bidang_id: number) => {
   return await response.json();
 };
 
+// get service by id
+export const getServiceById = async (id: number) => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/user/layanan/get/${id}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      cache: "no-store",
+    }
+  );
+
+  return await response.json();
+};
+
 // get information bkd
 export const getInformationBkd = async () => {
   const response = await fetch(
@@ -827,6 +843,24 @@ export const deleteChildrenDataFamily = async (id: number) => {
     `${process.env.NEXT_PUBLIC_API_URL}/user/descendant/delete/${id}`,
     {
       method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    }
+  );
+
+  return await response.json();
+};
+
+export const getFormByService = async (serviceId: number) => {
+  const token = Cookies.get("Authorization");
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/user/layanan/form/${serviceId}`,
+    {
+      method: "GET",
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,

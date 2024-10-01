@@ -137,7 +137,7 @@ export default function DashBoardSidebarPages() {
                                 return (
                                   <Link
                                     key={j}
-                                    href={`/application-form/${service?.bidang_id}/${service?.id}`}
+                                    href={`/user-application-forms/${service?.bidang_id}/${service?.id}`}
                                     className={`w-full py-2 flex items-center justify-center bg-line-10 bg-opacity-50 text-black-80`}>
                                     <div className="w-10/12 flex flex-row items-center gap-x-2">
                                       <DotIcon
