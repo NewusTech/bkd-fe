@@ -924,6 +924,45 @@ export const postApplicationForm = async (data: any, id: number) => {
   return await response.json();
 };
 
+// get user complaint
+export const getUserComplaints = async () => {
+  const token = Cookies.get("Authorization");
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/user/pengaduan/get`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    }
+  );
+
+  return await response.json();
+};
+
+// get user complaint
+export const getUserComplaintDetail = async (id: number) => {
+  const token = Cookies.get("Authorization");
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/user/pengaduan/get/${id}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    }
+  );
+
+  return await response.json();
+};
+
+// post user complaint
 export const postUserComplaint = async (data: any) => {
   const token = Cookies.get("Authorization");
 

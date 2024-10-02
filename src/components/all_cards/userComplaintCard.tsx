@@ -3,18 +3,31 @@
 import React from "react";
 import { TableCell, TableRow } from "@/components/ui/table";
 import Link from "next/link";
+import { UserComplaintInterface } from "@/types/interface";
+import { formatDateString } from "@/lib/utils";
 
-export default function UserComplaintCard() {
+export default function UserComplaintCard({
+  complaint,
+  index,
+}: {
+  complaint: UserComplaintInterface;
+  index: number;
+}) {
   return (
     <TableRow className="border border-line-20">
-      <TableCell className="text-center">1</TableCell>
-      <TableCell className="text-center">23 Maret 2024</TableCell>
-      <TableCell className="text-center">Bidang Mutasi</TableCell>
-      <TableCell className="text-center">Pengajuan Pangkat</TableCell>
-      <TableCell className="text-center">NIK Tidak Terdaftar</TableCell>
+      <TableCell className="text-center">{index + 1}</TableCell>
+      <TableCell className="text-center">
+        {formatDateString(complaint?.createdAt)}
+      </TableCell>
+      <TableCell className="text-center">{complaint?.Bidang?.nama}</TableCell>
+      <TableCell className="text-center">{complaint?.Layanan?.nama}</TableCell>
+      <TableCell className="text-center">
+        {complaint?.judul_pengaduan}
+      </TableCell>
       <TableCell className={`text-center`}>
-        <div className="text-[#188B09] bg-[#188B09] bg-opacity-20 py-3 px-3 rounded-lg">
-          Divalidasi
+        <div
+          className={`${complaint.status === 0 ? "text-primary-70 bg-primary-40" : "text-success-70 bg-success-50"} bg-opacity-20 py-3 px-3 rounded-lg`}>
+          {complaint?.status === 0 ? "Menunggu" : "Selesai"}
         </div>
       </TableCell>
       <TableCell className="text-center">
@@ -39,7 +52,7 @@ export default function UserComplaintCard() {
         )} */}
         <div>
           <Link
-            href={`/`}
+            href={`/user-complaint/${complaint.id}`}
             className="bg-black-80 bg-opacity-20 hover:bg-black-30 rounded-lg text-[14px] py-3 px-8 text-black-80">
             Detail
           </Link>

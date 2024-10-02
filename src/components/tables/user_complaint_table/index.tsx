@@ -10,8 +10,13 @@ import {
 } from "@/components/ui/table";
 import ApplicationHistoryCard from "@/components/all_cards/applicationHistoryCard";
 import UserComplaintCard from "@/components/all_cards/userComplaintCard";
+import { UserComplaintInterface } from "@/types/interface";
 
-export default function UserComplaintTablePages() {
+export default function UserComplaintTablePages({
+  complaints,
+}: {
+  complaints: UserComplaintInterface[];
+}) {
   return (
     <>
       <Table className="w-full border border-line-20">
@@ -34,7 +39,13 @@ export default function UserComplaintTablePages() {
               );
             }
           )} */}
-          <UserComplaintCard />
+          {complaints &&
+            complaints.length > 0 &&
+            complaints?.map((complaint: UserComplaintInterface, i: number) => {
+              return (
+                <UserComplaintCard key={i} index={i} complaint={complaint} />
+              );
+            })}
         </TableBody>
       </Table>
     </>
