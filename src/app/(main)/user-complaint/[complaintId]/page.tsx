@@ -9,14 +9,49 @@ import { redirect, useRouter } from "next/navigation";
 import Image from "next/legacy/image";
 import Swal from "sweetalert2";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { UserComplaintInterface } from "@/types/interface";
+import { getUserComplaintDetail } from "@/services/api";
+import { formatDateString } from "@/lib/utils";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
-export default function UserComplaintDetailScreen() {
+export default function UserComplaintDetailScreen({
+  params,
+}: {
+  params: { complaintId: number };
+}) {
   const router = useRouter();
   const token = Cookies.get("Authorization");
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [isLoading, setIsLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpen2, setIsModalOpen2] = useState(false);
+  const [complaint, setComplaint] = useState<UserComplaintInterface>();
+
+  const fetchUserComplaint = async (id: number) => {
+    try {
+      const response = await getUserComplaintDetail(id);
+
+      setComplaint(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserComplaint(params.complaintId);
+  }, [params.complaintId]);
+
+  console.log(complaint, "ini compaint");
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -60,16 +95,21 @@ export default function UserComplaintDetailScreen() {
         </div>
 
         <div className="flex flex-col gap-y-5 mt-3 md:mt-0 px-3 md:px-6">
-          <div className="w-full flex flex-col gap-y-3 border border-line-20 rounded-lg p-4">
-            <h6 className="text-sm text-black-80 font-normal">Balasan:</h6>
+          {complaint && complaint?.jawaban !== null ? (
+            <div className="w-full flex flex-col gap-y-3 border border-line-20 rounded-lg p-4">
+              <h6 className="text-sm text-black-80 font-normal">Balasan:</h6>
 
-            <p className="text-black-80 font-normal text-sm">
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dicta
-              dolorem temporibus necessitatibus praesentium accusamus distinctio
-              perspiciatis rem veritatis iste est molestias fugit asperiores
-              obcaecati autem possimus laboriosam consectetur, id in!
-            </p>
-          </div>
+              <p className="text-black-80 font-normal text-sm">
+                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dicta
+                dolorem temporibus necessitatibus praesentium accusamus
+                distinctio perspiciatis rem veritatis iste est molestias fugit
+                asperiores obcaecati autem possimus laboriosam consectetur, id
+                in!
+              </p>
+            </div>
+          ) : (
+            <></>
+          )}
 
           <div className="flex flex-col gap-y-6">
             <div className="flex flex-col gap-2">
@@ -78,21 +118,23 @@ export default function UserComplaintDetailScreen() {
               </p>
 
               <p className="text-sm text-line-80 font-normal">
-                Rabu, 23 Maret 2024
+                {complaint?.createdAt && formatDateString(complaint?.createdAt)}
               </p>
             </div>
 
             <div className="flex flex-col gap-2">
               <p className="text-sm text-primary-40 font-semibold">Bidang</p>
 
-              <p className="text-sm text-line-80 font-normal">Bidang Mutasi</p>
+              <p className="text-sm text-line-80 font-normal">
+                {complaint?.Bidang?.nama && complaint?.Bidang?.nama}
+              </p>
             </div>
 
             <div className="flex flex-col gap-2">
               <p className="text-sm text-primary-40 font-semibold">Layanan</p>
 
               <p className="text-sm text-line-80 font-normal">
-                Pengajuan Pangkat
+                {complaint?.Layanan.nama && complaint?.Layanan.nama}
               </p>
             </div>
 
@@ -102,7 +144,7 @@ export default function UserComplaintDetailScreen() {
               </p>
 
               <p className="text-sm text-line-80 font-normal">
-                NIK Tidak Ditemukan
+                {complaint?.judul_pengaduan && complaint?.judul_pengaduan}
               </p>
             </div>
 
@@ -112,10 +154,7 @@ export default function UserComplaintDetailScreen() {
               </p>
 
               <p className="text-sm text-line-80 font-normal">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                Incidunt, commodi quam quia voluptates saepe earum suscipit
-                minima natus architecto, autem, explicabo magnam inventore
-                recusandae nobis eveniet sit repudiandae rem totam?
+                {complaint?.isi_pengaduan && complaint?.isi_pengaduan}
               </p>
             </div>
 
@@ -123,11 +162,44 @@ export default function UserComplaintDetailScreen() {
               <p className="text-sm text-primary-40 font-semibold">Dokumen</p>
 
               <div className="w-full flex flex-row items-center border border-line-20 p-2 md:p-4 gap-x-8 rounded-lg">
-                <p className="w-full text-sm text-line-80 font-normal">Lorem</p>
+                <p className="w-full text-sm text-line-80 font-normal">
+                  File Pengaduan
+                </p>
 
-                <Button className="text-line-10 bg-primary-40 hover:bg-primary-70 rounded-lg w-7/12 md:w-3/12">
-                  Lihat Dokumen
-                </Button>
+                <AlertDialog>
+                  <AlertDialogTrigger className="w-full flex justify-end">
+                    <div className="w-5/12 text-[14px] bg-primary-40 flex items-center justify-center hover:bg-primary-70 h-10 text-line-10 rounded-lg">
+                      Lihat Dokumen
+                    </div>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent className="w-full max-w-3xl bg-line-10 rounded-lg shadow-md">
+                    <AlertDialogHeader className="flex flex-col max-h-[500px]">
+                      <AlertDialogTitle className="text-center">
+                        {complaint?.User_info?.name}
+                      </AlertDialogTitle>
+                      <AlertDialogDescription className="text-center">
+                        File Pengaduan
+                      </AlertDialogDescription>
+                      <div className="w-full flex flex-col gap-y-3 verticalScroll">
+                        <div className="w-full h-full">
+                          {complaint?.image && complaint?.judul_pengaduan && (
+                            <Image
+                              src={complaint?.image}
+                              alt={complaint?.judul_pengaduan}
+                              width={1000}
+                              height={400}
+                              className="w-full h-full object-contain"
+                            />
+                          )}
+                        </div>
+                      </div>
+                    </AlertDialogHeader>
+
+                    <div className="w-full flex flex-row justify-center items-center gap-x-5">
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    </div>
+                  </AlertDialogContent>
+                </AlertDialog>
               </div>
             </div>
           </div>

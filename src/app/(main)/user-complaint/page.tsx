@@ -33,7 +33,11 @@ import {
   DrawerTrigger,
 } from "@/components/ui/drawer";
 import { Label } from "@/components/ui/label";
-import { AreasInterface, ServiceInterface } from "@/types/interface";
+import {
+  AreasInterface,
+  ServiceInterface,
+  UserComplaintInterface,
+} from "@/types/interface";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -43,7 +47,12 @@ import { CloudArrowUp } from "@phosphor-icons/react";
 import UserComplaintTablePages from "@/components/tables/user_complaint_table";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import MobileUserComplaintCardPages from "@/components/mobile_all_cards/mobileUserComplaintCard";
-import { getAreas, getServiceByAreas, postUserComplaint } from "@/services/api";
+import {
+  getAreas,
+  getServiceByAreas,
+  getUserComplaints,
+  postUserComplaint,
+} from "@/services/api";
 import Swal from "sweetalert2";
 import { Button } from "@/components/ui/button";
 
@@ -60,11 +69,13 @@ export default function UserComplaintScreen() {
   const [areaId, setAreaId] = useState<number | null>(null);
   const [services, setServices] = useState<ServiceInterface[]>([]);
   const [serviceId, setServiceId] = useState<number | null>(null);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [dateIndex, setDateIndex] = useState<Date>(new Date());
   const [timeIndex, setTimeIndex] = useState<Date>(new Date());
   const [complaintImage, setComplaintImage] = useState<File | null>(null);
   const [previewImage, setPreviewImage] = useState<string>("");
+  const [complaints, setComplaints] = useState<UserComplaintInterface[]>();
   const [data, setData] = useState({
     bidang_id: "",
     layanan_id: "",
@@ -73,6 +84,20 @@ export default function UserComplaintScreen() {
     image: "",
     status: 0,
   });
+
+  const fetchUserComplaints = async () => {
+    try {
+      const response = await getUserComplaints();
+
+      setComplaints(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserComplaints();
+  }, []);
 
   const fetchAreas = async (page: number, limit: number) => {
     try {
@@ -103,10 +128,6 @@ export default function UserComplaintScreen() {
       fetchServices(areaId);
     }
   }, [areaId]);
-
-  console.log(areaId, "ini areaId");
-
-  console.log(services, "ini service");
 
   useEffect(() => {
     if (areaId !== null) {
@@ -172,7 +193,8 @@ export default function UserComplaintScreen() {
     setData({ ...data, image: "" });
   };
 
-  const createUserComplaint = async () => {
+  const createUserComplaint = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     setIsLoading(true);
 
     const formData = new FormData();
@@ -187,8 +209,6 @@ export default function UserComplaintScreen() {
 
     try {
       const response = await postUserComplaint(formData);
-
-      console.log(response, "ini response");
 
       if (response?.status === 201) {
         setData({
@@ -208,9 +228,9 @@ export default function UserComplaintScreen() {
           showConfirmButton: false,
           position: "center",
         });
-        // fetchStructureOrganization(limitItem);
-        // setIsDialogOpen(false);
-        // router.push("/super-admin/master-data/structure-organization");
+        setIsDialogOpen(false);
+        fetchUserComplaints();
+        router.push("/user-complaint");
       } else {
         Swal.fire({
           icon: "error",
@@ -224,6 +244,7 @@ export default function UserComplaintScreen() {
       console.log(error);
     } finally {
       setIsLoading(false);
+      setIsDialogOpen(false);
     }
   };
 
@@ -292,8 +313,10 @@ export default function UserComplaintScreen() {
 
           <div className="w-full">
             {!isMobile ? (
-              <AlertDialog>
-                <AlertDialogTrigger className="w-full">
+              <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                <AlertDialogTrigger
+                  onClick={() => setIsDialogOpen(true)}
+                  className="w-full">
                   <div className="w-full text-sm bg-primary-40 flex items-center justify-center hover:bg-primary-70 h-10 text-line-10 rounded-lg">
                     Ajukan Pengaduan
                   </div>
@@ -501,18 +524,20 @@ export default function UserComplaintScreen() {
                       </div>
                     </AlertDialogHeader>
 
-                    <AlertDialogFooter className="w-full flex flex-row justify-center items-center gap-x-5">
+                    <div className="w-full flex flex-row justify-center items-center gap-x-5">
                       <AlertDialogCancel>Cancel</AlertDialogCancel>
+
                       <Button
-                        disabled={isLoading ? true : false}
-                        className="bg-primary-40 hover:bg-primary-70 text-line-10">
+                        type="submit"
+                        className="bg-primary-40 hover:bg-primary-70 text-line-10"
+                        disabled={isLoading ? true : false}>
                         {isLoading ? (
                           <Loader className="w-4 h-4 animate-spin" />
                         ) : (
                           "Ajukan Pengaduan"
                         )}
                       </Button>
-                    </AlertDialogFooter>
+                    </div>
                   </form>
                 </AlertDialogContent>
               </AlertDialog>
@@ -717,7 +742,11 @@ export default function UserComplaintScreen() {
 
         <div className="w-full">
           {!isMobile ? (
-            <UserComplaintTablePages />
+            <>
+              {complaints && complaints.length > 0 && (
+                <UserComplaintTablePages complaints={complaints} />
+              )}
+            </>
           ) : (
             <MobileUserComplaintCardPages />
           )}
