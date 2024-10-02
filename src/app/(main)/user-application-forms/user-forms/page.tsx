@@ -105,6 +105,7 @@ export default function UserFormPages() {
     >
   ) => {
     const { name, value } = e.target;
+
     setFormValues((prevValues) => ({
       ...prevValues,
       [name]: value,
@@ -143,36 +144,45 @@ export default function UserFormPages() {
 
     const formData = new FormData();
 
-    Object.entries(formValues).forEach(([key, value], index) => {
-      if (
-        typeof value === "object" &&
-        value !== null &&
-        !Array.isArray(value)
-      ) {
-        // Mengonversi objek menjadi array
-        const selectedValues = Object.keys(value).filter((k) => value[k]);
-        formData.append(`datainput[${index}][layananform_id]`, key);
+    form?.Layanan_forms.forEach((field, index) => {
+      if (field.tipedata === "checkbox") {
+        const selectedValues = checkboxValues[field.id] || [];
         formData.append(
           `datainput[${index}][data]`,
           JSON.stringify(selectedValues)
         );
-      } else {
-        // Jika value adalah data primitif
-        formData.append(`datainput[${index}][layananform_id]`, key);
-        formData.append(`datainput[${index}][data]`, value.toString());
+        // Hanya menambahkan layananform_id sekali
+        formData.append(
+          `datainput[${index}][layananform_id]`,
+          field.id.toString()
+        );
+      } else if (
+        ["radio", "string", "number", "date", "textarea"].includes(
+          field.tipedata
+        )
+      ) {
+        const value = formValues[field.field];
+        if (value !== undefined && value !== null) {
+          formData.append(`datainput[${index}][data]`, value.toString());
+          formData.append(
+            `datainput[${index}][layananform_id]`,
+            field.id.toString()
+          );
+        }
       }
+      // Tambahkan tipe data lain jika diperlukan
     });
 
-    // Menambahkan datafile dari docValues
-    Object.entries(docValues).forEach(([key, value], index) => {
-      if (value) {
-        formData.append(`datafile[${index}][layananform_id]`, key);
-        formData.append(`datafile[${index}][data]`, value); // Menambahkan file ke FormData
+    // Menyiapkan datafile
+    docForm?.Layanan_forms.forEach((field, index) => {
+      const file = docValues[field.id.toString()];
+      if (file) {
+        formData.append(`datafile[${index}][data]`, file);
+        formData.append(
+          `datafile[${index}][layananform_id]`,
+          field.id.toString()
+        );
       }
-    });
-
-    Object.keys(formData).forEach((key) => {
-      console.log(key, formData.get(key));
     });
 
     try {
@@ -253,9 +263,9 @@ export default function UserFormPages() {
                                       data.id
                                     ) || false
                                   }
-                                  onChange={(e) =>
-                                    handleCheckboxChange(e, item.id)
-                                  }
+                                  onChange={(e) => {
+                                    handleCheckboxChange(e, item.id);
+                                  }}
                                 />
                                 <label className="ml-2 text-[16px]">
                                   {data.key}
@@ -285,11 +295,6 @@ export default function UserFormPages() {
 
                           <div className="grid grid-rows-2 w-full border border-line-20 rounded-lg p-3 justify-between gap-y-2">
                             {item?.datajson?.map((point, idx) => {
-                              console.log(
-                                formValues[item?.field] === point.id.toString(),
-                                "ini point"
-                              );
-
                               return (
                                 <div
                                   key={idx}
