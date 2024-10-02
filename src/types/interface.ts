@@ -308,3 +308,26 @@ export interface ApplicationFormServiceInterface {
   desc: string;
   Layanan_forms: FormServiceInterface[];
 }
+
+export interface ApplicationFormInputInterface {
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  name: string;
+  type: string;
+  placeholder: string;
+  id: string;
+  label: string;
+  isRequired?: boolean;
+}
+
+export interface ApplicationFormServiceDocInterface {
+  nama: string;
+  slug: string;
+  desc: string;
+  Layanan_forms: FormServiceInterface[];
+}
+
+export interface DataInputItemInterface {
+  layananform_id: string;
+  data: string | string[number];
+}

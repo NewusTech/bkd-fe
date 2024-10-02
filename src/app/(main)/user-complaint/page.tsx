@@ -3,7 +3,7 @@
 import DatePages from "@/components/elements/date";
 import SearchPages from "@/components/elements/search";
 import { formatDate } from "@/lib/utils";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -37,12 +37,15 @@ import { AreasInterface, ServiceInterface } from "@/types/interface";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { CircleX } from "lucide-react";
+import { CircleX, Loader } from "lucide-react";
 import Image from "next/image";
 import { CloudArrowUp } from "@phosphor-icons/react";
 import UserComplaintTablePages from "@/components/tables/user_complaint_table";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import MobileUserComplaintCardPages from "@/components/mobile_all_cards/mobileUserComplaintCard";
+import { getAreas, getServiceByAreas, postUserComplaint } from "@/services/api";
+import Swal from "sweetalert2";
+import { Button } from "@/components/ui/button";
 
 export default function UserComplaintScreen() {
   const router = useRouter();
@@ -63,12 +66,65 @@ export default function UserComplaintScreen() {
   const [complaintImage, setComplaintImage] = useState<File | null>(null);
   const [previewImage, setPreviewImage] = useState<string>("");
   const [data, setData] = useState({
-    area_id: null,
-    service_id: null,
-    title: "",
-    content: "",
+    bidang_id: "",
+    layanan_id: "",
+    judul_pengaduan: "",
+    isi_pengaduan: "",
     image: "",
+    status: 0,
   });
+
+  const fetchAreas = async (page: number, limit: number) => {
+    try {
+      const response = await getAreas(page, limit);
+
+      setAreas(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchAreas(1, 10);
+  }, []);
+
+  const fetchServices = async (bidang_id: number) => {
+    try {
+      const response = await getServiceByAreas(bidang_id);
+
+      setServices(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (areaId) {
+      fetchServices(areaId);
+    }
+  }, [areaId]);
+
+  console.log(areaId, "ini areaId");
+
+  console.log(services, "ini service");
+
+  useEffect(() => {
+    if (areaId !== null) {
+      setData((prevUser) => ({
+        ...prevUser,
+        bidang_id: String(areaId),
+      }));
+    }
+  }, [areaId]);
+
+  useEffect(() => {
+    if (serviceId !== null) {
+      setData((prevUser) => ({
+        ...prevUser,
+        layanan_id: String(serviceId),
+      }));
+    }
+  }, [serviceId]);
 
   const startDateFormatted = startDate
     ? formatDate(new Date(startDate))
@@ -114,6 +170,61 @@ export default function UserComplaintScreen() {
     setComplaintImage(null);
     setPreviewImage("");
     setData({ ...data, image: "" });
+  };
+
+  const createUserComplaint = async () => {
+    setIsLoading(true);
+
+    const formData = new FormData();
+    formData.append("bidang_id", data.bidang_id);
+    formData.append("layanan_id", data.layanan_id);
+    formData.append("judul_pengaduan", data.judul_pengaduan);
+    formData.append("isi_pengaduan", data?.isi_pengaduan);
+    if (complaintImage) {
+      formData.append("image", complaintImage);
+    }
+    formData.append("status", data.status.toString());
+
+    try {
+      const response = await postUserComplaint(formData);
+
+      console.log(response, "ini response");
+
+      if (response?.status === 201) {
+        setData({
+          bidang_id: "",
+          layanan_id: "",
+          judul_pengaduan: "",
+          isi_pengaduan: "",
+          image: "",
+          status: 0,
+        });
+        setComplaintImage(null);
+        setPreviewImage("");
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil Menambahkan Struktur Organisasi!",
+          timer: 2000,
+          showConfirmButton: false,
+          position: "center",
+        });
+        // fetchStructureOrganization(limitItem);
+        // setIsDialogOpen(false);
+        // router.push("/super-admin/master-data/structure-organization");
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Gagal Menambahkan Struktur Organisasi!",
+          timer: 2000,
+          showConfirmButton: false,
+          position: "center",
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -187,159 +298,172 @@ export default function UserComplaintScreen() {
                     Ajukan Pengaduan
                   </div>
                 </AlertDialogTrigger>
-                <AlertDialogContent className="w-full max-w-2xl bg-line-10 rounded-lg shadow-md">
-                  <AlertDialogHeader className="flex flex-col max-h-[500px]">
-                    <AlertDialogTitle className="text-center">
-                      Pengaduan
-                    </AlertDialogTitle>
-                    <AlertDialogDescription className="text-center">
-                      Input data yang diperlukan
-                    </AlertDialogDescription>
-                    <div className="w-full flex flex-col gap-y-3 verticalScroll">
-                      <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                        <Label className="focus-within:text-primary-70 font-normal text-sm">
-                          Pilih Bidang
-                        </Label>
+                <AlertDialogContent className="w-full max-w-3xl bg-line-10 rounded-lg shadow-md">
+                  <form
+                    onSubmit={createUserComplaint}
+                    className="w-full flex flex-col gap-y-3">
+                    <AlertDialogHeader className="flex flex-col max-h-[500px]">
+                      <AlertDialogTitle className="text-center">
+                        Pengaduan
+                      </AlertDialogTitle>
+                      <AlertDialogDescription className="text-center">
+                        Input data yang diperlukan
+                      </AlertDialogDescription>
+                      <div className="w-full flex flex-col gap-y-3 verticalScroll">
+                        <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                          <Label className="focus-within:text-primary-70 font-normal text-sm">
+                            Pilih Bidang
+                          </Label>
 
-                        <Select
-                          name="area_id"
-                          value={areaId ? String(areaId) : undefined}
-                          onValueChange={(value) => setAreaId(Number(value))}>
-                          <SelectTrigger
-                            className={`${
-                              !areaId ? "opacity-70" : ""
-                            } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
-                            <SelectValue
-                              placeholder="Pilih Bidang"
-                              className={areaId ? "" : "placeholder:opacity-50"}
-                            />
-                          </SelectTrigger>
-                          <SelectContent className="w-full bg-line-10">
-                            <div>
-                              {areas &&
-                                areas.length > 0 &&
-                                areas?.map(
-                                  (area: AreasInterface, i: number) => {
-                                    return (
-                                      <SelectItem
-                                        className="pr-none mt-2"
-                                        value={area?.id.toString()}
-                                        key={i}>
-                                        {area?.nama}
-                                      </SelectItem>
-                                    );
-                                  }
-                                )}
-                            </div>
-                          </SelectContent>
-                        </Select>
-                      </div>
+                          <Select
+                            name="bidang_id"
+                            value={areaId ? String(areaId) : undefined}
+                            onValueChange={(value) => setAreaId(Number(value))}>
+                            <SelectTrigger
+                              className={`${
+                                !areaId ? "opacity-70" : ""
+                              } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                              <SelectValue
+                                placeholder="Pilih Bidang"
+                                className={
+                                  areaId ? "" : "placeholder:opacity-50"
+                                }
+                              />
+                            </SelectTrigger>
+                            <SelectContent className="w-full bg-line-10">
+                              <div>
+                                {areas &&
+                                  areas?.map(
+                                    (area: AreasInterface, i: number) => {
+                                      return (
+                                        <SelectItem
+                                          className="pr-none mt-2"
+                                          value={area?.id.toString()}
+                                          key={i}>
+                                          {area?.nama}
+                                        </SelectItem>
+                                      );
+                                    }
+                                  )}
+                              </div>
+                            </SelectContent>
+                          </Select>
+                        </div>
 
-                      <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                        <Label className="focus-within:text-primary-70 font-normal text-sm">
-                          Pilih Layanan
-                        </Label>
+                        <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                          <Label className="focus-within:text-primary-70 font-normal text-sm">
+                            Pilih Layanan
+                          </Label>
 
-                        <Select
-                          name="service_id"
-                          value={serviceId ? String(serviceId) : undefined}
-                          onValueChange={(value) =>
-                            setServiceId(Number(value))
-                          }>
-                          <SelectTrigger
-                            className={`${
-                              !serviceId ? "opacity-70" : ""
-                            } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
-                            <SelectValue
-                              placeholder="Pilih Layanan"
-                              className={
-                                serviceId ? "" : "placeholder:opacity-50"
-                              }
-                            />
-                          </SelectTrigger>
-                          <SelectContent className="w-full bg-line-10">
-                            <div>
-                              {services &&
-                                services.length > 0 &&
-                                services?.map(
-                                  (service: ServiceInterface, i: number) => {
-                                    return (
-                                      <SelectItem
-                                        className="pr-none mt-2"
-                                        value={service?.id.toString()}
-                                        key={i}>
-                                        {service?.nama}
-                                      </SelectItem>
-                                    );
-                                  }
-                                )}
-                            </div>
-                          </SelectContent>
-                        </Select>
-                      </div>
+                          <Select
+                            name="layanan_id"
+                            value={serviceId ? String(serviceId) : undefined}
+                            onValueChange={(value) =>
+                              setServiceId(Number(value))
+                            }>
+                            <SelectTrigger
+                              className={`${
+                                !serviceId ? "opacity-70" : ""
+                              } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                              <SelectValue
+                                placeholder="Pilih Layanan"
+                                className={
+                                  serviceId ? "" : "placeholder:opacity-50"
+                                }
+                              />
+                            </SelectTrigger>
+                            <SelectContent className="w-full bg-line-10">
+                              <div>
+                                {services &&
+                                  services?.map(
+                                    (service: ServiceInterface, i: number) => {
+                                      return (
+                                        <SelectItem
+                                          className="pr-none mt-2"
+                                          value={service?.id.toString()}
+                                          key={i}>
+                                          {service?.nama}
+                                        </SelectItem>
+                                      );
+                                    }
+                                  )}
+                              </div>
+                            </SelectContent>
+                          </Select>
+                        </div>
 
-                      <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                        <Label
-                          htmlFor="judul-pengaduan"
-                          className="focus-within:text-primary-70 font-normal text-sm">
-                          Judul Pengaduan
-                        </Label>
+                        <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                          <Label
+                            htmlFor="judul-pengaduan"
+                            className="focus-within:text-primary-70 font-normal text-sm">
+                            Judul Pengaduan
+                          </Label>
 
-                        <Input
-                          id="judul-pengaduan"
-                          name="title"
-                          value={data.title}
-                          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                            setData({ ...data, title: e.target.value })
-                          }
-                          type="text"
-                          className="w-full focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
-                          placeholder="Judul Pengaduan Kamu"
-                        />
-                      </div>
+                          <Input
+                            id="judul-pengaduan"
+                            name="judul_pengaduan"
+                            value={data.judul_pengaduan}
+                            onChange={(
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) =>
+                              setData({
+                                ...data,
+                                judul_pengaduan: e.target.value,
+                              })
+                            }
+                            type="text"
+                            className="w-full focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
+                            placeholder="Judul Pengaduan Kamu"
+                          />
+                        </div>
 
-                      <div className="w-full flex flex-col gap-y-2">
-                        <Label className="text-sm text-black-70 font-normal">
-                          Isi Pengaduan
-                        </Label>
+                        <div className="w-full flex flex-col gap-y-2">
+                          <Label className="text-sm text-black-70 font-normal">
+                            Isi Pengaduan
+                          </Label>
 
-                        <Textarea
-                          name="content"
-                          placeholder="Masukkan Isi Pengaduan Kamu"
-                          value={data.content}
-                          onChange={(
-                            e: React.ChangeEvent<HTMLTextAreaElement>
-                          ) => setData({ ...data, content: e.target.value })}
-                          className="w-full rounded-lg h-[74px] border border-line-20 md:h-[122px] text-[12px] placeholder:opacity-[70%]"
-                        />
-                      </div>
+                          <Textarea
+                            name="isi_pengaduan"
+                            placeholder="Masukkan Isi Pengaduan Kamu"
+                            value={data.isi_pengaduan}
+                            onChange={(
+                              e: React.ChangeEvent<HTMLTextAreaElement>
+                            ) =>
+                              setData({
+                                ...data,
+                                isi_pengaduan: e.target.value,
+                              })
+                            }
+                            className="w-full rounded-lg h-[74px] border border-line-20 md:h-[122px] text-[12px] placeholder:opacity-[70%]"
+                          />
+                        </div>
 
-                      <div className="flex flex-col mx-[1px]">
-                        <Label className="text-sm text-black-70 font-normal text-start mb-2">
-                          Upload Dokumen
-                        </Label>
+                        <div className="flex flex-col mx-[1px]">
+                          <Label className="text-sm text-black-70 font-normal text-start mb-2">
+                            Upload Dokumen
+                          </Label>
 
-                        <div
-                          ref={dropRef}
-                          onDragOver={handleDragOver}
-                          onDragLeave={handleDragLeave}
-                          onDrop={handleDrop}
-                          className={`w-full h-[100px] border-2 border-dashed border-line-20 rounded-lg mt-1 flex flex-col items-center justify-center`}>
-                          <>
-                            <input
-                              type="file"
-                              id="file-input"
-                              name="image"
-                              accept="image/*,.pdf"
-                              onChange={handleFileChange}
-                              className="hidden"
-                            />
-                            <label
-                              htmlFor="file-input"
-                              className="text-[16px] text-center text-neutral-600 font-light cursor-pointer">
-                              {data.image ? (
+                          <div
+                            ref={dropRef}
+                            onDragOver={handleDragOver}
+                            onDragLeave={handleDragLeave}
+                            onDrop={handleDrop}
+                            className={`w-full h-[100px] border-2 border-dashed border-line-20 rounded-lg mt-1 flex flex-col items-center justify-center`}>
+                            <>
+                              <input
+                                type="file"
+                                id="file-input"
+                                name="image"
+                                accept="image/*,.pdf"
+                                onChange={handleFileChange}
+                                className="hidden"
+                              />
+                              <label
+                                htmlFor="file-input"
+                                className="text-[16px] text-center text-neutral-600 font-light cursor-pointer">
+                                {/* {data.image ? (
                                 data.image
-                              ) : (
+                              ) : ( */}
                                 <span className="flex flex-col items-center justify-center">
                                   <CloudArrowUp className="w-8 h-8 text-black-70" />
 
@@ -348,40 +472,48 @@ export default function UserComplaintScreen() {
                                     file
                                   </p>
                                 </span>
-                              )}
-                            </label>
-                          </>
-                        </div>
-                      </div>
-
-                      {previewImage && (
-                        <div className="relative flex flex-row justify-center max-w-full max-h-full">
-                          <div className="w-full h-full">
-                            <Image
-                              src={previewImage}
-                              alt="Preview"
-                              width={1000}
-                              height={1000}
-                              className="w-full h-full rounded-lg p-2 max-w-full object-contain"
-                            />
+                                {/* )} */}
+                              </label>
+                            </>
                           </div>
-
-                          <button
-                            type="button"
-                            onClick={handleRemoveFile}
-                            className="absolute bg-none -top-1 -right-1 text-neutral-800 p-1">
-                            <CircleX />
-                          </button>
                         </div>
-                      )}
-                    </div>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter className="w-full flex flex-row justify-center items-center gap-x-5">
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction className="bg-primary-40 hover:bg-primary-70 text-line-10">
-                      Ajukan Pengaduan
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
+
+                        {previewImage && (
+                          <div className="relative flex flex-row justify-center max-w-full max-h-full">
+                            <div className="w-full h-full">
+                              <Image
+                                src={previewImage}
+                                alt="Preview"
+                                width={1000}
+                                height={1000}
+                                className="w-full h-full rounded-lg p-2 max-w-full object-contain"
+                              />
+                            </div>
+
+                            <button
+                              type="button"
+                              onClick={handleRemoveFile}
+                              className="absolute bg-none -top-1 -right-1 text-neutral-800 p-1">
+                              <CircleX />
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                    </AlertDialogHeader>
+
+                    <AlertDialogFooter className="w-full flex flex-row justify-center items-center gap-x-5">
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <Button
+                        disabled={isLoading ? true : false}
+                        className="bg-primary-40 hover:bg-primary-70 text-line-10">
+                        {isLoading ? (
+                          <Loader className="w-4 h-4 animate-spin" />
+                        ) : (
+                          "Ajukan Pengaduan"
+                        )}
+                      </Button>
+                    </AlertDialogFooter>
+                  </form>
                 </AlertDialogContent>
               </AlertDialog>
             ) : (
@@ -404,7 +536,7 @@ export default function UserComplaintScreen() {
                       </Label>
 
                       <Select
-                        name="area_id"
+                        name="bidang_id"
                         value={areaId ? String(areaId) : undefined}
                         onValueChange={(value) => setAreaId(Number(value))}>
                         <SelectTrigger
@@ -441,7 +573,7 @@ export default function UserComplaintScreen() {
                       </Label>
 
                       <Select
-                        name="service_id"
+                        name="layanan_id"
                         value={serviceId ? String(serviceId) : undefined}
                         onValueChange={(value) => setServiceId(Number(value))}>
                         <SelectTrigger
@@ -485,10 +617,10 @@ export default function UserComplaintScreen() {
 
                       <Input
                         id="judul-pengaduan"
-                        name="title"
-                        value={data.title}
+                        name="judul_pengaduan"
+                        value={data.judul_pengaduan}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                          setData({ ...data, title: e.target.value })
+                          setData({ ...data, judul_pengaduan: e.target.value })
                         }
                         type="text"
                         className="w-full focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
@@ -502,11 +634,11 @@ export default function UserComplaintScreen() {
                       </Label>
 
                       <Textarea
-                        name="content"
+                        name="isi_pengaduan"
                         placeholder="Masukkan Isi Pengaduan Kamu"
-                        value={data.content}
+                        value={data.isi_pengaduan}
                         onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                          setData({ ...data, content: e.target.value })
+                          setData({ ...data, isi_pengaduan: e.target.value })
                         }
                         className="w-full rounded-lg h-[74px] border border-line-20 md:h-[122px] text-[12px] placeholder:opacity-[70%]"
                       />

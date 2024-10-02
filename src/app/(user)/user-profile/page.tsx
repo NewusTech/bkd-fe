@@ -51,6 +51,7 @@ import {
 } from "@/services/api";
 import UserTabsTriggerScreen from "@/components/elements/tabs_user";
 import Swal from "sweetalert2";
+import Cookies from "js-cookie";
 import { formatDate, formatDateShortString } from "@/lib/utils";
 
 export default function UserProfileScreen() {
@@ -179,6 +180,14 @@ export default function UserProfileScreen() {
   });
   const [returnDate, setReturnDate] = useState<Date>(new Date());
   const [durationDate, setDurationDate] = useState<Date>(new Date());
+
+  useEffect(() => {
+    const token = Cookies.get("Authorization");
+
+    if (!token) {
+      router.push("/");
+    }
+  }, [router]);
 
   useEffect(() => {
     if (searchTabs == "data-diri") {

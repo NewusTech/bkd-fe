@@ -18,21 +18,7 @@ export default function UserDocumentFormPages() {
 
   return (
     <section className="w-full flex flex-col gap-y-5 my-6 px-3 md:px-6">
-      {/* <div className="w-full flex flex-col rounded-lg bg-line-10 py-3 md:py-6 shadow-md gap-y-4 md:gap-y-8">
-        <div className="flex flex-row justify-between items-center w-full px-5">
-          <div className="flex flex-row items-center">
-            <button onClick={() => router.back()}>
-              <ChevronLeft className="w-7 h-7 text-black-80 mr-2" />
-            </button>
-
-            <h5 className="text-xl text-start text-black-80 font-normal">
-              Dokumen Pendukung
-            </h5>
-          </div>
-        </div>
-      </div> */}
-
-      <div className="w-full flex flex-col rounded-lg bg-line-10 py-3 md:py-6 shadow-md gap-y-4 md:gap-y-8">
+      <div className="w-full flex flex-col px-3 rounded-lg bg-line-10 py-3 md:py-6 shadow-md gap-y-4 md:gap-y-8">
         <div className="flex flex-row items-center">
           <button onClick={() => router.back()}>
             <ChevronLeft className="w-7 h-7 text-black-80 mr-2" />

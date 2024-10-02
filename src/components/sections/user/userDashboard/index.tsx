@@ -3,10 +3,43 @@
 import dasboard from "@/../../public/assets/images/dashboard-dashboard.png";
 import DashboardCard from "@/components/all_cards/dashboardCard";
 import { dashboardCards } from "@/constants/main";
+import { getAllService, getUserProfile } from "@/services/api";
+import { ServiceInterface, UserProfileInterface } from "@/types/interface";
 import Image from "next/image";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect, useState } from "react";
 
 export default function UserDashboardPages() {
+  const router = useRouter();
+  const [user, setUser] = useState<UserProfileInterface>();
+  const [services, setServices] = useState<ServiceInterface[]>();
+
+  const fetchUserProfile = async () => {
+    try {
+      const response = await getUserProfile();
+      setUser(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserProfile();
+  }, []);
+
+  const fetchServices = async () => {
+    try {
+      const response = await getAllService();
+      setServices(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchServices();
+  }, []);
+
   return (
     <div className="w-full flex flex-col gap-y-5">
       <div className="w-full px-3 md:px-0">
@@ -23,7 +56,7 @@ export default function UserDashboardPages() {
 
           <div className="w-full flex flex-col justify-center gap-y-3">
             <h3 className="text-black-80 text-lg md:text-xl">
-              Selamat Datang, Irsyad Al-Haq
+              Selamat Datang, {user?.name && user?.name}
             </h3>
 
             <p className="text-black-80 text-sm">
@@ -45,9 +78,11 @@ export default function UserDashboardPages() {
         </div>
 
         <div className="w-full grid grid-cols-2 md:grid-cols-3 gap-5">
-          {dashboardCards.map((dashboard: any, i: number) => {
-            return <DashboardCard key={i} item={dashboard} />;
-          })}
+          {services &&
+            services.length > 0 &&
+            services.map((dashboard: ServiceInterface, i: number) => {
+              return <DashboardCard key={i} item={dashboard} />;
+            })}
         </div>
       </div>
     </div>
