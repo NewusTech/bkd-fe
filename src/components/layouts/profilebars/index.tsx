@@ -5,7 +5,7 @@ import { Camera, X } from "@phosphor-icons/react";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { HomeIcon, Loader, LogOut, User2 } from "lucide-react";
+import { HomeIcon, List, Loader, LogOut, User2 } from "lucide-react";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 import {
@@ -49,14 +49,6 @@ export default function ProfileSideBarScreen() {
   useEffect(() => {
     fetchUserProfile();
   }, []);
-
-  // useEffect(() => {
-  //   if (pathName.includes("/order-histories")) {
-  //     setActiveAccordionValue("orders");
-  //   } else {
-  //     setActiveAccordionValue("account");
-  //   }
-  // }, [pathName]);
 
   const handleLogout = () => {
     setIsLoadingOut(true);
@@ -273,11 +265,31 @@ export default function ProfileSideBarScreen() {
               <p className="text-[16px] text-black-80">Dashboard</p>
             </Link>
 
-            <div className="w-full flex flex-row px-4 py-3 bg-primary-40 bg-opacity-20 items-center gap-x-2">
-              <User2 className="w-6 h-6 text-primary-40" />
+            <Link
+              href={"/user-profile"}
+              className={`w-full flex flex-row px-4 py-3 ${pathName === "/user-profile" ? "bg-primary-40 bg-opacity-20" : ""} items-center gap-x-2`}>
+              <User2
+                className={`w-6 h-6 ${pathName === "/user-profile" ? "text-primary-40" : "text-black-80"}`}
+              />
 
-              <p className="text-primary-40 text-[16px]">Akun Saya</p>
-            </div>
+              <p
+                className={`${pathName === "/user-profile" ? "text-primary-40" : "text-black-80"} text-[16px]`}>
+                Akun Saya
+              </p>
+            </Link>
+
+            <Link
+              href={"/user-profile/user-document"}
+              className={`w-full flex flex-row px-4 py-3 ${pathName === "/user-profile/user-document" ? "bg-primary-40 bg-opacity-20" : ""} items-center gap-x-2`}>
+              <List
+                className={`w-6 h-6 ${pathName === "/user-profile/user-document" ? "text-primary-40" : "text-black-80"}`}
+              />
+
+              <p
+                className={`${pathName === "/user-profile/user-document" ? "text-primary-40" : "text-black-80"} text-[16px]`}>
+                Dokumen Saya
+              </p>
+            </Link>
 
             <div className="w-full flex flex-row">
               <Button

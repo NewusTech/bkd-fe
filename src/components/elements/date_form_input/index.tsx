@@ -43,7 +43,7 @@ export default function DateFormInput(props: DateInputProps) {
       {typeof label !== "string" ? (
         label
       ) : (
-        <p className="text-[14px] md:text-[16px]">{label}</p>
+        <p className="text-[16px]">{label}</p>
       )}
       <div
         className={twMerge([

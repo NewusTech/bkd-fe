@@ -1,5 +1,14 @@
 "use client";
 
+import firstDashboard from "@/../../public/assets/images/dashboard-podium.png";
+import secondDashboard from "@/../../public/assets/images/dashboard-pension.png";
+import thirdDashboard from "@/../../public/assets/images/dashboard-salary.png";
+import fourthDashboard from "@/../../public/assets/images/dashboard-education.png";
+import fifthDashboard from "@/../../public/assets/images/dashboard-employee-change.png";
+import sixthDashboard from "@/../../public/assets/images/dashboard-groom.png";
+import seventhDashboard from "@/../../public/assets/images/dashboard-publisher.png";
+import eighthDashboard from "@/../../public/assets/images/dashboard-wife.png";
+import ninethDashboard from "@/../../public/assets/images/dashboard-pension.png";
 import Image from "next/image";
 import React from "react";
 import {
@@ -25,57 +34,63 @@ import {
 } from "@/components/ui/drawer";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { ServiceInterface } from "@/types/interface";
 
-export default function DashboardCard({ item }: any) {
+export default function DashboardCard({ item }: { item: ServiceInterface }) {
   const isMobile = useMediaQuery("(max-width: 768px)");
   let background;
+  let icon;
 
-  switch (item?.keys) {
-    case "dash-1":
+  switch (item?.nama) {
+    case "Mutasi Pegawai":
       {
         background = "bg-[#21AAFF]";
+        icon = firstDashboard;
       }
       break;
-    case "dash-2":
+    case "Ujian Penyusuaian Kenaikan Pangkat":
       {
         background = "bg-[#E021B0]";
+        icon = secondDashboard;
       }
       break;
-    case "dash-3":
+    case "Penerbitan SK Pegawai":
       {
         background = "bg-[#E44A23]";
+        icon = thirdDashboard;
       }
       break;
-    case "dash-4":
+    case "Layanan Cuti":
       {
         background = "bg-[#E021B0]";
+        icon = fourthDashboard;
       }
       break;
-    case "dash-5":
-      {
-        background = "bg-[#1FC238]";
-      }
-      break;
-    case "dash-6":
-      {
-        background = "bg-[#21AAFF]";
-      }
-      break;
-    case "dash-7":
-      {
-        background = "bg-[#E44A23]";
-      }
-      break;
-    case "dash-8":
-      {
-        background = "bg-primary-40";
-      }
-      break;
-    case "dash-9":
-      {
-        background = "bg-[#E021B0]";
-      }
-      break;
+    // case "dash-5":
+    //   {
+    //     background = "bg-[#1FC238]";
+    //   }
+    //   break;
+    // case "dash-6":
+    //   {
+    //     background = "bg-[#21AAFF]";
+    //   }
+    //   break;
+    // case "dash-7":
+    //   {
+    //     background = "bg-[#E44A23]";
+    //   }
+    //   break;
+    // case "dash-8":
+    //   {
+    //     background = "bg-primary-40";
+    //   }
+    //   break;
+    // case "dash-9":
+    //   {
+    //     background = "bg-[#E021B0]";
+    //   }
+    //   break;
     default: {
       background = "bg-[#21AAFF]";
     }
@@ -86,18 +101,20 @@ export default function DashboardCard({ item }: any) {
       className={`w-full ${background} flex flex-col items-center justify-between rounded-lg shadow-md`}>
       <div className="w-full flex flex-col py-5 gap-y-5 items-center">
         <h5 className="text-line-10 h-10 text-[14px] md:text-lg text-center">
-          {item?.name}
+          {item?.nama && item?.nama}
         </h5>
 
         <div className="w-full">
           <div className="w-full h-full flex justify-center">
-            <Image
-              src={item?.icon}
-              alt="icons"
-              width={200}
-              height={200}
-              className="w-3/12 md:w-2/12 h-full"
-            />
+            {icon && (
+              <Image
+                src={icon?.src}
+                alt="icons"
+                width={200}
+                height={200}
+                className="w-3/12 md:w-2/12 h-full"
+              />
+            )}
           </div>
         </div>
       </div>

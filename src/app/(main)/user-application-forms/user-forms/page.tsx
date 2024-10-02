@@ -2,19 +2,28 @@
 
 import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import ApplicationFormInputPages from "@/components/elements/application_form_input/page";
 import { ChevronLeft, Loader } from "lucide-react";
 import {
+  ApplicationFormServiceDocInterface,
   ApplicationFormServiceInterface,
+  DataInputItemInterface,
   FormServiceInterface,
 } from "@/types/interface";
-import { getFormByService } from "@/services/api";
+import {
+  getFormByService,
+  getFormDocByService,
+  postApplicationForm,
+} from "@/services/api";
 import { Label } from "@/components/ui/label";
 import DateFormInput from "@/components/elements/date_form_input";
-import { formatDate } from "@/lib/utils";
+import { formatDate, truncateTitle } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
+import { set } from "date-fns";
+import Image from "next/image";
+import Swal from "sweetalert2";
 
 export default function UserFormPages() {
   const router = useRouter();
@@ -24,8 +33,12 @@ export default function UserFormPages() {
     [key: number]: number[];
   }>({});
   const [formValues, setFormValues] = useState<{ [key: string]: any }>({});
+  const [docValues, setDocValues] = useState<Record<string, File | null>>({});
+  const [fileName, setFileName] = useState<Record<string, string>>({});
+  const [previewFile, setPreviewFile] = useState<File | null>(null);
   const [returnDate, setReturnDate] = useState<Date>(new Date());
   const [form, setForm] = useState<ApplicationFormServiceInterface>();
+  const [docForm, setDocForm] = useState<ApplicationFormServiceDocInterface>();
   const [data, setData] = useState({
     name: "",
     email: "",
@@ -58,13 +71,22 @@ export default function UserFormPages() {
     }
   };
 
+  const fetchDocFormData = async (serviceId: number) => {
+    setIsLoading(true);
+    try {
+      const response = await getFormDocByService(serviceId);
+      setDocForm(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     if (serviceId) {
       fetchFormData(Number(serviceId));
+      fetchDocFormData(Number(serviceId));
     }
   }, [serviceId]);
-
-  console.log(form, "ini form");
 
   const handleCheckboxChange = (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -101,7 +123,101 @@ export default function UserFormPages() {
     }));
   };
 
-  // const changeDate = ()
+  const handleDocChange = (id: string, file: File | null) => {
+    setDocValues((prevValues) => ({
+      ...prevValues,
+      [id]: file,
+    }));
+    setFileName((prevNames) => ({
+      ...prevNames,
+      [id]: file ? file.name : "Upload",
+    }));
+  };
+
+  const handleViewFile = (file: File | null) => {
+    if (file) {
+      setPreviewFile(file);
+    }
+  };
+
+  let fileURL = "";
+
+  if (previewFile) {
+    fileURL = URL.createObjectURL(previewFile);
+  }
+
+  const createApplicationForm = async (
+    e: React.FormEvent<HTMLFormElement>,
+    id: number
+  ) => {
+    setIsLoading(true);
+
+    const formData = new FormData();
+
+    Object.entries(formValues).forEach(([key, value], index) => {
+      if (
+        typeof value === "object" &&
+        value !== null &&
+        !Array.isArray(value)
+      ) {
+        // Mengonversi objek menjadi array
+        const selectedValues = Object.keys(value).filter((k) => value[k]);
+        formData.append(`datainput[${index}][layananform_id]`, key);
+        formData.append(
+          `datainput[${index}][data]`,
+          JSON.stringify(selectedValues)
+        );
+      } else {
+        // Jika value adalah data primitif
+        formData.append(`datainput[${index}][layananform_id]`, key);
+        formData.append(`datainput[${index}][data]`, value.toString());
+      }
+    });
+
+    // Menambahkan datafile dari docValues
+    Object.entries(docValues).forEach(([key, value], index) => {
+      if (value) {
+        formData.append(`datafile[${index}][layananform_id]`, key);
+        formData.append(`datafile[${index}][data]`, value); // Menambahkan file ke FormData
+      }
+    });
+
+    Object.keys(formData).forEach((key) => {
+      console.log(key, formData.get(key));
+    });
+
+    // try {
+    //   const response = await postApplicationForm(formData, id);
+
+    //   console.log(response, "ini response");
+
+    //   if (response.status === 201) {
+    //     Swal.fire({
+    //       icon: "success",
+    //       title: "Berhasil Membuat Pengajuan Form!",
+    //       timer: 2000,
+    //       showConfirmButton: false,
+    //       position: "center",
+    //     });
+    //     localStorage.clear();
+    // router.push("/application-history");
+    //   } else {
+    //     Swal.fire({
+    //       icon: "error",
+    //       title: "Gagal Membuat Pengajuan Form!",
+    //       timer: 2000,
+    //       showConfirmButton: false,
+    //       position: "center",
+    //     });
+    //   }
+    // } catch (error) {
+    //   console.log(error);
+    // } finally {
+    //   setIsLoading(false);
+    // }
+  };
+
+  console.log(form?.Layanan_forms);
 
   return (
     <section className="w-full flex flex-col gap-y-5 my-6 px-3 md:px-6">
@@ -118,237 +234,299 @@ export default function UserFormPages() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-y-5 mt-3 md:mt-0 px-6">
-          {form &&
-            form?.Layanan_forms &&
-            form?.Layanan_forms?.length > 0 &&
-            form?.Layanan_forms?.map(
-              (item: FormServiceInterface, i: number) => {
-                if (item?.tipedata == "checkbox") {
-                  return (
-                    <div key={i} className="space-y-2 w-full">
-                      <label className="text-black-80 text-[16px] font-normal">
-                        {item.field}{" "}
+        <form
+          onSubmit={(e: React.FormEvent<HTMLFormElement>) =>
+            createApplicationForm(e, serviceId || 0)
+          }
+          className="w-full flex flex-col gap-y-5">
+          <div className="flex flex-col gap-y-5 mt-3 md:mt-0 px-6">
+            {form &&
+              form?.Layanan_forms &&
+              form?.Layanan_forms?.length > 0 &&
+              form?.Layanan_forms?.map(
+                (item: FormServiceInterface, i: number) => {
+                  if (item?.tipedata == "checkbox") {
+                    return (
+                      <div key={i} className="space-y-2 w-full">
+                        <label className="text-black-80 text-[16px] font-normal">
+                          {item.field}{" "}
+                          {item.isrequired && (
+                            <span className="text-error-50">*</span>
+                          )}
+                        </label>
+                        <div className="md:grid md:grid-cols-2 border border-line-20 rounded-lg p-3">
+                          {item?.datajson?.map((data) => (
+                            <div key={data.id} className="flex items-center">
+                              <input
+                                type="checkbox"
+                                name={item.field}
+                                value={data.id}
+                                className="h-8"
+                                checked={
+                                  checkboxValues[item.id]?.includes(data.id) ||
+                                  false
+                                }
+                                onChange={(e) =>
+                                  handleCheckboxChange(e, item.id)
+                                }
+                              />
+                              <label className="ml-2 text-[16px]">
+                                {data.key}
+                              </label>
+                            </div>
+                          ))}
+                        </div>
+
                         {item.isrequired && (
-                          <span className="text-error-50">*</span>
-                        )}
-                      </label>
-                      <div className="md:grid md:grid-cols-2">
-                        {item?.datajson?.map((data) => (
-                          <div key={data.id} className="flex items-center">
-                            <input
-                              type="checkbox"
-                              name={item.field}
-                              value={data.id}
-                              className="h-8"
-                              checked={
-                                checkboxValues[item.id]?.includes(data.id) ||
-                                false
-                              }
-                              onChange={(e) => handleCheckboxChange(e, item.id)}
-                            />
-                            <label className="ml-2">{data.key}</label>
+                          <div className="text-error-50 text-[14px]">
+                            Data Wajib Diisi!
                           </div>
-                        ))}
+                        )}
                       </div>
+                    );
+                  } else if (item?.tipedata == "radio") {
+                    return (
+                      <div
+                        key={i}
+                        className="flex flex-col gap-y-2 w-full justify-between">
+                        <Label className="text-[16px] text-black-80 font-normal">
+                          {item?.field}
+                          {item?.isrequired && (
+                            <span className="text-error-50">*</span>
+                          )}
+                        </Label>
 
-                      {item.isrequired && (
-                        <div className="text-error-50 text-[14px]">
-                          Data Wajib Diisi!
+                        <div className="grid grid-rows-2 w-full border border-line-20 rounded-lg p-3 justify-between gap-y-2">
+                          {item?.datajson?.map((point, idx) => {
+                            console.log(
+                              formValues[item?.field] === point.id.toString(),
+                              "ini point"
+                            );
+
+                            return (
+                              <div
+                                key={idx}
+                                className="flex flex-row items-center gap-x-3">
+                                <input
+                                  type="radio"
+                                  name={item?.field}
+                                  value={point.id}
+                                  checked={
+                                    formValues[item?.field] ===
+                                    point.id.toString()
+                                  }
+                                  onChange={change}
+                                  className="flex w-[15px] border border-line-20 h-[15px] text-[16px] rounded-[50px] placeholder:text-[12px] font-normal file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground disabled:cursor-not-allowed"
+                                />
+                                <label className="text-black-80 text-[16px] font-normal">
+                                  {point.key}
+                                </label>
+                              </div>
+                            );
+                          })}
                         </div>
-                      )}
-                    </div>
-                  );
-                } else if (item?.tipedata == "radio") {
-                  return (
-                    <div
-                      key={i}
-                      className="grid grid-rows-2 w-full justify-between">
-                      <Label className="text-[16px] text-black-80 font-normal mb-[8px]">
-                        {item?.field}
                         {item?.isrequired && (
-                          <span className="text-error-50">*</span>
-                        )}
-                      </Label>
-
-                      <div className="grid grid-cols-2 w-full justify-between gap-x-5">
-                        {item?.datajson?.map((point, idx) => (
-                          <div
-                            key={idx}
-                            className="flex flex-row items-center gap-x-3">
-                            <input
-                              type="radio"
-                              name={item?.field}
-                              value={point.id}
-                              checked={
-                                formValues[item?.field] === point.id.toString()
-                              }
-                              onChange={change}
-                              className="flex w-[15px] border border-line-20 h-[15px] text-[14px] rounded-[50px] placeholder:text-[12px] font-normal file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground disabled:cursor-not-allowed"
-                            />
-                            <label className="text-black-80 text-[16px] font-normal">
-                              {point.key}
-                            </label>
+                          <div className="text-error-50 text-[14px]">
+                            Data Wajib Diisi!
                           </div>
-                        ))}
+                        )}
                       </div>
-                      {item?.isrequired && (
+                    );
+                  } else if (item?.tipedata == "date") {
+                    return (
+                      <div key={i}>
+                        <DateFormInput
+                          value={returnDate}
+                          setValue={setReturnDate}
+                          label="Tanggal Lahir"
+                          className={`bg-transparent w-full rounded-lg`}
+                          onChange={(value) =>
+                            setFormValues({
+                              ...formValues,
+                              [item?.field]: formatDate(value),
+                            })
+                          }
+                        />
+                      </div>
+                    );
+                  } else if (item?.tipedata == "string") {
+                    return (
+                      <div key={i}>
+                        <ApplicationFormInputPages
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            setFormValues({
+                              ...formValues,
+                              [item?.field]: e.target.value,
+                            })
+                          }
+                          value={formValues[item?.field]}
+                          name={item?.field}
+                          id={item?.field}
+                          placeholder={"Harap Lengkapi Form Yang Disediakan"}
+                          type={"text"}
+                          label={item?.field}
+                          isRequired={item?.isrequired}
+                        />
+                      </div>
+                    );
+                  } else if (item?.tipedata == "number") {
+                    return (
+                      <div key={i}>
+                        <ApplicationFormInputPages
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                            setFormValues({
+                              ...formValues,
+                              [item?.field]: e.target.value,
+                            })
+                          }
+                          value={formValues[item?.field]}
+                          name={item?.field}
+                          id={item?.field}
+                          placeholder={"Harap Lengkapi Form Yang Disediakan"}
+                          type={"number"}
+                          label={item?.field}
+                          isRequired={item?.isrequired}
+                        />
+                      </div>
+                    );
+                  } else if (item?.tipedata == "textarea") {
+                    return (
+                      <div key={i}>
+                        <div className="w-full flex flex-col gap-y-5">
+                          <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                            <Label
+                              htmlFor={item?.field}
+                              className="focus-within:text-primary-70 font-normal text-[16px]">
+                              {item?.field}
+                              {item?.isrequired && (
+                                <span className="text-error-500">*</span>
+                              )}
+                            </Label>
+
+                            <Textarea
+                              id={item?.field}
+                              name={item?.field}
+                              value={formValues[item?.field]}
+                              onChange={(
+                                e: React.ChangeEvent<HTMLTextAreaElement>
+                              ) => {
+                                setFormValues({
+                                  ...formValues,
+                                  [item?.field]: e.target.value,
+                                });
+                              }}
+                              className="w-full focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
+                              placeholder={
+                                "Harap Lengkapi Form Yang Disediakan"
+                              }
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    );
+                  }
+                }
+              )}
+          </div>
+
+          <div className="flex flex-col gap-y-5 mt-3 md:mt-0 px-6">
+            <div className="flex flex-col items-center w-full gap-y-5">
+              {docForm &&
+                docForm.Layanan_forms &&
+                docForm.Layanan_forms.length > 0 &&
+                docForm.Layanan_forms.map((el: FormServiceInterface) => (
+                  <div
+                    key={el.id}
+                    className="flex flex-row justify-between w-full h-[80px] rounded-xl mb-[8px] bg-line-10 border border-primary-40 px-4">
+                    <div className="flex flex-col w-full justify-center gap-[9px]">
+                      {el.isrequired === 1 ? (
+                        <h6 className="text-[14px] md:text-[16px] text-black-80 font-normal">
+                          {el.field}
+                          <span className="text-error-50 text-[14px] font-normal">
+                            *
+                          </span>
+                        </h6>
+                      ) : (
+                        <h6 className="text-[14px] md:text-[16px] text-primary-50 font-semibold">
+                          {el.field}
+                        </h6>
+                      )}
+
+                      {el.isrequired === 1 && (
                         <div className="text-error-50 text-[14px]">
                           Data Wajib Diisi!
                         </div>
                       )}
                     </div>
-                  );
-                } else if (item?.tipedata == "date") {
-                  return (
-                    <div key={i}>
-                      <DateFormInput
-                        value={returnDate}
-                        setValue={setReturnDate}
-                        label="Tanggal Lahir"
-                        className={`bg-transparent w-full rounded-lg`}
-                        // ${errors.tanggal_akhir_sewa ? "text-error-700" : ""}
-                        onChange={(value) =>
-                          setFormValues({
-                            ...formValues,
-                            [item?.field]: formatDate(value),
-                          })
+                    <div className="flex self-center items-center w-full md:justify-end">
+                      <input
+                        id={`fileInput-${el.id}`}
+                        type="file"
+                        className="md:appearance-none hidden"
+                        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                          handleDocChange(
+                            el.id.toString(),
+                            e.target.files ? e.target.files[0] : null
+                          )
                         }
                       />
+                      <label
+                        htmlFor={`fileInput-${el.id}`}
+                        className="flex items-center w-full md:w-5/12 h-[25px] md:h-[40px] rounded-[50px] justify-center font-normal text-sm hover:bg-primary-40 hover:text-line-10 border border-primary-40 text-primary-40 py-[10px] cursor-pointer">
+                        {(fileName[el.id.toString()] &&
+                          truncateTitle(
+                            String(fileName[el.id.toString()]),
+                            10
+                          )) ||
+                          "Upload"}
+                      </label>
+
+                      <Dialog>
+                        <DialogTrigger className="w-full md:w-3/12">
+                          <div
+                            onClick={() =>
+                              handleViewFile(
+                                docValues[el.id.toString()] || null
+                              )
+                            }
+                            className="flex items-center text-sm justify-center w-full text-black-80 font-normal hover:text-primary-40 hover:border-b hover:border-line-20 ml-4 mr-2">
+                            Lihat File
+                          </div>
+                        </DialogTrigger>
+                        <DialogContent className="flex flex-col justify-between w-full bg-line-10">
+                          <div className="fixed inset-0 flex items-center justify-center bg-neutral-900 bg-opacity-50 z-50">
+                            <div className="bg-primary-100 rounded-xl shadow-md max-w-full">
+                              {previewFile?.type.startsWith("image/") ? (
+                                <div className="w-full h-full p-4 rounded-xl">
+                                  <Image
+                                    src={fileURL}
+                                    alt="File preview"
+                                    className="w-full h-full object-cover rounded-xl"
+                                    width={500}
+                                    height={500}
+                                  />
+                                </div>
+                              ) : (
+                                <iframe src={fileURL} className="w-full h-64" />
+                              )}
+                            </div>
+                          </div>
+                        </DialogContent>
+                      </Dialog>
                     </div>
-                  );
-                } else if (item?.tipedata == "string") {
-                  return (
-                    <div key={i}>
-                      <ApplicationFormInputPages
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                          setFormValues({
-                            ...formValues,
-                            [item?.field]: e.target.value,
-                          })
-                        }
-                        value={formValues[item?.field]}
-                        name={item?.field}
-                        id={item?.field}
-                        placeholder={"Harap Lengkapi Form Yang Disediakan"}
-                        type={"text"}
-                        label={item?.field}
-                      />
-                    </div>
-                  );
-                } else if (item?.tipedata == "number") {
-                  return (
-                    <div key={i}>
-                      <ApplicationFormInputPages
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                          setFormValues({
-                            ...formValues,
-                            [item?.field]: e.target.value,
-                          })
-                        }
-                        value={formValues[item?.field]}
-                        name={item?.field}
-                        id={item?.field}
-                        placeholder={"Harap Lengkapi Form Yang Disediakan"}
-                        type={"number"}
-                        label={item?.field}
-                      />
-                    </div>
-                  );
-                } else if (item?.tipedata == "textarea") {
-                  return (
-                    <div key={i}>
-                      <div className="w-full flex flex-col gap-y-5">
-                        <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                          <Label
-                            htmlFor={item?.field}
-                            className="focus-within:text-primary-70 font-normal text-sm">
-                            {item?.field}
-                          </Label>
+                  </div>
+                ))}
+            </div>
+          </div>
 
-                          <Textarea
-                            id={item?.field}
-                            name={item?.field}
-                            value={formValues[item?.field]}
-                            onChange={(
-                              e: React.ChangeEvent<HTMLTextAreaElement>
-                            ) => {
-                              setFormValues({
-                                ...formValues,
-                                [item?.field]: e.target.value,
-                              });
-                            }}
-                            className="w-full focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
-                            placeholder={"Harap Lengkapi Form Yang Disediakan"}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  );
-                }
-              }
-            )}
-          {/* <ApplicationFormInputPages
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setData({ ...data, name: e.target.value })
-            }
-            name={"name"}
-            id={"name"}
-            placeholder={"Masukkan Nama Lengkap Anda"}
-            type={"text"}
-            label={"Nama Lengkap"}
-          />
-
-          <ApplicationFormInputPages
-            value={data.nip}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setData({ ...data, nip: e.target.value })
-            }
-            name={"nip"}
-            id={"nip"}
-            placeholder={"Masukkan NIP Anda"}
-            type={"number"}
-            label={"NIP"}
-          />
-
-          <ApplicationFormInputPages
-            value={data.email}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setData({ ...data, email: e.target.value })
-            }
-            name={"email"}
-            id={"email"}
-            placeholder={"Masukkan Email Anda"}
-            type={"email"}
-            label={"Email"}
-          />
-
-          <ApplicationFormInputPages
-            value={data.telepon}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-              setData({ ...data, telepon: e.target.value })
-            }
-            name={"telepon"}
-            id={"telepon"}
-            placeholder={"Masukkan Nomor Telepon Anda"}
-            type={"number"}
-            label={"Nomor Telepon"}
-          /> */}
-        </div>
-
-        <div className="w-full flex flex-col items-center">
-          <Button
-            className="w-3/12 text-[14px] md:text-[16px] bg-primary-40 hover:bg-primary-70 text-line-10 rounded-lg py-6"
-            // disabled={isLoadingUserCreate ? true : false}
-          >
-            {/* {isLoadingUserCreate ? (
-            <Loader className="animate-spin mr-2" />
-          ) : (
-            "Simpan"
-          )} */}
-            Simpan
-          </Button>
-        </div>
+          <div className="w-full flex flex-col items-center">
+            <Button
+              className="w-3/12 text-[14px] md:text-[16px] bg-primary-40 hover:bg-primary-70 text-line-10 rounded-lg py-5"
+              disabled={isLoading ? true : false}>
+              {isLoading ? <Loader className="animate-spin mr-2" /> : "Simpan"}
+            </Button>
+          </div>
+        </form>
       </div>
     </section>
   );

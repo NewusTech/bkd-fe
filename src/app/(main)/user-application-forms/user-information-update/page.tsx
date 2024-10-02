@@ -78,6 +78,8 @@ export default function UserInformastionUpdatePages() {
         kecamatan_id: response.data.kecamatan_id,
         desa_id: response.data.desa_id,
       });
+
+      setReturnDate(new Date(response.data.tgl_lahir));
     } catch (error) {
       console.log(error);
     }

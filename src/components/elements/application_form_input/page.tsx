@@ -10,14 +10,16 @@ export default function ApplicationFormInputPages({
   placeholder,
   type,
   label,
+  isRequired,
 }: any) {
   return (
     <div className="w-full flex flex-col gap-y-5">
       <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
         <Label
           htmlFor={id}
-          className="focus-within:text-primary-70 font-normal text-sm">
+          className="focus-within:text-primary-70 font-normal text-[16px]">
           {label}
+          {isRequired && <span className="text-error-50">*</span>}
         </Label>
 
         <Input
