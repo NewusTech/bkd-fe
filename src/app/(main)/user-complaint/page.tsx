@@ -548,13 +548,15 @@ export default function UserComplaintScreen() {
                     Ajukan Pengaduan
                   </div>
                 </DrawerTrigger>
-                <DrawerContent className="flex flex-col gap-y-3 bg-line-10 rounded-lg w-full max-w-4xl h-5/6 px-3 mb-5">
+                <DrawerContent className="flex flex-col gap-y-3 bg-line-10 rounded-t-lg w-full max-w-4xl h-5/6 px-3">
                   <DrawerTitle className="text-center">Pengaduan</DrawerTitle>
                   <DrawerDescription className="text-center">
                     Input data yang diperlukan
                   </DrawerDescription>
 
-                  <div className="w-full flex flex-col gap-y-3 verticalScroll">
+                  <form
+                    onSubmit={createUserComplaint}
+                    className="w-full flex flex-col gap-y-3 verticalScroll">
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                       <Label className="focus-within:text-primary-70 font-normal text-sm">
                         Pilih Bidang
@@ -576,7 +578,6 @@ export default function UserComplaintScreen() {
                         <SelectContent className="w-full bg-line-10">
                           <div>
                             {areas &&
-                              areas.length > 0 &&
                               areas?.map((area: AreasInterface, i: number) => {
                                 return (
                                   <SelectItem
@@ -615,7 +616,6 @@ export default function UserComplaintScreen() {
                         <SelectContent className="w-full bg-line-10">
                           <div>
                             {services &&
-                              services.length > 0 &&
                               services?.map(
                                 (service: ServiceInterface, i: number) => {
                                   return (
@@ -645,7 +645,10 @@ export default function UserComplaintScreen() {
                         name="judul_pengaduan"
                         value={data.judul_pengaduan}
                         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                          setData({ ...data, judul_pengaduan: e.target.value })
+                          setData({
+                            ...data,
+                            judul_pengaduan: e.target.value,
+                          })
                         }
                         type="text"
                         className="w-full focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
@@ -663,7 +666,10 @@ export default function UserComplaintScreen() {
                         placeholder="Masukkan Isi Pengaduan Kamu"
                         value={data.isi_pengaduan}
                         onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
-                          setData({ ...data, isi_pengaduan: e.target.value })
+                          setData({
+                            ...data,
+                            isi_pengaduan: e.target.value,
+                          })
                         }
                         className="w-full rounded-lg h-[74px] border border-line-20 md:h-[122px] text-[12px] placeholder:opacity-[70%]"
                       />
@@ -692,18 +698,17 @@ export default function UserComplaintScreen() {
                           <label
                             htmlFor="file-input"
                             className="text-[16px] text-center text-neutral-600 font-light cursor-pointer">
-                            {data.image ? (
-                              data.image
-                            ) : (
-                              <span className="flex flex-col items-center justify-center">
-                                <CloudArrowUp className="w-8 h-8 text-black-70" />
+                            {/* {data.image ? (
+                                data.image
+                              ) : ( */}
+                            <span className="flex flex-col items-center justify-center">
+                              <CloudArrowUp className="w-8 h-8 text-black-70" />
 
-                                <p>
-                                  Drag and drop file here or click to select
-                                  file
-                                </p>
-                              </span>
-                            )}
+                              <p>
+                                Drag and drop file here or click to select file
+                              </p>
+                            </span>
+                            {/* )} */}
                           </label>
                         </>
                       </div>
@@ -729,11 +734,18 @@ export default function UserComplaintScreen() {
                         </button>
                       </div>
                     )}
-                  </div>
 
-                  <DrawerFooter className="bg-primary-40 hover:bg-primary-70 text-line-10 text-center rounded-lg">
-                    Ajukan Pengaduan
-                  </DrawerFooter>
+                    <Button
+                      type="submit"
+                      className="bg-primary-40 hover:bg-primary-70 text-line-10"
+                      disabled={isLoading ? true : false}>
+                      {isLoading ? (
+                        <Loader className="w-4 h-4 animate-spin" />
+                      ) : (
+                        "Ajukan Pengaduan"
+                      )}
+                    </Button>
+                  </form>
                 </DrawerContent>
               </Drawer>
             )}
@@ -748,7 +760,21 @@ export default function UserComplaintScreen() {
               )}
             </>
           ) : (
-            <MobileUserComplaintCardPages />
+            <>
+              {complaints &&
+                complaints.length > 0 &&
+                complaints?.map(
+                  (complaint: UserComplaintInterface, i: number) => {
+                    return (
+                      <MobileUserComplaintCardPages
+                        key={i}
+                        index={i}
+                        complaint={complaint}
+                      />
+                    );
+                  }
+                )}
+            </>
           )}
         </div>
       </div>

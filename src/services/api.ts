@@ -906,6 +906,42 @@ export const getFormDocByService = async (serviceId: number) => {
   return await response.json();
 };
 
+export const getUserApplicationHistory = async () => {
+  const token = Cookies.get("Authorization");
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/user/history/form`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      cache: "no-store",
+    }
+  );
+
+  return await response.json();
+};
+
+export const getUserApplicationHistoryDetail = async (id: number) => {
+  const token = Cookies.get("Authorization");
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/user/history/form/${id}`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+      cache: "no-store",
+    }
+  );
+
+  return await response.json();
+};
+
 export const postApplicationForm = async (data: any, id: number) => {
   const token = Cookies.get("Authorization");
 
@@ -974,6 +1010,45 @@ export const postUserComplaint = async (data: any) => {
         Authorization: `Bearer ${token}`,
       },
       body: data,
+      cache: "no-store",
+    }
+  );
+
+  return await response.json();
+};
+
+// get Indeks Kepuasan
+export const getSatisfactionUser = async () => {
+  const token = Cookies.get("Authorization");
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/user/history/feedback`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    }
+  );
+
+  return await response.json();
+};
+
+// post Indeks Kepuasan
+export const postSatisfactionUserForm = async (data: any, id: number) => {
+  const token = Cookies.get("Authorization");
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/user/feedback/create/${id}`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(data),
       cache: "no-store",
     }
   );

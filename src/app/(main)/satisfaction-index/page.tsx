@@ -34,36 +34,52 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import SatisfactionIndexTablePages from "@/components/tables/satifaction_index_table";
-import { AreasInterface, ServiceInterface } from "@/types/interface";
-import { getAreas, getServiceByAreas } from "@/services/api";
+import {
+  AreasInterface,
+  SatisfactionHistoryInterface,
+  ServiceInterface,
+} from "@/types/interface";
+import {
+  getAllService,
+  getAreas,
+  getSatisfactionUser,
+  getServiceByAreas,
+} from "@/services/api";
 import { Label } from "@/components/ui/label";
 import DateFormInput from "@/components/elements/date_form_input";
 import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import MobileSatisfactionIndexCardPages from "@/components/mobile_all_cards/mobileSatisfactionIndexCard";
+import { Loader } from "lucide-react";
+import { set } from "date-fns";
 
 export default function SatisfactionIndexScreen() {
   const router = useRouter();
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [search, setSearch] = useState("");
-  const limitItem = 35;
+  // const limitItem = 35;
   const now = new Date();
   const firstDayOfMonth = new Date(now.getFullYear(), 0, 1);
   const [startDate, setStartDate] = useState<Date | undefined>(firstDayOfMonth);
   const [endDate, setEndDate] = useState<Date | undefined>(new Date());
+  // const [data, setData] = useState({
+  //   area_id: null,
+  //   service_id: null,
+  //   timeIndex: "",
+  //   dateIndex: "",
+  // });
   const [data, setData] = useState({
-    area_id: null,
-    service_id: null,
-    timeIndex: "",
-    dateIndex: "",
+    layanan_id: null,
   });
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [dateIndex, setDateIndex] = useState<Date>(new Date());
-  const [timeIndex, setTimeIndex] = useState<Date>(new Date());
-  const [areas, setAreas] = useState<AreasInterface[]>([]);
-  const [areaId, setAreaId] = useState<number | null>(null);
+  // const [dateIndex, setDateIndex] = useState<Date>(new Date());
+  // const [timeIndex, setTimeIndex] = useState<Date>(new Date());
+  // const [areas, setAreas] = useState<AreasInterface[]>([]);
+  // const [areaId, setAreaId] = useState<number | null>(null);
   const [services, setServices] = useState<ServiceInterface[]>([]);
+  const [indexes, setIndexes] = useState<SatisfactionHistoryInterface[]>();
   const [serviceId, setServiceId] = useState<number | null>(null);
 
   const startDateFormatted = startDate
@@ -71,23 +87,67 @@ export default function SatisfactionIndexScreen() {
     : undefined;
   const endDateFormatted = endDate ? formatDate(new Date(endDate)) : undefined;
 
-  const fetchAreas = async (page: number, limit: number) => {
-    try {
-      const response = await getAreas(page, limit);
+  // const fetchAreas = async (page: number, limit: number) => {
+  //   try {
+  //     const response = await getAreas(page, limit);
 
-      setAreas(response.data);
+  //     setAreas(response.data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   fetchAreas(1, limitItem);
+  // }, []);
+
+  // const fetchServiceByArea = async (bidang_id: number) => {
+  //   try {
+  //     const response = await getServiceByAreas(bidang_id);
+
+  //     setServices(response.data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   if (serviceId) {
+  //     fetchServiceByArea(serviceId);
+  //   }
+  // }, [serviceId]);
+
+  // useEffect(() => {
+  //   if (areaId !== null) {
+  //     setData((prevUser) => ({
+  //       ...prevUser,
+  //       kecamatan_id: String(areaId),
+  //     }));
+  //   }
+  // }, [areaId]);
+
+  // useEffect(() => {
+  //   if (serviceId !== null) {
+  //     setData((prevUser) => ({
+  //       ...prevUser,
+  //       desa_id: String(serviceId),
+  //     }));
+  //   }
+  // }, [serviceId]);
+
+  const fetchSatisfactionHistory = async () => {
+    try {
+      const response = await getSatisfactionUser();
+
+      setIndexes(response.data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  useEffect(() => {
-    fetchAreas(1, limitItem);
-  }, []);
-
-  const fetchServiceByArea = async (bidang_id: number) => {
+  const fetchServices = async () => {
     try {
-      const response = await getServiceByAreas(bidang_id);
+      const response = await getAllService();
 
       setServices(response.data);
     } catch (error) {
@@ -96,38 +156,26 @@ export default function SatisfactionIndexScreen() {
   };
 
   useEffect(() => {
-    if (serviceId) {
-      fetchServiceByArea(serviceId);
-    }
-  }, [serviceId]);
+    fetchSatisfactionHistory();
+  }, []);
 
   useEffect(() => {
-    if (areaId !== null) {
-      setData((prevUser) => ({
-        ...prevUser,
-        kecamatan_id: String(areaId),
-      }));
-    }
-  }, [areaId]);
+    fetchServices();
+  }, []);
 
-  useEffect(() => {
-    if (serviceId !== null) {
-      setData((prevUser) => ({
-        ...prevUser,
-        desa_id: String(serviceId),
-      }));
-    }
-  }, [serviceId]);
+  console.log(indexes, "ini index");
 
   const handleSubmitSatisfactionIndex = () => {
     setIsLoading(true);
 
     setTimeout(() => {
       setIsLoading(false);
-      Object.entries(data).forEach(([key, value]) => {
-        localStorage.setItem(key, String(value));
-      });
-      router.push("/satisfaction-index/satisfaction-form");
+      setIsDialogOpen(false);
+
+      if (serviceId) {
+        localStorage.setItem("serviceId", serviceId.toString());
+        router.push("/satisfaction-index/satisfaction-form");
+      }
     }, 1000);
   };
 
@@ -163,13 +211,15 @@ export default function SatisfactionIndexScreen() {
 
           <div className="w-full md:w-7/12">
             {!isMobile ? (
-              <AlertDialog>
-                <AlertDialogTrigger className="w-full">
+              <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+                <AlertDialogTrigger
+                  onClick={() => setIsDialogOpen(true)}
+                  className="w-full">
                   <div className="w-full bg-primary-40 flex items-center justify-center hover:bg-primary-70 h-10 text-line-10 rounded-lg">
                     Isi Survei
                   </div>
                 </AlertDialogTrigger>
-                <AlertDialogContent className="w-full bg-line-10 rounded-lg shadow-md">
+                <AlertDialogContent className="w-full max-w-3xl bg-line-10 rounded-lg shadow-md">
                   <AlertDialogHeader className="flex flex-col">
                     <AlertDialogTitle className="text-center">
                       Indeks Kepuasan
@@ -178,7 +228,7 @@ export default function SatisfactionIndexScreen() {
                       Isi indeks kepuasan dengan jujur dan teliti
                     </AlertDialogDescription>
                     <div className="w-full flex flex-col gap-y-3">
-                      <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                      {/* <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                         <Label className="focus-within:text-primary-70 font-normal text-sm">
                           Pilih Bidang
                         </Label>
@@ -215,7 +265,7 @@ export default function SatisfactionIndexScreen() {
                             </div>
                           </SelectContent>
                         </Select>
-                      </div>
+                      </div> */}
 
                       <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                         <Label className="focus-within:text-primary-70 font-normal text-sm">
@@ -223,7 +273,7 @@ export default function SatisfactionIndexScreen() {
                         </Label>
 
                         <Select
-                          name="service_id"
+                          name="layanan_id"
                           value={serviceId ? String(serviceId) : undefined}
                           onValueChange={(value) =>
                             setServiceId(Number(value))
@@ -260,7 +310,7 @@ export default function SatisfactionIndexScreen() {
                         </Select>
                       </div>
 
-                      <div className="w-full flex flex-col gap-y-2">
+                      {/* <div className="w-full flex flex-col gap-y-2">
                         <DateFormInput
                           value={dateIndex}
                           setValue={setDateIndex}
@@ -290,16 +340,22 @@ export default function SatisfactionIndexScreen() {
                           className="w-full block focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                           placeholder="Pilih Waktu"
                         />
-                      </div>
+                      </div> */}
                     </div>
                   </AlertDialogHeader>
                   <AlertDialogFooter className="w-full flex flex-row justify-center items-center gap-x-5">
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction
+                    <Button
+                      type="button"
+                      disabled={isLoading ? true : false}
                       onClick={handleSubmitSatisfactionIndex}
                       className="bg-primary-40 hover:bg-primary-70 text-line-10">
-                      Isi Survei
-                    </AlertDialogAction>
+                      {isLoading ? (
+                        <Loader className="animate-spin" />
+                      ) : (
+                        "Isi Survei"
+                      )}
+                    </Button>
                   </AlertDialogFooter>
                 </AlertDialogContent>
               </AlertDialog>
@@ -319,7 +375,7 @@ export default function SatisfactionIndexScreen() {
                   </DrawerDescription>
 
                   <div className="w-full flex flex-col gap-y-3">
-                    <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                    {/* <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                       <Label className="focus-within:text-primary-70 font-normal text-sm">
                         Pilih Bidang
                       </Label>
@@ -354,7 +410,7 @@ export default function SatisfactionIndexScreen() {
                           </div>
                         </SelectContent>
                       </Select>
-                    </div>
+                    </div> */}
 
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                       <Label className="focus-within:text-primary-70 font-normal text-sm">
@@ -362,7 +418,7 @@ export default function SatisfactionIndexScreen() {
                       </Label>
 
                       <Select
-                        name="service_id"
+                        name="layanan_id"
                         value={serviceId ? String(serviceId) : undefined}
                         onValueChange={(value) => setServiceId(Number(value))}>
                         <SelectTrigger
@@ -397,7 +453,7 @@ export default function SatisfactionIndexScreen() {
                       </Select>
                     </div>
 
-                    <div className="w-full flex flex-col gap-y-2">
+                    {/* <div className="w-full flex flex-col gap-y-2">
                       <DateFormInput
                         value={dateIndex}
                         setValue={setDateIndex}
@@ -427,13 +483,23 @@ export default function SatisfactionIndexScreen() {
                         className="w-full block focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                         placeholder="Pilih Waktu"
                       />
-                    </div>
+                    </div> */}
                   </div>
 
                   <DrawerFooter
-                    onClick={handleSubmitSatisfactionIndex}
-                    className="bg-primary-40 text-center hover:bg-primary-70 text-line-10 rounded-lg">
-                    Isi Survei
+                    // onClick={handleSubmitSatisfactionIndex}
+                    className="w-full">
+                    <Button
+                      type="button"
+                      disabled={isLoading ? true : false}
+                      onClick={handleSubmitSatisfactionIndex}
+                      className="bg-primary-40 hover:bg-primary-70 text-line-10">
+                      {isLoading ? (
+                        <Loader className="animate-spin" />
+                      ) : (
+                        "Isi Survei"
+                      )}
+                    </Button>
                   </DrawerFooter>
                 </DrawerContent>
               </Drawer>
@@ -443,7 +509,11 @@ export default function SatisfactionIndexScreen() {
 
         <div className="w-full">
           {!isMobile ? (
-            <SatisfactionIndexTablePages />
+            <>
+              {indexes && indexes.length > 0 && (
+                <SatisfactionIndexTablePages indexes={indexes} />
+              )}
+            </>
           ) : (
             <MobileSatisfactionIndexCardPages />
           )}

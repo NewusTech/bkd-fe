@@ -3,7 +3,7 @@
 import DatePages from "@/components/elements/date";
 import SearchPages from "@/components/elements/search";
 import { formatDate } from "@/lib/utils";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -15,6 +15,8 @@ import { Checks } from "@phosphor-icons/react";
 import ApplicationHistoryTablePages from "@/components/tables/application_history_table";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import MobileApplicationHistoryCard from "@/components/mobile_all_cards/mobileApplicationHistoryCard";
+import { UserApplicationHistoryInterface } from "@/types/interface";
+import { getUserApplicationHistory } from "@/services/api";
 
 export default function ApplicationHistoryScreen() {
   const isMobile = useMediaQuery("(max-width: 768px)");
@@ -23,11 +25,27 @@ export default function ApplicationHistoryScreen() {
   const firstDayOfMonth = new Date(now.getFullYear(), 0, 1);
   const [startDate, setStartDate] = useState<Date | undefined>(firstDayOfMonth);
   const [endDate, setEndDate] = useState<Date | undefined>(new Date());
+  const [applications, setApplications] =
+    useState<UserApplicationHistoryInterface[]>();
 
   const startDateFormatted = startDate
     ? formatDate(new Date(startDate))
     : undefined;
   const endDateFormatted = endDate ? formatDate(new Date(endDate)) : undefined;
+
+  const fetchUserApplicationHistories = async () => {
+    try {
+      const response = await getUserApplicationHistory();
+
+      setApplications(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserApplicationHistories();
+  }, []);
 
   return (
     <section className="w-full flex flex-col items-center px-5 mt-5">
@@ -91,9 +109,27 @@ export default function ApplicationHistoryScreen() {
 
         <div className="w-full">
           {!isMobile ? (
-            <ApplicationHistoryTablePages />
+            <>
+              {applications && applications.length > 0 && (
+                <ApplicationHistoryTablePages applications={applications} />
+              )}
+            </>
           ) : (
-            <MobileApplicationHistoryCard />
+            <>
+              {applications &&
+                applications.length > 0 &&
+                applications.map(
+                  (item: UserApplicationHistoryInterface, i: number) => {
+                    return (
+                      <MobileApplicationHistoryCard
+                        key={i}
+                        index={i}
+                        item={item}
+                      />
+                    );
+                  }
+                )}
+            </>
           )}
         </div>
       </div>

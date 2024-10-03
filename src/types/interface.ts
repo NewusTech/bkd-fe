@@ -358,3 +358,51 @@ export interface UserComplaintInterface {
     nip: string;
   };
 }
+
+export interface FeedBackUserInterface {
+  id: number;
+  userinfo_id: number;
+  layanan_id: number;
+  bidang_id: number;
+  question_1: number;
+  question_2: number;
+  question_3: number;
+  question_4: number;
+  feedback: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface SatisfactionHistoryInterface {
+  id: number;
+  nama: string;
+  slug: string;
+  desc: string;
+  penanggung_jawab: string;
+  syarat: string;
+  ketentuan: string;
+  langkah: string;
+  bidang_id: number;
+  createdAt: string;
+  updatedAt: string;
+  User_feedbacks: FeedBackUserInterface[];
+}
+
+export interface UserApplicationHistoryInterface {
+  id: number;
+  userinfo_id: number;
+  name: string;
+  nip: string;
+  pesan: string;
+  admin_updated: string;
+  status: number;
+  tgl_selesai: string;
+  fileoutput: string;
+  no_request: string;
+  layanan_id: number;
+  layanan_name: string;
+  bidang_id: number;
+  bidang_name: string;
+  createdAt: string;
+  updatedAt: string;
+}

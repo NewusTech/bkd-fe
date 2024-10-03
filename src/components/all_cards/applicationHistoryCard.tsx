@@ -3,18 +3,31 @@
 import React from "react";
 import { TableCell, TableRow } from "@/components/ui/table";
 import Link from "next/link";
+import { UserApplicationHistoryInterface } from "@/types/interface";
+import { formatDateString } from "@/lib/utils";
 
-export default function ApplicationHistoryCard() {
+export default function ApplicationHistoryCard({
+  index,
+  item,
+}: {
+  index: number;
+  item: UserApplicationHistoryInterface;
+}) {
   return (
     <TableRow className="border border-line-20">
-      <TableCell className="text-center">1</TableCell>
-      <TableCell className="text-center">Irsyad Al-Haq Husein</TableCell>
-      <TableCell className="text-center">1234567812345678</TableCell>
-      <TableCell className="text-center">Pengajuan Pangkat</TableCell>
-      <TableCell className="text-center">22 Maret 2024</TableCell>
+      <TableCell className="text-center">{index + 1}</TableCell>
+      <TableCell className="text-center">{item?.name && item?.name}</TableCell>
+      <TableCell className="text-center">{item?.nip && item?.nip}</TableCell>
+      <TableCell className="text-center">
+        {item?.layanan_name && item?.layanan_name}
+      </TableCell>
+      <TableCell className="text-center">
+        {item?.createdAt && formatDateString(item?.createdAt)}
+      </TableCell>
       <TableCell className={`text-center`}>
-        <div className="text-[#188B09] bg-[#188B09] bg-opacity-20 py-3 px-3 rounded-lg">
-          Divalidasi
+        <div
+          className={`${item.status === 0 ? "text-primary-70 bg-primary-40" : "text-success-70 bg-success-50"} bg-opacity-20 py-3 px-3 rounded-lg`}>
+          {item?.status === 0 ? "Menunggu" : "Selesai"}
         </div>
       </TableCell>
       <TableCell className="text-center">
@@ -39,7 +52,7 @@ export default function ApplicationHistoryCard() {
         )} */}
         <div>
           <Link
-            href={`/`}
+            href={`/application-history/${item?.id}`}
             className="bg-black-80 bg-opacity-20 hover:bg-black-30 rounded-lg text-[14px] py-3 px-8 text-black-80">
             Detail
           </Link>

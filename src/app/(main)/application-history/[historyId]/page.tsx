@@ -10,14 +10,39 @@ import { redirect, useRouter } from "next/navigation";
 import Image from "next/legacy/image";
 import Swal from "sweetalert2";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { UserApplicationHistoryInterface } from "@/types/interface";
+import { getUserApplicationHistoryDetail } from "@/services/api";
+import { formatDateString } from "@/lib/utils";
 
-export default function ApplicationHistoryDetailScreen() {
+export default function ApplicationHistoryDetailScreen({
+  params,
+}: {
+  params: { historyId: number };
+}) {
   const router = useRouter();
   const token = Cookies.get("Authorization");
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [isLoading, setIsLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpen2, setIsModalOpen2] = useState(false);
+  const [application, setApplication] =
+    useState<UserApplicationHistoryInterface>();
+
+  const fetchUserApplicationHistoryDetail = async (id: number) => {
+    try {
+      const response = await getUserApplicationHistoryDetail(id);
+
+      setApplication(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserApplicationHistoryDetail(params?.historyId);
+  }, [params?.historyId]);
+
+  console.log(application, "ini aplikasi");
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -117,17 +142,20 @@ export default function ApplicationHistoryDetailScreen() {
               value="hasil-permohonan"
               className="w-full flex flex-col mt-0">
               <div className="flex flex-col gap-y-5 mt-3 md:mt-0">
-                <div className="w-full flex flex-col gap-y-3 border border-line-20 rounded-lg p-4">
-                  <h6 className="text-sm text-black-80 font-normal">
-                    Balasan: <span className="text-red-500">Ditolak</span>
-                  </h6>
+                {application?.pesan !== null ||
+                  (application?.status === 10 && (
+                    <div className="w-full flex flex-col gap-y-3 border border-line-20 rounded-lg p-4">
+                      <h6 className="text-sm text-black-80 font-normal">
+                        Balasan: <span className="text-red-500">Ditolak</span>
+                      </h6>
 
-                  <p className="text-black-80 font-normal text-sm">
-                    Terima kasih atas pengaduannya. Kami mohon maaf atas
-                    keterlambatan dan sedang menindaklanjuti masalah ini. Proses
-                    mutasi Anda akan segera diselesaikan.
-                  </p>
-                </div>
+                      <p className="text-black-80 font-normal text-sm">
+                        Terima kasih atas pengaduannya. Kami mohon maaf atas
+                        keterlambatan dan sedang menindaklanjuti masalah ini.
+                        Proses mutasi Anda akan segera diselesaikan.
+                      </p>
+                    </div>
+                  ))}
 
                 <div className="flex flex-col gap-y-6">
                   <div className="flex flex-col gap-2">
@@ -136,7 +164,7 @@ export default function ApplicationHistoryDetailScreen() {
                     </p>
 
                     <p className="text-sm text-line-80 font-normal">
-                      Bidang Mutasi
+                      {application?.bidang_name && application?.bidang_name}
                     </p>
                   </div>
 
@@ -146,7 +174,7 @@ export default function ApplicationHistoryDetailScreen() {
                     </p>
 
                     <p className="text-sm text-line-80 font-normal">
-                      Pengajuan Pangkat
+                      {application?.layanan_name && application?.layanan_name}
                     </p>
                   </div>
 
@@ -156,19 +184,23 @@ export default function ApplicationHistoryDetailScreen() {
                     </p>
 
                     <p className="text-sm text-line-80 font-normal">
-                      Rabu, 23 Maret 2024
+                      {application?.createdAt &&
+                        formatDateString(application?.createdAt)}
                     </p>
                   </div>
 
-                  <div className="flex flex-col gap-2">
-                    <p className="text-sm text-primary-40 font-semibold">
-                      Tanggal Permohonan Selesai
-                    </p>
+                  {application?.tgl_selesai !== null ||
+                    (application?.status === 9 && (
+                      <div className="flex flex-col gap-2">
+                        <p className="text-sm text-primary-40 font-semibold">
+                          Tanggal Permohonan Selesai
+                        </p>
 
-                    <p className="text-sm text-line-80 font-normal">
-                      Jumat, 27 Maret 2024
-                    </p>
-                  </div>
+                        <p className="text-sm text-line-80 font-normal">
+                          Jumat, 27 Maret 2024
+                        </p>
+                      </div>
+                    ))}
                 </div>
               </div>
             </TabsContent>
