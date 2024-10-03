@@ -479,3 +479,23 @@ export const childrenStatus = [
     name: "Anak Angkat",
   },
 ];
+
+export const satisfactionQuestions = [
+  {
+    id: 1,
+    question:
+      "Apakah aplikasi Sipandu yang digunakan mudah dipahami dan tidak sulit untuk digunakan?",
+  },
+  {
+    id: 2,
+    question: "Apakah layanan cepat?",
+  },
+  {
+    id: 3,
+    question: "Bagaimana pengalamanmu dengan aplikasi Sipandu?",
+  },
+  {
+    id: 4,
+    question: "Bagaimana kinerja aplikasi Sipandu?",
+  },
+];

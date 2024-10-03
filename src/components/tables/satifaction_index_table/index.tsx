@@ -9,8 +9,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import SatisfactionIndexCard from "@/components/all_cards/satisfactionIndexCard";
+import { SatisfactionHistoryInterface } from "@/types/interface";
 
-export default function SatisfactionIndexTablePages() {
+export default function SatisfactionIndexTablePages({
+  indexes,
+}: {
+  indexes: SatisfactionHistoryInterface[];
+}) {
   return (
     <>
       <Table className="w-full border border-line-20">
@@ -33,7 +38,11 @@ export default function SatisfactionIndexTablePages() {
               );
             }
           )} */}
-          <SatisfactionIndexCard />
+          {indexes &&
+            indexes.length > 0 &&
+            indexes.map((item: SatisfactionHistoryInterface, i: number) => {
+              return <SatisfactionIndexCard key={i} index={i} item={item} />;
+            })}
         </TableBody>
       </Table>
     </>

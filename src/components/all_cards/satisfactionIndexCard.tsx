@@ -3,15 +3,27 @@
 import React from "react";
 import { TableCell, TableRow } from "@/components/ui/table";
 import Link from "next/link";
+import { SatisfactionHistoryInterface } from "@/types/interface";
+import { formatDateString, formatToWIB } from "@/lib/utils";
 
-export default function SatisfactionIndexCard() {
+export default function SatisfactionIndexCard({
+  index,
+  item,
+}: {
+  index: number;
+  item: SatisfactionHistoryInterface;
+}) {
   return (
     <TableRow className="border border-line-20">
-      <TableCell className="text-center">1</TableCell>
+      <TableCell className="text-center">{index + 1}</TableCell>
       <TableCell className="text-center">Bidang Mutasi</TableCell>
       <TableCell className="text-center">Pengajuan Pangkat</TableCell>
-      <TableCell className="text-center">22 Maret 2024</TableCell>
-      <TableCell className="text-center">12.00 WIB</TableCell>
+      <TableCell className="text-center">
+        {formatDateString(item?.createdAt)}
+      </TableCell>
+      <TableCell className="text-center">
+        {formatToWIB(item?.createdAt)}
+      </TableCell>
       <TableCell className={`text-center`}>
         Sedikit Kesulitan dan juga saya mengalami kendala
       </TableCell>

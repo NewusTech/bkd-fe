@@ -9,8 +9,13 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import ApplicationHistoryCard from "@/components/all_cards/applicationHistoryCard";
+import { UserApplicationHistoryInterface } from "@/types/interface";
 
-export default function ApplicationHistoryTablePages() {
+export default function ApplicationHistoryTablePages({
+  applications,
+}: {
+  applications: UserApplicationHistoryInterface[];
+}) {
   return (
     <>
       <Table className="w-full border border-line-20">
@@ -33,7 +38,13 @@ export default function ApplicationHistoryTablePages() {
               );
             }
           )} */}
-          <ApplicationHistoryCard />
+          {applications &&
+            applications.length > 0 &&
+            applications.map(
+              (item: UserApplicationHistoryInterface, i: number) => {
+                return <ApplicationHistoryCard key={i} index={i} item={item} />;
+              }
+            )}
         </TableBody>
       </Table>
     </>
