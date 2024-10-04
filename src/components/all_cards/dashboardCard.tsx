@@ -41,58 +41,64 @@ export default function DashboardCard({ item }: { item: ServiceInterface }) {
   let background;
   let icon;
 
-  switch (item?.nama) {
-    case "Mutasi Pegawai":
+  switch (item?.id) {
+    case 1:
       {
         background = "bg-[#21AAFF]";
         icon = firstDashboard;
       }
       break;
-    case "Ujian Penyusuaian Kenaikan Pangkat":
+    case 2:
       {
         background = "bg-[#E021B0]";
         icon = secondDashboard;
       }
       break;
-    case "Penerbitan SK Pegawai":
+    case 3:
       {
         background = "bg-[#E44A23]";
         icon = thirdDashboard;
       }
       break;
-    case "Layanan Cuti":
+    case 4:
       {
         background = "bg-[#E021B0]";
         icon = fourthDashboard;
       }
       break;
-    // case "dash-5":
-    //   {
-    //     background = "bg-[#1FC238]";
-    //   }
-    //   break;
-    // case "dash-6":
-    //   {
-    //     background = "bg-[#21AAFF]";
-    //   }
-    //   break;
-    // case "dash-7":
-    //   {
-    //     background = "bg-[#E44A23]";
-    //   }
-    //   break;
-    // case "dash-8":
-    //   {
-    //     background = "bg-primary-40";
-    //   }
-    //   break;
-    // case "dash-9":
-    //   {
-    //     background = "bg-[#E021B0]";
-    //   }
-    //   break;
+    case 5:
+      {
+        background = "bg-[#1FC238]";
+        icon = fifthDashboard;
+      }
+      break;
+    case 6:
+      {
+        background = "bg-[#21AAFF]";
+        icon = sixthDashboard;
+      }
+      break;
+    case 7:
+      {
+        background = "bg-[#E44A23]";
+        icon = seventhDashboard;
+      }
+      break;
+    case 8:
+      {
+        background = "bg-primary-40";
+        icon = eighthDashboard;
+      }
+      break;
+    case 9:
+      {
+        background = "bg-[#E021B0]";
+        icon = ninethDashboard;
+      }
+      break;
     default: {
       background = "bg-[#21AAFF]";
+      icon = ninethDashboard;
     }
   }
 
@@ -100,7 +106,7 @@ export default function DashboardCard({ item }: { item: ServiceInterface }) {
     <div
       className={`w-full ${background} flex flex-col items-center justify-between rounded-lg shadow-md`}>
       <div className="w-full flex flex-col py-5 gap-y-5 items-center">
-        <h5 className="text-line-10 h-10 text-[14px] md:text-lg text-center">
+        <h5 className="text-line-10 md:px-5 h-10 text-[14px] md:text-lg text-center">
           {item?.nama && item?.nama}
         </h5>
 

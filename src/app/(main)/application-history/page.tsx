@@ -47,6 +47,8 @@ export default function ApplicationHistoryScreen() {
     fetchUserApplicationHistories();
   }, []);
 
+  console.log(applications, "ini aplications");
+
   return (
     <section className="w-full flex flex-col items-center px-5 mt-5">
       <div
