@@ -16,8 +16,12 @@ export default function SatisfactionIndexCard({
   return (
     <TableRow className="border border-line-20">
       <TableCell className="text-center">{index + 1}</TableCell>
-      <TableCell className="text-center">Bidang Mutasi</TableCell>
-      <TableCell className="text-center">Pengajuan Pangkat</TableCell>
+      <TableCell className="text-center">
+        {item?.bidang_name && item?.bidang_name}
+      </TableCell>
+      <TableCell className="text-center">
+        {item?.layanan_name && item?.layanan_name}
+      </TableCell>
       <TableCell className="text-center">
         {formatDateString(item?.createdAt)}
       </TableCell>
@@ -25,7 +29,7 @@ export default function SatisfactionIndexCard({
         {formatToWIB(item?.createdAt)}
       </TableCell>
       <TableCell className={`text-center`}>
-        Sedikit Kesulitan dan juga saya mengalami kendala
+        {item?.feedback && item?.feedback}
       </TableCell>
       <TableCell className="text-center">
         {/* {permohonan.status === 3 ||
@@ -49,7 +53,7 @@ export default function SatisfactionIndexCard({
         )} */}
         <div>
           <Link
-            href={`/`}
+            href={`/satisfaction-index/${item?.id}`}
             className="bg-black-80 bg-opacity-20 hover:bg-black-30 rounded-lg text-[14px] py-3 px-8 text-black-80">
             Detail
           </Link>

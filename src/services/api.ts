@@ -928,7 +928,7 @@ export const getUserApplicationHistoryDetail = async (id: number) => {
   const token = Cookies.get("Authorization");
 
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/user/history/form/${id}`,
+    `${process.env.NEXT_PUBLIC_API_URL}/user/input/form/detail/${id}`,
     {
       method: "GET",
       headers: {
@@ -1022,7 +1022,26 @@ export const getSatisfactionUser = async () => {
   const token = Cookies.get("Authorization");
 
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/user/history/feedback`,
+    `${process.env.NEXT_PUBLIC_API_URL}/user/get/history/feedback`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    }
+  );
+
+  return await response.json();
+};
+
+// get Indeks Kepuasan
+export const getSatisfactionUserDetail = async (id: number) => {
+  const token = Cookies.get("Authorization");
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/user/history/feedback/detail/${id}`,
     {
       method: "GET",
       headers: {

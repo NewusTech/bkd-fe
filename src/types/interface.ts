@@ -375,17 +375,29 @@ export interface FeedBackUserInterface {
 
 export interface SatisfactionHistoryInterface {
   id: number;
-  nama: string;
-  slug: string;
-  desc: string;
-  penanggung_jawab: string;
-  syarat: string;
-  ketentuan: string;
-  langkah: string;
-  bidang_id: number;
+  userinfo_id: number;
+  layanan_id: number;
+  layanan_name: string;
+  bidang_name: string;
+  question_1: number;
+  question_2: number;
+  question_3: number;
+  question_4: number;
+  feedback: string;
   createdAt: string;
   updatedAt: string;
-  User_feedbacks: FeedBackUserInterface[];
+}
+
+export interface SatisfactionHistoryDetailInterface {
+  id: number;
+  question_1: number;
+  question_2: number;
+  question_3: number;
+  question_4: number;
+  feedback: string;
+  date: string;
+  layanan_name: string;
+  bidang_name: string;
 }
 
 export interface UserApplicationHistoryInterface {
@@ -405,4 +417,86 @@ export interface UserApplicationHistoryInterface {
   bidang_name: string;
   createdAt: string;
   updatedAt: string;
+}
+
+export interface UserApplicationHistoryAreaInterface {
+  id: number;
+  nama: string;
+  desc: string;
+}
+
+export interface UserApplicationHistoryServiceInterface {
+  id: number;
+  nama: string;
+  desc: string;
+  Bidang: UserApplicationHistoryAreaInterface;
+}
+
+export interface UserApplicationHistoryUserInfoSubDIstrictInterface {
+  id: number;
+  nama: string;
+}
+
+export interface UserApplicationHistoryUserInfoVillageInterface {
+  id: number;
+  nama: string;
+}
+
+export interface UserApplicationHistoryUserInfoInterface {
+  id: number;
+  name: string;
+  nip: string;
+  nik: string;
+  slug: string;
+  email: string;
+  telepon: string;
+  image_profile: string;
+  kecamatan_id: number;
+  desa_id: number;
+  rt: string;
+  rw: string;
+  alamat: string;
+  agama: string;
+  tempat_lahir: string;
+  tgl_lahir: string;
+  gender: string;
+  goldar: string;
+  user_id: number;
+  createdAt: string;
+  updatedAt: string;
+  Desa: UserApplicationHistoryUserInfoVillageInterface;
+  Kecamatan: UserApplicationHistoryUserInfoSubDIstrictInterface;
+}
+
+export interface UserApplicationHistoryFormServiceInputJsonDataInterface {
+  id: number;
+  key: string;
+}
+
+export interface UserApplicationHistoryFormServiceInputInterface {
+  id: number;
+  data: string;
+  layananform_id: number;
+  layananformnum_id: number;
+  layananform_name: string;
+  layananform_datajson: UserApplicationHistoryFormServiceInputJsonDataInterface[];
+  layananform_tipedata: string;
+  data_key: string[];
+}
+
+export interface UserApplicationHistoryDetailInterface {
+  id: number;
+  no_request: string;
+  layanan_id: number;
+  layanan: UserApplicationHistoryServiceInterface;
+  tgl_selesai: string;
+  userinfo_id: number;
+  userinfo: UserApplicationHistoryUserInfoInterface;
+  admin_updated: string;
+  createdAt: string;
+  updatedAt: string;
+  Layanan_form_inputs: UserApplicationHistoryFormServiceInputInterface[];
+  status: number;
+  fileoutput: string;
+  pesan: string;
 }

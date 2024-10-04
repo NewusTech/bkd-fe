@@ -10,9 +10,15 @@ import { redirect, useRouter } from "next/navigation";
 import Image from "next/legacy/image";
 import Swal from "sweetalert2";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { UserApplicationHistoryInterface } from "@/types/interface";
+import {
+  UserApplicationHistoryDetailInterface,
+  UserApplicationHistoryFormServiceInputInterface,
+  UserApplicationHistoryInterface,
+} from "@/types/interface";
 import { getUserApplicationHistoryDetail } from "@/services/api";
 import { formatDateString } from "@/lib/utils";
+import { Label } from "@/components/ui/label";
+import UserApplicationHistoryFormCard from "@/components/all_cards/userApplicationHistoryFormCard";
 
 export default function ApplicationHistoryDetailScreen({
   params,
@@ -26,7 +32,7 @@ export default function ApplicationHistoryDetailScreen({
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpen2, setIsModalOpen2] = useState(false);
   const [application, setApplication] =
-    useState<UserApplicationHistoryInterface>();
+    useState<UserApplicationHistoryDetailInterface>();
 
   const fetchUserApplicationHistoryDetail = async (id: number) => {
     try {
@@ -101,11 +107,11 @@ export default function ApplicationHistoryDetailScreen({
                 value="formulir">
                 Formulir
               </TabsTrigger>
-              <TabsTrigger
+              {/* <TabsTrigger
                 className="w-full py-4 border-r border-line-20 data-[state=active]:bg-primary-40 data-[state=active]:text-line-10"
                 value="dokumen-pendukung">
                 Dokumen Pendukung
-              </TabsTrigger>
+              </TabsTrigger> */}
               <TabsTrigger
                 className="w-full py-4 rounded-e-lg data-[state=active]:bg-primary-40 data-[state=active]:text-line-10"
                 value="hasil-permohonan">
@@ -117,19 +123,237 @@ export default function ApplicationHistoryDetailScreen({
               value="data-diri"
               className="w-full flex flex-col mt-4">
               <div className="w-full flex flex-col gap-y-5 border border-line-20 rounded-lg p-4">
-                <div>
-                  <div>Hello wkwkwk</div>
+                <div className="w-full flex flex-col gap-y-5">
+                  <div className="w-full bg-primary-40 px-3 py-3 rounded-md">
+                    <h5 className="text-line-10 text-[18px]">
+                      Riwayat Data Diri
+                    </h5>
+                  </div>
+                  <div className="w-full flex flex-col gap-y-5">
+                    <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                      <Label
+                        htmlFor="name"
+                        className="focus-within:text-primary-70 font-normal text-sm">
+                        Nama Lengkap
+                      </Label>
+
+                      <p>
+                        {application?.userinfo?.name &&
+                          application?.userinfo?.name}
+                      </p>
+                    </div>
+
+                    <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                      <Label
+                        htmlFor="nip"
+                        className="focus-within:text-primary-70 font-normal text-sm">
+                        NIP
+                      </Label>
+
+                      <p>
+                        {application?.userinfo?.nip &&
+                          application?.userinfo?.nip}
+                      </p>
+                    </div>
+
+                    <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                      <Label
+                        htmlFor="nik"
+                        className="focus-within:text-primary-70 font-normal text-sm">
+                        NIK
+                      </Label>
+
+                      <p>
+                        {application?.userinfo?.nik &&
+                          application?.userinfo?.nik}
+                      </p>
+                    </div>
+
+                    <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                      <Label
+                        htmlFor="email"
+                        className="focus-within:text-primary-70 font-normal text-sm">
+                        Email
+                      </Label>
+
+                      <p>
+                        {application?.userinfo?.email &&
+                          application?.userinfo?.email}
+                      </p>
+                    </div>
+
+                    <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                      <Label
+                        htmlFor="telepon"
+                        className="focus-within:text-primary-70 font-normal text-sm">
+                        Nomor Telepon
+                      </Label>
+
+                      <p>
+                        {application?.userinfo?.telepon &&
+                          application?.userinfo?.telepon}
+                      </p>
+                    </div>
+
+                    <div className="w-full flex flex-row gap-x-3 md:gap-x-5">
+                      <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                        <Label
+                          htmlFor="tempat-lahir"
+                          className="focus-within:text-primary-70 font-normal text-sm">
+                          Tempat Lahir
+                        </Label>
+
+                        <p>
+                          {application?.userinfo?.tempat_lahir &&
+                            application?.userinfo?.tempat_lahir}
+                        </p>
+                      </div>
+
+                      <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                        <Label
+                          htmlFor="tempat-lahir"
+                          className="focus-within:text-primary-70 font-normal text-sm">
+                          Tanggal Lahir
+                        </Label>
+
+                        <p>
+                          {application?.userinfo?.tgl_lahir &&
+                            formatDateString(application?.userinfo?.tgl_lahir)}
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                      <Label className="focus-within:text-primary-70 font-normal text-sm">
+                        Agama
+                      </Label>
+
+                      <p>
+                        {application?.userinfo?.agama &&
+                          application?.userinfo?.agama}
+                      </p>
+                    </div>
+
+                    <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                      <Label className="focus-within:text-primary-70 font-normal text-sm">
+                        jenis Kelamin
+                      </Label>
+
+                      <p>
+                        {application?.userinfo?.gender &&
+                          application?.userinfo?.gender}
+                      </p>
+                    </div>
+
+                    <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                      <Label className="focus-within:text-primary-70 font-normal text-sm">
+                        Golongan Darah
+                      </Label>
+
+                      <p>
+                        {application?.userinfo?.goldar &&
+                          application?.userinfo?.goldar}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="w-full flex flex-col gap-y-5">
+                    <div className="w-full bg-primary-40 px-3 py-3 rounded-md">
+                      <h5 className="text-line-10 text-[18px]">Alamat</h5>
+                    </div>
+
+                    <div className="w-full flex flex-col gap-y-5">
+                      <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                        <Label
+                          htmlFor="kecamatan"
+                          className="focus-within:text-primary-70 font-normal text-sm">
+                          Kecamatan
+                        </Label>
+
+                        <p>
+                          {application?.userinfo?.Kecamatan.nama &&
+                            application?.userinfo?.Kecamatan.nama}
+                        </p>
+                      </div>
+
+                      <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                        <Label
+                          htmlFor="desa"
+                          className="focus-within:text-primary-70 font-normal text-sm">
+                          Desa
+                        </Label>
+
+                        <p>
+                          {application?.userinfo?.Desa.nama &&
+                            application?.userinfo?.Desa.nama}
+                        </p>
+                      </div>
+
+                      <div className="w-full flex flex-row gap-x-5">
+                        <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                          <Label
+                            htmlFor="rt"
+                            className="focus-within:text-primary-70 font-normal text-sm">
+                            RT
+                          </Label>
+
+                          <p>
+                            {application?.userinfo?.rt &&
+                              application?.userinfo?.rt}
+                          </p>
+                        </div>
+
+                        <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                          <Label
+                            htmlFor="rw"
+                            className="focus-within:text-primary-70 font-normal text-sm">
+                            RW
+                          </Label>
+
+                          <p>
+                            {application?.userinfo?.rw &&
+                              application?.userinfo?.rw}
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="w-full flex flex-col gap-y-2">
+                        <Label className="text-[14px] text-black-80">
+                          Alamat
+                        </Label>
+
+                        <p>
+                          {application?.userinfo?.alamat &&
+                            application?.userinfo?.alamat}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </TabsContent>
             <TabsContent value="formulir" className="w-full flex flex-col mt-0">
               <div className="w-full flex flex-col gap-y-5 border border-grey-100 rounded-lg p-4">
-                <div>
-                  <div>Hello ehehhe</div>
+                <div className="w-full flex flex-col gap-y-5">
+                  {application?.Layanan_form_inputs &&
+                    application?.Layanan_form_inputs.length > 0 &&
+                    application?.Layanan_form_inputs.map(
+                      (
+                        item: UserApplicationHistoryFormServiceInputInterface,
+                        index: number
+                      ) => {
+                        return (
+                          <UserApplicationHistoryFormCard
+                            key={index}
+                            item={item}
+                          />
+                        );
+                      }
+                    )}
                 </div>
               </div>
             </TabsContent>
-            <TabsContent
+            {/* <TabsContent
               value="dokumen-pendukung"
               className="w-full flex flex-col mt-0">
               <div className="w-full flex flex-col gap-y-5 border border-grey-100 rounded-lg p-4">
@@ -137,25 +361,36 @@ export default function ApplicationHistoryDetailScreen({
                   <div>Hello hoho</div>
                 </div>
               </div>
-            </TabsContent>
+            </TabsContent> */}
             <TabsContent
               value="hasil-permohonan"
               className="w-full flex flex-col mt-0">
               <div className="flex flex-col gap-y-5 mt-3 md:mt-0">
-                {application?.pesan !== null ||
-                  (application?.status === 10 && (
-                    <div className="w-full flex flex-col gap-y-3 border border-line-20 rounded-lg p-4">
-                      <h6 className="text-sm text-black-80 font-normal">
-                        Balasan: <span className="text-red-500">Ditolak</span>
-                      </h6>
+                <div className="w-full flex flex-col gap-y-3 border border-line-20 rounded-lg p-4">
+                  <h6 className="text-[18px] text-black-80 font-normal">
+                    Status:{" "}
+                    <span
+                      className={`${
+                        application?.status === 10
+                          ? "text-error-50"
+                          : application?.status === 9
+                            ? "text-success-50"
+                            : "text-primary-40"
+                      }`}>
+                      {application?.status === 10
+                        ? "Ditolak"
+                        : application?.status === 9
+                          ? "Selesai"
+                          : "Butuh Perbaikan"}
+                    </span>
+                  </h6>
 
-                      <p className="text-black-80 font-normal text-sm">
-                        Terima kasih atas pengaduannya. Kami mohon maaf atas
-                        keterlambatan dan sedang menindaklanjuti masalah ini.
-                        Proses mutasi Anda akan segera diselesaikan.
-                      </p>
-                    </div>
-                  ))}
+                  <p className="text-black-80 font-normal text-[16px]">
+                    Terima kasih atas pengaduannya. Kami mohon maaf atas
+                    keterlambatan dan sedang menindaklanjuti masalah ini. Proses
+                    mutasi Anda akan segera diselesaikan.
+                  </p>
+                </div>
 
                 <div className="flex flex-col gap-y-6">
                   <div className="flex flex-col gap-2">
@@ -164,7 +399,8 @@ export default function ApplicationHistoryDetailScreen({
                     </p>
 
                     <p className="text-sm text-line-80 font-normal">
-                      {application?.bidang_name && application?.bidang_name}
+                      {application?.layanan?.Bidang?.nama &&
+                        application?.layanan?.Bidang?.nama}
                     </p>
                   </div>
 
@@ -174,7 +410,7 @@ export default function ApplicationHistoryDetailScreen({
                     </p>
 
                     <p className="text-sm text-line-80 font-normal">
-                      {application?.layanan_name && application?.layanan_name}
+                      {application?.layanan?.nama && application?.layanan?.nama}
                     </p>
                   </div>
 
