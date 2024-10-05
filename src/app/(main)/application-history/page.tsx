@@ -17,35 +17,79 @@ import { useMediaQuery } from "@/hooks/useMediaQuery";
 import MobileApplicationHistoryCard from "@/components/mobile_all_cards/mobileApplicationHistoryCard";
 import { UserApplicationHistoryInterface } from "@/types/interface";
 import { getUserApplicationHistory } from "@/services/api";
+import { useDebounce } from "@/hooks/useDebounce";
+import PaginationComponent from "@/components/elements/pagination";
+import { userApplicationStatus } from "@/constants/main";
 
 export default function ApplicationHistoryScreen() {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [search, setSearch] = useState("");
+  const deboucedSearch = useDebounce(search, 500);
+  const [status, setStatus] = useState<number | undefined>(undefined);
   const now = new Date();
   const firstDayOfMonth = new Date(now.getFullYear(), 0, 1);
   const [startDate, setStartDate] = useState<Date | undefined>(firstDayOfMonth);
   const [endDate, setEndDate] = useState<Date | undefined>(new Date());
   const [applications, setApplications] =
     useState<UserApplicationHistoryInterface[]>();
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    perPage: 10,
+    totalPages: 1,
+    totalCount: 0,
+  });
 
   const startDateFormatted = startDate
     ? formatDate(new Date(startDate))
     : undefined;
   const endDateFormatted = endDate ? formatDate(new Date(endDate)) : undefined;
 
-  const fetchUserApplicationHistories = async () => {
+  const fetchUserApplicationHistories = async (
+    page: number,
+    limit: number,
+    search: string,
+    start_date: string,
+    end_date: string,
+    status?: number
+  ) => {
     try {
-      const response = await getUserApplicationHistory();
+      const response = await getUserApplicationHistory(
+        page,
+        limit,
+        search,
+        start_date,
+        end_date,
+        status
+      );
 
       setApplications(response.data);
+      setPagination((prev) => ({
+        ...prev,
+        currentPage: page,
+        totalPages: response?.pagination?.totalPages,
+        totalCount: response?.pagination?.totalCount,
+      }));
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    fetchUserApplicationHistories();
-  }, []);
+    fetchUserApplicationHistories(
+      1,
+      10,
+      deboucedSearch,
+      startDateFormatted ?? "",
+      endDateFormatted ?? "",
+      status
+    );
+  }, [deboucedSearch, startDateFormatted, endDateFormatted, status]);
+
+  const handlePageChange = (newPage: number) => {
+    if (newPage !== pagination.currentPage) {
+      fetchUserApplicationHistories(newPage, 10, "", "", "", status);
+    }
+  };
 
   console.log(applications, "ini aplications");
 
@@ -75,11 +119,11 @@ export default function ApplicationHistoryScreen() {
 
           <div className="flex items-center w-full h-[40px] justify-between bg-line-10 border border-primary-40 rounded-lg">
             <Select
-            // onValueChange={handleSelectStatusChange}
-            >
+              onValueChange={(value) =>
+                setStatus(value === "all" ? undefined : Number(value))
+              }>
               <SelectTrigger
                 className={`w-full gap-x-4 rounded-lg border-none active:border-none active:outline-none focus:border-none focus:outline-none`}>
-                {/* <Checks className="w-6 h-6 text-black-80" /> */}
                 <SelectValue
                   placeholder="Status"
                   className="text-black-80 w-full"
@@ -87,22 +131,22 @@ export default function ApplicationHistoryScreen() {
               </SelectTrigger>
               <SelectContent className="bg-line-10">
                 <div className="pt-2">
-                  {/* {statusDatas &&
-                  statusDatas.map(
-                    (status: { id: number; value: string }, i: number) => {
-                      return (
-                        <SelectItem
-                          key={i}
-                          className={`w-full px-4`}
-                          value={status.id.toString()}>
-                          {status.value}
-                        </SelectItem>
-                      );
-                    }
-                  )} */}
-                  <SelectItem className="w-full px-4 pl-8" value="1">
-                    Hello World
+                  <SelectItem className="w-full px-4" value="all">
+                    Semua Status
                   </SelectItem>
+                  {userApplicationStatus &&
+                    userApplicationStatus.map(
+                      (status: { id: number; name: string }, i: number) => {
+                        return (
+                          <SelectItem
+                            key={i}
+                            className={`w-full px-4`}
+                            value={status.id.toString()}>
+                            {status.name}
+                          </SelectItem>
+                        );
+                      }
+                    )}
                 </div>
               </SelectContent>
             </Select>
@@ -117,7 +161,7 @@ export default function ApplicationHistoryScreen() {
               )}
             </>
           ) : (
-            <>
+            <div className="w-full flex flex-col gap-y-3">
               {applications &&
                 applications.length > 0 &&
                 applications.map(
@@ -131,9 +175,19 @@ export default function ApplicationHistoryScreen() {
                     );
                   }
                 )}
-            </>
+            </div>
           )}
         </div>
+
+        {applications && applications.length > 10 && (
+          <div className="w-full">
+            <PaginationComponent
+              currentPage={pagination.currentPage}
+              totalPages={pagination?.totalPages}
+              onPageChange={handlePageChange}
+            />
+          </div>
+        )}
       </div>
     </section>
   );

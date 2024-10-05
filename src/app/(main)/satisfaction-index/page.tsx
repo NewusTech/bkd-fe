@@ -53,93 +53,62 @@ import { useMediaQuery } from "@/hooks/useMediaQuery";
 import MobileSatisfactionIndexCardPages from "@/components/mobile_all_cards/mobileSatisfactionIndexCard";
 import { Loader } from "lucide-react";
 import { set } from "date-fns";
+import PaginationComponent from "@/components/elements/pagination";
+import { useDebounce } from "@/hooks/useDebounce";
 
 export default function SatisfactionIndexScreen() {
   const router = useRouter();
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [search, setSearch] = useState("");
+  const deboucedSearch = useDebounce(search, 500);
   // const limitItem = 35;
   const now = new Date();
   const firstDayOfMonth = new Date(now.getFullYear(), 0, 1);
   const [startDate, setStartDate] = useState<Date | undefined>(firstDayOfMonth);
   const [endDate, setEndDate] = useState<Date | undefined>(new Date());
-  // const [data, setData] = useState({
-  //   area_id: null,
-  //   service_id: null,
-  //   timeIndex: "",
-  //   dateIndex: "",
-  // });
   const [data, setData] = useState({
     layanan_id: null,
   });
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  // const [dateIndex, setDateIndex] = useState<Date>(new Date());
-  // const [timeIndex, setTimeIndex] = useState<Date>(new Date());
-  // const [areas, setAreas] = useState<AreasInterface[]>([]);
-  // const [areaId, setAreaId] = useState<number | null>(null);
   const [services, setServices] = useState<ServiceInterface[]>([]);
   const [indexes, setIndexes] = useState<SatisfactionHistoryInterface[]>();
   const [serviceId, setServiceId] = useState<number | null>(null);
+  const [pagination, setPagination] = useState({
+    currentPage: 1,
+    perPage: 10,
+    totalPages: 1,
+    totalCount: 0,
+  });
 
   const startDateFormatted = startDate
     ? formatDate(new Date(startDate))
     : undefined;
   const endDateFormatted = endDate ? formatDate(new Date(endDate)) : undefined;
 
-  // const fetchAreas = async (page: number, limit: number) => {
-  //   try {
-  //     const response = await getAreas(page, limit);
-
-  //     setAreas(response.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   fetchAreas(1, limitItem);
-  // }, []);
-
-  // const fetchServiceByArea = async (bidang_id: number) => {
-  //   try {
-  //     const response = await getServiceByAreas(bidang_id);
-
-  //     setServices(response.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (serviceId) {
-  //     fetchServiceByArea(serviceId);
-  //   }
-  // }, [serviceId]);
-
-  // useEffect(() => {
-  //   if (areaId !== null) {
-  //     setData((prevUser) => ({
-  //       ...prevUser,
-  //       kecamatan_id: String(areaId),
-  //     }));
-  //   }
-  // }, [areaId]);
-
-  // useEffect(() => {
-  //   if (serviceId !== null) {
-  //     setData((prevUser) => ({
-  //       ...prevUser,
-  //       desa_id: String(serviceId),
-  //     }));
-  //   }
-  // }, [serviceId]);
-
-  const fetchSatisfactionHistory = async () => {
+  const fetchSatisfactionHistory = async (
+    page: number,
+    limit: number,
+    search: string,
+    start_date: string,
+    end_date: string
+  ) => {
     try {
-      const response = await getSatisfactionUser();
+      const response = await getSatisfactionUser(
+        page,
+        limit,
+        search,
+        start_date,
+        end_date
+      );
 
       setIndexes(response.data);
+      setPagination((prev) => ({
+        ...prev,
+        currentPage: page,
+        totalPages: response.pagination.totalPages,
+        totalCount: response.pagination.totalCount,
+      }));
     } catch (error) {
       console.log(error);
     }
@@ -156,14 +125,24 @@ export default function SatisfactionIndexScreen() {
   };
 
   useEffect(() => {
-    fetchSatisfactionHistory();
-  }, []);
+    fetchSatisfactionHistory(
+      1,
+      10,
+      deboucedSearch,
+      startDateFormatted ?? "",
+      endDateFormatted ?? ""
+    );
+  }, [deboucedSearch, startDateFormatted, endDateFormatted]);
+
+  const handlePageChange = (newPage: number) => {
+    if (newPage !== pagination.currentPage) {
+      fetchSatisfactionHistory(newPage, 10, "", "", "");
+    }
+  };
 
   useEffect(() => {
     fetchServices();
   }, []);
-
-  console.log(indexes, "ini index");
 
   const handleSubmitSatisfactionIndex = () => {
     setIsLoading(true);
@@ -228,45 +207,6 @@ export default function SatisfactionIndexScreen() {
                       Isi indeks kepuasan dengan jujur dan teliti
                     </AlertDialogDescription>
                     <div className="w-full flex flex-col gap-y-3">
-                      {/* <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                        <Label className="focus-within:text-primary-70 font-normal text-sm">
-                          Pilih Bidang
-                        </Label>
-
-                        <Select
-                          name="area_id"
-                          value={areaId ? String(areaId) : undefined}
-                          onValueChange={(value) => setAreaId(Number(value))}>
-                          <SelectTrigger
-                            className={`${
-                              !areaId ? "opacity-70" : ""
-                            } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
-                            <SelectValue
-                              placeholder="Pilih Bidang"
-                              className={areaId ? "" : "placeholder:opacity-50"}
-                            />
-                          </SelectTrigger>
-                          <SelectContent className="w-full bg-line-10">
-                            <div>
-                              {areas &&
-                                areas.length > 0 &&
-                                areas?.map(
-                                  (area: AreasInterface, i: number) => {
-                                    return (
-                                      <SelectItem
-                                        className="pr-none mt-2"
-                                        value={area?.id.toString()}
-                                        key={i}>
-                                        {area?.nama}
-                                      </SelectItem>
-                                    );
-                                  }
-                                )}
-                            </div>
-                          </SelectContent>
-                        </Select>
-                      </div> */}
-
                       <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                         <Label className="focus-within:text-primary-70 font-normal text-sm">
                           Pilih Layanan
@@ -309,38 +249,6 @@ export default function SatisfactionIndexScreen() {
                           </SelectContent>
                         </Select>
                       </div>
-
-                      {/* <div className="w-full flex flex-col gap-y-2">
-                        <DateFormInput
-                          value={dateIndex}
-                          setValue={setDateIndex}
-                          label="Tanggal"
-                          className={`text-black-80 bg-transparent w-full rounded-lg`}
-                          onChange={(value) =>
-                            setData({ ...data, dateIndex: formatDate(value) })
-                          }
-                        />
-                      </div>
-
-                      <div className="w-full flex flex-col gap-y-2">
-                        <Label
-                          htmlFor="time"
-                          className="focus-within:text-primary-70 font-normal text-sm">
-                          Waktu
-                        </Label>
-
-                        <Input
-                          id="time"
-                          name="timeIndex"
-                          value={data.timeIndex}
-                          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                            setData({ ...data, timeIndex: e.target.value })
-                          }
-                          type="time"
-                          className="w-full block focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
-                          placeholder="Pilih Waktu"
-                        />
-                      </div> */}
                     </div>
                   </AlertDialogHeader>
                   <AlertDialogFooter className="w-full flex flex-row justify-center items-center gap-x-5">
@@ -375,43 +283,6 @@ export default function SatisfactionIndexScreen() {
                   </DrawerDescription>
 
                   <div className="w-full flex flex-col gap-y-3">
-                    {/* <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                      <Label className="focus-within:text-primary-70 font-normal text-sm">
-                        Pilih Bidang
-                      </Label>
-
-                      <Select
-                        name="area_id"
-                        value={areaId ? String(areaId) : undefined}
-                        onValueChange={(value) => setAreaId(Number(value))}>
-                        <SelectTrigger
-                          className={`${
-                            !areaId ? "opacity-70" : ""
-                          } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
-                          <SelectValue
-                            placeholder="Pilih Bidang"
-                            className={areaId ? "" : "placeholder:opacity-50"}
-                          />
-                        </SelectTrigger>
-                        <SelectContent className="w-full bg-line-10">
-                          <div>
-                            {areas &&
-                              areas.length > 0 &&
-                              areas?.map((area: AreasInterface, i: number) => {
-                                return (
-                                  <SelectItem
-                                    className="pr-none mt-2"
-                                    value={area?.id.toString()}
-                                    key={i}>
-                                    {area?.nama}
-                                  </SelectItem>
-                                );
-                              })}
-                          </div>
-                        </SelectContent>
-                      </Select>
-                    </div> */}
-
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                       <Label className="focus-within:text-primary-70 font-normal text-sm">
                         Pilih Layanan
@@ -452,43 +323,9 @@ export default function SatisfactionIndexScreen() {
                         </SelectContent>
                       </Select>
                     </div>
-
-                    {/* <div className="w-full flex flex-col gap-y-2">
-                      <DateFormInput
-                        value={dateIndex}
-                        setValue={setDateIndex}
-                        label="Tanggal"
-                        className={`text-black-80 bg-transparent w-full rounded-lg`}
-                        onChange={(value) =>
-                          setData({ ...data, dateIndex: formatDate(value) })
-                        }
-                      />
-                    </div>
-
-                    <div className="w-full flex flex-col gap-y-2">
-                      <Label
-                        htmlFor="time"
-                        className="focus-within:text-primary-70 font-normal text-sm">
-                        Waktu
-                      </Label>
-
-                      <Input
-                        id="time"
-                        name="timeIndex"
-                        value={data.timeIndex}
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                          setData({ ...data, timeIndex: e.target.value })
-                        }
-                        type="time"
-                        className="w-full block focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
-                        placeholder="Pilih Waktu"
-                      />
-                    </div> */}
                   </div>
 
-                  <DrawerFooter
-                    // onClick={handleSubmitSatisfactionIndex}
-                    className="w-full">
+                  <DrawerFooter className="w-full">
                     <Button
                       type="button"
                       disabled={isLoading ? true : false}
@@ -518,6 +355,16 @@ export default function SatisfactionIndexScreen() {
             <MobileSatisfactionIndexCardPages />
           )}
         </div>
+
+        {indexes && indexes.length > 10 && (
+          <div className="w-full">
+            <PaginationComponent
+              currentPage={pagination.currentPage}
+              totalPages={pagination.totalPages}
+              onPageChange={handlePageChange}
+            />
+          </div>
+        )}
       </div>
     </section>
   );

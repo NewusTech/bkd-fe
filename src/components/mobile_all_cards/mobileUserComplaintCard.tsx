@@ -62,7 +62,7 @@ export default function MobileUserComplaintCardPages({
         <div className="w-full flex flex-row items-center gap-x-1">
           <p>:</p>
           <div
-            className={`w-full col-span-2 ${complaint.status === 0 ? "text-primary-70 bg-primary-40" : "text-success-70 bg-success-50"} bg-opacity-20 p-2 px-2 rounded-lg`}>
+            className={`w-full text-center col-span-2 ${complaint.status === 0 ? "text-primary-70 bg-primary-40" : "text-success-70 bg-success-50"} bg-opacity-20 p-2 px-2 rounded-lg`}>
             {complaint?.status === 0 ? "Menunggu" : "Selesai"}
           </div>
         </div>

@@ -10,7 +10,7 @@ import seventhDashboard from "@/../../public/assets/images/dashboard-publisher.p
 import eighthDashboard from "@/../../public/assets/images/dashboard-wife.png";
 import ninethDashboard from "@/../../public/assets/images/dashboard-pension.png";
 import Image from "next/image";
-import React from "react";
+import React, { useState } from "react";
 import {
   AlertDialog,
   AlertDialogContent,
@@ -35,9 +35,23 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { ServiceInterface } from "@/types/interface";
+import { RichTextDisplay } from "../elements/rich_text_display";
+import { useRouter } from "next/navigation";
+import { Button } from "../ui/button";
+import { Loader } from "lucide-react";
 
-export default function DashboardCard({ item }: { item: ServiceInterface }) {
+export default function DashboardCard({
+  item,
+  fetchService,
+  service,
+}: {
+  item: ServiceInterface;
+  fetchService: any;
+  service: ServiceInterface;
+}) {
+  const router = useRouter();
   const isMobile = useMediaQuery("(max-width: 768px)");
+  const [isLoading, setIsLoading] = useState(false);
   let background;
   let icon;
 
@@ -102,6 +116,18 @@ export default function DashboardCard({ item }: { item: ServiceInterface }) {
     }
   }
 
+  console.log(service, "ini service");
+
+  const handleClick = () => {
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      router.push(`/user-application-forms/user-information-update`);
+      localStorage.setItem("areaId", service?.id.toString());
+      localStorage.setItem("serviceId", service?.bidang_id.toString());
+    }, 1000);
+  };
+
   return (
     <div
       className={`w-full ${background} flex flex-col items-center justify-between rounded-lg shadow-md`}>
@@ -127,7 +153,9 @@ export default function DashboardCard({ item }: { item: ServiceInterface }) {
 
       {!isMobile ? (
         <AlertDialog>
-          <AlertDialogTrigger className="w-full p-3 text-line-10 text-sm bg-black-80 bg-opacity-30">
+          <AlertDialogTrigger
+            onClick={() => fetchService(item?.id)}
+            className="w-full p-3 text-line-10 text-sm bg-black-80 bg-opacity-30">
             Ajukan Pengajuan &rarr;
           </AlertDialogTrigger>
           <AlertDialogContent className="flex flex-col bg-line-10 rounded-lg w-full max-w-4xl h-5/6 px-7">
@@ -161,7 +189,9 @@ export default function DashboardCard({ item }: { item: ServiceInterface }) {
                     className="w-full flex flex-col mt-4">
                     <div className="w-full flex flex-col gap-y-5 border border-grey-100 rounded-lg p-4">
                       <div>
-                        <div>Hello wkwkwk</div>
+                        {service?.ketentuan && (
+                          <RichTextDisplay content={service?.ketentuan} />
+                        )}
                       </div>
                     </div>
                   </TabsContent>
@@ -170,7 +200,9 @@ export default function DashboardCard({ item }: { item: ServiceInterface }) {
                     className="w-full flex flex-col mt-0">
                     <div className="w-full flex flex-col gap-y-5 border border-grey-100 rounded-lg p-4">
                       <div>
-                        <div>Hello ehehhe</div>
+                        {service?.syarat && (
+                          <RichTextDisplay content={service?.syarat} />
+                        )}
                       </div>
                     </div>
                   </TabsContent>
@@ -179,7 +211,9 @@ export default function DashboardCard({ item }: { item: ServiceInterface }) {
                     className="w-full flex flex-col mt-0">
                     <div className="w-full flex flex-col gap-y-5 border border-grey-100 rounded-lg p-4">
                       <div>
-                        <div>Hello hoho</div>
+                        {service?.langkah && (
+                          <RichTextDisplay content={service?.langkah} />
+                        )}
                       </div>
                     </div>
                   </TabsContent>
@@ -188,26 +222,33 @@ export default function DashboardCard({ item }: { item: ServiceInterface }) {
             </AlertDialogHeader>
 
             <div className="w-full flex flex-col items-center">
-              <AlertDialogFooter className="w-full flex flex-row justify-center">
+              <AlertDialogFooter className="w-full flex flex-row items-center justify-center">
                 <AlertDialogCancel className="w-4/12 mt-0 py-4 border-none outline-none">
-                  <div className="bg-line-20 hover:bg-line-50 text-center cursor-pointer w-full rounded-lg text-sm text-primary-40 hover:text-line-10 py-4 px-5">
+                  <div className="bg-line-20 hover:bg-line-50 text-center cursor-pointer w-full rounded-lg text-[16px] text-black-80 hover:text-line-10 py-3 px-5">
                     Cancel
                   </div>
                 </AlertDialogCancel>
-                <AlertDialogAction>
-                  <div
-                    // onClick={handleAgree}
-                    className="bg-primary-40 hover:bg-primary-70 text-center cursor-pointer w-full rounded-lg text-sm text-line-10 py-4 px-5">
-                    Ajukan Pengaduan Pangkat
-                  </div>
-                </AlertDialogAction>
+                <div className="w-4/12 flex flex-col items-center">
+                  <Button
+                    onClick={handleClick}
+                    disabled={isLoading ? true : false}
+                    className="bg-primary-40 h-[45px] hover:bg-primary-70 text-center cursor-pointer w-full rounded-lg text-[16px] text-line-10 py-3 px-5">
+                    {isLoading ? (
+                      <Loader className="animate-spin" />
+                    ) : (
+                      "Ajukan Pengaduan Pangkat"
+                    )}
+                  </Button>
+                </div>
               </AlertDialogFooter>
             </div>
           </AlertDialogContent>
         </AlertDialog>
       ) : (
         <Drawer>
-          <DrawerTrigger className="w-full p-3 text-line-10 text-[12px] md:text-sm bg-black-80 bg-opacity-30">
+          <DrawerTrigger
+            onClick={() => fetchService(item?.id)}
+            className="w-full p-3 text-line-10 text-[12px] md:text-sm bg-black-80 bg-opacity-30">
             Ajukan Pengajuan &rarr;
           </DrawerTrigger>
           <DrawerContent className="flex flex-col gap-y-3 bg-line-10 rounded-lg w-full max-w-4xl h-5/6 px-3">
@@ -240,7 +281,9 @@ export default function DashboardCard({ item }: { item: ServiceInterface }) {
                   className="w-full flex flex-col mt-4">
                   <div className="w-full flex flex-col gap-y-5 border border-grey-100 rounded-lg p-4">
                     <div>
-                      <div>Hello wkwkwk</div>
+                      {service?.ketentuan && (
+                        <RichTextDisplay content={service?.ketentuan} />
+                      )}
                     </div>
                   </div>
                 </TabsContent>
@@ -249,7 +292,9 @@ export default function DashboardCard({ item }: { item: ServiceInterface }) {
                   className="w-full flex flex-col mt-0">
                   <div className="w-full flex flex-col gap-y-5 border border-grey-100 rounded-lg p-4">
                     <div>
-                      <div>Hello ehehhe</div>
+                      {service?.syarat && (
+                        <RichTextDisplay content={service?.syarat} />
+                      )}
                     </div>
                   </div>
                 </TabsContent>
@@ -258,18 +303,27 @@ export default function DashboardCard({ item }: { item: ServiceInterface }) {
                   className="w-full flex flex-col mt-0">
                   <div className="w-full flex flex-col gap-y-5 border border-grey-100 rounded-lg p-4">
                     <div>
-                      <div>Hello hoho</div>
+                      {service?.langkah && (
+                        <RichTextDisplay content={service?.langkah} />
+                      )}
                     </div>
                   </div>
                 </TabsContent>
               </Tabs>
             </div>
 
-            <DrawerFooter>
-              <div
-                // onClick={handleAgree}
-                className="bg-primary-40 hover:bg-primary-70 text-center cursor-pointer w-full rounded-lg text-sm text-line-10 py-4 px-5">
-                Ajukan Pengaduan Pangkat
+            <DrawerFooter className="w-full">
+              <div className="w-full flex flex-col items-center">
+                <Button
+                  onClick={handleClick}
+                  disabled={isLoading ? true : false}
+                  className="bg-primary-40 hover:bg-primary-70 text-center cursor-pointer w-full rounded-lg text-sm text-line-10 py-4 px-5">
+                  {isLoading ? (
+                    <Loader className="animate-spin" />
+                  ) : (
+                    "Ajukan Pengaduan Pangkat"
+                  )}
+                </Button>
               </div>
             </DrawerFooter>
           </DrawerContent>

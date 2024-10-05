@@ -499,3 +499,59 @@ export const satisfactionQuestions = [
     question: "Bagaimana kinerja aplikasi Sipandu?",
   },
 ];
+
+export const userApplicationStatus = [
+  {
+    id: 1,
+    name: "Menunggu",
+  },
+  {
+    id: 2,
+    name: "Sedang Diproses",
+  },
+  {
+    id: 3,
+    name: "Butuh Perbaikan",
+  },
+  {
+    id: 4,
+    name: "Sudah Diperbaiki",
+  },
+  {
+    id: 5,
+    name: "Sedang Divalidasi",
+  },
+  {
+    id: 6,
+    name: "Sudah Divalidasi",
+  },
+  {
+    id: 7,
+    name: "Sedang Ditandatangani",
+  },
+  {
+    id: 8,
+    name: "Sudah Ditandatangani",
+  },
+  {
+    id: 9,
+    name: "Selesai",
+  },
+  {
+    id: 10,
+    name: "Ditolak",
+  },
+];
+
+export const userComplaintStatus = [
+  {
+    id: 1,
+    name: "Menunggu",
+    key: 0,
+  },
+  {
+    id: 2,
+    name: "Selesai",
+    key: 1,
+  },
+];

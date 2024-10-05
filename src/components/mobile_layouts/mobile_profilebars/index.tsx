@@ -5,7 +5,7 @@ import { Camera, X } from "@phosphor-icons/react";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { HomeIcon, Loader, LogOut, User2 } from "lucide-react";
+import { HomeIcon, List, Loader, LogOut, User2 } from "lucide-react";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 import {
@@ -264,11 +264,33 @@ export default function MobileProfileSideBarScreen() {
 
           <div className="w-full h-[1px] bg-line-20 mt-5 mb-2"></div>
 
-          <div className="w-full flex flex-row gap-x-1 px-3">
-            <div className="w-full flex flex-row px-4 py-3 bg-primary-40 bg-opacity-20 items-center rounded-lg gap-x-2">
-              <User2 className="w-6 h-6 text-primary-40" />
+          <div className="w-full flex flex-col gap-y-3 gap-x-1 px-3">
+            <div className="w-full flex flex-row gap-x-3">
+              <Link
+                href={"/user-profile"}
+                className={`w-full flex flex-row px-4 py-3 ${pathName === "/user-profile" ? "bg-primary-40 bg-opacity-20" : ""} items-center rounded-lg gap-x-2`}>
+                <User2
+                  className={`w-6 h-6 ${pathName === "/user-profile" ? "text-primary-40" : "text-black-80"}`}
+                />
 
-              <p className="text-primary-40 text-[16px]">Akun Saya</p>
+                <p
+                  className={`${pathName === "/user-profile" ? "text-primary-40" : "text-black-80"} text-[16px]`}>
+                  Akun Saya
+                </p>
+              </Link>
+
+              <Link
+                href={"/user-profile/user-document"}
+                className={`w-full flex flex-row px-4 py-3 ${pathName === "/user-profile/user-document" ? "bg-primary-40 bg-opacity-20" : ""} items-center rounded-lg gap-x-2`}>
+                <List
+                  className={`w-6 h-6 ${pathName === "/user-profile/user-document" ? "bg-primary-40 bg-opacity-20" : ""}`}
+                />
+
+                <p
+                  className={`${pathName === "/user-profile/user-document" ? "bg-primary-40 bg-opacity-20" : ""} text-[16px]`}>
+                  Dokumen
+                </p>
+              </Link>
             </div>
 
             <div className="w-full flex flex-row items-center">
