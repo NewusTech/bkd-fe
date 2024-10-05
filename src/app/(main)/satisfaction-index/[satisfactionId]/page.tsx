@@ -83,15 +83,6 @@ export default function SurveiDetailPage({
         </div>
 
         <div className="flex flex-col w-full md:px-6 py-3 gap-y-4 md:gap-y-6">
-          {/* {survei?.formatteddata.map((data: DataFormatType, i: number) => {
-          return (
-            <div key={i} className="flex flex-col w-full md:gap-y-4">
-              <CardSurveiDetail data={data} i={i + 1} />
-            </div>
-          );
-        })} */}
-
-          {/* ini ddgjs */}
           {index && (
             <>
               {satisfactionQuestions?.map(

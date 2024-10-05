@@ -3,7 +3,7 @@
 import dasboard from "@/../../public/assets/images/dashboard-dashboard.png";
 import DashboardCard from "@/components/all_cards/dashboardCard";
 import { dashboardCards } from "@/constants/main";
-import { getAllService, getUserProfile } from "@/services/api";
+import { getAllService, getServiceById, getUserProfile } from "@/services/api";
 import { ServiceInterface, UserProfileInterface } from "@/types/interface";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -13,6 +13,7 @@ export default function UserDashboardPages() {
   const router = useRouter();
   const [user, setUser] = useState<UserProfileInterface>();
   const [services, setServices] = useState<ServiceInterface[]>();
+  const [service, setService] = useState<ServiceInterface>();
 
   const fetchUserProfile = async () => {
     try {
@@ -39,6 +40,20 @@ export default function UserDashboardPages() {
   useEffect(() => {
     fetchServices();
   }, []);
+
+  const fetchService = async (bidang_id: number) => {
+    try {
+      const response = await getServiceById(bidang_id);
+
+      setService(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // useEffect(() => {
+  //   fetchService(Number(params?.service));
+  // }, [params?.service]);
 
   return (
     <div className="w-full flex flex-col gap-y-5">
@@ -81,7 +96,14 @@ export default function UserDashboardPages() {
           {services &&
             services.length > 0 &&
             services.map((dashboard: ServiceInterface, i: number) => {
-              return <DashboardCard key={i} item={dashboard} />;
+              return (
+                <DashboardCard
+                  key={i}
+                  item={dashboard}
+                  fetchService={fetchService}
+                  service={service as ServiceInterface}
+                />
+              );
             })}
         </div>
       </div>

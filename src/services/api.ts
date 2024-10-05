@@ -906,11 +906,18 @@ export const getFormDocByService = async (serviceId: number) => {
   return await response.json();
 };
 
-export const getUserApplicationHistory = async () => {
+export const getUserApplicationHistory = async (
+  page?: number,
+  limit?: number,
+  search?: string,
+  start_date?: string,
+  end_date?: string,
+  status?: number
+) => {
   const token = Cookies.get("Authorization");
 
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/user/history/form`,
+    `${process.env.NEXT_PUBLIC_API_URL}/user/history/form?page=${page}&limit=${limit}&search=${search}&start_date=${start_date}&end_date=${end_date}&${status != undefined && `status=${status}`}`,
     {
       method: "GET",
       headers: {
@@ -961,11 +968,18 @@ export const postApplicationForm = async (data: any, id: number) => {
 };
 
 // get user complaint
-export const getUserComplaints = async () => {
+export const getUserComplaints = async (
+  page?: number,
+  limit?: number,
+  search?: string,
+  start_date?: string,
+  end_date?: string,
+  status?: number
+) => {
   const token = Cookies.get("Authorization");
 
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/user/pengaduan/get`,
+    `${process.env.NEXT_PUBLIC_API_URL}/user/pengaduan/get?page=${page}&limit=${limit}&search=${search}&start_date=${start_date}&end_date=${end_date}&${status != undefined && `status=${status}`}`,
     {
       method: "GET",
       headers: {
@@ -1018,11 +1032,17 @@ export const postUserComplaint = async (data: any) => {
 };
 
 // get Indeks Kepuasan
-export const getSatisfactionUser = async () => {
+export const getSatisfactionUser = async (
+  page?: number,
+  limit?: number,
+  search?: string,
+  start_date?: string,
+  end_date?: string
+) => {
   const token = Cookies.get("Authorization");
 
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/user/get/history/feedback`,
+    `${process.env.NEXT_PUBLIC_API_URL}/user/get/history/feedback?page=${page}&limit=${limit}&search=${search}&start_date=${start_date}&end_date=${end_date}`,
     {
       method: "GET",
       headers: {
