@@ -18,7 +18,7 @@ export default function MainLayout({
 
   return (
     <main
-      className={`${poppins.className} w-full relative flex flex-col min-h-screen`}>
+      className={`${poppins.className} w-full relative bg-line-10 flex flex-col min-h-screen`}>
       <div className="flex-1 overflow-y-auto">
         {!isMobile ? (
           <div className="w-full flex flex-row">

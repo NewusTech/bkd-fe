@@ -949,7 +949,7 @@ export const getUserApplicationHistoryDetail = async (id: number) => {
   return await response.json();
 };
 
-export const postApplicationForm = async (data: any, id: number) => {
+export const postApplicationForm = async (data: FormData, id: number) => {
   const token = Cookies.get("Authorization");
 
   const response = await fetch(
@@ -1088,6 +1088,44 @@ export const postSatisfactionUserForm = async (data: any, id: number) => {
         Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(data),
+      cache: "no-store",
+    }
+  );
+
+  return await response.json();
+};
+
+// get user document
+export const getUserDocuments = async () => {
+  const token = Cookies.get("Authorization");
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/user/dokumen/get`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    }
+  );
+
+  return await response.json();
+};
+
+// create user document
+export const createUserDocuments = async (formData: FormData) => {
+  const token = Cookies.get("Authorization");
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/user/dokumen/create`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
       cache: "no-store",
     }
   );

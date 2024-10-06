@@ -130,6 +130,7 @@ export default function ProfileSideBarScreen() {
         setIsOpen(true);
       }
     } catch (error) {
+      console.log(error);
     } finally {
       setIsLoading(false);
     }

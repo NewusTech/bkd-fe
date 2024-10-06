@@ -10,7 +10,7 @@ export default function AreaCard({ point }: { point: ServiceInterface }) {
     <Link
       href={"/login"}
       className="w-full flex flex-row justify-between border border-primary-40 rounded-lg p-5">
-      <p className="text-primary-40 text-lg">{point?.nama}</p>
+      <p className="text-primary-40 text-[16px]">{point?.nama}</p>
 
       <ArrowRight className="w-6 h-6 text-primary-40" />
     </Link>

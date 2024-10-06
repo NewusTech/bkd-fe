@@ -19,7 +19,7 @@ export default function UserProfileLayout({
 
   return (
     <main
-      className={`${poppins.className} w-full relative flex flex-col min-h-screen`}>
+      className={`${poppins.className} w-full relative bg-line-10 flex flex-col min-h-screen`}>
       <Suspense fallback={<div>Loading...</div>}>
         <div className="flex-1 overflow-y-auto">
           <div className="relative bg-primary-70 h-[550px] md:h-32">

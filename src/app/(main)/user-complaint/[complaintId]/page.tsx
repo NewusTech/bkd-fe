@@ -100,11 +100,7 @@ export default function UserComplaintDetailScreen({
               <h6 className="text-sm text-black-80 font-normal">Balasan:</h6>
 
               <p className="text-black-80 font-normal text-sm">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dicta
-                dolorem temporibus necessitatibus praesentium accusamus
-                distinctio perspiciatis rem veritatis iste est molestias fugit
-                asperiores obcaecati autem possimus laboriosam consectetur, id
-                in!
+                {complaint?.jawaban && complaint?.jawaban}
               </p>
             </div>
           ) : (
@@ -168,7 +164,7 @@ export default function UserComplaintDetailScreen({
 
                 <AlertDialog>
                   <AlertDialogTrigger className="w-full flex justify-end">
-                    <div className="w-5/12 text-[14px] bg-primary-40 flex items-center justify-center hover:bg-primary-70 h-10 text-line-10 rounded-lg">
+                    <div className="w-full md:w-5/12 text-[14px] bg-primary-40 flex items-center justify-center hover:bg-primary-70 h-10 text-line-10 rounded-lg">
                       Lihat Dokumen
                     </div>
                   </AlertDialogTrigger>

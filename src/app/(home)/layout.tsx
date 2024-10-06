@@ -19,7 +19,7 @@ export default function HomeLayout({
 
   return (
     <main
-      className={`${poppins.className} w-full relative flex flex-col min-h-screen`}>
+      className={`${poppins.className} w-full relative bg-line-10 flex flex-col min-h-screen`}>
       {!isMobile ? <NavigationScreen /> : <MobileNavigationScreen />}
 
       <div
