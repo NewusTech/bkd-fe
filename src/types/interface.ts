@@ -500,3 +500,18 @@ export interface UserApplicationHistoryDetailInterface {
   fileoutput: string;
   pesan: string;
 }
+
+export interface UserDocumentInterface {
+  id: number;
+  Bidang: number;
+  Role: number;
+  createdAt: string;
+  kartu_pegawai: string;
+  kk: string;
+  ktp: string;
+  npwp: string;
+  sk_80: string;
+  sk_100: string;
+  updatedAt: string;
+  user_id: number;
+}

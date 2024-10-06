@@ -12,7 +12,7 @@ export default function AuthLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <main className={`${poppins.className} h-screen w-screen`}>
+    <main className={`${poppins.className} h-screen w-screen bg-line-10`}>
       <div className="flex-1 overflow-y-auto">{children}</div>
     </main>
   );

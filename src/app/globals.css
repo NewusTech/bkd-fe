@@ -25,7 +25,7 @@ body {
   width: 100%;
   overflow-x: scroll;
   scrollbar-color: transparent transparent;
-  padding-left: 140px;
+  /* padding-left: 140px; */
 }
 
 .horizontalScroll::-webkit-scrollbar {
