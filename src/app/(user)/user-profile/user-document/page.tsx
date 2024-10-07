@@ -14,7 +14,14 @@ import { UserDocumentInterface } from "@/types/interface";
 export default function UserDocumentScreen() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const [documents, setDocuments] = useState<UserDocumentInterface[]>([]);
+  const [isDialogOpenSk80, setIsDialogOpenSk80] = useState(false);
+  const [isDialogOpenSk100, setIsDialogOpenSk100] = useState(false);
+  const [isDialogOpenKartuPegawai, setIsDialogOpenKartuPegawai] =
+    useState(false);
+  const [isDialogOpenKtp, setIsDialogOpenKtp] = useState(false);
+  const [isDialogOpenKk, setIsDialogOpenKk] = useState(false);
+  const [isDialogOpenNpwp, setIsDialogOpenNpwp] = useState(false);
+  const [documents, setDocuments] = useState<UserDocumentInterface>();
   const [sk80, setSk80] = useState<File | null>(null);
   const [sk100, setSk100] = useState<File | null>(null);
   const [kartuPegawai, setKartuPegawai] = useState<File | null>(null);
@@ -282,6 +289,42 @@ export default function UserDocumentScreen() {
     e.preventDefault();
   };
 
+  const handleRemoveSk80 = () => {
+    setSk80(null);
+    setPreviewSk80("");
+    setData({ ...data, sk_80: "" });
+  };
+
+  const handleRemoveSk100 = () => {
+    setSk100(null);
+    setPreviewSk100("");
+    setData({ ...data, sk_100: "" });
+  };
+
+  const handleRemoveKartuPegawai = () => {
+    setKartuPegawai(null);
+    setPreviewKartuPegawai("");
+    setData({ ...data, kartu_pegawai: "" });
+  };
+
+  const handleRemoveKtp = () => {
+    setKtp(null);
+    setPreviewKtp("");
+    setData({ ...data, ktp: "" });
+  };
+
+  const handleRemoveKk = () => {
+    setKk(null);
+    setPreviewKk("");
+    setData({ ...data, kk: "" });
+  };
+
+  const handleRemoveNpwp = () => {
+    setNpwp(null);
+    setPreviewNpwp("");
+    setData({ ...data, npwp: "" });
+  };
+
   const handleCreateUserDocument = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -342,18 +385,57 @@ export default function UserDocumentScreen() {
     }
   };
 
-  const doc = documents[0];
-
   return (
     <section className="w-full flex flex-col bg-line-10 rounded-lg shadow-md p-4 mb-16">
-      {documents.length > 0 ? (
+      {documents ? (
         <div className="flex flex-col h-full items-center w-full gap-y-6">
           <div id="gallery">
-            {documents &&
-              documents.length > 0 &&
-              documents.map((item: UserDocumentInterface, i: number) => {
-                return <UserDocumentCard key={i} item={item} />;
-              })}
+            {documents && (
+              <UserDocumentCard
+                item={documents}
+                data={data}
+                setData={setData}
+                isDialogOpenSk80={isDialogOpenSk80}
+                setIsDialogOpenSk80={setIsDialogOpenSk80}
+                isDialogOpenSk100={isDialogOpenSk100}
+                setIsDialogOpenSk100={setIsDialogOpenSk100}
+                isDialogOpenKartuPegawai={isDialogOpenKartuPegawai}
+                setIsDialogOpenKartuPegawai={setIsDialogOpenKartuPegawai}
+                isDialogOpenKtp={isDialogOpenKtp}
+                setIsDialogOpenKtp={setIsDialogOpenKtp}
+                isDialogOpenKk={isDialogOpenKk}
+                setIsDialogOpenKk={setIsDialogOpenKk}
+                isDialogOpenNpwp={isDialogOpenNpwp}
+                setIsDialogOpenNpwp={setIsDialogOpenNpwp}
+                handleDragOver={handleDragOver}
+                handleDragLeave={handleDragLeave}
+                handleFileSK80Change={handleFileSK80Change}
+                handleDropSK80Change={handleDropSK80Change}
+                handleFileSK100Change={handleFileSK100Change}
+                handleDropSK100Change={handleDropSK100Change}
+                handleFileKartuPegawaiChange={handleFileKartuPegawaiChange}
+                handleDropKartuPegawaiChange={handleDropKartuPegawaiChange}
+                handleFileKtpChange={handleFileKtpChange}
+                handleDropKtpChange={handleDropKtpChange}
+                handleFileKkChange={handleFileKkChange}
+                handleDropKkChange={handleDropKkChange}
+                handleFileNpwpChange={handleFileNpwpChange}
+                handleDropNpwpChange={handleDropNpwpChange}
+                handleRemoveSk80={handleRemoveSk80}
+                handleRemoveSk100={handleRemoveSk100}
+                handleRemoveKartuPegawai={handleRemoveKartuPegawai}
+                handleRemoveKtp={handleRemoveKtp}
+                handleRemoveKk={handleRemoveKk}
+                handleRemoveNpwp={handleRemoveNpwp}
+                previewSk80={previewSk80}
+                previewSk100={previewSk100}
+                previewKartuPegawai={previewKartuPegawai}
+                previewKtp={previewKtp}
+                previewKk={previewKk}
+                previewNpwp={previewNpwp}
+                isLoading={isLoading}
+              />
+            )}
           </div>
         </div>
       ) : (
