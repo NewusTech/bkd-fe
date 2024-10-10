@@ -15,8 +15,6 @@ export default function ProvisionApplicationFormPages({
 }: {
   params: { area: string; service: string };
 }) {
-  console.log(params.service);
-
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [service, setService] = useState<ServiceInterface>();

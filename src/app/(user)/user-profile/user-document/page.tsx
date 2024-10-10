@@ -63,8 +63,6 @@ export default function UserDocumentScreen() {
     fetchUserDocuments();
   }, []);
 
-  console.log(documents, "ini document");
-
   useEffect(() => {
     // Ensure this code runs only on the client-side
     const obj = document.querySelector("#gallery");
@@ -349,9 +347,9 @@ export default function UserDocumentScreen() {
       formData.append("npwp", npwp);
     }
 
-    Object.entries(formData).forEach(([key, value]) => {
-      console.log(key, value);
-    });
+    // Object.entries(formData).forEach(([key, value]) => {
+    //   console.log(key, value);
+    // });
 
     try {
       const response = await createUserDocuments(formData);

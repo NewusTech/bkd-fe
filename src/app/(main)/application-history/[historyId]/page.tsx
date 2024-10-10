@@ -98,12 +98,12 @@ export default function ApplicationHistoryDetailScreen({
             <TabsList
               className={`w-full px-0 py-6 flex flex-row border border-line-20 ${isMobile ? "horizontalScroll" : ""}`}>
               <TabsTrigger
-                className="w-full py-4 rounded-s-lg data-[state=active]:bg-primary-40 data-[state=active]:text-line-10"
+                className="w-full py-4 text-[14px] md:text-[16px] rounded-s-lg data-[state=active]:bg-primary-40 data-[state=active]:text-line-10"
                 value="data-diri">
                 Data Diri
               </TabsTrigger>
               <TabsTrigger
-                className="w-full py-4 border-r border-line-20 data-[state=active]:bg-primary-40 data-[state=active]:text-line-10"
+                className="w-full py-4 text-[14px] md:text-[16px] border-r border-line-20 data-[state=active]:bg-primary-40 data-[state=active]:text-line-10"
                 value="formulir">
                 Formulir
               </TabsTrigger>
@@ -113,7 +113,7 @@ export default function ApplicationHistoryDetailScreen({
                 Dokumen Pendukung
               </TabsTrigger> */}
               <TabsTrigger
-                className="w-full py-4 rounded-e-lg data-[state=active]:bg-primary-40 data-[state=active]:text-line-10"
+                className="w-full py-4 text-[14px] md:text-[16px] rounded-e-lg data-[state=active]:bg-primary-40 data-[state=active]:text-line-10"
                 value="hasil-permohonan">
                 Hasil Permohonan
               </TabsTrigger>
@@ -133,7 +133,7 @@ export default function ApplicationHistoryDetailScreen({
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                       <Label
                         htmlFor="name"
-                        className="focus-within:text-primary-70 font-normal text-sm">
+                        className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
                         Nama Lengkap
                       </Label>
 
@@ -146,7 +146,7 @@ export default function ApplicationHistoryDetailScreen({
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                       <Label
                         htmlFor="nip"
-                        className="focus-within:text-primary-70 font-normal text-sm">
+                        className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
                         NIP
                       </Label>
 
@@ -159,7 +159,7 @@ export default function ApplicationHistoryDetailScreen({
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                       <Label
                         htmlFor="nik"
-                        className="focus-within:text-primary-70 font-normal text-sm">
+                        className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
                         NIK
                       </Label>
 
@@ -172,7 +172,7 @@ export default function ApplicationHistoryDetailScreen({
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                       <Label
                         htmlFor="email"
-                        className="focus-within:text-primary-70 font-normal text-sm">
+                        className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
                         Email
                       </Label>
 
@@ -185,7 +185,7 @@ export default function ApplicationHistoryDetailScreen({
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                       <Label
                         htmlFor="telepon"
-                        className="focus-within:text-primary-70 font-normal text-sm">
+                        className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
                         Nomor Telepon
                       </Label>
 
@@ -199,7 +199,7 @@ export default function ApplicationHistoryDetailScreen({
                       <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                         <Label
                           htmlFor="tempat-lahir"
-                          className="focus-within:text-primary-70 font-normal text-sm">
+                          className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
                           Tempat Lahir
                         </Label>
 
@@ -212,7 +212,7 @@ export default function ApplicationHistoryDetailScreen({
                       <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                         <Label
                           htmlFor="tempat-lahir"
-                          className="focus-within:text-primary-70 font-normal text-sm">
+                          className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
                           Tanggal Lahir
                         </Label>
 
@@ -224,7 +224,7 @@ export default function ApplicationHistoryDetailScreen({
                     </div>
 
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                      <Label className="focus-within:text-primary-70 font-normal text-sm">
+                      <Label className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
                         Agama
                       </Label>
 
@@ -235,7 +235,7 @@ export default function ApplicationHistoryDetailScreen({
                     </div>
 
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                      <Label className="focus-within:text-primary-70 font-normal text-sm">
+                      <Label className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
                         jenis Kelamin
                       </Label>
 
@@ -246,7 +246,7 @@ export default function ApplicationHistoryDetailScreen({
                     </div>
 
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                      <Label className="focus-within:text-primary-70 font-normal text-sm">
+                      <Label className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
                         Golongan Darah
                       </Label>
 
@@ -266,7 +266,7 @@ export default function ApplicationHistoryDetailScreen({
                       <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                         <Label
                           htmlFor="kecamatan"
-                          className="focus-within:text-primary-70 font-normal text-sm">
+                          className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
                           Kecamatan
                         </Label>
 
@@ -279,7 +279,7 @@ export default function ApplicationHistoryDetailScreen({
                       <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                         <Label
                           htmlFor="desa"
-                          className="focus-within:text-primary-70 font-normal text-sm">
+                          className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
                           Desa
                         </Label>
 
@@ -293,7 +293,7 @@ export default function ApplicationHistoryDetailScreen({
                         <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                           <Label
                             htmlFor="rt"
-                            className="focus-within:text-primary-70 font-normal text-sm">
+                            className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
                             RT
                           </Label>
 
@@ -306,7 +306,7 @@ export default function ApplicationHistoryDetailScreen({
                         <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                           <Label
                             htmlFor="rw"
-                            className="focus-within:text-primary-70 font-normal text-sm">
+                            className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
                             RW
                           </Label>
 
@@ -318,7 +318,7 @@ export default function ApplicationHistoryDetailScreen({
                       </div>
 
                       <div className="w-full flex flex-col gap-y-2">
-                        <Label className="text-[14px] text-black-80">
+                        <Label className="text-[14px] md:text-[16px] text-black-80">
                           Alamat
                         </Label>
 
@@ -386,40 +386,39 @@ export default function ApplicationHistoryDetailScreen({
                   </h6>
 
                   <p className="text-black-80 font-normal text-[16px]">
-                    Terima kasih atas pengaduannya. Kami mohon maaf atas
-                    keterlambatan dan sedang menindaklanjuti masalah ini. Proses
-                    mutasi Anda akan segera diselesaikan.
+                    Terima kasih atas kesabaran anda. Berikut merupakan hasil
+                    dari pengajuan permohonan layanan anda.
                   </p>
                 </div>
 
                 <div className="flex flex-col gap-y-6">
                   <div className="flex flex-col gap-2">
-                    <p className="text-sm text-primary-40 font-semibold">
+                    <p className="text-[14px] md:text-[16px] text-primary-40 font-semibold">
                       Bidang
                     </p>
 
-                    <p className="text-sm text-line-80 font-normal">
+                    <p className="text-[14px] md:text-[16px] text-line-80 font-normal">
                       {application?.layanan?.Bidang?.nama &&
                         application?.layanan?.Bidang?.nama}
                     </p>
                   </div>
 
                   <div className="flex flex-col gap-2">
-                    <p className="text-sm text-primary-40 font-semibold">
+                    <p className="text-[14px] md:text-[16px] text-primary-40 font-semibold">
                       Layanan
                     </p>
 
-                    <p className="text-sm text-line-80 font-normal">
+                    <p className="text-[14px] md:text-[16px] text-line-80 font-normal">
                       {application?.layanan?.nama && application?.layanan?.nama}
                     </p>
                   </div>
 
                   <div className="flex flex-col gap-2">
-                    <p className="text-sm text-primary-40 font-semibold">
+                    <p className="text-[14px] md:text-[16px] text-primary-40 font-semibold">
                       Tanggal Dibuat Permohonan
                     </p>
 
-                    <p className="text-sm text-line-80 font-normal">
+                    <p className="text-[14px] md:text-[16px] text-line-80 font-normal">
                       {application?.createdAt &&
                         formatDateString(application?.createdAt)}
                     </p>
@@ -428,11 +427,11 @@ export default function ApplicationHistoryDetailScreen({
                   {application?.tgl_selesai !== null ||
                     (application?.status === 9 && (
                       <div className="flex flex-col gap-2">
-                        <p className="text-sm text-primary-40 font-semibold">
+                        <p className="text-[14px] md:text-[16px] text-primary-40 font-semibold">
                           Tanggal Permohonan Selesai
                         </p>
 
-                        <p className="text-sm text-line-80 font-normal">
+                        <p className="text-[14px] md:text-[16px] text-line-80 font-normal">
                           Jumat, 27 Maret 2024
                         </p>
                       </div>

@@ -116,8 +116,6 @@ export default function DashboardCard({
     }
   }
 
-  console.log(service, "ini service");
-
   const handleClick = () => {
     setIsLoading(true);
     setTimeout(() => {

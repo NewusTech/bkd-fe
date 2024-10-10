@@ -158,6 +158,28 @@ export const getStructureOrganization = async (page: number, limit: number) => {
   return await response.json();
 };
 
+// get structure organization Main
+export const getStructureOrganizationMain = async (
+  page: number,
+  limit: number
+) => {
+  const token = Cookies.get("Authorization");
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/user/selected/struktur/get?page=${page}&limit=${limit}`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    }
+  );
+
+  return await response.json();
+};
+
 // get gallery
 export const getBkdGalleryActivities = async (page: number, limit: number) => {
   const response = await fetch(

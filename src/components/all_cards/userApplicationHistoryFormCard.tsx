@@ -33,7 +33,7 @@ export default function UserApplicationHistoryFormCard({
       <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
         <Label
           htmlFor="name"
-          className="focus-within:text-primary-70 font-normal text-sm">
+          className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
           {item?.layananform_name && item?.layananform_name}
         </Label>
 
@@ -45,7 +45,7 @@ export default function UserApplicationHistoryFormCard({
       <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
         <Label
           htmlFor="name"
-          className="focus-within:text-primary-70 font-normal text-sm">
+          className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
           {item?.layananform_name && item?.layananform_name}
         </Label>
 
@@ -57,7 +57,7 @@ export default function UserApplicationHistoryFormCard({
   } else if (item?.layananform_tipedata === "date") {
     render = (
       <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-        <Label className="focus-within:text-primary-70 font-normal text-sm">
+        <Label className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
           {item?.layananform_name && item?.layananform_name}
         </Label>
 
@@ -67,14 +67,14 @@ export default function UserApplicationHistoryFormCard({
   } else if (item?.layananform_tipedata === "file") {
     render = (
       <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-        <Label className="focus-within:text-primary-70 font-normal text-sm">
+        <Label className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
           {item?.layananform_name && item?.layananform_name}
         </Label>
 
         <div className="w-full">
           <AlertDialog>
             <AlertDialogTrigger className="w-2/12">
-              <div className="w-full bg-primary-40 hover:bg-primary-70 text-line-10 text-[16px] flex justify-center items-center h-10 hover:underline rounded-lg">
+              <div className="w-full bg-primary-40 hover:bg-primary-70 text-line-10 text-[14px] md:text-[16px] flex justify-center items-center h-10 hover:underline rounded-lg">
                 Lihat File
               </div>
             </AlertDialogTrigger>
@@ -110,7 +110,7 @@ export default function UserApplicationHistoryFormCard({
   } else {
     render = (
       <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-        <Label className="focus-within:text-primary-70 font-normal text-sm">
+        <Label className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
           {item?.layananform_name && item?.layananform_name}
         </Label>
 

@@ -27,8 +27,8 @@ export default function StructureOrganizarionCard({
                 src={item?.image}
                 alt={item?.nama}
                 width={1000}
-                height={1000}
-                className="w-full h-full object-cover rounded-t-lg"
+                height={200}
+                className="w-full h-[230px] md:h-[300px] object-cover rounded-t-lg"
               />
             )}
           </div>

@@ -5,7 +5,10 @@ import { EmblaOptionsType } from "embla-carousel";
 import Image from "next/image";
 import useEmblaCarousel from "embla-carousel-react";
 import AutoScroll from "embla-carousel-auto-scroll";
-import { StructureOrganizationInterface } from "../../../../types/interface";
+import {
+  StructureOrganizationInterface,
+  StructureOrganizationMainInterface,
+} from "../../../../types/interface";
 import {
   Dialog,
   DialogClose,
@@ -19,7 +22,7 @@ import { X } from "@phosphor-icons/react";
 
 type DirectionType = "forward" | "backward" | undefined;
 type PropType = {
-  items: StructureOrganizationInterface[];
+  items: StructureOrganizationMainInterface[];
   // options?: EmblaOptionsType;
   direction: DirectionType;
 };
@@ -108,7 +111,7 @@ const EmblaCarouselStuctureOrganization: React.FC<PropType> = (props) => {
           {items &&
             items.length > 0 &&
             items?.map(
-              (data: StructureOrganizationInterface, index: number) => (
+              (data: StructureOrganizationMainInterface, index: number) => (
                 <Dialog key={index}>
                   <DialogTrigger className="h-fit w-[50%] md:w-[18%] flex-shrink-0 flex flex-col items-center gap-6 mr-4 sm:mr-[2rem]overflow-hidden rounded-xl">
                     <div className="w-full h-full">

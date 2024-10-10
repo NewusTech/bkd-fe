@@ -51,8 +51,6 @@ export default function UserComplaintDetailScreen({
     fetchUserComplaint(params.complaintId);
   }, [params.complaintId]);
 
-  console.log(complaint, "ini compaint");
-
   const openModal = () => {
     setIsModalOpen(true);
   };

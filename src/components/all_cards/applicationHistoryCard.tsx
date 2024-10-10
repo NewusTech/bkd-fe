@@ -27,7 +27,7 @@ export default function ApplicationHistoryCard({
       </TableCell>
       <TableCell className={`text-center`}>
         <div
-          className={`${item.status === 1 ? "text-primary-70 bg-primary-40" : item?.status === 2 ? "text-secondary-70 bg-secondary-40" : item?.status === 3 ? "text-warning-70 bg-warning-40" : item?.status === 4 ? "text-error-70 bg-error-40" : item?.status === 5 ? "text-primary-70 bg-primary-50" : item?.status === 6 ? "text-secondary-70 bg-secondary-50" : item?.status === 7 ? "text-warning-70 bg-warning-50" : item?.status === 8 ? "text-error-70 bg-error-50" : item?.status === 9 ? "text-success-70 bg-success-40" : "text-error-70 bg-error-40"} bg-opacity-20 py-3 px-3 rounded-lg`}>
+          className={`${item.status === 1 ? "text-primary-70 bg-primary-40" : item?.status === 2 ? "text-secondary-70 bg-secondary-40" : item?.status === 3 ? "text-warning-70 bg-warning-40" : item?.status === 4 ? "text-error-70 bg-error-40" : item?.status === 5 ? "text-primary-70 bg-primary-50" : item?.status === 6 ? "text-secondary-70 bg-secondary-50" : item?.status === 7 ? "text-warning-50 bg-warning-30" : item?.status === 8 ? "text-error-70 bg-error-50" : item?.status === 9 ? "text-success-70 bg-success-40" : "text-error-70 bg-error-40"} bg-opacity-20 py-3 px-3 rounded-lg`}>
           {item.status === 1
             ? "Menunggu"
             : item?.status === 2
@@ -51,15 +51,15 @@ export default function ApplicationHistoryCard({
       </TableCell>
       <TableCell className="text-center">
         <div>
-          {item?.status === 10 ||
+          {(item?.status === 10 ||
             item?.status === 9 ||
-            (item?.status === 3 && (
-              <Link
-                href={`/application-history/${item?.id}`}
-                className="bg-black-80 bg-opacity-20 hover:bg-black-30 rounded-lg text-[14px] py-3 px-8 text-black-80">
-                Detail
-              </Link>
-            ))}
+            item?.status === 3) && (
+            <Link
+              href={`/application-history/${item?.id}`}
+              className="bg-black-80 bg-opacity-20 hover:bg-black-30 rounded-lg text-[14px] py-3 px-8 text-black-80">
+              Detail
+            </Link>
+          )}
 
           {item?.status !== 10 && item?.status !== 9 && item?.status !== 3 && (
             <Button
