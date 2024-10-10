@@ -23,6 +23,7 @@ import {
   getInformationBkd,
   getNews,
   getStructureOrganization,
+  getStructureOrganizationMain,
 } from "@/services/api";
 import {
   AreasInterface,
@@ -32,6 +33,7 @@ import {
   InformationBKdInterface,
   NewsInterface,
   StructureOrganizationInterface,
+  StructureOrganizationMainInterface,
 } from "@/types/interface";
 import { Button } from "@/components/ui/button";
 import { Loader } from "lucide-react";
@@ -43,7 +45,7 @@ import parse from "html-react-parser";
 
 export default function Home() {
   const router = useRouter();
-  const limitItem = 30;
+  const limitItem = 50;
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [slides, setSlides] = useState<CarouselSliderInterface[]>([]);
   const [areas, setAreas] = useState<AreasInterface[]>([]);
@@ -52,7 +54,7 @@ export default function Home() {
   const [galleries, setGalleries] = useState<GalleryActivitiesInterface[]>([]);
   const [informations, setInformations] = useState<InformationBKdInterface>();
   const [organizations, setOrganizations] = useState<
-    StructureOrganizationInterface[]
+    StructureOrganizationMainInterface[]
   >([]);
   const [isFirstLoading, setIsFirstLoading] = useState(false);
   const [isSecondLoading, setIsSecondLoading] = useState(false);
@@ -91,7 +93,7 @@ export default function Home() {
   ) => {
     try {
       const response = await getAreas(page, limit);
-      const structures = await getStructureOrganization(page, limit);
+      const structures = await getStructureOrganizationMain(page, limit);
 
       setAreas(response?.data);
       setOrganizations(structures?.data);
@@ -139,6 +141,8 @@ export default function Home() {
     fetchFaqs();
   }, []);
 
+  console.log(organizations, "ini organisasi");
+
   const handleNextNewsPage = () => {
     setIsFirstLoading(true);
 
@@ -165,11 +169,11 @@ export default function Home() {
 
   let firstOrganizations;
   if (organizations) {
-    firstOrganizations = organizations.slice(0, 12);
+    firstOrganizations = organizations.slice(0, 20);
   }
   let secondOrganizations;
   if (organizations) {
-    secondOrganizations = organizations.slice(12, 24);
+    secondOrganizations = organizations.slice(20);
   }
   let thirdOrganizations;
   if (organizations) {

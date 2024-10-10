@@ -76,6 +76,9 @@ export default function UserFormPages() {
     }
   }, [serviceId]);
 
+  console.log(form, "ini form");
+  console.log(docForm, "ini docForm");
+
   const handleCheckboxChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     layananform_id: number
@@ -145,11 +148,8 @@ export default function UserFormPages() {
     const formData = new FormData();
 
     form?.Layanan_forms.forEach((field, index) => {
-      console.log(field, "field");
-
       if (field.tipedata == "checkbox") {
         const selectedValues = checkboxValues[field.id] || [];
-        console.log(selectedValues, "selectedValues");
 
         formData.append(
           `datainput[${index}][data]`,
@@ -161,10 +161,9 @@ export default function UserFormPages() {
           field.id.toString()
         );
       } else if (
-        ["radio", "string", "number", "date", "text"].includes(field.tipedata)
+        ["radio", "text", "number", "date", "textarea"].includes(field.tipedata)
       ) {
         const value = formValues[field.field];
-        console.log(value, "value");
 
         if (value !== undefined && value !== null) {
           formData.append(`datainput[${index}][data]`, value.toString());
@@ -359,7 +358,7 @@ export default function UserFormPages() {
                           />
                         </div>
                       );
-                    } else if (item?.tipedata == "string") {
+                    } else if (item?.tipedata == "text") {
                       return (
                         <div key={i}>
                           <ApplicationFormInputPages
@@ -403,7 +402,7 @@ export default function UserFormPages() {
                           />
                         </div>
                       );
-                    } else if (item?.tipedata == "text") {
+                    } else if (item?.tipedata == "textarea") {
                       return (
                         <div key={i}>
                           <div className="w-full flex flex-col gap-y-5">

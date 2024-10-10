@@ -78,8 +78,6 @@ export default function ProfileAboutScreen() {
     missions = splitStringAndCreateObjectArray(informations?.misi);
   }
 
-  console.log(missions, "missions");
-
   // const missions =
   //   informations?.misi && informations?.misi.split(/\d+\.\s+/).filter(Boolean);
 
@@ -144,7 +142,7 @@ export default function ProfileAboutScreen() {
                           <div
                             className={`${missionBackground} h-full w-full flex flex-col justify-end rounded-lg px-5 pt-8 pb-5 gap-y-2 shadow-md rounded-e-lg`}>
                             <h5 className="text-line-10 font-semibold text-[20px]">
-                              Misi 0{mission?.id && mission?.id}
+                              Misi {mission?.id && mission?.id}
                             </h5>
 
                             <p className="text-line-10 text-[14px] md:text-[16px]">

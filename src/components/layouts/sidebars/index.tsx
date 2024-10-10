@@ -157,7 +157,6 @@ export default function DashBoardSidebarPages() {
             </Accordion>
           </div>
 
-          {/* user bars */}
           <div className="w-full flex flex-col gap-y-3">
             <div
               className={`${pathName === "/application-history" ? "bg-primary-40 bg-opacity-20" : ""} w-full py-3`}>
@@ -187,246 +186,6 @@ export default function DashBoardSidebarPages() {
             </div>
           </div>
 
-          {/* render admin verified */}
-          {/* <div className="w-full flex flex-col">
-            <Accordion
-              className="w-full flex flex-col gap-y-4"
-              type="single"
-              collapsible
-              value={activeAccordionValue}
-              onValueChange={(value) => {
-                setActiveAccordionValue(value);
-              }}>
-              <AccordionItem
-                className="w-full border-none flex flex-col"
-                value={`item-1`}>
-                <AccordionTrigger className="px-4 py-2 bg-white font-normal text-neutral-700 text-sm text-start h-[50px] md:h-full pr-4">
-                  <div className="w-full flex flex-row items-center gap-x-2">
-                    <p className="text-black-80 text-[16px]">
-                      Riwayat Permohonan
-                    </p>
-                  </div>
-                </AccordionTrigger>
-                <AccordionContent className="md:text-start pb-0 text-justify w-full h-full">
-                  <div className="w-full flex flex-col">
-                    {adminBars &&
-                      adminBars.length > 0 &&
-                      adminBars?.map(
-                        (bar: { id: number; name: string }, i: number) => {
-                          return (
-                            <Link
-                              key={i}
-                              href={`${bar?.name === "Riwayat Pengajuan" ? "/verified-admin/user-application-histories" : "/verified-admin/user-application-revition-histories"}`}
-                              className={`w-full py-2 flex items-center justify-center bg-line-10 bg-opacity-50 text-black-80`}>
-                              <div className="w-10/12 flex flex-row items-center gap-x-2">
-                                <DotIcon className={`w-5 h-5 text-black-80`} />
-                                <p>{bar?.name}</p>
-                              </div>
-                            </Link>
-                          );
-                        }
-                      )}
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-          </div> */}
-
-          {/* admin verified */}
-          {/* <div className="w-full flex flex-col gap-y-3">
-            <div
-              className={`${pathName === "/application-history" ? "bg-primary-40 bg-opacity-20" : ""} w-full py-3`}>
-              <Link
-                href={"/verified-admin/manage-approvals"}
-                className={`w-full flex flex-row text-black-80 text-[16px] px-4`}>
-                Kelola Persetujuan
-              </Link>
-            </div>
-          </div> */}
-
-          {/* render areas lead */}
-          {/* <div className="w-full flex flex-col gap-y-3">
-            <div
-              className={`${pathName === "/application-history" ? "bg-primary-40 bg-opacity-20" : ""} w-full py-3`}>
-              <Link
-                href={"/application-history"}
-                className={`w-full flex flex-row text-black-80 text-[16px] px-4`}>
-                Riwayat Permohonan
-              </Link>
-            </div>
-
-            <div
-              className={`${pathName === "/application-history" ? "bg-primary-40 bg-opacity-20" : ""} w-full py-3`}>
-              <Link
-                href={"/areas-head/lead-manage-approvals"}
-                className={`w-full flex flex-row text-black-80 text-[16px] px-4`}>
-                Kelola Persetujuan
-              </Link>
-            </div>
-          </div> */}
-
-          {/* render areas lead */}
-          {/* <div className="w-full flex flex-col">
-            <Accordion
-              className="w-full flex flex-col gap-y-4"
-              type="single"
-              collapsible
-              value={activeAccordionValue}
-              onValueChange={(value) => {
-                setActiveAccordionValue(value);
-              }}>
-              <AccordionItem
-                className="w-full border-none flex flex-col"
-                value={`item-1`}>
-                <AccordionTrigger className="px-4 py-2 bg-white font-normal text-neutral-700 text-sm text-start h-[50px] md:h-full pr-4">
-                  <div className="w-full flex flex-row items-center gap-x-2">
-                    <p className="text-black-80 text-[16px]">Data Master</p>
-                  </div>
-                </AccordionTrigger>
-                <AccordionContent className="md:text-start pb-0 text-justify w-full h-full">
-                  <div className="w-full flex flex-col">
-                    {areasHeadBars &&
-                      areasHeadBars.length > 0 &&
-                      areasHeadBars?.map(
-                        (area: { id: number; name: string }, i: number) => {
-                          return (
-                            <Link
-                              key={i}
-                              href={`${area?.name === "Riwayat Pengajuan" ? "/verified-admin/user-application-histories" : "/verified-admin/user-application-revition-histories"}`}
-                              className={`w-full py-2 flex items-center justify-center bg-line-10 bg-opacity-50 text-black-80`}>
-                              <div className="w-10/12 flex flex-row items-center gap-x-2">
-                                <DotIcon className={`w-5 h-5 text-black-80`} />
-                                <p>{area?.name}</p>
-                              </div>
-                            </Link>
-                          );
-                        }
-                      )}
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-          </div> */}
-
-          {/* render areas lead */}
-          {/* <div className="w-full flex flex-col gap-y-3">
-            <div
-              className={`${pathName === "/application-history" ? "bg-primary-40 bg-opacity-20" : ""} w-full py-3`}>
-              <Link
-                href={"/areas-head/lead-reporting"}
-                className={`w-full flex flex-row text-black-80 text-[16px] px-4`}>
-                Laporan
-              </Link>
-            </div>
-
-            <div
-              className={`${pathName === "/application-history" ? "bg-primary-40 bg-opacity-20" : ""} w-full py-3`}>
-              <Link
-                href={"/application-history"}
-                className={`w-full flex flex-row text-black-80 text-[16px] px-4`}>
-                Setting
-              </Link>
-            </div>
-          </div> */}
-
-          {/* render Super Admin */}
-          {/* <div className="w-full flex flex-col">
-            <Accordion
-              className="w-full flex flex-col gap-y-4"
-              type="single"
-              collapsible
-              value={activeAccordionValue}
-              onValueChange={(value) => {
-                setActiveAccordionValue(value);
-              }}>
-              <AccordionItem
-                className="w-full border-none flex flex-col"
-                value={`item-1`}>
-                <AccordionTrigger
-                  // onClick={() => setServiceId(area.id)}
-                  className="px-4 py-2 bg-white font-normal text-neutral-700 text-sm text-start h-[50px] md:h-full pr-4">
-                  <div className="w-full flex flex-row items-center gap-x-2">
-                    <p className="text-black-80 text-[16px]">Data Master</p>
-                  </div>
-                </AccordionTrigger>
-                <AccordionContent className="md:text-start pb-0 text-justify w-full h-full">
-                  <div className="w-full flex flex-col">
-                    {masterDataSupers &&
-                      masterDataSupers?.length > 0 &&
-                      masterDataSupers?.map(
-                        (master: { id: number; name: string }, i: number) => {
-                          let linking;
-
-                          switch (master?.name) {
-                            case "Bidang":
-                              linking = "/super-admin/master-data/areas";
-                              break;
-                            case "Layanan":
-                              linking = "/super-admin/master-data/services";
-                              break;
-                            case "Persyaratan Layanan":
-                              linking =
-                                "/super-admin/master-data/service-requirements";
-                              break;
-                            case "Berita":
-                              linking = "/super-admin/master-data/news";
-                              break;
-                            case "Foto Kegiatan":
-                              linking =
-                                "/super-admin/master-data/bkd-gallery-activities";
-                              break;
-                            case "Tentang, Visi, & Misi":
-                              linking =
-                                "/super-admin/master-data/about-us-vision-mission";
-                              break;
-                            case "Struktur Organisasi":
-                              linking =
-                                "/super-admin/master-data/structure-organization";
-                              break;
-                            case "FAQ":
-                              linking = "/super-admin/master-data/faq";
-                              break;
-                            case "Syarat dan Ketentuan":
-                              linking =
-                                "/super-admin/master-data/terms-and-conditions";
-                              break;
-                            case "Manual Book":
-                              linking = "/super-admin/master-data/manual-book";
-                              break;
-                            case "Logo":
-                              linking = "/super-admin/master-data/logo";
-                              break;
-                            case "Carousel - Slider":
-                              linking =
-                                "/super-admin/master-data/carousel-slider";
-                              break;
-                            case "Lokasi - Maps":
-                              linking =
-                                "/super-admin/master-data/location-maps";
-                              break;
-                            default:
-                              break;
-                          }
-
-                          return (
-                            <Link
-                              key={i}
-                              href={`${linking}`}
-                              className={`w-full py-2 flex items-center justify-center bg-line-10 bg-opacity-50 text-black-80`}>
-                              <div className="w-10/12 flex flex-row items-center gap-x-2">
-                                <DotIcon className={`w-5 h-5 text-black-80`} />
-                                <p>{master?.name}</p>
-                              </div>
-                            </Link>
-                          );
-                        }
-                      )}
-                  </div>
-                </AccordionContent>
-              </AccordionItem>
-            </Accordion>
-          </div> */}
-
           <div className="w-full flex flex-col items-center justify-center">
             <div className="w-11/12 h-[1px] bg-line-50"></div>
           </div>
@@ -435,13 +194,13 @@ export default function DashBoardSidebarPages() {
             <Link
               href={"/user-profile"}
               className="w-full flex flex-row gap-x-3 px-4">
-              <div className="w-4/12 h-full">
+              <div className="w-[35%] h-full">
                 <Image
                   src={user?.image_profile || profilePicture}
                   alt={user?.name}
                   width={1000}
                   height={1000}
-                  className="w-16 h-16 rounded-full"
+                  className="w-full h-16 rounded-full"
                 />
               </div>
 

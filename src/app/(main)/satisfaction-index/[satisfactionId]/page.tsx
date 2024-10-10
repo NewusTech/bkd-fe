@@ -31,8 +31,6 @@ export default function SurveiDetailPage({
     fetchSatisfactionHistoryDetail(params?.satisfactionId);
   }, [params?.satisfactionId]);
 
-  console.log(index, "ini index");
-
   return (
     <div className="w-full flex flex-col items-center">
       <div className="w-[95%] md:w-[96%] h-full flex flex-col md:mx-6 px-3 md:px-5 py-6 bg-line-10 shadow-md rounded-lg mt-8 gap-y-4 md:gap-y-6">
