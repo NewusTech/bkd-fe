@@ -31,9 +31,10 @@ export default function PersonalDataProfileScreen({
   userData: {
     name: string;
     email: string;
-    telpon: string;
+    telepon: string;
     nik: string;
     nip: string;
+    unit_kerja: string;
     tempat_lahir: string;
     agama: string;
     gender: string;
@@ -49,9 +50,10 @@ export default function PersonalDataProfileScreen({
     React.SetStateAction<{
       name: string;
       email: string;
-      telpon: string;
+      telepon: string;
       nik: string;
       nip: string;
+      unit_kerja: string;
       tempat_lahir: string;
       agama: string;
       gender: string;
@@ -73,6 +75,7 @@ export default function PersonalDataProfileScreen({
     e: React.FormEvent<HTMLFormElement>
   ) => Promise<void>;
 }) {
+
   return (
     <div className="w-full flex flex-col gap-y-5 border-t border-line-20 py-4">
       <form
@@ -129,6 +132,26 @@ export default function PersonalDataProfileScreen({
 
               <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                 <Label
+                  htmlFor="unit_kerja"
+                  className="focus-within:text-primary-70 font-normal text-sm">
+                  Unit Kerja
+                </Label>
+
+                <Input
+                  id="unit_kerja"
+                  name="unit_kerja"
+                  value={userData.unit_kerja || ""}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setUserData({ ...userData, unit_kerja: e.target.value })
+                  }
+                  type="text"
+                  className="w-full h-12 focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
+                  placeholder="Masukkan Unit Kerja Anda"
+                />
+              </div>
+
+              <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                <Label
                   htmlFor="nik"
                   className="focus-within:text-primary-70 font-normal text-sm">
                   NIK
@@ -177,9 +200,9 @@ export default function PersonalDataProfileScreen({
                 <Input
                   id="telepon"
                   name="telepon"
-                  value={userData.telpon || ""}
+                  value={userData.telepon || ""}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setUserData({ ...userData, telpon: e.target.value })
+                    setUserData({ ...userData, telepon: e.target.value })
                   }
                   type="text"
                   className="w-full h-12 focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
@@ -240,9 +263,8 @@ export default function PersonalDataProfileScreen({
                     })
                   }>
                   <SelectTrigger
-                    className={`${
-                      !userData.agama ? "opacity-70" : ""
-                    } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                    className={`${!userData.agama ? "opacity-70" : ""
+                      } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
                     <SelectValue
                       placeholder="Pilih Agama Anda..."
                       className={userData.agama ? "" : "placeholder:opacity-50"}
@@ -291,9 +313,8 @@ export default function PersonalDataProfileScreen({
                     })
                   }>
                   <SelectTrigger
-                    className={`${
-                      !userData.gender ? "opacity-70" : ""
-                    } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                    className={`${!userData.gender ? "opacity-70" : ""
+                      } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
                     <SelectValue
                       placeholder="Pilih Jenis Kelamin Anda..."
                       className={
@@ -340,9 +361,8 @@ export default function PersonalDataProfileScreen({
                     })
                   }>
                   <SelectTrigger
-                    className={`${
-                      !userData.goldar ? "opacity-70" : ""
-                    } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                    className={`${!userData.goldar ? "opacity-70" : ""
+                      } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
                     <SelectValue
                       placeholder="Pilih Golongan Darah Anda..."
                       className={
@@ -400,9 +420,8 @@ export default function PersonalDataProfileScreen({
                     })
                   }>
                   <SelectTrigger
-                    className={`${
-                      !userData.kecamatan_id ? "opacity-70" : ""
-                    } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                    className={`${!userData.kecamatan_id ? "opacity-70" : ""
+                      } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
                     <SelectValue
                       placeholder="Pilih Kecamatan"
                       className={
@@ -458,9 +477,8 @@ export default function PersonalDataProfileScreen({
                     })
                   }>
                   <SelectTrigger
-                    className={` ${
-                      !userData.desa_id ? "opacity-70" : ""
-                    } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                    className={` ${!userData.desa_id ? "opacity-70" : ""
+                      } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
                     <SelectValue
                       placeholder="Pilih Desa"
                       className={

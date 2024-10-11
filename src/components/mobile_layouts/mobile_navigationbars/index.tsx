@@ -49,46 +49,56 @@ export default function MobileNavigationScreen() {
             <div className="flex flex-row justify-center items-center gap-x-5 px-4">
               <Link
                 href="/register"
-                className="w-full text-center text-[16px] px-6 py-2 border border-primary-40 bg-primary-40 hover:bg-primary-70 text-line-10 rounded-lg cursor-pointer">
+                className="w-full text-center text-[14px] md:text-[16px] px-6 py-2 border border-primary-40 bg-primary-40 hover:bg-primary-70 text-line-10 rounded-lg cursor-pointer">
                 <SheetTitle className="font-normal">Register</SheetTitle>
               </Link>
 
               <Link
                 href="/login"
-                className="w-full text-center text-[16px] px-6 py-[10px] border border-primary-40 hover:bg-primary-70 text-primary-40 hover:text-line-10 rounded-lg cursor-pointer">
+                className="w-full text-center text-[14px] md:text-[16px] px-6 py-[10px] border border-primary-40 hover:bg-primary-70 text-primary-40 hover:text-line-10 rounded-lg cursor-pointer">
                 <SheetDescription className="text-[16px]">
                   Masuk
                 </SheetDescription>
               </Link>
             </div>
 
-            <div className="w-full h-0.5 bg-line-20"></div>
-
-            <div className="w-full flex flex-col gap-y-5">
+            <div className="w-full flex flex-col gap-y-6 py-10 bg-line-10">
               <Link
                 href="/"
-                className={`text-center text-[16px] text-black-80 hover:text-primary-40 font-light`}>
+                className="text-center text-lg font-medium text-gray-700 hover:text-primary-500 transition-all duration-200"
+              >
                 Beranda
               </Link>
 
               <Link
                 href="/bkd-about"
-                className={`text-center text-[16px] text-black-80 hover:text-primary-40 font-light`}>
+                className="text-center text-lg font-medium text-gray-700 hover:text-primary-500 transition-all duration-200"
+              >
                 Tentang Kami
               </Link>
 
               <Link
                 href="/bkd-news"
-                className={`text-center text-[16px] text-black-80 hover:text-primary-40 font-light`}>
+                className="text-center text-lg font-medium text-gray-700 hover:text-primary-500 transition-all duration-200"
+              >
                 Berita
               </Link>
 
               <Link
+                href="/bkd-regulasi"
+                className="text-center text-lg font-medium text-gray-700 hover:text-primary-500 transition-all duration-200"
+              >
+                Regulasi
+              </Link>
+
+              <Link
                 href="/bkd-gallery-activities"
-                className={`text-center text-[16px] text-black-80 hover:text-primary-40 font-light`}>
+                className="text-center text-lg font-medium text-gray-700 hover:text-primary-500 transition-all duration-200"
+              >
                 Foto Kegiatan
               </Link>
             </div>
+
           </SheetContent>
         </Sheet>
       </div>

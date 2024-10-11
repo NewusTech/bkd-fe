@@ -7,7 +7,7 @@ import Link from "next/link";
 export default function NavigationScreen() {
   return (
     <div
-      className={`flex bg-line-10 shadow-md w-full fixed top-0 py-6 justify-between mx-12 md:mx-0 z-10 md:px-12`}>
+      className={`flex bg-line-10 shadow-md w-full fixed top-0 py-6 justify-between mx-12 md:mx-0 z-50 md:px-12`}>
       <Link href="/" className="flex flex-row w-5/12 h-10 gap-x-2">
         <div className="max-w-[40px] h-full flex flex-col items-center justify-center">
           <Image
@@ -49,6 +49,12 @@ export default function NavigationScreen() {
               href="/bkd-news"
               className={`text-center text-[16px] text-black-80 hover:text-primary-40 font-light`}>
               Berita
+            </Link>
+
+            <Link
+              href="/bkd-regulasi"
+              className={`text-center text-[16px] text-black-80 hover:text-primary-40 font-light`}>
+              Regulasi
             </Link>
 
             <Link

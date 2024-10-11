@@ -259,6 +259,7 @@ export interface UserProfileInterface {
   pelatihan: UserTrainingInterface[];
   pendidikans: UserEducationInterface[];
   penghargaan: UserAwardsInterface[];
+  unit_kerja: string;
   role_id: number;
   role_name: string;
   rt: string;
@@ -526,3 +527,9 @@ export interface UserDocumentInterface {
   updatedAt: string;
   user_id: number;
 }
+
+export type UserRegulationsInterface = {
+  id: number;
+  title: string;
+  file: string;
+};
