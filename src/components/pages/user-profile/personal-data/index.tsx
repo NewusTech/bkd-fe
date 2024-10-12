@@ -2,7 +2,7 @@
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import React from "react";
+import React, { useState } from "react";
 import {
   Select,
   SelectContent,
@@ -16,7 +16,11 @@ import DateFormInput from "@/components/elements/date_form_input";
 import { bloodTypes, genders, religions } from "@/constants/main";
 import { formatDate } from "@/lib/utils";
 import { SubDistrictInterface, VillageInterface } from "@/types/interface";
-import { Loader } from "lucide-react";
+import { CalendarIcon, Loader } from "lucide-react";
+import "react-datepicker/dist/react-datepicker.css";
+import { format } from 'date-fns';
+import DatePickerInputNew from "@/components/elements/date_from_input_new";
+import DateFormInputNew from "@/components/elements/date_from_input_new";
 
 export default function PersonalDataProfileScreen({
   userData,
@@ -75,7 +79,6 @@ export default function PersonalDataProfileScreen({
     e: React.FormEvent<HTMLFormElement>
   ) => Promise<void>;
 }) {
-
   return (
     <div className="w-full flex flex-col gap-y-5 border-t border-line-20 py-4">
       <form
@@ -232,7 +235,7 @@ export default function PersonalDataProfileScreen({
                 </div>
 
                 <div className="w-[48%] md:w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                  <DateFormInput
+                  {/* <DateFormInput
                     value={returnDate}
                     setValue={setReturnDate}
                     label="Tanggal Lahir"
@@ -244,6 +247,20 @@ export default function PersonalDataProfileScreen({
                         tgl_lahir: formatDate(value),
                       })
                     }
+                  /> */}
+                  <DateFormInputNew
+                    value={userData.tgl_lahir ? new Date(userData.tgl_lahir) : new Date()}
+                    setValue={setReturnDate}
+                    label="Tanggal Lahir"
+                    className="bg-transparent w-full rounded-lg"
+                    onChange={(value) => {
+                      if (value instanceof Date) {
+                        setUserData({
+                          ...userData,
+                          tgl_lahir: format(value, "yyyy-MM-dd"),
+                        });
+                      }
+                    }}
                   />
                 </div>
               </div>
