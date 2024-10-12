@@ -46,7 +46,7 @@ export default function RegulasiScreen() {
         <section className="w-full flex bg-white flex-col gap-y-6 md:gap-y-8 py-8 px-6 md:px-10">
             <div className="felx m-auto w-full mb-20 pb-20 md:pb-0">
                 <>
-                    <h1 className="text-primary-main text-[16px] md:text-[18px] font-semibold mb-6">
+                    <h1 className="text-primary-50 text-[16px] md:text-[20px] font-semibold text-center mb-6">
                         Regulasi
                     </h1>
                     <Accordion
@@ -58,6 +58,7 @@ export default function RegulasiScreen() {
                         {dataRegulation?.map((regulation) => {
                             const value = `regulation-${regulation.id}`;
                             const isOpen = openItem === value;
+                            const isImage = regulation.file.endsWith('.jpg') || regulation.file.endsWith('.jpeg') || regulation.file.endsWith('.png') || regulation.file.endsWith('.gif');
 
                             return (
                                 <AccordionItem
@@ -77,8 +78,21 @@ export default function RegulasiScreen() {
                                     </AccordionTrigger>
 
                                     <AccordionContent className={`overflow-hidden px-6 py-4 transition-all duration-300 ease-in-out transform ${isOpen ? "scale-y-100 opacity-100" : "scale-y-0 opacity-0"} bg-gray-50 rounded-b-lg`}>
-                                        <div className="flex justify-center items-center py-0 h-[30rem] sm:h-[30rem] w-full relative m-auto border border-gray-200 rounded-lg shadow-sm">
-                                            <iframe src={regulation.file} className="w-full h-full rounded-lg z-30"></iframe>
+                                        <div className="flex justify-center items-center py-0 h-1/2 w-full relative m-auto border border-gray-200 rounded-lg shadow-sm">
+                                            {isImage ? (
+                                                <div className="w-[1000px] rounded-lg z-30 bg-green-400">
+                                                    <Image
+                                                        src={regulation.file}
+                                                        alt="Document preview"
+                                                        width={500}
+                                                        height={500}
+                                                        className="object-cover w-full h-full rounded-lg flex justify-center items-center m-auto"
+                                                        layout="responsive"
+                                                    />
+                                                </div>
+                                            ) : (
+                                                <iframe src={regulation.file} className="w-full md:w-[70%] h-[500px] rounded-lg z-30"></iframe>
+                                            )}
                                             <span className="absolute inset-0 flex justify-center items-center bg-white bg-opacity-70">
                                                 Loading... <LoaderCircle className="animate-spin ml-2 text-primary-500" />
                                             </span>

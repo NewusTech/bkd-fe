@@ -13,29 +13,30 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import TypingEffect from "@/components/ui/TypingEffect";
 
 export default function MobileNavigationScreen() {
   return (
     <div
       className={`flex flex-row bg-line-10 shadow-md w-full fixed z-50 top-0 py-6 justify-between px-5`}>
-      <Link href="/" className="flex flex-row w-full h-10 gap-x-2">
+      <Link href="/" className="flex flex-row w-full h-10 gap-x-2 group hover:scale-[1.05] transition-transform duration-300 ease-in-out">
         <div className="w-[12%] h-full flex flex-col items-center justify-center">
           <Image
             src={logo}
             alt="Lampung Timur"
             width={1000}
             height={1000}
-            className="w-full h-full"
+            className="w-full h-full transform group-hover:rotate-12 transition-transform ease-in-out"
           />
         </div>
 
         <div className="flex flex-col justify-center w-full h-full leading-none">
-          <h3 className={`font-semibold text-[16px] text-black-80`}>
+          <h3 className="font-semibold text-[16px] text-black-80 group-hover:animate-none transition-all ease-in-out animate-pulse">
             Badan Kepegawaian Daerah
           </h3>
 
-          <h3 className={`font-normal text-black-80 text-sm`}>
-            Kabupaten Lampung Timur
+          <h3 className="font-normal text-black-80 text-sm group-hover:animate-none transition-all ease-in-out">
+            <TypingEffect className="custom-class text-[14px] md:text-[16px]" loop={true} speed={125} deleteSpeed={50} text={["Kabupaten Lampung Timur"]} />
           </h3>
         </div>
       </Link>

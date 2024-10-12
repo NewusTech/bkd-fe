@@ -62,7 +62,7 @@ export default function ActivityCard({
                   />
                 )}
 
-                <div className="absolute inset-0 flex items-center justify-center bg-black-80 bg-opacity-20 text-white text-[14px] md:text-lg font-bold opacity-100 translate-y-0 transition-all duration-500 ease-in-out">
+                <div className="absolute inset-0 flex items-center justify-center bg-black-80 bg-opacity-20 text-white text-[14px] md:text-lg font-bold opacity-100 translate-y-0 transition-all duration-500 ease-in-out text-center">
                   {item?.title && item?.title}
                 </div>
               </div>

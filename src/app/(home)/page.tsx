@@ -42,6 +42,7 @@ import { EmblaOptionsType } from "embla-carousel";
 import EmblaCarouselStuctureOrganization from "@/components/elements/carousel-scroll-structure-organization/carousel_main_structure_organization";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import parse from "html-react-parser";
+import TypingEffect from "@/components/ui/TypingEffect";
 
 export default function Home() {
   const router = useRouter();
@@ -244,27 +245,31 @@ export default function Home() {
       </section>
 
       <section className="w-full background-about-us snap-start scroll-mt-24 py-12 px-4 md:px-20 flex flex-col md:flex-row items-center md:items-start gap-y-6 md:gap-x-8">
-        <div data-aos="fade-right" className="w-10/12 md:w-7/12 h-full">
+        <div
+          data-aos="fade-right"
+          className="w-10/12 md:w-7/12 h-full transition-transform duration-500 ease-in-out transform hover:scale-105">
           <Image
             src={about}
             alt="About Us"
             width={1000}
             height={1000}
-            className="w-full h-full object-cover rounded-lg"
+            className="w-full h-full object-cover rounded-lg shadow-lg transition-transform duration-500 ease-in-out hover:scale-105 hover:shadow-2xl"
           />
         </div>
-
         <div
           data-aos="fade-left"
-          className="w-full flex flex-col gap-y-4 md:gap-y-8">
-          <div className="w-full flex flex-col items-center md:items-start gap-y-2">
-            <p className="text-line-10 text-sm md:text-[16px]">Tentang BKD</p>
-
-            <h4 className="text-line-10 text-2xl md:text-3xl">Lampung Timur</h4>
+          className="w-full flex flex-col gap-y-4 md:gap-y-8 transition-opacity duration-500 ease-in-out">
+          <div className="w-full flex flex-col items-center md:items-start gap-y-2 transition-transform duration-300 ease-in-out transform hover:translate-x-4">
+            <p className="text-line-10 text-sm md:text-[16px] tracking-wider opacity-80 transition-opacity hover:opacity-100">
+              Tentang BKD
+            </p>
+            <h4 className="text-line-10 text-2xl md:text-4xl font-bold tracking-wide relative hover:animate-pulse transition-colors duration-500">
+              Lampung Timur
+              <span className="absolute -bottom-1 left-0 w-0 h-1 bg-primary-40 transition-all duration-500 hover:w-full"></span>
+            </h4>
           </div>
-
           <div className="w-full">
-            <div className="text-line-10 text-sm md:text-[16px] text-start leading-8">
+            <div className="text-line-10 text-sm md:text-[16px] text-start leading-8 opacity-80 hover:opacity-100 transition-transform duration-300 ease-in-out transform hover:translate-x-4">
               {informations && parse(informations.about_bkd)}
             </div>
           </div>
@@ -277,11 +282,21 @@ export default function Home() {
             PELAYANAN BKD LAMPUNG TIMUR
           </h5>
 
-          <p className="text-black-80 text-center text-sm md:text-[16px]">
+          <div className="text-black-80 text-center text-[14px] md:text-[16px]">
+            <TypingEffect
+              className="custom-class py-1"
+              loop={false}
+              speed={20}
+              text={["BKD memberikan pelayanan kepegawaian yang meliputi berbagai bidang seperti: bidang mutasi, bidang diklat, bidang formasi pengadaan, dan bidang pembinaan."]}
+            />
+          </div>
+
+          {/* <p className="text-black-80 text-center text-sm md:text-[16px]">
             BKD memberikan pelayanan kepegawaian yang meliputi berbagai bidang,
             seperti: bidang mutasi, bidang diklat, bidang formasi pengadaan, dan
             bidang pembinaan.
-          </p>
+          </p> */}
+
         </div>
 
         <div className="w-full grid grid-cols-2 md:grid-cols-4 group gap-y-3 gap-x-3 md:gap-x-5">
@@ -296,11 +311,10 @@ export default function Home() {
       <section
         className={`w-full flex flex-col md:flex-row snap-start scroll-mt-24 background-about-us pt-2 pb-16 md:py-12 gap-y-6 md:gap-y-8 gap-x-3`}>
         <div
-          className={`px-4 ${isMobile ? "" : "carousel-wrapper"} transition-opacity duration-700 ease-in-out ${
-            isCarouselFullscreen && !isMobile
-              ? "hidden"
-              : "slide-in opacity-visible flex flex-col gap-y-5 md:w-[30%]"
-          }`}>
+          className={`px-4 ${isMobile ? "" : "carousel-wrapper"} transition-opacity duration-700 ease-in-out ${isCarouselFullscreen && !isMobile
+            ? "hidden"
+            : "slide-in opacity-visible flex flex-col gap-y-5 md:w-[30%]"
+            }`}>
           <div data-aos="fade-right" className="w-full flex flex-col gap-y-5">
             <div className="w-full flex flex-row items-center justify-center pt-8 md:pt-12">
               <div className="w-3/12 md:w-4/12 h-full">

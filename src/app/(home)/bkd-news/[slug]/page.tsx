@@ -47,29 +47,38 @@ export default async function NewsDetailScreen({
     <section className="flex flex-col gap-y-8 items-center justify-center mt-4 md:mt-8">
       <div className="flex flex-col w-full md:w-10/12 bg-line-10 shadow-md rounded-lg pt-4 md:pt-8 p-3 gap-6">
         <div className="w-full md:h-[350px] flex flex-col self-center">
-          <Image
+          {/* <Image
             src={detail?.data?.image}
             className="w-full h-full object-contain rounded-lg"
             alt="Berita"
             width={1000}
             height={800}
-          />
+          /> */}
+          <div className="w-full h-full overflow-hidden rounded-t-lg">
+            <Image
+              src={detail?.data?.image}
+              alt="Berita"
+              width={1000}
+              height={1000}
+              className="w-full h-full object-contain transition-transform duration-500 ease-out hover:scale-110"
+            />
+          </div>
         </div>
 
         <div className="w-full px-5 flex flex-col justify-start items-start gap-6">
           <div className="flex flex-col gap-2">
             <div className="flex flex-row">
-              <p className="text-[12px] pr-4 md:text-[14px] text-black-80 text-opacity-75 font-normal">
+              <p className="text-[12px] pr-4 md:text-[14px] text-black-80 text-opacity-75 font-normal hover:opacity-100 transition-transform duration-300 ease-in-out transform hover:translate-x-4">
                 {formatDateString(detail?.data?.createdAt)}
               </p>
             </div>
 
-            <h6 className="text-[16px] md:text-[24px] text-primary-40 font-semibold">
+            <h6 className="text-[16px] md:text-[24px] text-primary-40 font-semibold hover:opacity-100 transition-transform duration-300 ease-in-out transform hover:translate-x-4">
               {detail.data?.title}
             </h6>
           </div>
 
-          <div className="text-[14px] md:text-[16px] text-justify leading-8 font-normal text-neutral-900">
+          <div className="text-[14px] md:text-[16px] text-justify leading-8 font-normal text-neutral-900 hover:opacity-100 transition-transform duration-300 ease-in-out transform hover:translate-x-4">
             {parse(detail.data?.desc)}
             {/* {detail?.data?.desc && (
                 <RichTextDisplay content={detail?.data?.desc} />
@@ -80,7 +89,7 @@ export default async function NewsDetailScreen({
 
       <div className="w-full flex flex-col bg-line-10 px-4 md:px-16 py-6 gap-y-5 mb-20 pb-20 md:pb-12">
         <div className="flex w-full items-center">
-          <h6 className="text-[20px] md:text-[26px] text-black-80">
+          <h6 className="text-[20px] md:text-[26px] text-black-80 hover:opacity-100 transition-transform duration-300 ease-in-out transform hover:translate-x-4">
             Berita Lainnya
           </h6>
 
