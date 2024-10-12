@@ -52,11 +52,11 @@ export default function RegisterScreen() {
     telepon: "",
     email: "",
     password: "",
+    alamat: "",
     kecamatan_id: "",
     desa_id: "",
-    rt: "",
     rw: "",
-    alamat: "",
+    rt: "",
   });
   const [seen, setSeen] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
@@ -185,14 +185,19 @@ export default function RegisterScreen() {
     setHasSubmitted(true);
 
     const isValid = await validateForm();
-
+    console.log(data, "inid data sebelum masuk");
     if (isValid) {
       setIsLoading(true);
+      console.log(data, "inid data masuk");
+
       try {
         const response = await postRegisterUser({
           ...data,
           role_id: 1,
         });
+
+        console.log(response, "ini wkwkwk");
+
 
         if (response.status === 201) {
           Swal.fire({
@@ -212,6 +217,7 @@ export default function RegisterScreen() {
             position: "center",
           });
         }
+
       } catch (error) {
         console.log(error);
       } finally {
@@ -319,9 +325,8 @@ export default function RegisterScreen() {
                         setSelectedSubDistrict(Number(value))
                       }>
                       <SelectTrigger
-                        className={`${
-                          !selectedSubDistrict ? "opacity-70" : ""
-                        } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                        className={`${!selectedSubDistrict ? "opacity-70" : ""
+                          } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
                         <SelectValue
                           placeholder="Pilih Kecamatan"
                           className={
@@ -409,9 +414,8 @@ export default function RegisterScreen() {
                         setSelectedVillage(Number(value))
                       }>
                       <SelectTrigger
-                        className={`${
-                          !selectedVillage ? "opacity-70" : ""
-                        } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                        className={`${!selectedVillage ? "opacity-70" : ""
+                          } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
                         <SelectValue
                           placeholder="Pilih Desa"
                           className={
@@ -646,9 +650,8 @@ export default function RegisterScreen() {
                         setSelectedSubDistrict(Number(value))
                       }>
                       <SelectTrigger
-                        className={`${
-                          !selectedSubDistrict ? "opacity-70" : ""
-                        } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                        className={`${!selectedSubDistrict ? "opacity-70" : ""
+                          } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
                         <SelectValue
                           placeholder="Pilih Kecamatan"
                           className={
@@ -707,9 +710,8 @@ export default function RegisterScreen() {
                         setSelectedVillage(Number(value))
                       }>
                       <SelectTrigger
-                        className={`${
-                          !selectedVillage ? "opacity-70" : ""
-                        } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                        className={`${!selectedVillage ? "opacity-70" : ""
+                          } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
                         <SelectValue
                           placeholder="Pilih Desa"
                           className={

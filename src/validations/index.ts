@@ -7,7 +7,7 @@ export const schemaRegister = z.object({
   // name: z.string({ message: "Nama Lengkap tidak boleh kosong!" }),
   nip: z
     .string({ message: "NIP tidak boleh kosong!" })
-    .length(16, "NIK harus terdiri dari 16 karakter"),
+    .length(18, "NIK harus terdiri dari 16 karakter"),
   telepon: z
     .string({ message: "Nomor telepon tidak boleh kosong!" })
     .min(10, "Nomor telepon harus terdiri dari minimal 12 digit")
