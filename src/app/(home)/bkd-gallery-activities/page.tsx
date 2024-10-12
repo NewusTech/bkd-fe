@@ -2,6 +2,7 @@
 
 import ActivityCard from "@/components/all_cards/activityCard";
 import PaginationComponent from "@/components/elements/pagination";
+import TypingEffect from "@/components/ui/TypingEffect";
 import { getBkdGalleryActivities } from "@/services/api";
 import { GalleryActivitiesInterface } from "@/types/interface";
 import React, { useEffect, useState } from "react";
@@ -48,11 +49,18 @@ export default function BKDGalleryActivitiesScreen() {
           FOTO KEGIATAN BKD LAMPUNG TIMUR
         </h5>
 
-        <p className="text-line-10 text-sm md:text-[16px] text-center">
+        <TypingEffect
+          className="custom-class text-line-10 text-sm md:text-[16px] text-center"
+          loop={false}
+          speed={20}
+          text={["Foto kegiatan BKD Lampung Timur menampilkan pelatihan pegawai, serah terima jabatan, sosialisasi kepegawaian, dan seleksi rekrutmen, yang mencerminkan komitmen BKD dalam pengelolaan SDM dan pelayanan publik."]}
+        />
+
+        {/* <p className="text-line-10 text-sm md:text-[16px] text-center">
           Foto kegiatan BKD Lampung Timur menampilkan pelatihan pegawai, serah
           terima jabatan, sosialisasi kepegawaian, dan seleksi rekrutmen, yang
           mencerminkan komitmen BKD dalam pengelolaan SDM dan pelayanan publik.
-        </p>
+        </p> */}
       </div>
 
       <div className="w-full grid grid-cols-2 md:grid-cols-4 gap-5">

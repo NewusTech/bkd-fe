@@ -22,6 +22,7 @@ import parse from "html-react-parser";
 import { RichTextDisplay } from "@/components/elements/rich_text_display";
 import Image from "next/image";
 import { splitStringAndCreateObjectArray } from "@/lib/utils";
+import TypingEffect from "@/components/ui/TypingEffect";
 
 export default function ProfileAboutScreen() {
   const router = useRouter();
@@ -104,11 +105,11 @@ export default function ProfileAboutScreen() {
                 data-aos="fade-right"
                 className="w-full h-[280px] flex flex-col bg-line-10 shadow-md rounded-e-lg py-5 gap-y-12">
                 <div className="w-full flex flex-col gap-y-5 px-5">
-                  <h5 className="text-black-80 font-semibold text-[20px] text-start">
+                  <h5 className="text-black-80 font-semibold text-[20px] text-start hover:opacity-100 transition-transform duration-300 ease-in-out transform hover:translate-x-4">
                     VISI
                   </h5>
 
-                  <div className="text-black-80 text-[14px] md:text-[16px] text-start">
+                  <div className="text-black-80 text-[14px] md:text-[16px] text-start hover:opacity-100 transition-transform duration-300 ease-in-out transform hover:translate-x-4">
                     {informations?.visi && parse(informations?.visi)}
                   </div>
                 </div>
@@ -141,11 +142,11 @@ export default function ProfileAboutScreen() {
                         <CarouselItem key={i} className="w-full">
                           <div
                             className={`${missionBackground} h-full w-full flex flex-col justify-end rounded-lg px-5 pt-8 pb-5 gap-y-2 shadow-md rounded-e-lg`}>
-                            <h5 className="text-line-10 font-semibold text-[20px]">
+                            <h5 className="text-line-10 font-semibold text-[20px] hover:opacity-100 transition-transform duration-300 ease-in-out transform hover:translate-x-4">
                               Misi {mission?.id && mission?.id}
                             </h5>
 
-                            <p className="text-line-10 text-[14px] md:text-[16px]">
+                            <p className="text-line-10 text-[14px] md:text-[16px] hover:opacity-100 transition-transform duration-300 ease-in-out transform hover:translate-x-4">
                               {mission?.value && mission?.value}
                             </p>
                           </div>
@@ -161,9 +162,12 @@ export default function ProfileAboutScreen() {
 
       <div className="w-full flex flex-col px-5 md:px-8 bg-line-10 py-12">
         <div className="w-full flex flex-col items-center justify-center gap-y-5">
-          <h5 className="text-black-80 text-xl text-center md:text-2xl font-semibold">
-            Struktur Organisasi Lampung Timur
-          </h5>
+          <TypingEffect
+            className="custom-class text-black-80 text-xl text-center md:text-2xl font-semibold mb-2"
+            loop={false}
+            speed={100}
+            text={["Struktur Organisasi Lampung Timur"]}
+          />
 
           <div className="w-full grid grid-cols-2 md:grid-cols-5 gap-y-5 group gap-x-3 md:gap-x-5 pb-16">
             {organizations &&

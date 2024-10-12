@@ -194,13 +194,13 @@ export default function DashBoardSidebarPages() {
             <Link
               href={"/user-profile"}
               className="w-full flex flex-row gap-x-3 px-4">
-              <div className="w-[35%] h-full">
+              <div className="w-[30%] h-full">
                 <Image
                   src={user?.image_profile || profilePicture}
                   alt={user?.name}
                   width={1000}
                   height={1000}
-                  className="w-full h-16 rounded-full"
+                  className="w-[60px] h-[60px] outline outline-line-10 rounded-full"
                 />
               </div>
 
@@ -208,7 +208,6 @@ export default function DashBoardSidebarPages() {
                 <h5 className="text-black-80 text-[16px]">
                   {user && user.name && user.name}
                 </h5>
-
                 <p className="text-black-40 text-sm">
                   {user &&
                     user.jabatans.length > 0 &&

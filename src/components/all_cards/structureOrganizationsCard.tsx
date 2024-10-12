@@ -11,6 +11,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import TypingEffect from "../ui/TypingEffect";
 
 export default function StructureOrganizarionCard({
   item,
@@ -34,12 +35,24 @@ export default function StructureOrganizarionCard({
           </div>
 
           <div className="w-full flex flex-col gap-y-1 items-center pb-2">
-            <h3 className="text-black-80 font-semibold text-[14px] md:text-[16px]">
-              {item?.nama && item?.nama}
+            <h3 className="">
+              <TypingEffect
+                className="custom-class text-black-80 font-semibold text-[14px] md:text-[16px]"
+                loop={false}
+                speed={150}
+                text={item?.nama ? [item.nama] : ["Tidak ada data"]}
+              />
+              {/* {item?.nama && item?.nama} */}
             </h3>
 
             <p className="text-black-80 text-[12px] md:text-[14px] font-light">
-              {item?.jabatan && item?.jabatan}
+              <TypingEffect
+                className="custom-class text-black-80 font-semibold text-[14px] md:text-[16px]"
+                loop={false}
+                speed={100}
+                text={item?.jabatan ? [item.jabatan] : ["Tidak ada data"]}
+              />
+              {/* {item?.jabatan && item?.jabatan} */}
             </p>
           </div>
         </DialogTrigger>
@@ -48,22 +61,38 @@ export default function StructureOrganizarionCard({
             <div className="w-full max-h-[500px] flex flex-row justify-center items-center">
               <div className="w-8/12 h-full">
                 {item.nama && item?.image && (
-                  <Image
-                    src={item.image}
-                    alt={item?.nama}
-                    width={1000}
-                    height={1000}
-                    className="w-full h-full object-cover rounded-lg"
-                  />
+                  <div className="relative overflow-hidden rounded-lg transition-transform duration-300 ease-in-out transform hover:scale-105">
+                    <Image
+                      src={item.image}
+                      alt={item?.nama}
+                      width={1000}
+                      height={1000}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
                 )}
               </div>
             </div>
             <div className="w-full flex flex-col gap-y-3">
-              <DialogTitle className="text-center text-black-80 font-semibold text-[22px]">
-                {item?.nama && item?.nama}
+              <DialogTitle className="text-center text-black-80 font-semibold text-[22px] h-8">
+                <TypingEffect
+                  className="custom-class"
+                  loop={false}
+                  // deleteSpeed={50}
+                  speed={50}
+                  text={item?.nama ? [item.nama] : ["Tidak ada data"]}
+                />
+                {/* {item?.nama && item?.nama} */}
               </DialogTitle>
               <DialogDescription className="text-center text-black-80 font-normal text-[18px]">
-                {item?.jabatan && item?.jabatan}
+                <TypingEffect
+                  className="custom-class"
+                  loop={false}
+                  // deleteSpeed={50}
+                  speed={30}
+                  text={item?.jabatan ? [item.jabatan] : ["Tidak ada data"]}
+                />
+                {/* {item?.jabatan && item?.jabatan} */}
               </DialogDescription>
             </div>
           </DialogHeader>

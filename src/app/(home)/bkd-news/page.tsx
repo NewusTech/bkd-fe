@@ -64,14 +64,22 @@ export default function ProfileAboutScreen() {
           <Link href={`/bkd-news/${slug}`} className="md:w-full md:h-full">
             <div className="w-full h-[430px]">
               {image && (
-                <Image
-                  className="md:w-full md:h-full md:object-contain md:rounded-lg"
-                  src={image}
-                  alt="Berita"
-                  width={960}
-                  height={300}
-                  // layout="responsive"
-                />
+                // <Image
+                //   className="md:w-full md:h-full md:object-contain md:rounded-lg"
+                //   src={image}
+                //   alt="Berita"
+                //   width={960}
+                //   height={300}
+                // />
+                <div className="w-full h-full overflow-hidden rounded-t-lg">
+                  <Image
+                    src={image}
+                    alt="Berita"
+                    width={1000}
+                    height={1000}
+                    className="w-full h-full object-cover transition-transform duration-500 ease-out hover:scale-110"
+                  />
+                </div>
               )}
             </div>
           </Link>
@@ -82,19 +90,19 @@ export default function ProfileAboutScreen() {
             <div className="md:flex md:flex-col md:w-full md:gap-[16px]">
               <div className="md:flex md:flex-col md:gap-[8px]">
                 <div className="md:flex md:flex-row">
-                  <p className="text-black-80 text-opacity-75 md:text-[16px] md:font-light">
+                  <p className="text-black-80 text-opacity-75 md:text-[16px] md:font-light hover:opacity-100 transition-transform duration-300 ease-in-out transform hover:translate-x-4">
                     {date}
                   </p>
                 </div>
 
                 <Link
                   href={`/bkd-news/${slug}`}
-                  className="md:text-primary-40 md:text-start md:text-[20px] md:font-semibold hover:underline hover:text-primary-70">
+                  className="md:text-primary-40 md:text-start md:text-[20px] md:font-semibold hover:underline hover:text-primary-70 hover:opacity-100 transition-transform duration-300 ease-in-out transform hover:translate-x-4">
                   {title}
                 </Link>
               </div>
 
-              <h5 className="md:text-[16px] md:text-justify md:text-black md:font-light">
+              <h5 className="md:text-[16px] md:text-justify md:text-black md:font-light hover:opacity-100 transition-transform duration-300 ease-in-out transform hover:translate-x-4">
                 {parse(truncateTitle(desc, 700))}
                 <Link href={`/bkd-news/${slug}`}>
                   <span className="text-primary-40 pl-1 font-normal hover:underline text-[16px]">

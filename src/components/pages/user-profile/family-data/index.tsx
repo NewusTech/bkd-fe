@@ -190,10 +190,10 @@ export default function FamilyDataProfileScreen({
                       </AlertDialogTrigger>
                       <AlertDialogContent className="w-full max-w-2xl bg-line-10 rounded-lg shadow-md">
                         <AlertDialogHeader className="flex flex-col max-h-[500px]">
-                          <AlertDialogTitle className="text-center">
+                          <AlertDialogTitle className="text-center text-[16px] md:text-[18px]">
                             Master Data Pasangan
                           </AlertDialogTitle>
-                          <AlertDialogDescription className="text-center">
+                          <AlertDialogDescription className="text-center text-[14px] md:text-[16px]">
                             Input data yang diperlukan
                           </AlertDialogDescription>
                           <form
@@ -257,7 +257,7 @@ export default function FamilyDataProfileScreen({
                                   value={durationDate}
                                   setValue={setDurationDate}
                                   label="Tanggal Lahir"
-                                  className={`bg-transparent w-full rounded-lg`}
+                                  className={`bg-transparent w-full rounded-lg text-[16px]`}
                                   // ${errors.tanggal_akhir_sewa ? "text-error-700" : ""}
                                   onChange={(value) =>
                                     setCouple({
@@ -274,7 +274,7 @@ export default function FamilyDataProfileScreen({
                                 value={returnDate}
                                 setValue={setReturnDate}
                                 label="Tanggal Pernikahan"
-                                className={`bg-transparent w-full rounded-lg`}
+                                className={`bg-transparent w-full rounded-lg text-[16px]`}
                                 // ${errors.tanggal_akhir_sewa ? "text-error-700" : ""}
                                 onChange={(value) =>
                                   setCouple({
@@ -311,7 +311,7 @@ export default function FamilyDataProfileScreen({
                             </div>
 
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                              <Label className="focus-within:text-primary-70 font-normal text-sm">
+                              <Label className="focus-within:text-primary-70 font-normal text-[16px]">
                                 Status
                               </Label>
 
@@ -327,9 +327,8 @@ export default function FamilyDataProfileScreen({
                                   })
                                 }>
                                 <SelectTrigger
-                                  className={`${
-                                    !couple.status ? "opacity-70" : ""
-                                  } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                                  className={`${!couple.status ? "opacity-70" : ""
+                                    } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
                                   <SelectValue
                                     placeholder="Pilih Status..."
                                     className={
@@ -364,12 +363,12 @@ export default function FamilyDataProfileScreen({
                             </div>
 
                             <div className="w-full flex flex-row justify-between items-center gap-x-5">
-                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                              <AlertDialogCancel className="text-[14px] md:text-[16px]">Cancel</AlertDialogCancel>
 
                               <Button
                                 type="submit"
                                 disabled={isLoadingCoupleCreate ? true : false}
-                                className="bg-primary-40 hover:bg-primary-70 text-line-10">
+                                className="bg-primary-40 hover:bg-primary-70 text-line-10 text-[14px] md:text-[16px]">
                                 {isLoadingCoupleCreate ? (
                                   <Loader className="animate-spin" />
                                 ) : (
@@ -400,11 +399,11 @@ export default function FamilyDataProfileScreen({
                       </DrawerTrigger>
                       <DrawerContent className="flex flex-col gap-y-3 bg-line-10 rounded-lg w-full max-w-4xl h-4/6 px-3 pb-6">
                         <div className="w-full flex flex-col gap-y-3 verticalScroll">
-                          <DrawerTitle className="text-center">
+                          <DrawerTitle className="text-center text-[16px] md:text-[18px]">
                             Master Data Pasangan
                           </DrawerTitle>
 
-                          <DrawerDescription className="text-center">
+                          <DrawerDescription className="text-center text-[14px] md:text-[16px]">
                             Input data yang diperlukan
                           </DrawerDescription>
 
@@ -469,7 +468,7 @@ export default function FamilyDataProfileScreen({
                                   value={durationDate}
                                   setValue={setDurationDate}
                                   label="Tanggal Lahir"
-                                  className={`bg-transparent w-full rounded-lg`}
+                                  className={`bg-transparent w-full rounded-lg text-[14px] md:text-[16px]`}
                                   // ${errors.tanggal_akhir_sewa ? "text-error-700" : ""}
                                   onChange={(value) =>
                                     setCouple({
@@ -486,7 +485,7 @@ export default function FamilyDataProfileScreen({
                                 value={returnDate}
                                 setValue={setReturnDate}
                                 label="Tanggal Pernikahan"
-                                className={`bg-transparent w-full rounded-lg`}
+                                className={`bg-transparent w-full rounded-lg text-[14px] md:text-[16px]`}
                                 // ${errors.tanggal_akhir_sewa ? "text-error-700" : ""}
                                 onChange={(value) =>
                                   setCouple({
@@ -539,9 +538,8 @@ export default function FamilyDataProfileScreen({
                                   })
                                 }>
                                 <SelectTrigger
-                                  className={`${
-                                    !couple.status ? "opacity-70" : ""
-                                  } bg-transparent border border-line-20 h-[50px] pl-4 w-full mx-0 pr-2`}>
+                                  className={`${!couple.status ? "opacity-70" : ""
+                                    } bg-transparent border border-line-20 h-[50px] pl-4 w-full mx-0 pr-2`}>
                                   <SelectValue
                                     placeholder="Pilih Status..."
                                     className={
@@ -579,14 +577,14 @@ export default function FamilyDataProfileScreen({
                               <Button
                                 type="button"
                                 onClick={() => setOpenCoupleCreate(false)}
-                                className="border border-line-20 text-black-80 hover:bg-error-50 hover:text-line-10">
+                                className="border border-line-20 text-black-80 hover:bg-error-50 hover:text-line-10 text-[14px] md:text-[16px]">
                                 Cancel
                               </Button>
 
                               <Button
                                 type="submit"
                                 disabled={isLoadingCoupleCreate ? true : false}
-                                className="bg-primary-40 hover:bg-primary-70 text-line-10">
+                                className="bg-primary-40 hover:bg-primary-70 text-line-10 text-[14px] md:text-[16px]">
                                 {isLoadingCoupleCreate ? (
                                   <Loader className="animate-spin" />
                                 ) : (
@@ -708,10 +706,10 @@ export default function FamilyDataProfileScreen({
                       </AlertDialogTrigger>
                       <AlertDialogContent className="w-full max-w-2xl bg-line-10 rounded-lg shadow-md">
                         <AlertDialogHeader className="flex flex-col max-h-[500px]">
-                          <AlertDialogTitle className="text-center">
+                          <AlertDialogTitle className="text-center text-[16px] md:text-[18px]">
                             Master Data Anak
                           </AlertDialogTitle>
-                          <AlertDialogDescription className="text-center">
+                          <AlertDialogDescription className="text-center text-[14px] md:text-[16px]">
                             Input data yang diperlukan
                           </AlertDialogDescription>
                           <form
@@ -806,9 +804,8 @@ export default function FamilyDataProfileScreen({
                                   })
                                 }>
                                 <SelectTrigger
-                                  className={`${
-                                    !kid.jenis_kelamin ? "opacity-70" : ""
-                                  } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                                  className={`${!kid.jenis_kelamin ? "opacity-70" : ""
+                                    } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
                                   <SelectValue
                                     placeholder="Pilih Jenis Kelamin..."
                                     className={
@@ -882,9 +879,8 @@ export default function FamilyDataProfileScreen({
                                   })
                                 }>
                                 <SelectTrigger
-                                  className={`${
-                                    !kid.status ? "opacity-70" : ""
-                                  } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                                  className={`${!kid.status ? "opacity-70" : ""
+                                    } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
                                   <SelectValue
                                     placeholder="Pilih Status..."
                                     className={
@@ -955,11 +951,11 @@ export default function FamilyDataProfileScreen({
                       </DrawerTrigger>
                       <DrawerContent className="flex flex-col gap-y-3 bg-line-10 rounded-lg w-full max-w-4xl h-4/6 px-3 pb-6">
                         <div className="w-full flex flex-col gap-y-3 verticalScroll">
-                          <DrawerTitle className="text-center">
+                          <DrawerTitle className="text-center text-[16px] md:text-[18px]">
                             Master Data Anak
                           </DrawerTitle>
 
-                          <DrawerDescription className="text-center">
+                          <DrawerDescription className="text-center text-[14px] md:text-[16px]">
                             Input data yang diperlukan
                           </DrawerDescription>
 
@@ -1055,9 +1051,8 @@ export default function FamilyDataProfileScreen({
                                   })
                                 }>
                                 <SelectTrigger
-                                  className={`${
-                                    !kid.jenis_kelamin ? "opacity-70" : ""
-                                  } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                                  className={`${!kid.jenis_kelamin ? "opacity-70" : ""
+                                    } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
                                   <SelectValue
                                     placeholder="Pilih Jenis Kelamin..."
                                     className={
@@ -1131,9 +1126,8 @@ export default function FamilyDataProfileScreen({
                                   })
                                 }>
                                 <SelectTrigger
-                                  className={`${
-                                    !kid.status ? "opacity-70" : ""
-                                  } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                                  className={`${!kid.status ? "opacity-70" : ""
+                                    } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
                                   <SelectValue
                                     placeholder="Pilih Status..."
                                     className={

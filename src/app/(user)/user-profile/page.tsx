@@ -111,9 +111,10 @@ export default function UserProfileScreen() {
   const [userData, setUserData] = useState({
     name: "",
     email: "",
-    telpon: "",
+    telepon: "",
     nik: "",
     nip: "",
+    unit_kerja: "",
     tempat_lahir: "",
     agama: "",
     gender: "",
@@ -217,9 +218,10 @@ export default function UserProfileScreen() {
       setUserData({
         name: response.data.name,
         email: response.data.email,
-        telpon: response.data.telpon,
+        telepon: response.data.telepon,
         nik: response.data.nik,
         nip: response.data.nip,
+        unit_kerja: response.data.unit_kerja,
         tempat_lahir: response.data.tempat_lahir,
         agama: response.data.agama,
         gender: response.data.gender,
@@ -286,9 +288,10 @@ export default function UserProfileScreen() {
     const formData = new FormData();
     formData.append("name", userData.name);
     formData.append("email", userData.email);
-    formData.append("telpon", userData.telpon);
+    formData.append("telepon", userData.telepon);
     formData.append("nik", userData.nik);
     formData.append("nip", userData.nip);
+    formData.append("unit_kerja", userData.unit_kerja);
     formData.append("tempat_lahir", userData.tempat_lahir);
     formData.append("agama", userData.agama);
     formData.append("gender", userData.gender);
@@ -300,20 +303,23 @@ export default function UserProfileScreen() {
     formData.append("kecamatan_id", userData.kecamatan_id);
     formData.append("desa_id", userData.desa_id);
 
-    // formData.forEach((value, key) => {
-    //   console.log(key + ": " + value);
-    // });
+    formData.forEach((value, key) => {
+      console.log(key + ": " + value);
+    });
 
     try {
       const response = await updateUserData(formData);
+
+      console.log(response, "ini response: ");
 
       if (response.status === 200) {
         setUserData({
           name: "",
           email: "",
-          telpon: "",
+          telepon: "",
           nik: "",
           nip: "",
+          unit_kerja: "",
           tempat_lahir: "",
           agama: "",
           gender: "",
@@ -332,7 +338,12 @@ export default function UserProfileScreen() {
           showConfirmButton: false,
           position: "center",
         });
-        fetchUserProfile();
+
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+
+        fetchUserProfile(); 
         setIsLoadingUserCreate(false);
         router.push(`/user-profile?tabs=${"data-diri"}`);
       } else {

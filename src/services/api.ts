@@ -1154,3 +1154,22 @@ export const createUserDocuments = async (formData: FormData) => {
 
   return await response.json();
 };
+
+// get user regulation
+export const getUserRegulation = async () => {
+  const token = Cookies.get("Authorization");
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/user/regulasi/get`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    }
+  );
+
+  return await response.json();
+};

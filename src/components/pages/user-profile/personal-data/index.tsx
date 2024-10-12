@@ -2,7 +2,7 @@
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import React from "react";
+import React, { useState } from "react";
 import {
   Select,
   SelectContent,
@@ -16,7 +16,11 @@ import DateFormInput from "@/components/elements/date_form_input";
 import { bloodTypes, genders, religions } from "@/constants/main";
 import { formatDate } from "@/lib/utils";
 import { SubDistrictInterface, VillageInterface } from "@/types/interface";
-import { Loader } from "lucide-react";
+import { CalendarIcon, Loader } from "lucide-react";
+import "react-datepicker/dist/react-datepicker.css";
+import { format } from 'date-fns';
+import DatePickerInputNew from "@/components/elements/date_from_input_new";
+import DateFormInputNew from "@/components/elements/date_from_input_new";
 
 export default function PersonalDataProfileScreen({
   userData,
@@ -31,9 +35,10 @@ export default function PersonalDataProfileScreen({
   userData: {
     name: string;
     email: string;
-    telpon: string;
+    telepon: string;
     nik: string;
     nip: string;
+    unit_kerja: string;
     tempat_lahir: string;
     agama: string;
     gender: string;
@@ -49,9 +54,10 @@ export default function PersonalDataProfileScreen({
     React.SetStateAction<{
       name: string;
       email: string;
-      telpon: string;
+      telepon: string;
       nik: string;
       nip: string;
+      unit_kerja: string;
       tempat_lahir: string;
       agama: string;
       gender: string;
@@ -129,6 +135,26 @@ export default function PersonalDataProfileScreen({
 
               <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                 <Label
+                  htmlFor="unit_kerja"
+                  className="focus-within:text-primary-70 font-normal text-sm">
+                  Unit Kerja
+                </Label>
+
+                <Input
+                  id="unit_kerja"
+                  name="unit_kerja"
+                  value={userData.unit_kerja || ""}
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                    setUserData({ ...userData, unit_kerja: e.target.value })
+                  }
+                  type="text"
+                  className="w-full h-12 focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
+                  placeholder="Masukkan Unit Kerja Anda"
+                />
+              </div>
+
+              <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                <Label
                   htmlFor="nik"
                   className="focus-within:text-primary-70 font-normal text-sm">
                   NIK
@@ -177,9 +203,9 @@ export default function PersonalDataProfileScreen({
                 <Input
                   id="telepon"
                   name="telepon"
-                  value={userData.telpon || ""}
+                  value={userData.telepon || ""}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setUserData({ ...userData, telpon: e.target.value })
+                    setUserData({ ...userData, telepon: e.target.value })
                   }
                   type="text"
                   className="w-full h-12 focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
@@ -209,7 +235,7 @@ export default function PersonalDataProfileScreen({
                 </div>
 
                 <div className="w-[48%] md:w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                  <DateFormInput
+                  {/* <DateFormInput
                     value={returnDate}
                     setValue={setReturnDate}
                     label="Tanggal Lahir"
@@ -221,6 +247,20 @@ export default function PersonalDataProfileScreen({
                         tgl_lahir: formatDate(value),
                       })
                     }
+                  /> */}
+                  <DateFormInputNew
+                    value={userData.tgl_lahir ? new Date(userData.tgl_lahir) : new Date()}
+                    setValue={setReturnDate}
+                    label="Tanggal Lahir"
+                    className="bg-transparent w-full rounded-lg"
+                    onChange={(value) => {
+                      if (value instanceof Date) {
+                        setUserData({
+                          ...userData,
+                          tgl_lahir: format(value, "yyyy-MM-dd"),
+                        });
+                      }
+                    }}
                   />
                 </div>
               </div>
@@ -240,9 +280,8 @@ export default function PersonalDataProfileScreen({
                     })
                   }>
                   <SelectTrigger
-                    className={`${
-                      !userData.agama ? "opacity-70" : ""
-                    } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                    className={`${!userData.agama ? "opacity-70" : ""
+                      } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
                     <SelectValue
                       placeholder="Pilih Agama Anda..."
                       className={userData.agama ? "" : "placeholder:opacity-50"}
@@ -291,9 +330,8 @@ export default function PersonalDataProfileScreen({
                     })
                   }>
                   <SelectTrigger
-                    className={`${
-                      !userData.gender ? "opacity-70" : ""
-                    } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                    className={`${!userData.gender ? "opacity-70" : ""
+                      } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
                     <SelectValue
                       placeholder="Pilih Jenis Kelamin Anda..."
                       className={
@@ -340,9 +378,8 @@ export default function PersonalDataProfileScreen({
                     })
                   }>
                   <SelectTrigger
-                    className={`${
-                      !userData.goldar ? "opacity-70" : ""
-                    } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                    className={`${!userData.goldar ? "opacity-70" : ""
+                      } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
                     <SelectValue
                       placeholder="Pilih Golongan Darah Anda..."
                       className={
@@ -400,9 +437,8 @@ export default function PersonalDataProfileScreen({
                     })
                   }>
                   <SelectTrigger
-                    className={`${
-                      !userData.kecamatan_id ? "opacity-70" : ""
-                    } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                    className={`${!userData.kecamatan_id ? "opacity-70" : ""
+                      } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
                     <SelectValue
                       placeholder="Pilih Kecamatan"
                       className={
@@ -458,9 +494,8 @@ export default function PersonalDataProfileScreen({
                     })
                   }>
                   <SelectTrigger
-                    className={` ${
-                      !userData.desa_id ? "opacity-70" : ""
-                    } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                    className={` ${!userData.desa_id ? "opacity-70" : ""
+                      } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
                     <SelectValue
                       placeholder="Pilih Desa"
                       className={
