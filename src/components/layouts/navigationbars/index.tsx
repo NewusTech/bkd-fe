@@ -59,7 +59,7 @@ export default function NavigationScreen() {
             Badan Kepegawaian Daerah
           </h3>
 
-          <h3 className={`font-normal text-black-80 text-[16px] group-hover:animate-none transition-all ease-in-out`}>
+          <h3 className={`font-normal text-black-80 text-[16px] group-hover:animate-none transition-all ease-in-out h-4`}>
             <TypingEffect className="custom-class text-[14px] md:text-[16px] py-1" loop={true} speed={125} deleteSpeed={50} text={["Kabupaten Lampung Timur"]} />
           </h3>
         </div>

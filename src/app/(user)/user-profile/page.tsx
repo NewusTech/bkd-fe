@@ -312,7 +312,6 @@ export default function UserProfileScreen() {
 
       console.log(response, "ini response: ");
 
-
       if (response.status === 200) {
         setUserData({
           name: "",
@@ -339,7 +338,12 @@ export default function UserProfileScreen() {
           showConfirmButton: false,
           position: "center",
         });
-        fetchUserProfile();
+
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+
+        fetchUserProfile(); 
         setIsLoadingUserCreate(false);
         router.push(`/user-profile?tabs=${"data-diri"}`);
       } else {
