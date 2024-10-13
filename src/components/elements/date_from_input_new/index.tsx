@@ -44,14 +44,14 @@ export default function DateFormInputNew(props: DateInputProps) {
             {typeof label !== "string" ? (
                 label
             ) : (
-                <p className="text-sm">{label}</p>
+                <p className="text-[14px] md:text-[16px]">{label}</p>
             )}
             <Popover>
-                <PopoverTrigger className="lg:py-4 lg:px-4 px-2" asChild>
+                <PopoverTrigger className="lg:py-4 lg:px-4 px-4" asChild>
                     <Button
                         variant="outline"
                         className={cn(
-                            "w-full justify-between text-left font-normal text-xs lg:text-sm",
+                            "w-full justify-between text-left font-normal text-[14px] md:text-[16px] h-12" ,
                             !value && "text-muted-foreground"
                         )}
                         disabled={disabled}
@@ -68,7 +68,7 @@ export default function DateFormInputNew(props: DateInputProps) {
                         onChange={handleDateSelect}
                         showYearDropdown
                         dateFormat="dd/MM/yyyy"
-                        className="w-full p-2 border border-gray-300 rounded-md"
+                        className="w-full border border-gray-300 rounded-md text-[14px] md:text-[16px]"
                         yearDropdownItemNumber={15}
                         scrollableYearDropdown
                         locale={id}

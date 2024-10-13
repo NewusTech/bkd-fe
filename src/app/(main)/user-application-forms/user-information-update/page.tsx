@@ -4,7 +4,6 @@ import DateFormInput from "@/components/elements/date_form_input";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { formatDate } from "@/lib/utils";
 import {
   Select,
   SelectContent,
@@ -30,6 +29,12 @@ import Swal from "sweetalert2";
 import { bloodTypes, genders, religions } from "@/constants/main";
 import { Textarea } from "@/components/ui/textarea";
 
+import { formatDate } from "@/lib/utils";
+import "react-datepicker/dist/react-datepicker.css";
+import { format } from 'date-fns';
+import DatePickerInputNew from "@/components/elements/date_from_input_new";
+import DateFormInputNew from "@/components/elements/date_from_input_new";
+
 export default function UserInformastionUpdatePages() {
   const router = useRouter();
   const [isLoadingUserCreate, setIsLoadingUserCreate] = useState(false);
@@ -43,6 +48,7 @@ export default function UserInformastionUpdatePages() {
     telepon: "",
     nik: "",
     nip: "",
+    unit_kerja: "",
     tempat_lahir: "",
     agama: "",
     gender: "",
@@ -67,6 +73,7 @@ export default function UserInformastionUpdatePages() {
         telepon: response.data.telepon,
         nik: response.data.nik,
         nip: response.data.nip,
+        unit_kerja: response.data.unit_kerja,
         tempat_lahir: response.data.tempat_lahir,
         agama: response.data.agama,
         gender: response.data.gender,
@@ -127,6 +134,7 @@ export default function UserInformastionUpdatePages() {
     formData.append("telepon", userData.telepon);
     formData.append("nik", userData.nik);
     formData.append("nip", userData.nip);
+    formData.append("unit_kerja", userData.unit_kerja);
     formData.append("tempat_lahir", userData.tempat_lahir);
     formData.append("agama", userData.agama);
     formData.append("gender", userData.gender);
@@ -138,9 +146,9 @@ export default function UserInformastionUpdatePages() {
     formData.append("kecamatan_id", userData.kecamatan_id);
     formData.append("desa_id", userData.desa_id);
 
-    // formData.forEach((value, key) => {
-    //   console.log(key + ": " + value);
-    // });
+    formData.forEach((value, key) => {
+      console.log(key + ": " + value);
+    });
 
     try {
       const response = await updateUserData(formData);
@@ -152,6 +160,7 @@ export default function UserInformastionUpdatePages() {
           telepon: "",
           nik: "",
           nip: "",
+          unit_kerja: "",
           tempat_lahir: "",
           agama: "",
           gender: "",
@@ -218,7 +227,7 @@ export default function UserInformastionUpdatePages() {
                 <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                   <Label
                     htmlFor="name"
-                    className="focus-within:text-primary-70 font-normal text-sm">
+                    className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
                     Nama Lengkap
                   </Label>
 
@@ -230,7 +239,7 @@ export default function UserInformastionUpdatePages() {
                       setUserData({ ...userData, name: e.target.value })
                     }
                     type="text"
-                    className="w-full h-12 focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
+                    className="w-full h-12 focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70 text-[14px] md:text-[16px]"
                     placeholder="Masukkan Nama Anda"
                   />
                 </div>
@@ -238,7 +247,7 @@ export default function UserInformastionUpdatePages() {
                 <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                   <Label
                     htmlFor="nip"
-                    className="focus-within:text-primary-70 font-normal text-sm">
+                    className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
                     NIP
                   </Label>
 
@@ -250,15 +259,35 @@ export default function UserInformastionUpdatePages() {
                       setUserData({ ...userData, nip: e.target.value })
                     }
                     type="text"
-                    className="w-full h-12 focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
+                    className="w-full h-12 focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70 text-[14px] md:text-[16px]"
                     placeholder="Masukkan NIP Anda"
                   />
                 </div>
 
                 <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                   <Label
+                    htmlFor="unit_kerja"
+                    className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
+                    Unit Kerja
+                  </Label>
+
+                  <Input
+                    id="unit_kerja"
+                    name="unit_kerja"
+                    value={userData.unit_kerja || ""}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                      setUserData({ ...userData, unit_kerja: e.target.value })
+                    }
+                    type="text"
+                    className="w-full h-12 focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70 text-[14px] md:text-[16px]"
+                    placeholder="Masukkan Unit Kerja Anda"
+                  />
+                </div>
+
+                <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
+                  <Label
                     htmlFor="nik"
-                    className="focus-within:text-primary-70 font-normal text-sm">
+                    className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
                     NIK
                   </Label>
 
@@ -270,7 +299,7 @@ export default function UserInformastionUpdatePages() {
                       setUserData({ ...userData, nik: e.target.value })
                     }
                     type="text"
-                    className="w-full h-12 focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
+                    className="w-full h-12 focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70 text-[14px] md:text-[16px]"
                     placeholder="Masukkan NIK Anda"
                   />
                 </div>
@@ -278,7 +307,7 @@ export default function UserInformastionUpdatePages() {
                 <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                   <Label
                     htmlFor="email"
-                    className="focus-within:text-primary-70 font-normal text-sm">
+                    className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
                     Email
                   </Label>
 
@@ -290,7 +319,7 @@ export default function UserInformastionUpdatePages() {
                       setUserData({ ...userData, email: e.target.value })
                     }
                     type="email"
-                    className="w-full h-12 focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
+                    className="w-full h-12 focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70 text-[14px] md:text-[16px]"
                     placeholder="Masukkan Email Anda"
                   />
                 </div>
@@ -298,7 +327,7 @@ export default function UserInformastionUpdatePages() {
                 <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                   <Label
                     htmlFor="telepon"
-                    className="focus-within:text-primary-70 font-normal text-sm">
+                    className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
                     Nomor Telepon
                   </Label>
 
@@ -310,7 +339,7 @@ export default function UserInformastionUpdatePages() {
                       setUserData({ ...userData, telepon: e.target.value })
                     }
                     type="text"
-                    className="w-full h-12 focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
+                    className="w-full h-12 focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70 text-[14px] md:text-[16px]"
                     placeholder="Masukkan Nomor Telepon Anda"
                   />
                 </div>
@@ -319,7 +348,7 @@ export default function UserInformastionUpdatePages() {
                   <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                     <Label
                       htmlFor="tempat-lahir"
-                      className="focus-within:text-primary-70 font-normal text-sm">
+                      className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
                       Tempat Lahir
                     </Label>
 
@@ -334,13 +363,13 @@ export default function UserInformastionUpdatePages() {
                         })
                       }
                       type="text"
-                      className="w-full h-[50px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
+                      className="w-full h-12 focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70 text-[14px] md:text-[16px]"
                       placeholder="Masukkan Tempat Lahir Anda"
                     />
                   </div>
 
                   <div className="w-[48%] md:w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                    <DateFormInput
+                    {/* <DateFormInput
                       value={returnDate}
                       setValue={setReturnDate}
                       label="Tanggal Lahir"
@@ -352,12 +381,26 @@ export default function UserInformastionUpdatePages() {
                           tgl_lahir: formatDate(value),
                         })
                       }
+                    /> */}
+                    <DateFormInputNew
+                      value={userData.tgl_lahir ? new Date(userData.tgl_lahir) : new Date()}
+                      setValue={setReturnDate}
+                      label="Tanggal Lahir"
+                      className="bg-transparent w-full rounded-lg text-[14px] md:text-[16px]"
+                      onChange={(value) => {
+                        if (value instanceof Date) {
+                          setUserData({
+                            ...userData,
+                            tgl_lahir: format(value, "yyyy-MM-dd"),
+                          });
+                        }
+                      }}
                     />
                   </div>
                 </div>
 
                 <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                  <Label className="focus-within:text-primary-70 font-normal text-sm">
+                  <Label className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
                     Agama
                   </Label>
 
@@ -371,17 +414,16 @@ export default function UserInformastionUpdatePages() {
                       })
                     }>
                     <SelectTrigger
-                      className={`${
-                        !userData.agama ? "opacity-70" : ""
-                      } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                      className={`${!userData.agama ? "opacity-70" : ""
+                        } bg-transparent border border-line-20 h-12 pl-4 w-full mx-0 pr-2 text-[14px] md:text-[16px]`}>
                       <SelectValue
                         placeholder="Pilih Agama Anda..."
                         className={
-                          userData.agama ? "" : "placeholder:opacity-50"
+                          userData.agama ? "" : "placeholder:opacity-50 text-[14px] md:text-[16px]"
                         }
                       />
                     </SelectTrigger>
-                    <SelectContent className="w-full bg-line-10">
+                    <SelectContent className="w-full bg-line-10 text-[14px] md:text-[16px]">
                       <div>
                         {religions &&
                           religions.length > 0 &&
@@ -396,7 +438,7 @@ export default function UserInformastionUpdatePages() {
                             ) => {
                               return (
                                 <SelectItem
-                                  className="pr-none mt-2"
+                                  className="pr-none mt-2 text-[14px] md:text-[16px]"
                                   value={religion.value}
                                   key={i}>
                                   {religion.name}
@@ -410,7 +452,7 @@ export default function UserInformastionUpdatePages() {
                 </div>
 
                 <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                  <Label className="focus-within:text-primary-70 font-normal text-sm">
+                  <Label className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
                     jenis Kelamin
                   </Label>
 
@@ -424,17 +466,16 @@ export default function UserInformastionUpdatePages() {
                       })
                     }>
                     <SelectTrigger
-                      className={`${
-                        !userData.gender ? "opacity-70" : ""
-                      } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                      className={`${!userData.gender ? "opacity-70" : ""
+                        } bg-transparent border border-line-20 h-12 pl-4 w-full mx-0 pr-2 text-[14px] md:text-[16px]`}>
                       <SelectValue
                         placeholder="Pilih Jenis Kelamin Anda..."
                         className={
-                          userData.gender ? "" : "placeholder:opacity-50"
+                          userData.gender ? "" : "placeholder:opacity-50 text-[14px] md:text-[16px]"
                         }
                       />
                     </SelectTrigger>
-                    <SelectContent className="w-full bg-line-10">
+                    <SelectContent className="w-full bg-line-10 text-[14px] md:text-[16px]">
                       <div>
                         {genders &&
                           genders.length > 0 &&
@@ -449,7 +490,7 @@ export default function UserInformastionUpdatePages() {
                             ) => {
                               return (
                                 <SelectItem
-                                  className="pr-none mt-2"
+                                  className="pr-none mt-2 text-[14px] md:text-[16px]"
                                   value={gender.name}
                                   key={i}>
                                   {gender.value}
@@ -463,7 +504,7 @@ export default function UserInformastionUpdatePages() {
                 </div>
 
                 <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                  <Label className="focus-within:text-primary-70 font-normal text-sm">
+                  <Label className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
                     Golongan Darah
                   </Label>
 
@@ -477,17 +518,16 @@ export default function UserInformastionUpdatePages() {
                       })
                     }>
                     <SelectTrigger
-                      className={`${
-                        !userData.goldar ? "opacity-70" : ""
-                      } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                      className={`${!userData.goldar ? "opacity-70" : ""
+                        } bg-transparent border border-line-20 h-12 pl-4 w-full mx-0 pr-2 text-[14px] md:text-[16px]`}>
                       <SelectValue
                         placeholder="Pilih Golongan Darah Anda..."
                         className={
-                          userData.goldar ? "" : "placeholder:opacity-50"
+                          userData.goldar ? "" : "placeholder:opacity-50 text-[14px] md:text-[16px]"
                         }
                       />
                     </SelectTrigger>
-                    <SelectContent className="w-full bg-line-10">
+                    <SelectContent className="w-full bg-line-10 text-[14px] md:text-[16px]">
                       <div>
                         {bloodTypes &&
                           bloodTypes.length > 0 &&
@@ -498,7 +538,7 @@ export default function UserInformastionUpdatePages() {
                             ) => {
                               return (
                                 <SelectItem
-                                  className="pr-none mt-2"
+                                  className="pr-none mt-2 text-[14px] md:text-[16px]"
                                   value={blood.value}
                                   key={i}>
                                   {blood.value}
@@ -522,7 +562,7 @@ export default function UserInformastionUpdatePages() {
                 <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                   <Label
                     htmlFor="kecamatan"
-                    className="focus-within:text-primary-70 font-normal text-sm">
+                    className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
                     Kecamatan
                   </Label>
 
@@ -540,24 +580,23 @@ export default function UserInformastionUpdatePages() {
                       })
                     }>
                     <SelectTrigger
-                      className={`${
-                        !userData.kecamatan_id ? "opacity-70" : ""
-                      } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                      className={`${!userData.kecamatan_id ? "opacity-70" : ""
+                        } bg-transparent border border-line-20 h-12 pl-4 w-full mx-0 pr-2`}>
                       <SelectValue
                         placeholder="Pilih Kecamatan"
                         className={
-                          userData.kecamatan_id ? "" : "placeholder:opacity-50"
+                          userData.kecamatan_id ? "" : "placeholder:opacity-50 text-[14px] md:text-[16px]"
                         }
                       />
                     </SelectTrigger>
-                    <SelectContent className="w-full bg-line-10">
+                    <SelectContent className="w-full bg-line-10 text-[14px] md:text-[16px]">
                       <div>
                         {subDistricts &&
                           subDistricts?.map(
                             (sub: SubDistrictInterface, i: number) => {
                               return (
                                 <SelectItem
-                                  className="pr-none mt-2"
+                                  className="pr-none mt-2 text-[14px] md:text-[16px]"
                                   value={sub?.id.toString()}
                                   key={i}>
                                   {sub?.nama}
@@ -573,7 +612,7 @@ export default function UserInformastionUpdatePages() {
                 <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                   <Label
                     htmlFor="desa"
-                    className="focus-within:text-primary-70 font-normal text-sm">
+                    className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
                     Desa
                   </Label>
                   {userData.kecamatan_id && (
@@ -589,24 +628,23 @@ export default function UserInformastionUpdatePages() {
                         })
                       }>
                       <SelectTrigger
-                        className={` ${
-                          !userData.desa_id ? "opacity-70" : ""
-                        } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                        className={` ${!userData.desa_id ? "opacity-70" : ""
+                          } bg-transparent border border-line-20 h-12 pl-4 w-full mx-0 pr-2 text-[14px] md:text-[16px]`}>
                         <SelectValue
                           placeholder="Pilih Desa"
                           className={
-                            userData.desa_id ? "" : "placeholder:opacity-50"
+                            userData.desa_id ? "" : "placeholder:opacity-50 text-[14px] md:text-[16px]"
                           }
                         />
                       </SelectTrigger>
-                      <SelectContent className="w-full bg-line-10">
+                      <SelectContent className="w-full bg-line-10 text-[14px] md:text-[16px]">
                         <div>
                           {villages &&
                             villages?.map(
                               (village: VillageInterface, i: number) => {
                                 return (
                                   <SelectItem
-                                    className="pr-none mt-2"
+                                    className="pr-none mt-2 text-[14px] md:text-[16px]"
                                     value={village?.id.toString()}
                                     key={i}>
                                     {village?.nama}
@@ -659,7 +697,7 @@ export default function UserInformastionUpdatePages() {
                   <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                     <Label
                       htmlFor="rt"
-                      className="focus-within:text-primary-70 font-normal text-sm">
+                      className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
                       RT
                     </Label>
 
@@ -674,7 +712,7 @@ export default function UserInformastionUpdatePages() {
                         })
                       }
                       type="text"
-                      className="w-full h-12 focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
+                      className="w-full h-12 focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70 text-[14px] md:text-[16px]"
                       placeholder="Masukkan RT Anda"
                     />
                   </div>
@@ -682,7 +720,7 @@ export default function UserInformastionUpdatePages() {
                   <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                     <Label
                       htmlFor="rw"
-                      className="focus-within:text-primary-70 font-normal text-sm">
+                      className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
                       RW
                     </Label>
 
@@ -697,14 +735,14 @@ export default function UserInformastionUpdatePages() {
                         })
                       }
                       type="text"
-                      className="w-full h-12 focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
+                      className="w-full h-12 focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70 text-[14px] md:text-[16px]"
                       placeholder="Masukkan RW Anda"
                     />
                   </div>
                 </div>
 
                 <div className="w-full flex flex-col gap-y-2">
-                  <Label className="text-[14px] text-black-80">Alamat</Label>
+                  <Label className="text-black-80 text-[14px] md:text-[16px]">Alamat</Label>
 
                   <Textarea
                     name="alamat"
@@ -716,7 +754,7 @@ export default function UserInformastionUpdatePages() {
                         alamat: e.target.value,
                       })
                     }
-                    className="w-full rounded-lg h-[74px] border border-black-10 md:h-[122px] text-[14px] placeholder:opacity-[70%]"
+                    className="w-full rounded-lg h-[74px] border border-black-10 md:h-[122px] placeholder:opacity-[70%] text-[14px] md:text-[16px]"
                   />
                 </div>
               </div>
