@@ -34,7 +34,7 @@ export default function MobileNavigationScreen() {
 
         <div className="flex flex-col justify-center w-full h-full leading-none">
           <h3 className="font-semibold text-[16px] text-black-80 group-hover:animate-none transition-all ease-in-out animate-pulse">
-            SIPANDU BKD
+            SIPADU BKD
           </h3>
 
           <h3 className="font-normal text-black-80 text-sm group-hover:animate-none transition-all ease-in-out">

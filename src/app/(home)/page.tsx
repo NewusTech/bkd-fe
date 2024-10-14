@@ -261,7 +261,7 @@ export default function Home() {
           className="w-full flex flex-col gap-y-4 md:gap-y-8 transition-opacity duration-500 ease-in-out">
           <div className="w-full flex flex-col items-center md:items-start gap-y-2 transition-transform duration-300 ease-in-out transform hover:translate-x-4">
             <p className="text-line-10 text-sm md:text-[16px] tracking-wider opacity-80 transition-opacity hover:opacity-100">
-              Tentang Sipandu BKD
+              Tentang Sipadu BKD
             </p>
             <h4 className="text-line-10 text-2xl md:text-4xl font-bold tracking-wide relative hover:animate-pulse transition-colors duration-500">
               Lampung Timur
@@ -279,7 +279,7 @@ export default function Home() {
       <section className="w-full snap-start scroll-mt-24 flex flex-col px-4 md:px-12 py-8 md:py-8 gap-y-8 md:gap-y-16">
         <div className="w-full flex flex-col items-center gap-y-3">
           <h5 className="text-black-80 px-6 md:px-0 text-xl md:text-3xl font-semibold">
-            PELAYANAN SIPANDU BKD LAMPUNG TIMUR
+            PELAYANAN SIPADU BKD LAMPUNG TIMUR
           </h5>
 
           <div className="text-black-80 text-center text-[14px] md:text-[16px]">
@@ -332,7 +332,7 @@ export default function Home() {
 
             <div className="w-full flex flex-col gap-y-5">
               <h5 className="text-line-10 text-[20px] md:px-8 text-center font-light">
-                Berita Terkait Tentang Sipandu BKD Lampung Timur
+                Berita Terkait Tentang Sipadu BKD Lampung Timur
               </h5>
 
               {!isMobile && (
