@@ -19,7 +19,9 @@ export default function MobileNavigationScreen() {
   return (
     <div
       className={`flex flex-row bg-line-10 shadow-md w-full fixed z-50 top-0 py-6 justify-between px-5`}>
-      <Link href="/" className="flex flex-row w-full h-10 gap-x-2 group hover:scale-[1.05] transition-transform duration-300 ease-in-out">
+      <Link
+        href="/"
+        className="flex flex-row w-full h-10 gap-x-2 group hover:scale-[1.05] transition-transform duration-300 ease-in-out">
         <div className="w-[12%] h-full flex flex-col items-center justify-center">
           <Image
             src={logo}
@@ -32,11 +34,17 @@ export default function MobileNavigationScreen() {
 
         <div className="flex flex-col justify-center w-full h-full leading-none">
           <h3 className="font-semibold text-[16px] text-black-80 group-hover:animate-none transition-all ease-in-out animate-pulse">
-            Badan Kepegawaian Daerah
+            SIPANDU BKD
           </h3>
 
           <h3 className="font-normal text-black-80 text-sm group-hover:animate-none transition-all ease-in-out">
-            <TypingEffect className="custom-class text-[14px] md:text-[16px]" loop={true} speed={125} deleteSpeed={50} text={["Kabupaten Lampung Timur"]} />
+            <TypingEffect
+              className="custom-class text-[14px] md:text-[16px]"
+              loop={true}
+              speed={125}
+              deleteSpeed={50}
+              text={["Kabupaten Lampung Timur"]}
+            />
           </h3>
         </div>
       </Link>
@@ -66,40 +74,34 @@ export default function MobileNavigationScreen() {
             <div className="w-full flex flex-col gap-y-6 py-10 bg-line-10">
               <Link
                 href="/"
-                className="text-center text-lg font-medium text-gray-700 hover:text-primary-500 transition-all duration-200"
-              >
+                className="text-center text-lg font-medium text-gray-700 hover:text-primary-500 transition-all duration-200">
                 Beranda
               </Link>
 
               <Link
                 href="/bkd-about"
-                className="text-center text-lg font-medium text-gray-700 hover:text-primary-500 transition-all duration-200"
-              >
+                className="text-center text-lg font-medium text-gray-700 hover:text-primary-500 transition-all duration-200">
                 Tentang Kami
               </Link>
 
               <Link
                 href="/bkd-news"
-                className="text-center text-lg font-medium text-gray-700 hover:text-primary-500 transition-all duration-200"
-              >
+                className="text-center text-lg font-medium text-gray-700 hover:text-primary-500 transition-all duration-200">
                 Berita
               </Link>
 
               <Link
                 href="/bkd-regulasi"
-                className="text-center text-lg font-medium text-gray-700 hover:text-primary-500 transition-all duration-200"
-              >
+                className="text-center text-lg font-medium text-gray-700 hover:text-primary-500 transition-all duration-200">
                 Regulasi
               </Link>
 
               <Link
                 href="/bkd-gallery-activities"
-                className="text-center text-lg font-medium text-gray-700 hover:text-primary-500 transition-all duration-200"
-              >
+                className="text-center text-lg font-medium text-gray-700 hover:text-primary-500 transition-all duration-200">
                 Foto Kegiatan
               </Link>
             </div>
-
           </SheetContent>
         </Sheet>
       </div>
