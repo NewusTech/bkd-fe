@@ -50,7 +50,7 @@ export default function NavigationScreen() {
             alt="Lampung Timur"
             width={1000}
             height={1000}
-            className="w-full h-full transform group-hover:rotate-12 transition-transform ease-in-out"
+            className="w-full h-full transform transition-transform ease-in-out"
           />
         </div>
 
@@ -70,35 +70,35 @@ export default function NavigationScreen() {
           <div className="w-9/12 flex flex-row items-center justify-end gap-x-8 pr-4">
             <Link
               href="/"
-              className={`text-center text-[16px] font-light relative transition-all before:absolute before:-bottom-1 before:left-0 before:w-full before:h-0.5 before:bg-primary-70 before:scale-x-0 before:origin-left hover:before:scale-x-100 hover:before:origin-right before:transition-transform before:duration-300 hover:text-primary-40 ${isActive('/') ? 'text-primary-70 font-semibold before:scale-x-100 animate-bounce transition-all' : 'text-black-80'
+              className={`text-center text-[16px] font-light relative transition-all before:absolute before:-bottom-1 before:left-0 before:w-full before:h-0.5 before:bg-primary-70 before:scale-x-0 before:origin-left hover:before:scale-x-100 hover:before:origin-right before:transition-transform before:duration-300 hover:text-primary-40 ${isActive('/') ? 'text-primary-70 font-semibold before:scale-x-100 transition-all' : 'text-black-80'
                 }`}>
               Beranda
             </Link>
 
             <Link
               href="/bkd-about"
-              className={`text-center text-[16px] font-light relative transition-all before:absolute before:-bottom-1 before:left-0 before:w-full before:h-0.5 before:bg-primary-70 before:scale-x-0 before:origin-left hover:before:scale-x-100 hover:before:origin-right before:transition-transform before:duration-300 hover:text-primary-40 ${isActive('/bkd-about') ? 'text-primary-70 font-semibold before:scale-x-100 animate-bounce transition-all' : 'text-black-80'
+              className={`text-center text-[16px] font-light relative transition-all before:absolute before:-bottom-1 before:left-0 before:w-full before:h-0.5 before:bg-primary-70 before:scale-x-0 before:origin-left hover:before:scale-x-100 hover:before:origin-right before:transition-transform before:duration-300 hover:text-primary-40 ${isActive('/bkd-about') ? 'text-primary-70 font-semibold before:scale-x-100 transition-all' : 'text-black-80'
                 }`}>
               Profile Kami
             </Link>
 
             <Link
               href="/bkd-news"
-              className={`text-center text-[16px] font-light relative transition-all before:absolute before:-bottom-1 before:left-0 before:w-full before:h-0.5 before:bg-primary-70 before:scale-x-0 before:origin-left hover:before:scale-x-100 hover:before:origin-right before:transition-transform before:duration-300 hover:text-primary-40 ${isActive('/bkd-news') ? 'text-primary-70 font-semibold before:scale-x-100 animate-bounce transition-all' : 'text-black-80'
+              className={`text-center text-[16px] font-light relative transition-all before:absolute before:-bottom-1 before:left-0 before:w-full before:h-0.5 before:bg-primary-70 before:scale-x-0 before:origin-left hover:before:scale-x-100 hover:before:origin-right before:transition-transform before:duration-300 hover:text-primary-40 ${isActive('/bkd-news') ? 'text-primary-70 font-semibold before:scale-x-100 transition-all' : 'text-black-80'
                 }`}>
               Berita
             </Link>
 
             <Link
               href="/bkd-regulasi"
-              className={`text-center text-[16px] font-light relative transition-all before:absolute before:-bottom-1 before:left-0 before:w-full before:h-0.5 before:bg-primary-70 before:scale-x-0 before:origin-left hover:before:scale-x-100 hover:before:origin-right before:transition-transform before:duration-300 hover:text-primary-40 ${isActive('/bkd-regulasi') ? 'text-primary-70 font-semibold before:scale-x-100 animate-bounce transition-all' : 'text-black-80'
+              className={`text-center text-[16px] font-light relative transition-all before:absolute before:-bottom-1 before:left-0 before:w-full before:h-0.5 before:bg-primary-70 before:scale-x-0 before:origin-left hover:before:scale-x-100 hover:before:origin-right before:transition-transform before:duration-300 hover:text-primary-40 ${isActive('/bkd-regulasi') ? 'text-primary-70 font-semibold before:scale-x-100 transition-all' : 'text-black-80'
                 }`}>
               Regulasi
             </Link>
 
             <Link
               href="/bkd-gallery-activities"
-              className={`text-center text-[16px] font-light relative transition-all before:absolute before:-bottom-1 before:left-0 before:w-full before:h-0.5 before:bg-primary-70 before:scale-x-0 before:origin-left hover:before:scale-x-100 hover:before:origin-right before:transition-transform before:duration-300 hover:text-primary-40 ${isActive('/bkd-gallery-activities') ? 'text-primary-70 font-semibold before:scale-x-100 animate-bounce transition-all' : 'text-black-80'
+              className={`text-center text-[16px] font-light relative transition-all before:absolute before:-bottom-1 before:left-0 before:w-full before:h-0.5 before:bg-primary-70 before:scale-x-0 before:origin-left hover:before:scale-x-100 hover:before:origin-right before:transition-transform before:duration-300 hover:text-primary-40 ${isActive('/bkd-gallery-activities') ? 'text-primary-70 font-semibold before:scale-x-100 transition-all' : 'text-black-80'
                 }`}>
               Foto Kegiatan
             </Link>
@@ -118,7 +118,7 @@ export default function NavigationScreen() {
               {isFirstLoading ? (
                 <Loader className="animate-spin" />
               ) : (
-                <span className="animated-text">
+                <span className="animated-text flex justify-center">
                   {"Register".split("").map((letter, index) => {
                     if (letter === " ") {
                       return (
@@ -133,7 +133,7 @@ export default function NavigationScreen() {
                         ref={(el) => {
                           lettersRef.current[index] = el;
                         }}
-                        className="letter">
+                        className="letter transition-transform duration-300 hover:translate-y-[-5px] hover:rotate-[10deg]">
                         {letter}
                       </span>
                     );
@@ -155,7 +155,7 @@ export default function NavigationScreen() {
               {isFirstLoading ? (
                 <Loader className="animate-spin" />
               ) : (
-                <span className="animated-text">
+                <span className="animated-text flex justify-center">
                   {"Login".split("").map((letter, index) => {
                     if (letter === " ") {
                       return (
@@ -170,7 +170,7 @@ export default function NavigationScreen() {
                         ref={(el) => {
                           lettersRef.current[index] = el;
                         }}
-                        className="letter">
+                        className="letter transition-transform duration-300 hover:translate-y-[-5px] hover:rotate-[10deg]">
                         {letter}
                       </span>
                     );

@@ -145,8 +145,7 @@ export default function ProfileAboutScreen() {
                             <h5 className="text-line-10 font-semibold text-[20px] hover:opacity-100 transition-transform duration-300 ease-in-out transform hover:translate-x-4">
                               Misi {mission?.id && mission?.id}
                             </h5>
-
-                            <p className="text-line-10 text-[14px] md:text-[16px] hover:opacity-100 transition-transform duration-300 ease-in-out transform hover:translate-x-4">
+                            <p className="text-line-10 text-[16px] hover:opacity-100 transition-transform duration-300 ease-in-out transform hover:translate-x-4">
                               {mission?.value && mission?.value}
                             </p>
                           </div>
