@@ -267,7 +267,7 @@ export default function UserComplaintScreen() {
         setPreviewImage("");
         Swal.fire({
           icon: "success",
-          title: "Berhasil Menambahkan Struktur Organisasi!",
+          title: "Berhasil Menambahkan Pengaduan Layanan!",
           timer: 2000,
           showConfirmButton: false,
           position: "center",
@@ -278,7 +278,7 @@ export default function UserComplaintScreen() {
       } else {
         Swal.fire({
           icon: "error",
-          title: "Gagal Menambahkan Struktur Organisasi!",
+          title: "Gagal Menambahkan Pengaduan Layanan!",
           timer: 2000,
           showConfirmButton: false,
           position: "center",
