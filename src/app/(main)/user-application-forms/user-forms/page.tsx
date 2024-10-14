@@ -76,9 +76,6 @@ export default function UserFormPages() {
     }
   }, [serviceId]);
 
-  console.log(form, "ini form");
-  console.log(docForm, "ini docForm");
-
   const handleCheckboxChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     layananform_id: number

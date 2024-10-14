@@ -43,7 +43,9 @@ export default function NavigationScreen() {
   return (
     <div
       className={`flex bg-line-10 shadow-md w-full fixed top-0 py-6 justify-between mx-12 md:mx-0 z-50 md:px-12`}>
-      <Link href="/" className="flex flex-row w-5/12 h-10 gap-x-2 group hover:scale-[1.05] transition-transform duration-300 ease-in-out">
+      <Link
+        href="/"
+        className="flex flex-row w-5/12 h-10 gap-x-2 group hover:scale-[1.05] transition-transform duration-300 ease-in-out">
         <div className="max-w-[35px] h-full flex flex-col items-center justify-center">
           <Image
             src={logo}
@@ -55,12 +57,20 @@ export default function NavigationScreen() {
         </div>
 
         <div className="flex flex-col justify-center w-full h-full leading-none">
-          <h3 className={`font-semibold text-[18px] text-black-80 group-hover:animate-none transition-all ease-in-out animate-pulse`}>
-            Badan Kepegawaian Daerah
+          <h3
+            className={`font-semibold text-[18px] text-black-80 group-hover:animate-none transition-all ease-in-out animate-pulse`}>
+            SIPANDU BKD
           </h3>
 
-          <h3 className={`font-normal text-black-80 text-[16px] group-hover:animate-none transition-all ease-in-out h-4`}>
-            <TypingEffect className="custom-class text-[14px] md:text-[16px] py-1" loop={true} speed={125} deleteSpeed={50} text={["Kabupaten Lampung Timur"]} />
+          <h3
+            className={`font-normal text-black-80 text-[16px] group-hover:animate-none transition-all ease-in-out h-4`}>
+            <TypingEffect
+              className="custom-class text-[14px] md:text-[16px] py-1"
+              loop={true}
+              speed={125}
+              deleteSpeed={50}
+              text={["Kabupaten Lampung Timur"]}
+            />
           </h3>
         </div>
       </Link>
@@ -70,36 +80,51 @@ export default function NavigationScreen() {
           <div className="w-9/12 flex flex-row items-center justify-end gap-x-8 pr-4">
             <Link
               href="/"
-              className={`text-center text-[16px] font-light relative transition-all before:absolute before:-bottom-1 before:left-0 before:w-full before:h-0.5 before:bg-primary-70 before:scale-x-0 before:origin-left hover:before:scale-x-100 hover:before:origin-right before:transition-transform before:duration-300 hover:text-primary-40 ${isActive('/') ? 'text-primary-70 font-semibold before:scale-x-100 transition-all' : 'text-black-80'
-                }`}>
+              className={`text-center text-[16px] font-light relative transition-all before:absolute before:-bottom-1 before:left-0 before:w-full before:h-0.5 before:bg-primary-70 before:scale-x-0 before:origin-left hover:before:scale-x-100 hover:before:origin-right before:transition-transform before:duration-300 hover:text-primary-40 ${
+                isActive("/")
+                  ? "text-primary-70 font-semibold before:scale-x-100 transition-all"
+                  : "text-black-80"
+              }`}>
               Beranda
             </Link>
 
             <Link
               href="/bkd-about"
-              className={`text-center text-[16px] font-light relative transition-all before:absolute before:-bottom-1 before:left-0 before:w-full before:h-0.5 before:bg-primary-70 before:scale-x-0 before:origin-left hover:before:scale-x-100 hover:before:origin-right before:transition-transform before:duration-300 hover:text-primary-40 ${isActive('/bkd-about') ? 'text-primary-70 font-semibold before:scale-x-100 transition-all' : 'text-black-80'
-                }`}>
+              className={`text-center text-[16px] font-light relative transition-all before:absolute before:-bottom-1 before:left-0 before:w-full before:h-0.5 before:bg-primary-70 before:scale-x-0 before:origin-left hover:before:scale-x-100 hover:before:origin-right before:transition-transform before:duration-300 hover:text-primary-40 ${
+                isActive("/bkd-about")
+                  ? "text-primary-70 font-semibold before:scale-x-100 transition-all"
+                  : "text-black-80"
+              }`}>
               Profile Kami
             </Link>
 
             <Link
               href="/bkd-news"
-              className={`text-center text-[16px] font-light relative transition-all before:absolute before:-bottom-1 before:left-0 before:w-full before:h-0.5 before:bg-primary-70 before:scale-x-0 before:origin-left hover:before:scale-x-100 hover:before:origin-right before:transition-transform before:duration-300 hover:text-primary-40 ${isActive('/bkd-news') ? 'text-primary-70 font-semibold before:scale-x-100 transition-all' : 'text-black-80'
-                }`}>
+              className={`text-center text-[16px] font-light relative transition-all before:absolute before:-bottom-1 before:left-0 before:w-full before:h-0.5 before:bg-primary-70 before:scale-x-0 before:origin-left hover:before:scale-x-100 hover:before:origin-right before:transition-transform before:duration-300 hover:text-primary-40 ${
+                isActive("/bkd-news")
+                  ? "text-primary-70 font-semibold before:scale-x-100 transition-all"
+                  : "text-black-80"
+              }`}>
               Berita
             </Link>
 
             <Link
               href="/bkd-regulasi"
-              className={`text-center text-[16px] font-light relative transition-all before:absolute before:-bottom-1 before:left-0 before:w-full before:h-0.5 before:bg-primary-70 before:scale-x-0 before:origin-left hover:before:scale-x-100 hover:before:origin-right before:transition-transform before:duration-300 hover:text-primary-40 ${isActive('/bkd-regulasi') ? 'text-primary-70 font-semibold before:scale-x-100 transition-all' : 'text-black-80'
-                }`}>
+              className={`text-center text-[16px] font-light relative transition-all before:absolute before:-bottom-1 before:left-0 before:w-full before:h-0.5 before:bg-primary-70 before:scale-x-0 before:origin-left hover:before:scale-x-100 hover:before:origin-right before:transition-transform before:duration-300 hover:text-primary-40 ${
+                isActive("/bkd-regulasi")
+                  ? "text-primary-70 font-semibold before:scale-x-100 transition-all"
+                  : "text-black-80"
+              }`}>
               Regulasi
             </Link>
 
             <Link
               href="/bkd-gallery-activities"
-              className={`text-center text-[16px] font-light relative transition-all before:absolute before:-bottom-1 before:left-0 before:w-full before:h-0.5 before:bg-primary-70 before:scale-x-0 before:origin-left hover:before:scale-x-100 hover:before:origin-right before:transition-transform before:duration-300 hover:text-primary-40 ${isActive('/bkd-gallery-activities') ? 'text-primary-70 font-semibold before:scale-x-100 transition-all' : 'text-black-80'
-                }`}>
+              className={`text-center text-[16px] font-light relative transition-all before:absolute before:-bottom-1 before:left-0 before:w-full before:h-0.5 before:bg-primary-70 before:scale-x-0 before:origin-left hover:before:scale-x-100 hover:before:origin-right before:transition-transform before:duration-300 hover:text-primary-40 ${
+                isActive("/bkd-gallery-activities")
+                  ? "text-primary-70 font-semibold before:scale-x-100 transition-all"
+                  : "text-black-80"
+              }`}>
               Foto Kegiatan
             </Link>
           </div>
@@ -178,11 +203,9 @@ export default function NavigationScreen() {
                 </span>
               )}
             </Link>
-
           </div>
         </div>
       </div>
-
     </div>
   );
 }
