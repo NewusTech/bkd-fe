@@ -51,10 +51,6 @@ export default function UserDashboardPages() {
     }
   };
 
-  // useEffect(() => {
-  //   fetchService(Number(params?.service));
-  // }, [params?.service]);
-
   return (
     <div className="w-full flex flex-col gap-y-5">
       <div className="w-full px-3 md:px-0">

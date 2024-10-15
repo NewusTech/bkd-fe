@@ -126,24 +126,26 @@ export default function LoginScreen() {
   };
 
   return (
-    <section className="relative flex justify-center items-center w-screen h-screen">
+    <section className="relative  bg-line-10 flex justify-center items-center w-screen h-screen">
       <BackgroundImage />
 
       <div className="relative z-50 flex flex-col w-11/12 md:w-6/12 items-center justify-center gap-y-8 bg-white p-4 md:p-12 shadow-lg rounded-lg">
         <div className="w-full flex flex-col items-center gap-y-2">
           <h2 className="text-black-80 text-xl text-center text-[18px]">
-            Selamat Datang Di Aplikasi SIPANDU BKD LAMPUNG TIMUR
+            Selamat Datang Di Aplikasi SIPADU BKD LAMPUNG TIMUR
           </h2>
 
           <p className="text-black-80 text-center text-[14px] md:text-sm">
-            Aplikasi SIPANDU mempermudah pengelolaan administrasi kepegawaian dengan
-            proses cepat, efisien, dan transparan. Login untuk mengakses fitur
-            sesuai kebutuhan Anda.
+            Aplikasi SIPADU BKD mempermudah pengelolaan administrasi kepegawaian
+            dengan proses cepat, efisien, dan transparan. Login untuk mengakses
+            fitur sesuai kebutuhan Anda.
           </p>
         </div>
 
         <div className="w-full flex flex-col items-center">
-          <h5 className="text-black-80 text-[14px]">Login Akun!</h5>
+          <h5 className="text-black-80 text-[16px] md:text-[18px]">
+            Login Akun!
+          </h5>
 
           <form
             onSubmit={handleLoginUser}
@@ -341,6 +343,5 @@ export default function LoginScreen() {
         </div>
       </div>
     </section>
-
   );
 }

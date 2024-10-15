@@ -116,7 +116,7 @@ export default function SatisfactionFormScreen() {
                         <div
                           key={i}
                           className="flex flex-col justify-center md:mt-4">
-                          <Label className="flex text-center md:self-center font-normal text-primary-800 text-sm md:text-sm mb-4 md:mb-8">
+                          <Label className="flex text-center md:self-center font-normal text-primary-800 text-[14px] md:text-[16px] mb-4 md:mb-8">
                             {item?.question}
                           </Label>
 
@@ -192,7 +192,7 @@ export default function SatisfactionFormScreen() {
                                     </div>
                                   </div>
 
-                                  <Label className="flex justify-center items-center text-[14px] font-normal text-center mb-[10px]">
+                                  <Label className="flex justify-center items-center text-[14px] md:text-[16px] font-normal text-center mb-[10px]">
                                     {index === 0
                                       ? "Tidak Sesuai"
                                       : index === 1
@@ -213,7 +213,7 @@ export default function SatisfactionFormScreen() {
               </div>
 
               <div className="w-full flex flex-col gap-y-3 md:px-5 mt-5">
-                <Label className="text-sm font-normal text-black-80">
+                <Label className="text-[14px] md:text-[16px] font-normal text-black-80">
                   Berikan Kritik dan Saran Kamu
                 </Label>
 
@@ -224,11 +224,11 @@ export default function SatisfactionFormScreen() {
                     setKritissaran(e.target.value)
                   }
                   placeholder="Masukkan Isi Kritik dan Saran Kamu"
-                  className="w-full h-[150px] border border-line-20 placeholder:opacity-35"
+                  className="w-full text-[14px] md:text-[16px] h-[150px] border border-line-20 placeholder:opacity-35"
                 />
 
                 {/* {hasSubmitted && errors?.kritiksaran?._errors && (
-                  <div className="text-error-700 text-sm">
+                  <div className="text-error-700 text-[14px] md:text-[16px]">
                     {errors.kritiksaran._errors[0]}
                   </div>
                 )} */}
@@ -236,7 +236,7 @@ export default function SatisfactionFormScreen() {
 
               <div className="flex self-center justify-center items-end mb-[22px] mt-8">
                 <Button
-                  className="w-full h-[30px] text-sm py-5 bg-primary-40 hover:bg-primary-70 text-line-10 font-light"
+                  className="w-full h-[30px] text-[14px] md:text-[16px] py-5 bg-primary-40 hover:bg-primary-70 text-line-10 font-light"
                   type="submit"
                   disabled={isLoading ? true : false}>
                   {isLoading ? (

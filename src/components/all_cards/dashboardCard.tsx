@@ -121,8 +121,8 @@ export default function DashboardCard({
     setTimeout(() => {
       setIsLoading(false);
       router.push(`/user-application-forms/user-information-update`);
-      localStorage.setItem("areaId", service?.id.toString());
-      localStorage.setItem("serviceId", service?.bidang_id.toString());
+      localStorage.setItem("areaId", item?.id.toString());
+      localStorage.setItem("serviceId", item?.bidang_id.toString());
     }, 1000);
   };
 
