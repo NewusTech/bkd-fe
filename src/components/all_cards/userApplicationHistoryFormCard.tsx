@@ -52,7 +52,9 @@ export default function UserApplicationHistoryFormCard({
         </Label>
 
         <ul className="list-disc list-inside w-full flex flex-col gap-y-3">
-          {item?.data_key?.map((key, index) => <li key={index}>{key}</li>)}
+          {item?.data_key?.map((key: any, index: number) => (
+            <li key={index}>{key}</li>
+          ))}
         </ul>
       </div>
     );
