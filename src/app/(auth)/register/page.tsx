@@ -257,13 +257,13 @@ export default function RegisterScreen() {
       <div className="flex flex-col relative z-50 w-11/12 md:w-8/12 items-center my-12 justify-center gap-y-5 bg-white p-4 md:p-12 shadow-lg rounded-lg">
         <div className="w-full flex flex-col items-center gap-y-2">
           <h2 className="text-black-80 text-[18px] text-center">
-            Selamat Datang Di Aplikasi SIPANDU BKD LAMPUNG TIMUR
+            Selamat Datang Di Aplikasi SIPADU BKD LAMPUNG TIMUR
           </h2>
 
           <p className="text-black-80 text-justify md:text-center text-[14px] md:text-[16px]">
             Daftarkan akun Anda sekarang untuk akses penuh ke layanan
             administrasi kepegawaian yang mudah, cepat, dan transparan melalui
-            Aplikasi SIPANDU.
+            Aplikasi SIPADU.
           </p>  
         </div>
 
