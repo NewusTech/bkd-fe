@@ -26,6 +26,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { set } from "date-fns";
 import Image from "next/image";
 import Swal from "sweetalert2";
+import DateFormInputNew from "@/components/elements/date_from_input_new";
+import { Input } from "@/components/ui/input";
 
 export default function UserFormPages() {
   const router = useRouter();
@@ -340,11 +342,34 @@ export default function UserFormPages() {
                       );
                     } else if (item?.tipedata == "date") {
                       return (
-                        <div key={i}>
-                          <DateFormInput
+                        <div key={i} className="w-full flex flex-col gap-y-5">
+                          <Label
+                            htmlFor={item?.field}
+                            className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
+                            {item?.field}
+                            {item?.isrequired && <span className="text-error-50">*</span>}
+                          </Label>
+
+                          <Input
+                            id={item?.field}
+                            name={item?.field}
+                            value={formValues[item?.field]}
+                            onChange={(
+                              e: React.ChangeEvent<HTMLInputElement>
+                            ) =>
+                              setFormValues({
+                                ...formValues,
+                                [item?.field]: e.target.value,
+                              })
+                            }
+                            type={"date"}
+                            className="w-full focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70 block text-[14px] md:text-[16px]"
+                            placeholder={"Isi Tanggal Dengan Benar"}
+                          />
+                          {/* <DateFormInput
                             value={returnDate}
                             setValue={setReturnDate}
-                            label="Tanggal Lahir"
+                            label={item?.field}
                             className={`bg-transparent w-full rounded-lg`}
                             onChange={(value) =>
                               setFormValues({
@@ -352,7 +377,19 @@ export default function UserFormPages() {
                                 [item?.field]: formatDate(value),
                               })
                             }
-                          />
+                          /> */}
+                          {/* <DateFormInputNew
+                            value={returnDate}
+                            setValue={setReturnDate}
+                            label={item?.field}
+                            className="bg-transparent w-full rounded-lg text-[14px] md:text-[16px]"
+                            onChange={(value) =>
+                              setFormValues({
+                                ...formValues,
+                                [item?.field]: formatDate(value),
+                              })
+                            }
+                          /> */}
                         </div>
                       );
                     } else if (item?.tipedata == "text") {
