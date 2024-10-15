@@ -121,15 +121,17 @@ export default function ApplicationHistoryScreen() {
                 setStatus(value === "all" ? undefined : Number(value))
               }>
               <SelectTrigger
-                className={`w-full gap-x-4 rounded-lg border-none active:border-none active:outline-none focus:border-none focus:outline-none`}>
+                className={`w-full text-[14px] md:text-[16px] gap-x-4 rounded-lg border-none active:border-none active:outline-none focus:border-none focus:outline-none`}>
                 <SelectValue
                   placeholder="Status"
-                  className="text-black-80 w-full"
+                  className="text-black-80 text-[14px] md:text-[16px] w-full"
                 />
               </SelectTrigger>
               <SelectContent className="bg-line-10">
                 <div className="pt-2">
-                  <SelectItem className="w-full px-4" value="all">
+                  <SelectItem
+                    className="w-full px-4 text-[14px] md:text-[16px]"
+                    value="all">
                     Semua Status
                   </SelectItem>
                   {userApplicationStatus &&
@@ -138,7 +140,7 @@ export default function ApplicationHistoryScreen() {
                         return (
                           <SelectItem
                             key={i}
-                            className={`w-full px-4`}
+                            className={`w-full px-4 text-[14px] md:text-[16px]`}
                             value={status.id.toString()}>
                             {status.name}
                           </SelectItem>

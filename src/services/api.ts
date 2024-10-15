@@ -1173,3 +1173,61 @@ export const getUserRegulation = async () => {
 
   return await response.json();
 };
+
+// get Application history output
+export const getApplicationDocumentOutput = async (id: number) => {
+  const token = Cookies.get("Authorization");
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/user/${id}/surat`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    }
+  );
+
+  return await response.blob();
+};
+
+// get Application history output
+export const getApplicationOutputDocument = async (
+  layanan_id: number,
+  history_id: number
+) => {
+  const token = Cookies.get("Authorization");
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/user/surat/${layanan_id}/${history_id}`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    }
+  );
+
+  return await response.blob();
+};
+
+// update application form
+export const updateApplicationForm = async (data: FormData, id: number) => {
+  const token = Cookies.get("Authorization");
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/user/input/form/update/${id}`,
+    {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: data,
+      cache: "no-store",
+    }
+  );
+
+  return await response.json();
+};

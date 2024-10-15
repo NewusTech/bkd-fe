@@ -5,7 +5,12 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Cookies from "js-cookie";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { ChevronLeft, Loader } from "lucide-react";
+import {
+  ChevronLeft,
+  Download,
+  Loader,
+  MessageSquareWarning,
+} from "lucide-react";
 import { redirect, useRouter } from "next/navigation";
 import Image from "next/legacy/image";
 import Swal from "sweetalert2";
@@ -15,10 +20,15 @@ import {
   UserApplicationHistoryFormServiceInputInterface,
   UserApplicationHistoryInterface,
 } from "@/types/interface";
-import { getUserApplicationHistoryDetail } from "@/services/api";
+import {
+  getApplicationDocumentOutput,
+  getApplicationOutputDocument,
+  getUserApplicationHistoryDetail,
+} from "@/services/api";
 import { formatDateString } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
 import UserApplicationHistoryFormCard from "@/components/all_cards/userApplicationHistoryFormCard";
+import { Eye } from "@phosphor-icons/react";
 
 export default function ApplicationHistoryDetailScreen({
   params,
@@ -49,6 +59,44 @@ export default function ApplicationHistoryDetailScreen({
   }, [params?.historyId]);
 
   console.log(application, "ini aplikasi");
+
+  const handleDownloadOutput = async (
+    layanan_id: number,
+    history_id: number
+  ) => {
+    setIsLoading(true);
+    try {
+      const response = await getApplicationOutputDocument(
+        layanan_id,
+        history_id
+      );
+
+      console.log(response, "ini response");
+
+      const url = window.URL.createObjectURL(response);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "Surat Permohonan.pdf";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+
+      if (response.type === "application/pdf") {
+        Swal.fire({
+          icon: "success",
+          title: "Berhasil Download Hasil Surat Permohonan!",
+          timer: 2000,
+          showConfirmButton: false,
+          position: "center",
+        });
+        setIsLoading(false);
+      }
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const openModal = () => {
     setIsModalOpen(true);
@@ -137,7 +185,7 @@ export default function ApplicationHistoryDetailScreen({
                         Nama Lengkap
                       </Label>
 
-                      <p>
+                      <p className="text-[14px] md:text-[16px]">
                         {application?.userinfo?.name &&
                           application?.userinfo?.name}
                       </p>
@@ -150,7 +198,7 @@ export default function ApplicationHistoryDetailScreen({
                         NIP
                       </Label>
 
-                      <p>
+                      <p className="text-[14px] md:text-[16px]">
                         {application?.userinfo?.nip &&
                           application?.userinfo?.nip}
                       </p>
@@ -163,7 +211,7 @@ export default function ApplicationHistoryDetailScreen({
                         NIK
                       </Label>
 
-                      <p>
+                      <p className="text-[14px] md:text-[16px]">
                         {application?.userinfo?.nik &&
                           application?.userinfo?.nik}
                       </p>
@@ -176,7 +224,7 @@ export default function ApplicationHistoryDetailScreen({
                         Email
                       </Label>
 
-                      <p>
+                      <p className="text-[14px] md:text-[16px]">
                         {application?.userinfo?.email &&
                           application?.userinfo?.email}
                       </p>
@@ -189,7 +237,7 @@ export default function ApplicationHistoryDetailScreen({
                         Nomor Telepon
                       </Label>
 
-                      <p>
+                      <p className="text-[14px] md:text-[16px]">
                         {application?.userinfo?.telepon &&
                           application?.userinfo?.telepon}
                       </p>
@@ -203,7 +251,7 @@ export default function ApplicationHistoryDetailScreen({
                           Tempat Lahir
                         </Label>
 
-                        <p>
+                        <p className="text-[14px] md:text-[16px]">
                           {application?.userinfo?.tempat_lahir &&
                             application?.userinfo?.tempat_lahir}
                         </p>
@@ -216,7 +264,7 @@ export default function ApplicationHistoryDetailScreen({
                           Tanggal Lahir
                         </Label>
 
-                        <p>
+                        <p className="text-[14px] md:text-[16px]">
                           {application?.userinfo?.tgl_lahir &&
                             formatDateString(application?.userinfo?.tgl_lahir)}
                         </p>
@@ -228,7 +276,7 @@ export default function ApplicationHistoryDetailScreen({
                         Agama
                       </Label>
 
-                      <p>
+                      <p className="text-[14px] md:text-[16px]">
                         {application?.userinfo?.agama &&
                           application?.userinfo?.agama}
                       </p>
@@ -239,7 +287,7 @@ export default function ApplicationHistoryDetailScreen({
                         jenis Kelamin
                       </Label>
 
-                      <p>
+                      <p className="text-[14px] md:text-[16px]">
                         {application?.userinfo?.gender &&
                           application?.userinfo?.gender}
                       </p>
@@ -250,7 +298,7 @@ export default function ApplicationHistoryDetailScreen({
                         Golongan Darah
                       </Label>
 
-                      <p>
+                      <p className="text-[14px] md:text-[16px]">
                         {application?.userinfo?.goldar &&
                           application?.userinfo?.goldar}
                       </p>
@@ -270,7 +318,7 @@ export default function ApplicationHistoryDetailScreen({
                           Kecamatan
                         </Label>
 
-                        <p>
+                        <p className="text-[14px] md:text-[16px]">
                           {application?.userinfo?.Kecamatan.nama &&
                             application?.userinfo?.Kecamatan.nama}
                         </p>
@@ -283,7 +331,7 @@ export default function ApplicationHistoryDetailScreen({
                           Desa
                         </Label>
 
-                        <p>
+                        <p className="text-[14px] md:text-[16px]">
                           {application?.userinfo?.Desa.nama &&
                             application?.userinfo?.Desa.nama}
                         </p>
@@ -297,7 +345,7 @@ export default function ApplicationHistoryDetailScreen({
                             RT
                           </Label>
 
-                          <p>
+                          <p className="text-[14px] md:text-[16px]">
                             {application?.userinfo?.rt &&
                               application?.userinfo?.rt}
                           </p>
@@ -310,7 +358,7 @@ export default function ApplicationHistoryDetailScreen({
                             RW
                           </Label>
 
-                          <p>
+                          <p className="text-[14px] md:text-[16px]">
                             {application?.userinfo?.rw &&
                               application?.userinfo?.rw}
                           </p>
@@ -322,7 +370,7 @@ export default function ApplicationHistoryDetailScreen({
                           Alamat
                         </Label>
 
-                        <p>
+                        <p className="text-[14px] md:text-[16px]">
                           {application?.userinfo?.alamat &&
                             application?.userinfo?.alamat}
                         </p>
@@ -437,6 +485,86 @@ export default function ApplicationHistoryDetailScreen({
                       </div>
                     ))}
                 </div>
+
+                {application && application?.status === 9 && (
+                  <div className="w-full flex flex-row  items-center justify-center gap-x-5">
+                    <Button
+                      onClick={() =>
+                        handleDownloadOutput(
+                          application?.layanan_id ?? 0,
+                          application?.id ?? 0
+                        )
+                      }
+                      className="group hover:bg-primary-40 text-[14px] md:text-[16px] flex flex-row gap-x-5 items-center justify-center md:w-3/12 text-line-10 bg-line-10 border border-primary-40 font-normal">
+                      <Download className="w-5 h-5 text-primary-40 group-hover:text-line-10" />
+
+                      <p className="text-[14px] md:text-[16px] text-primary-40 group-hover:text-line-10">
+                        Unduh
+                      </p>
+                    </Button>
+
+                    {application && application?.fileoutput && (
+                      <Link
+                        href={application?.fileoutput}
+                        target="_blank"
+                        className=" group rounded-lg py-[10px] hover:bg-line-10 hover:border hover:border-primary-40 text-[14px] md:text-[16px] flex flex-row gap-x-5 items-center justify-center w-5/12 md:w-3/12 text-line-10 bg-primary-40 font-normal">
+                        <Eye className="w-5 h-5 text-line-10 group-hover:text-primary-40" />
+
+                        <p className="text-[14px] md:text-[16px] text-line-10 group-hover:text-primary-40">
+                          Lihat File
+                        </p>
+                      </Link>
+                    )}
+
+                    {/* <Button className=" group hover:bg-line-10 hover:border hover:border-primary-40 text-[14px] md:text-[16px] flex flex-row gap-x-5 items-center justify-center md:w-3/12 text-line-10 bg-primary-40 font-normal">
+                    <Eye className="w-5 h-5 text-line-10 group-hover:text-primary-40" />
+
+                    <p className="text-[14px] md:text-[16px] text-line-10 group-hover:text-primary-40">
+                      Lihat File
+                    </p>
+                  </Button> */}
+                  </div>
+                )}
+
+                {application && application?.status === 3 && (
+                  <div className="w-full flex flex-row  items-center justify-center gap-x-5">
+                    {/* <Button
+                      onClick={() =>
+                        handleDownloadOutput(
+                          application?.layanan_id ?? 0,
+                          application?.id ?? 0
+                        )
+                      }
+                      className="group hover:bg-primary-40 text-[14px] md:text-[16px] flex flex-row gap-x-5 items-center justify-center md:w-3/12 text-line-10 bg-line-10 border border-primary-40 font-normal">
+                      <Download className="w-5 h-5 text-primary-40 group-hover:text-line-10" />
+
+                      <p className="text-[14px] md:text-[16px] text-primary-40 group-hover:text-line-10">
+                        Unduh
+                      </p>
+                    </Button> */}
+
+                    {/* {application && application?.fileoutput && ( */}
+                    {/* ini untuk button edit jika terdapat perbaikan */}
+                    <Link
+                      href={`/user-application-forms/user-update-application-form/${application?.id}`}
+                      className=" group rounded-lg py-2 hover:bg-line-10 hover:border hover:border-primary-40 text-[14px] md:text-[16px] flex flex-row gap-x-5 items-center justify-center md:w-3/12 text-line-10 bg-primary-40 font-normal">
+                      <MessageSquareWarning className="w-5 h-5 text-line-10 group-hover:text-primary-40" />
+
+                      <p className="text-[14px] md:text-[16px] text-line-10 group-hover:text-primary-40">
+                        Perbaiki
+                      </p>
+                    </Link>
+                    {/* )} */}
+
+                    {/* <Button className=" group hover:bg-line-10 hover:border hover:border-primary-40 text-[14px] md:text-[16px] flex flex-row gap-x-5 items-center justify-center md:w-3/12 text-line-10 bg-primary-40 font-normal">
+                    <Eye className="w-5 h-5 text-line-10 group-hover:text-primary-40" />
+
+                    <p className="text-[14px] md:text-[16px] text-line-10 group-hover:text-primary-40">
+                      Lihat File
+                    </p>
+                  </Button> */}
+                  </div>
+                )}
               </div>
             </TabsContent>
           </Tabs>

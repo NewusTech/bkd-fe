@@ -474,6 +474,7 @@ export interface UserApplicationHistoryUserInfoInterface {
   gender: string;
   goldar: string;
   user_id: number;
+  unit_kerja: string;
   createdAt: string;
   updatedAt: string;
   Desa: UserApplicationHistoryUserInfoVillageInterface;
@@ -493,7 +494,7 @@ export interface UserApplicationHistoryFormServiceInputInterface {
   layananform_name: string;
   layananform_datajson: UserApplicationHistoryFormServiceInputJsonDataInterface[];
   layananform_tipedata: string;
-  data_key: string[];
+  data_key: string[] | string;
 }
 
 export interface UserApplicationHistoryDetailInterface {

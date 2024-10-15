@@ -326,15 +326,17 @@ export default function UserComplaintScreen() {
                 setStatus(value === "all" ? undefined : Number(value))
               }>
               <SelectTrigger
-                className={`w-full px-2 gap-x-4 rounded-lg border-none active:border-none active:outline-none focus:border-none focus:outline-none`}>
+                className={`w-full text-[14px] md:text-[16px] px-2 gap-x-4 rounded-lg border-none active:border-none active:outline-none focus:border-none focus:outline-none`}>
                 <SelectValue
                   placeholder="Status"
-                  className="text-black-80 w-full"
+                  className="text-black-80 text-[14px] md:text-[16px] w-full"
                 />
               </SelectTrigger>
               <SelectContent className="bg-line-10">
                 <div className="pt-2">
-                  <SelectItem className="w-full px-4" value="all">
+                  <SelectItem
+                    className="w-full px-4 text-[14px] md:text-[16px]"
+                    value="all">
                     Semua Status
                   </SelectItem>
                   {userComplaintStatus &&
@@ -346,7 +348,7 @@ export default function UserComplaintScreen() {
                         return (
                           <SelectItem
                             key={i}
-                            className={`w-full px-4`}
+                            className={`w-full px-4 text-[14px] md:text-[16px]`}
                             value={status.key.toString()}>
                             {status.name}
                           </SelectItem>
@@ -364,7 +366,7 @@ export default function UserComplaintScreen() {
                 <AlertDialogTrigger
                   onClick={() => setIsDialogOpen(true)}
                   className="w-full">
-                  <div className="w-full text-sm bg-primary-40 flex items-center justify-center hover:bg-primary-70 h-10 text-line-10 rounded-lg">
+                  <div className="w-full text-[14px] md:text-[16px] bg-primary-40 flex items-center justify-center hover:bg-primary-70 h-10 text-line-10 rounded-lg">
                     Ajukan Pengaduan
                   </div>
                 </AlertDialogTrigger>
@@ -381,7 +383,7 @@ export default function UserComplaintScreen() {
                       </AlertDialogDescription>
                       <div className="w-full flex flex-col gap-y-3 verticalScroll">
                         <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                          <Label className="focus-within:text-primary-70 font-normal text-sm">
+                          <Label className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
                             Pilih Bidang
                           </Label>
 
@@ -392,7 +394,7 @@ export default function UserComplaintScreen() {
                             <SelectTrigger
                               className={`${
                                 !areaId ? "opacity-70" : ""
-                              } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                              } bg-transparent text-[14px] md:text-[16px] border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
                               <SelectValue
                                 placeholder="Pilih Bidang"
                                 className={
@@ -407,7 +409,7 @@ export default function UserComplaintScreen() {
                                     (area: AreasInterface, i: number) => {
                                       return (
                                         <SelectItem
-                                          className="pr-none mt-2"
+                                          className="pr-none mt-2 text-[14px] md:text-[16px]"
                                           value={area?.id.toString()}
                                           key={i}>
                                           {area?.nama}
@@ -421,7 +423,7 @@ export default function UserComplaintScreen() {
                         </div>
 
                         <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                          <Label className="focus-within:text-primary-70 font-normal text-sm">
+                          <Label className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
                             Pilih Layanan
                           </Label>
 
@@ -434,7 +436,7 @@ export default function UserComplaintScreen() {
                             <SelectTrigger
                               className={`${
                                 !serviceId ? "opacity-70" : ""
-                              } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                              } bg-transparent text-[14px] md:text-[16px] border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
                               <SelectValue
                                 placeholder="Pilih Layanan"
                                 className={
@@ -449,7 +451,7 @@ export default function UserComplaintScreen() {
                                     (service: ServiceInterface, i: number) => {
                                       return (
                                         <SelectItem
-                                          className="pr-none mt-2"
+                                          className="pr-none mt-2 text-[14px] md:text-[16px]"
                                           value={service?.id.toString()}
                                           key={i}>
                                           {service?.nama}
@@ -465,7 +467,7 @@ export default function UserComplaintScreen() {
                         <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                           <Label
                             htmlFor="judul-pengaduan"
-                            className="focus-within:text-primary-70 font-normal text-sm">
+                            className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
                             Judul Pengaduan
                           </Label>
 
@@ -482,13 +484,13 @@ export default function UserComplaintScreen() {
                               })
                             }
                             type="text"
-                            className="w-full focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
+                            className="w-full text-[14px] md:text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                             placeholder="Judul Pengaduan Kamu"
                           />
                         </div>
 
                         <div className="w-full flex flex-col gap-y-2">
-                          <Label className="text-sm text-black-70 font-normal">
+                          <Label className="text-[14px] md:text-[16px] text-black-70 font-normal">
                             Isi Pengaduan
                           </Label>
 
@@ -504,12 +506,12 @@ export default function UserComplaintScreen() {
                                 isi_pengaduan: e.target.value,
                               })
                             }
-                            className="w-full rounded-lg h-[74px] border border-line-20 md:h-[122px] text-[12px] placeholder:opacity-[70%]"
+                            className="w-full text-[14px] md:text-[16px] rounded-lg h-[74px] border border-line-20 md:h-[122px] placeholder:opacity-[70%]"
                           />
                         </div>
 
                         <div className="flex flex-col mx-[1px]">
-                          <Label className="text-sm text-black-70 font-normal text-start mb-2">
+                          <Label className="text-[14px] md:text-[16px] text-black-70 font-normal text-start mb-2">
                             Upload Dokumen
                           </Label>
 
@@ -530,14 +532,14 @@ export default function UserComplaintScreen() {
                               />
                               <label
                                 htmlFor="file-input"
-                                className="text-[16px] text-center text-neutral-600 font-light cursor-pointer">
+                                className="text-[14px] md:text-[16px] text-center text-neutral-600 font-light cursor-pointer">
                                 {/* {data.image ? (
                                 data.image
                               ) : ( */}
                                 <span className="flex flex-col items-center justify-center">
                                   <CloudArrowUp className="w-8 h-8 text-black-70" />
 
-                                  <p>
+                                  <p className="text-[14px] md:text-[16px]">
                                     Drag and drop file here or click to select
                                     file
                                   </p>
@@ -572,11 +574,13 @@ export default function UserComplaintScreen() {
                     </AlertDialogHeader>
 
                     <div className="w-full flex flex-row justify-center items-center gap-x-5">
-                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogCancel className="text-[14px] md:text-[16px]">
+                        Cancel
+                      </AlertDialogCancel>
 
                       <Button
                         type="submit"
-                        className="bg-primary-40 hover:bg-primary-70 text-line-10"
+                        className="bg-primary-40 hover:bg-primary-70 text-[14px] md:text-[16px] text-line-10"
                         disabled={isLoading ? true : false}>
                         {isLoading ? (
                           <Loader className="w-4 h-4 animate-spin" />
@@ -591,13 +595,13 @@ export default function UserComplaintScreen() {
             ) : (
               <Drawer>
                 <DrawerTrigger className="w-full">
-                  <div className="w-full text-sm bg-primary-40 flex items-center justify-center hover:bg-primary-70 h-10 text-line-10 rounded-lg">
+                  <div className="w-full text-[14px] md:text-[16px] bg-primary-40 flex items-center justify-center hover:bg-primary-70 h-10 text-line-10 rounded-lg">
                     Ajukan Pengaduan
                   </div>
                 </DrawerTrigger>
                 <DrawerContent className="flex flex-col gap-y-3 bg-line-10 rounded-t-lg w-full max-w-4xl h-5/6 px-3">
                   <DrawerTitle className="text-center">Pengaduan</DrawerTitle>
-                  <DrawerDescription className="text-center">
+                  <DrawerDescription className="text-center text-[14px] md:text-[16px]">
                     Input data yang diperlukan
                   </DrawerDescription>
 
@@ -605,7 +609,7 @@ export default function UserComplaintScreen() {
                     onSubmit={createUserComplaint}
                     className="w-full flex flex-col gap-y-3 verticalScroll">
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                      <Label className="focus-within:text-primary-70 font-normal text-sm">
+                      <Label className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
                         Pilih Bidang
                       </Label>
 
@@ -616,7 +620,7 @@ export default function UserComplaintScreen() {
                         <SelectTrigger
                           className={`${
                             !areaId ? "opacity-70" : ""
-                          } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                          } bg-transparent border text-[14px] md:text-[16px] border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
                           <SelectValue
                             placeholder="Pilih Bidang"
                             className={areaId ? "" : "placeholder:opacity-50"}
@@ -628,7 +632,7 @@ export default function UserComplaintScreen() {
                               areas?.map((area: AreasInterface, i: number) => {
                                 return (
                                   <SelectItem
-                                    className="pr-none mt-2"
+                                    className="pr-none mt-2 text-[14px] md:text-[16px]"
                                     value={area?.id.toString()}
                                     key={i}>
                                     {area?.nama}
@@ -641,7 +645,7 @@ export default function UserComplaintScreen() {
                     </div>
 
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                      <Label className="focus-within:text-primary-70 font-normal text-sm">
+                      <Label className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
                         Pilih Layanan
                       </Label>
 
@@ -652,7 +656,7 @@ export default function UserComplaintScreen() {
                         <SelectTrigger
                           className={`${
                             !serviceId ? "opacity-70" : ""
-                          } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                          } bg-transparent text-[14px] md:text-[16px] border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
                           <SelectValue
                             placeholder="Pilih Layanan"
                             className={
@@ -667,7 +671,7 @@ export default function UserComplaintScreen() {
                                 (service: ServiceInterface, i: number) => {
                                   return (
                                     <SelectItem
-                                      className="pr-none mt-2"
+                                      className="pr-none mt-2 text-[14px] md:text-[16px]"
                                       value={service?.id.toString()}
                                       key={i}>
                                       {service?.nama}
@@ -683,7 +687,7 @@ export default function UserComplaintScreen() {
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                       <Label
                         htmlFor="judul-pengaduan"
-                        className="focus-within:text-primary-70 font-normal text-sm">
+                        className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
                         Judul Pengaduan
                       </Label>
 
@@ -698,13 +702,13 @@ export default function UserComplaintScreen() {
                           })
                         }
                         type="text"
-                        className="w-full focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
+                        className="w-full text-[14px] md:text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                         placeholder="Judul Pengaduan Kamu"
                       />
                     </div>
 
                     <div className="w-full flex flex-col gap-y-2">
-                      <Label className="text-sm text-black-70 font-normal">
+                      <Label className="text-[14px] md:text-[16px] text-black-70 font-normal">
                         Isi Pengaduan
                       </Label>
 
@@ -718,12 +722,12 @@ export default function UserComplaintScreen() {
                             isi_pengaduan: e.target.value,
                           })
                         }
-                        className="w-full rounded-lg h-[74px] border border-line-20 md:h-[122px] text-[12px] placeholder:opacity-[70%]"
+                        className="w-full text-[14px] md:text-[16px] rounded-lg h-[74px] border border-line-20 md:h-[122px] placeholder:opacity-[70%]"
                       />
                     </div>
 
                     <div className="flex flex-col mx-[1px]">
-                      <Label className="text-sm text-black-70 font-normal text-start mb-2">
+                      <Label className="text-[14px] md:text-[16px] text-black-70 font-normal text-start mb-2">
                         Upload Dokumen
                       </Label>
 
@@ -744,11 +748,11 @@ export default function UserComplaintScreen() {
                           />
                           <label
                             htmlFor="file-input"
-                            className="text-[16px] text-center text-neutral-600 font-light cursor-pointer">
+                            className="text-[14px] md:text-[16px] text-center text-neutral-600 font-light cursor-pointer">
                             {/* {data.image ? (
                                 data.image
                               ) : ( */}
-                            <span className="flex flex-col items-center justify-center">
+                            <span className="flex text-[14px] md:text-[16px] flex-col items-center justify-center">
                               <CloudArrowUp className="w-8 h-8 text-black-70" />
 
                               <p>
@@ -784,7 +788,7 @@ export default function UserComplaintScreen() {
 
                     <Button
                       type="submit"
-                      className="bg-primary-40 hover:bg-primary-70 text-line-10"
+                      className="bg-primary-40 text-[14px] md:text-[16px] hover:bg-primary-70 text-line-10"
                       disabled={isLoading ? true : false}>
                       {isLoading ? (
                         <Loader className="w-4 h-4 animate-spin" />

@@ -23,6 +23,8 @@ export default function UserApplicationHistoryFormCard({
 }) {
   let render;
 
+  console.log(item?.data, "ini item");
+
   if (item?.layananform_tipedata === "radio") {
     const radioOption = item?.layananform_datajson?.find(
       (option) => option.id.toString() === item.data
@@ -73,7 +75,7 @@ export default function UserApplicationHistoryFormCard({
 
         <div className="w-full">
           <AlertDialog>
-            <AlertDialogTrigger className="w-2/12">
+            <AlertDialogTrigger className="w-4/12 md:w-2/12">
               <div className="w-full bg-primary-40 hover:bg-primary-70 text-line-10 text-[14px] md:text-[16px] flex justify-center items-center h-10 hover:underline rounded-lg">
                 Lihat File
               </div>
@@ -100,7 +102,9 @@ export default function UserApplicationHistoryFormCard({
                 )}
               </AlertDialogHeader>
               <AlertDialogFooter className="w-full flex flex-row justify-center">
-                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogCancel className="text-[14px] md:text-[16px]">
+                  Cancel
+                </AlertDialogCancel>
               </AlertDialogFooter>
             </AlertDialogContent>
           </AlertDialog>
@@ -114,7 +118,7 @@ export default function UserApplicationHistoryFormCard({
           {item?.layananform_name && item?.layananform_name}
         </Label>
 
-        <p>{item?.data && item?.data}</p>
+        <p className="text-[14px] md:text-[16px]">{item?.data && item?.data}</p>
       </div>
     );
   }
