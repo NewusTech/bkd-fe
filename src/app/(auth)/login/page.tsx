@@ -126,7 +126,7 @@ export default function LoginScreen() {
   };
 
   return (
-    <section className="relative flex justify-center items-center w-screen h-screen">
+    <section className="relative  bg-line-10 flex justify-center items-center w-screen h-screen">
       <BackgroundImage />
 
       <div className="relative z-50 flex flex-col w-11/12 md:w-6/12 items-center justify-center gap-y-8 bg-white p-4 md:p-12 shadow-lg rounded-lg">
@@ -143,7 +143,9 @@ export default function LoginScreen() {
         </div>
 
         <div className="w-full flex flex-col items-center">
-          <h5 className="text-black-80 text-[14px]">Login Akun!</h5>
+          <h5 className="text-black-80 text-[16px] md:text-[18px]">
+            Login Akun!
+          </h5>
 
           <form
             onSubmit={handleLoginUser}
@@ -341,6 +343,5 @@ export default function LoginScreen() {
         </div>
       </div>
     </section>
-
   );
 }

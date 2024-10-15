@@ -194,7 +194,7 @@ export default function SatisfactionIndexScreen() {
                 <AlertDialogTrigger
                   onClick={() => setIsDialogOpen(true)}
                   className="w-full">
-                  <div className="w-full bg-primary-40 flex items-center justify-center hover:bg-primary-70 h-10 text-line-10 rounded-lg">
+                  <div className="w-full text-[14px] md:text-[16px] bg-primary-40 flex items-center justify-center hover:bg-primary-70 h-10 text-line-10 rounded-lg">
                     Isi Survei
                   </div>
                 </AlertDialogTrigger>
@@ -208,7 +208,7 @@ export default function SatisfactionIndexScreen() {
                     </AlertDialogDescription>
                     <div className="w-full flex flex-col gap-y-3">
                       <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                        <Label className="focus-within:text-primary-70 font-normal text-sm">
+                        <Label className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
                           Pilih Layanan
                         </Label>
 
@@ -221,7 +221,7 @@ export default function SatisfactionIndexScreen() {
                           <SelectTrigger
                             className={`${
                               !serviceId ? "opacity-70" : ""
-                            } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                            } bg-transparent text-[14px] md:text-[16px] border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
                             <SelectValue
                               placeholder="Pilih Layanan"
                               className={
@@ -237,7 +237,7 @@ export default function SatisfactionIndexScreen() {
                                   (service: ServiceInterface, i: number) => {
                                     return (
                                       <SelectItem
-                                        className="pr-none mt-2"
+                                        className="pr-none mt-2 text-[14px] md:text-[16px]"
                                         value={service?.id.toString()}
                                         key={i}>
                                         {service?.nama}
@@ -257,7 +257,7 @@ export default function SatisfactionIndexScreen() {
                       type="button"
                       disabled={isLoading ? true : false}
                       onClick={handleSubmitSatisfactionIndex}
-                      className="bg-primary-40 hover:bg-primary-70 text-line-10">
+                      className="bg-primary-40 text-[14px] md:text-[16px] hover:bg-primary-70 text-line-10">
                       {isLoading ? (
                         <Loader className="animate-spin" />
                       ) : (
@@ -270,7 +270,7 @@ export default function SatisfactionIndexScreen() {
             ) : (
               <Drawer>
                 <DrawerTrigger className="w-full">
-                  <div className="w-full bg-primary-40 flex items-center justify-center hover:bg-primary-70 h-10 text-line-10 rounded-lg">
+                  <div className="w-full text-[14px] md:text-[16px] bg-primary-40 flex items-center justify-center hover:bg-primary-70 h-10 text-line-10 rounded-lg">
                     Isi Survei
                   </div>
                 </DrawerTrigger>
@@ -284,7 +284,7 @@ export default function SatisfactionIndexScreen() {
 
                   <div className="w-full flex flex-col gap-y-3">
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                      <Label className="focus-within:text-primary-70 font-normal text-sm">
+                      <Label className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
                         Pilih Layanan
                       </Label>
 
@@ -295,7 +295,7 @@ export default function SatisfactionIndexScreen() {
                         <SelectTrigger
                           className={`${
                             !serviceId ? "opacity-70" : ""
-                          } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                          } bg-transparent text-[14px] md:text-[16px] border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
                           <SelectValue
                             placeholder="Pilih Layanan"
                             className={
@@ -311,7 +311,7 @@ export default function SatisfactionIndexScreen() {
                                 (service: ServiceInterface, i: number) => {
                                   return (
                                     <SelectItem
-                                      className="pr-none mt-2"
+                                      className="pr-none mt-2 text-[14px] md:text-[16px]"
                                       value={service?.id.toString()}
                                       key={i}>
                                       {service?.nama}
@@ -330,7 +330,7 @@ export default function SatisfactionIndexScreen() {
                       type="button"
                       disabled={isLoading ? true : false}
                       onClick={handleSubmitSatisfactionIndex}
-                      className="bg-primary-40 hover:bg-primary-70 text-line-10">
+                      className="bg-primary-40 text-[14px] md:text-[16px] hover:bg-primary-70 text-line-10">
                       {isLoading ? (
                         <Loader className="animate-spin" />
                       ) : (

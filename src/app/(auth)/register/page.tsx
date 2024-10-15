@@ -199,7 +199,6 @@ export default function RegisterScreen() {
 
         console.log(response, "ini wkwkwk");
 
-
         if (response.status === 201) {
           Swal.fire({
             icon: "success",
@@ -218,7 +217,6 @@ export default function RegisterScreen() {
             position: "center",
           });
         }
-
       } catch (error) {
         console.log(error);
       } finally {
@@ -251,7 +249,7 @@ export default function RegisterScreen() {
   }, [selectedVillage]);
 
   return (
-    <section className="relative flex justify-center items-center w-screen h-full">
+    <section className="relative flex bg-line-10 justify-center items-center w-screen h-full">
       <BackgroundImage />
 
       <div className="flex flex-col relative z-50 w-11/12 md:w-8/12 items-center my-12 justify-center gap-y-5 bg-white p-4 md:p-12 shadow-lg rounded-lg">
@@ -264,12 +262,14 @@ export default function RegisterScreen() {
             Daftarkan akun Anda sekarang untuk akses penuh ke layanan
             administrasi kepegawaian yang mudah, cepat, dan transparan melalui
             Aplikasi SIPADU.
-          </p>  
+          </p>
         </div>
 
         <div className="flex flex-col items-center justify-center md:w-full h-full gap-y-5">
           <div className="w-full flex flex-col items-center justify-center gap-y-1">
-            <h5 className="text-black-80 ttext-[16px] md:text-[18px]">Daftar Akun!</h5>
+            <h5 className="text-black-80 ttext-[16px] md:text-[18px]">
+              Daftar Akun!
+            </h5>
 
             <div className="flex flex-row gap-x-1 text-[14px] md:text-[16px]">
               <p className="text-black-70">Sudah punya akun?</p>
@@ -327,7 +327,9 @@ export default function RegisterScreen() {
                         <SelectValue
                           placeholder="Pilih Kecamatan"
                           className={
-                            selectedSubDistrict ? "" : "placeholder:opacity-50 text-[14px] md:text-[16px]"
+                            selectedSubDistrict
+                              ? ""
+                              : "placeholder:opacity-50 text-[14px] md:text-[16px]"
                           }
                         />
                       </SelectTrigger>
@@ -410,7 +412,9 @@ export default function RegisterScreen() {
                         <SelectValue
                           placeholder="Pilih Desa"
                           className={
-                            selectedVillage ? "" : "placeholder:opacity-50 text-[14px] md:text-[16px]"
+                            selectedVillage
+                              ? ""
+                              : "placeholder:opacity-50 text-[14px] md:text-[16px]"
                           }
                         />
                       </SelectTrigger>
@@ -630,7 +634,9 @@ export default function RegisterScreen() {
                         <SelectValue
                           placeholder="Pilih Kecamatan"
                           className={
-                            selectedSubDistrict ? "" : "placeholder:opacity-50 text-[14px] md:text-[16px]"
+                            selectedSubDistrict
+                              ? ""
+                              : "placeholder:opacity-50 text-[14px] md:text-[16px]"
                           }
                         />
                       </SelectTrigger>
@@ -687,7 +693,9 @@ export default function RegisterScreen() {
                         <SelectValue
                           placeholder="Pilih Desa"
                           className={
-                            selectedVillage ? "" : "placeholder:opacity-50 text-[14px] md:text-[16px]"
+                            selectedVillage
+                              ? ""
+                              : "placeholder:opacity-50 text-[14px] md:text-[16px]"
                           }
                         />
                       </SelectTrigger>
@@ -804,16 +812,21 @@ export default function RegisterScreen() {
                 </AlertDialogTrigger>
 
                 <AlertDialogContent className="flex flex-col bg-white shadow-lg rounded-xl p-6 justify-center items-center w-10/12 md:max-w-3xl max-h-[600px] transform transition-all duration-300 hover:shadow-2xl">
-                  <AlertDialogTitle className="text-[20px] font-semibold text-gray-800 mt-4">Syarat dan Ketentuan</AlertDialogTitle>
+                  <AlertDialogTitle className="text-[20px] font-semibold text-gray-800 mt-4">
+                    Syarat dan Ketentuan
+                  </AlertDialogTitle>
                   <div className="h-full">
                     <TypingEffect
                       className="custom-class text-gray-600 text-center text-[14px] md:text-[16px] transition-all animate-pulse"
                       loop={false}
                       speed={100}
-                      text={["Silahkan dibaca dan dipahami. Terimakasih."]} />
+                      text={["Silahkan dibaca dan dipahami. Terimakasih."]}
+                    />
                   </div>
                   <div className="m-3 px-4 flex flex-col items-center w-full verticalScroll gap-y-6">
-                    <div className="text-gray-700 text-[14px] md:text-[16px]">{terms && parse(terms?.desc)}</div>
+                    <div className="text-gray-700 text-[14px] md:text-[16px]">
+                      {terms && parse(terms?.desc)}
+                    </div>
                     <div
                       onClick={handleAgree}
                       className="bg-blue-600 hover:bg-blue-500 transition-transform duration-300 hover:scale-105 text-center cursor-pointer w-4/12 rounded-full text-white py-2 px-5 shadow-md hover:shadow-lg">
@@ -821,7 +834,6 @@ export default function RegisterScreen() {
                     </div>
                   </div>
                 </AlertDialogContent>
-
               </AlertDialog>
               <div className="text-black-80 font-normal text-[14px] md:text-[16px]">
                 Dengan mendaftar, Anda menyetujui{" "}
