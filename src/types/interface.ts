@@ -494,7 +494,7 @@ export interface UserApplicationHistoryFormServiceInputInterface {
   layananform_name: string;
   layananform_datajson: UserApplicationHistoryFormServiceInputJsonDataInterface[];
   layananform_tipedata: string;
-  data_key: string[] | string;
+  data_key: string[];
 }
 
 export interface UserApplicationHistoryDetailInterface {
