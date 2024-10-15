@@ -61,13 +61,13 @@ export default function StructureOrganizarionCard({
             <div className="w-full max-h-[500px] flex flex-row justify-center items-center">
               <div className="w-8/12 h-full">
                 {item.nama && item?.image && (
-                  <div className="relative overflow-hidden rounded-lg transition-transform duration-300 ease-in-out transform hover:scale-105">
+                  <div className="relative overflow-hidden rounded-lg transition-transform duration-300 ease-in-out transform">
                     <Image
                       src={item.image}
                       alt={item?.nama}
                       width={1000}
                       height={1000}
-                      className="w-full h-full object-cover"
+                      className="w-[500px] h-[500px] object-cover"
                     />
                   </div>
                 )}

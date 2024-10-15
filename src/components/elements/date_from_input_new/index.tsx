@@ -69,7 +69,7 @@ export default function DateFormInputNew(props: DateInputProps) {
                         showYearDropdown
                         dateFormat="dd/MM/yyyy"
                         className="w-full border border-gray-300 rounded-md text-[14px] md:text-[16px]"
-                        yearDropdownItemNumber={15}
+                        yearDropdownItemNumber={100}
                         scrollableYearDropdown
                         locale={id}
                         excludeDates={disabledDatesAsDate}
