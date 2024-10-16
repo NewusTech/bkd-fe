@@ -100,14 +100,18 @@ export const postLoginUser = async (data: LoginUserInterface) => {
 
 // post Forgot Password user
 export const postForgotPasswordUser = async (
-  data: ForgotPasswordUserInterface
+  data: ForgotPasswordUserInterface,
+  slug: string
 ) => {
+  const token = Cookies.get("Authorization");
+
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_URL}/user/changepassword/:slug`,
+    `${process.env.NEXT_PUBLIC_API_URL}/user/change/password/${slug}`,
     {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(data),
       cache: "no-store",
@@ -1248,6 +1252,22 @@ export const updateApplicationForm = async (data: FormData, id: number) => {
         Authorization: `Bearer ${token}`,
       },
       body: data,
+      cache: "no-store",
+    }
+  );
+
+  return await response.json();
+};
+
+// get upload struktur
+export const getUploadStruktur = async () => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/user/struktur/file/get`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
       cache: "no-store",
     }
   );

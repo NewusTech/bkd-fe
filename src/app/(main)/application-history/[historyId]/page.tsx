@@ -29,6 +29,7 @@ import { formatDateString } from "@/lib/utils";
 import { Label } from "@/components/ui/label";
 import UserApplicationHistoryFormCard from "@/components/all_cards/userApplicationHistoryFormCard";
 import { Eye } from "@phosphor-icons/react";
+import { Warning } from "@phosphor-icons/react/dist/ssr";
 
 export default function ApplicationHistoryDetailScreen({
   params,
@@ -41,6 +42,7 @@ export default function ApplicationHistoryDetailScreen({
   const [isLoading, setIsLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isModalOpen2, setIsModalOpen2] = useState(false);
+  const [isLoadingNext, setIsLoadingNext] = useState(false);
   const [application, setApplication] =
     useState<UserApplicationHistoryDetailInterface>();
 
@@ -58,8 +60,6 @@ export default function ApplicationHistoryDetailScreen({
     fetchUserApplicationHistoryDetail(params?.historyId);
   }, [params?.historyId]);
 
-  console.log(application, "ini aplikasi");
-
   const handleDownloadOutput = async (
     layanan_id: number,
     history_id: number
@@ -70,8 +70,6 @@ export default function ApplicationHistoryDetailScreen({
         layanan_id,
         history_id
       );
-
-      console.log(response, "ini response");
 
       const url = window.URL.createObjectURL(response);
       const a = document.createElement("a");
@@ -122,6 +120,16 @@ export default function ApplicationHistoryDetailScreen({
     if (event.target === event.currentTarget) {
       closeModal2();
     }
+  };
+
+  const handleNextPage = async () => {
+    setIsLoadingNext(true);
+
+    setTimeout(() => {
+      setIsLoadingNext(false);
+
+      router.push("/satisfaction-index");
+    }, 2000);
   };
 
   return (
@@ -486,45 +494,81 @@ export default function ApplicationHistoryDetailScreen({
                     ))}
                 </div>
 
-                {application && application?.status === 9 && (
-                  <div className="w-full flex flex-row  items-center justify-center gap-x-5">
-                    <Button
-                      onClick={() =>
-                        handleDownloadOutput(
-                          application?.layanan_id ?? 0,
-                          application?.id ?? 0
-                        )
-                      }
-                      className="group hover:bg-primary-40 text-[14px] md:text-[16px] flex flex-row gap-x-5 items-center justify-center md:w-3/12 text-line-10 bg-line-10 border border-primary-40 font-normal">
-                      <Download className="w-5 h-5 text-primary-40 group-hover:text-line-10" />
+                {application &&
+                  application?.status === 9 &&
+                  application?.user_feedback === false && (
+                    <div className="w-full flex flex-col gap-y-5 p-3 bg-[#F3991B] bg-opacity-20 rounded-lg">
+                      <div className="w-full flex flex-col gap-y-3">
+                        <div className="w-full flex flex-row items-center gap-x-2">
+                          <Warning className="text-[#F3991B] w-10 h-10" />
 
-                      <p className="text-[14px] md:text-[16px] text-primary-40 group-hover:text-line-10">
-                        Unduh
-                      </p>
-                    </Button>
+                          <p className="text-[#F3991B] text-[18px] md:text-[20px]">
+                            Warning
+                          </p>
+                        </div>
 
-                    {application && application?.fileoutput && (
-                      <Link
-                        href={application?.fileoutput}
-                        target="_blank"
-                        className=" group rounded-lg py-[10px] hover:bg-line-10 hover:border hover:border-primary-40 text-[14px] md:text-[16px] flex flex-row gap-x-5 items-center justify-center w-5/12 md:w-3/12 text-line-10 bg-primary-40 font-normal">
-                        <Eye className="w-5 h-5 text-line-10 group-hover:text-primary-40" />
-
-                        <p className="text-[14px] md:text-[16px] text-line-10 group-hover:text-primary-40">
-                          Lihat File
+                        <p className="text-black-80 text-[14px] md:text-[16px]">
+                          Untuk mengunduh dokumen pengajuan, Harap isi Survey
+                          Indeks Kepuasaan terlebih dahulu terlebih dahulu
                         </p>
-                      </Link>
-                    )}
+                      </div>
 
-                    {/* <Button className=" group hover:bg-line-10 hover:border hover:border-primary-40 text-[14px] md:text-[16px] flex flex-row gap-x-5 items-center justify-center md:w-3/12 text-line-10 bg-primary-40 font-normal">
+                      <div className="w-full">
+                        <Button
+                          onClick={handleNextPage}
+                          disabled={isLoadingNext ? true : false}
+                          className="w-full bg-primary-40 hover:bg-primary-70 text-line-10 rounded-lg">
+                          {isLoadingNext ? (
+                            <Loader className="animate-spin" />
+                          ) : (
+                            "Isi Indeks Kepuasaan"
+                          )}
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+
+                {application &&
+                  application?.status === 9 &&
+                  application?.user_feedback === true && (
+                    <div className="w-full flex flex-row  items-center justify-center gap-x-5">
+                      <Button
+                        onClick={() =>
+                          handleDownloadOutput(
+                            application?.layanan_id ?? 0,
+                            application?.id ?? 0
+                          )
+                        }
+                        className="group hover:bg-primary-40 text-[14px] md:text-[16px] flex flex-row gap-x-5 items-center justify-center md:w-3/12 text-line-10 bg-line-10 border border-primary-40 font-normal">
+                        <Download className="w-5 h-5 text-primary-40 group-hover:text-line-10" />
+
+                        <p className="text-[14px] md:text-[16px] text-primary-40 group-hover:text-line-10">
+                          Unduh
+                        </p>
+                      </Button>
+
+                      {application && application?.fileoutput && (
+                        <Link
+                          href={application?.fileoutput}
+                          target="_blank"
+                          className=" group rounded-lg py-[10px] hover:bg-line-10 hover:border hover:border-primary-40 text-[14px] md:text-[16px] flex flex-row gap-x-5 items-center justify-center w-5/12 md:w-3/12 text-line-10 bg-primary-40 font-normal">
+                          <Eye className="w-5 h-5 text-line-10 group-hover:text-primary-40" />
+
+                          <p className="text-[14px] md:text-[16px] text-line-10 group-hover:text-primary-40">
+                            Lihat File
+                          </p>
+                        </Link>
+                      )}
+
+                      {/* <Button className=" group hover:bg-line-10 hover:border hover:border-primary-40 text-[14px] md:text-[16px] flex flex-row gap-x-5 items-center justify-center md:w-3/12 text-line-10 bg-primary-40 font-normal">
                     <Eye className="w-5 h-5 text-line-10 group-hover:text-primary-40" />
 
                     <p className="text-[14px] md:text-[16px] text-line-10 group-hover:text-primary-40">
                       Lihat File
                     </p>
                   </Button> */}
-                  </div>
-                )}
+                    </div>
+                  )}
 
                 {application && application?.status === 3 && (
                   <div className="w-full flex flex-row  items-center justify-center gap-x-5">

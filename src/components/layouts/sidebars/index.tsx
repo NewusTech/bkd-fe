@@ -14,10 +14,16 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Cookies from "js-cookie";
-import { getAreas, getServiceByAreas, getUserProfile } from "@/services/api";
+import {
+  getAreas,
+  getServiceByAreas,
+  getUserApplicationHistory,
+  getUserProfile,
+} from "@/services/api";
 import {
   AreasInterface,
   ServiceInterface,
+  UserApplicationHistoryInterface,
   UserProfileInterface,
 } from "@/types/interface";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
@@ -31,6 +37,8 @@ export default function DashBoardSidebarPages() {
   const [user, setUser] = useState<UserProfileInterface>();
   const [areas, setAreas] = useState<AreasInterface[]>([]);
   const [services, setServices] = useState<ServiceInterface[]>();
+  const [applications, setApplications] =
+    useState<UserApplicationHistoryInterface[]>();
   const [serviceId, setServiceId] = useState<number | null>(null);
 
   useEffect(() => {
@@ -80,6 +88,34 @@ export default function DashBoardSidebarPages() {
       fetchServices(serviceId);
     }
   }, [serviceId]);
+
+  const fetchUserApplicationHistories = async (
+    page: number,
+    limit: number,
+    search?: string,
+    start_date?: string,
+    end_date?: string,
+    status?: number
+  ) => {
+    try {
+      const response = await getUserApplicationHistory(
+        page,
+        limit,
+        search,
+        start_date,
+        end_date,
+        status
+      );
+
+      setApplications(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserApplicationHistories(1, 100, "", "", "");
+  }, []);
 
   return (
     <section className="flex flex-col w-10/12 md:w-[23%] h-full justify-center items-center fixed">
@@ -167,14 +203,16 @@ export default function DashBoardSidebarPages() {
               </Link>
             </div>
 
-            <div
-              className={`${pathName === "/satisfaction-index" ? "bg-primary-40 bg-opacity-20" : ""} w-full py-3`}>
-              <Link
-                href={"/satisfaction-index"}
-                className={`w-full flex flex-row text-black-80 text-[16px] px-4`}>
-                Indeks kepuasan
-              </Link>
-            </div>
+            {applications && applications.length > 0 && (
+              <div
+                className={`${pathName === "/satisfaction-index" ? "bg-primary-40 bg-opacity-20" : ""} w-full py-3`}>
+                <Link
+                  href={"/satisfaction-index"}
+                  className={`w-full flex flex-row text-black-80 text-[16px] px-4`}>
+                  Indeks kepuasan
+                </Link>
+              </div>
+            )}
 
             <div
               className={`${pathName === "/user-complaint" ? "bg-primary-40 bg-opacity-20" : ""} w-full py-3`}>

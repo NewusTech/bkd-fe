@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Loader } from "lucide-react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import Swal from "sweetalert2";
@@ -30,8 +29,6 @@ export default function ForgotPasswordScreen() {
           cache: "no-store",
         }
       );
-
-      console.log(response, "lala lili");
 
       const result = await response.json();
 
@@ -79,12 +76,14 @@ export default function ForgotPasswordScreen() {
           </h2>
 
           <p className="text-black-80 text-center text-[14px] mb-2">
-            Aplikasi SIPADU mempermudah pengelolaan administrasi kepegawaian dengan
-            proses cepat, efisien, dan transparan. Login untuk mengakses fitur
-            sesuai kebutuhan Anda.
+            Aplikasi SIPADU mempermudah pengelolaan administrasi kepegawaian
+            dengan proses cepat, efisien, dan transparan. Login untuk mengakses
+            fitur sesuai kebutuhan Anda.
           </p>
 
-          <form className="w-full flex flex-col gap-y-6" onSubmit={SubmitForgotPassword}>
+          <form
+            className="w-full flex flex-col gap-y-6"
+            onSubmit={SubmitForgotPassword}>
             <div className="w-full flex flex-col gap-y-5">
               <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                 <Label
