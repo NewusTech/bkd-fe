@@ -14,8 +14,11 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import TypingEffect from "@/components/ui/TypingEffect";
+import { usePathname } from "next/navigation";
 
 export default function MobileNavigationScreen() {
+  const pathName = usePathname();
+
   return (
     <div
       className={`flex flex-row bg-line-10 shadow-md w-full fixed z-50 top-0 py-6 justify-between px-5`}>
@@ -49,7 +52,7 @@ export default function MobileNavigationScreen() {
         </div>
       </Link>
 
-      <div className="w-1/12">
+      <div key={pathName} className="w-1/12">
         <Sheet>
           <SheetTrigger>
             <Menu className="w-7 h-7 text-line-80" />
