@@ -5,7 +5,7 @@ import { Camera, X } from "@phosphor-icons/react";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { HomeIcon, List, Loader, LogOut, User2 } from "lucide-react";
+import { HomeIcon, KeyRound, List, Loader, LogOut, User2 } from "lucide-react";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 import {
@@ -276,6 +276,19 @@ export default function ProfileSideBarScreen() {
               <p
                 className={`${pathName === "/user-profile" ? "text-primary-40" : "text-black-80"} text-[16px]`}>
                 Akun Saya
+              </p>
+            </Link>
+
+            <Link
+              href={"/user-profile/forgot-password"}
+              className={`w-full flex flex-row px-4 py-3 ${pathName === "/user-profile/forgot-password" ? "bg-primary-40 bg-opacity-20" : ""} items-center gap-x-2`}>
+              <KeyRound
+                className={`w-6 h-6 ${pathName === "/user-profile/forgot-password" ? "text-primary-40" : "text-black-80"}`}
+              />
+
+              <p
+                className={`${pathName === "/user-profile/forgot-password" ? "text-primary-40" : "text-black-80"} text-[16px]`}>
+                Ganti Kata Sandi
               </p>
             </Link>
 

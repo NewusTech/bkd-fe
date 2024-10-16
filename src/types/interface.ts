@@ -38,6 +38,12 @@ export interface LoginUserInterface {
   password: string;
 }
 
+export interface ForgotPasswordUserInterface {
+  newPassword: string;
+  confirmNewPassword: string;
+  oldPassword: string;
+}
+
 export interface PaginationInterface {
   totalPages: number;
   currentPage: number;
