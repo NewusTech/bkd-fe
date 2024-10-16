@@ -484,7 +484,7 @@ export const satisfactionQuestions = [
   {
     id: 1,
     question:
-      "Apakah aplikasi Sipandu yang digunakan mudah dipahami dan tidak sulit untuk digunakan?",
+      "Apakah aplikasi Sipadu yang digunakan mudah dipahami dan tidak sulit untuk digunakan?",
   },
   {
     id: 2,
@@ -492,11 +492,11 @@ export const satisfactionQuestions = [
   },
   {
     id: 3,
-    question: "Bagaimana pengalamanmu dengan aplikasi Sipandu?",
+    question: "Bagaimana pengalamanmu dengan aplikasi Sipadu?",
   },
   {
     id: 4,
-    question: "Bagaimana kinerja aplikasi Sipandu?",
+    question: "Bagaimana kinerja aplikasi Sipadu?",
   },
 ];
 

@@ -92,7 +92,7 @@ export default function LoginScreen() {
         } else {
           Swal.fire({
             icon: "error",
-            title: "Login gagal. Periksa NIK dan password Anda.",
+            title: "Login gagal. Periksa NIP dan password Anda.",
             timer: 2000,
             showConfirmButton: false,
             position: "center",
