@@ -79,7 +79,7 @@ export default function HeroScreen({
                             alt="carousel"
                             width={1000}
                             height={400}
-                            className="w-full h-full object-contain"
+                            className="w-full h-[500px]"
                           />
                         </div>
                       </CarouselItem>
