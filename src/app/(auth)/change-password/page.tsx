@@ -159,15 +159,13 @@ export default function ForgotPasswordScreen() {
 
                     <p className="text-black-80 text-center text-[14px] mb-2">
                         Aplikasi SIPADU mempermudah pengelolaan administrasi kepegawaian dengan
-                        proses cepat, efisien, dan transparan. Login untuk mengakses fitur
-                        sesuai kebutuhan Anda.
+                        proses cepat, efisien, dan transparan. 
                     </p>
 
                     <form onSubmit={handleChangePassword} className="space-y-6 w-full">
                         {renderPasswordInput("oldPassword", "Password Lama", "Masukkan Password Lama")}
                         {renderPasswordInput("newPassword", "Password Baru", "Masukkan Password Baru")}
                         {renderPasswordInput("confirmNewPassword", "Ulangi Password Baru", "Masukkan Ulang Password Baru")}
-
                         <div className="w-full flex flex-col gap-y-8">
                             <Button
                                 type="submit"

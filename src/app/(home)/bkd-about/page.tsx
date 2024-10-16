@@ -168,7 +168,7 @@ export default function ProfileAboutScreen() {
             text={["Struktur Organisasi Lampung Timur"]}
           />
 
-          <div className="w-full grid grid-cols-2 md:grid-cols-5 gap-y-5 group gap-x-3 md:gap-x-5 pb-16">
+          <div className="w-full grid grid-cols-2 md:grid-cols-5 gap-y-5 group gap-x-3 md:gap-x-5 pb-0 md:pb-16">
             {organizations &&
               organizations?.length > 0 &&
               organizations?.map(
@@ -178,7 +178,7 @@ export default function ProfileAboutScreen() {
               )}
           </div>
 
-          <div className="w-full">
+          <div className="w-full mb-10 md:mb-0">
             <PaginationComponent
               currentPage={pagination.currentPage}
               totalPages={pagination.totalPages}

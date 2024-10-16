@@ -58,7 +58,7 @@ export default function StructureOrganizarionCard({
         </DialogTrigger>
         <DialogContent className="w-10/12 max-w-2xl bg-line-10 border border-primary-40 rounded-lg shadow-md">
           <DialogHeader className="flex flex-col bg-line-10 gap-y-3 max-h-[700px]">
-            <div className="w-full max-h-[500px] flex flex-row justify-center items-center">
+            <div className="w-full max-h-[300px] md:max-h-2xl flex flex-row justify-center items-center">
               <div className="w-8/12 h-full">
                 {item.nama && item?.image && (
                   <div className="relative overflow-hidden rounded-lg transition-transform duration-300 ease-in-out transform">
@@ -67,7 +67,7 @@ export default function StructureOrganizarionCard({
                       alt={item?.nama}
                       width={1000}
                       height={1000}
-                      className="w-[500px] h-[500px] object-cover"
+                      className="w-[500px] h-[300px] md:h-[300px] object-contain"
                     />
                   </div>
                 )}
@@ -75,16 +75,17 @@ export default function StructureOrganizarionCard({
             </div>
             <div className="w-full flex flex-col gap-y-3">
               <DialogTitle className="text-center text-black-80 font-semibold text-[22px] h-8">
-                <TypingEffect
-                  className="custom-class"
-                  loop={false}
-                  // deleteSpeed={50}
-                  speed={50}
-                  text={item?.nama ? [item.nama] : ["Tidak ada data"]}
-                />
+                <div className="text-black-80 text-center text-[18px] md:text-[20px]">
+                  <TypingEffect
+                    className="custom-class py-1"
+                    loop={false}
+                    speed={20}
+                    text={item?.nama ? [item.nama] : ["Tidak ada data"]}
+                  />
+                </div>
                 {/* {item?.nama && item?.nama} */}
               </DialogTitle>
-              <DialogDescription className="text-center text-black-80 font-normal text-[18px]">
+              <DialogDescription className="text-center text-black-80 font-normal text-[14px] md:text-[16px]">
                 <TypingEffect
                   className="custom-class"
                   loop={false}

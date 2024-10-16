@@ -74,9 +74,27 @@ export default function Home() {
     }
   }, [router]);
 
+  // const fetchCarouselSliders = async () => {
+  //   try {
+  //     const response = await getCarouselSliders();
+
+  //     setSlides(response?.data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
   const fetchCarouselSliders = async () => {
     try {
-      const response = await getCarouselSliders();
+      let response: any;
+
+      if (isMobile) {
+        response = await getCarouselSliders();
+        setSlides(response?.data);
+      } else {
+        response = await getCarouselSliders();
+        setSlides(response?.data);
+      }
 
       setSlides(response?.data);
     } catch (error) {
@@ -84,8 +102,17 @@ export default function Home() {
     }
   };
 
+  // {
+  //   !isMobile ? (
+  //     <></>
+  //   ) : (
+  //     <></>
+  //   )
+  // }
+
   useEffect(() => {
     fetchCarouselSliders();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const fetchAreasStructureOrganization = async (
@@ -258,18 +285,18 @@ export default function Home() {
         </div>
         <div
           data-aos="fade-left"
-          className="w-full flex flex-col gap-y-4 md:gap-y-8 transition-opacity duration-500 ease-in-out">
-          <div className="w-full flex flex-col items-center md:items-start gap-y-2 transition-transform duration-300 ease-in-out transform hover:translate-x-4">
-            <p className="text-line-10 text-sm md:text-[16px] tracking-wider opacity-80 transition-opacity hover:opacity-100">
+          className="w-full flex flex-col gap-y-0 md:gap-y-8 transition-opacity duration-500 ease-in-out">
+          <div className="w-full flex flex-col items-center md:items-start md:gap-y-2 transition-transform duration-300 ease-in-out transform md:hover:translate-x-4 mb-4 md:mb-0">
+            <p className="text-line-10 text-xl md:text-3xl tracking-wider md:opacity-80 md:transition-opacity md:hover:opacity-100">
               Tentang Sipadu BKD
             </p>
-            <h4 className="text-line-10 text-2xl md:text-4xl font-bold tracking-wide relative hover:animate-pulse transition-colors duration-500">
+            <h4 className="text-line-10 text-xl md:text-3xl font-bold tracking-wide relative hover:animate-pulse transition-colors duration-500">
               Lampung Timur
               <span className="absolute -bottom-1 left-0 w-0 h-1 bg-primary-40 transition-all duration-500 hover:w-full"></span>
             </h4>
           </div>
           <div className="w-full">
-            <div className="text-line-10 text-sm md:text-[16px] text-start leading-8 opacity-80 hover:opacity-100 transition-transform duration-300 ease-in-out transform hover:translate-x-4">
+            <div className="text-line-10 text-[14px] md:text-[16px] text-center opacity-80 md:hover:opacity-100 transition-transform duration-300 ease-in-out transform md:hover:translate-x-4">
               {informations && parse(informations.about_bkd)}
             </div>
           </div>
@@ -278,8 +305,8 @@ export default function Home() {
 
       <section className="w-full snap-start scroll-mt-24 flex flex-col px-4 md:px-12 py-8 md:py-8 gap-y-8 md:gap-y-16">
         <div className="w-full flex flex-col items-center gap-y-3">
-          <h5 className="text-black-80 px-6 md:px-0 text-xl md:text-3xl font-semibold">
-            PELAYANAN SIPADU BKD LAMPUNG TIMUR
+          <h5 className="text-black-80 px-6 md:px-0 text-xl md:text-3xl font-semibold text-center md:text-left">
+            Pelayanan SIPADU BKD Lampung Timur
           </h5>
 
           <div className="text-black-80 text-center text-[14px] md:text-[16px]">
@@ -293,7 +320,7 @@ export default function Home() {
             />
           </div>
 
-          {/* <p className="text-black-80 text-center text-sm md:text-[16px]">
+          {/* <p className="text-black-80 text-center text-[14px] md:text-[16px]">
             BKD memberikan pelayanan kepegawaian yang meliputi berbagai bidang,
             seperti: bidang mutasi, bidang diklat, bidang formasi pengadaan, dan
             bidang pembinaan.
@@ -312,11 +339,10 @@ export default function Home() {
       <section
         className={`w-full flex flex-col md:flex-row snap-start scroll-mt-24 background-about-us pt-2 pb-16 md:py-12 gap-y-6 md:gap-y-8 gap-x-3`}>
         <div
-          className={`px-4 ${isMobile ? "" : "carousel-wrapper"} transition-opacity duration-700 ease-in-out ${
-            isCarouselFullscreen && !isMobile
-              ? "hidden"
-              : "slide-in opacity-visible flex flex-col gap-y-5 md:w-[30%]"
-          }`}>
+          className={`px-4 ${isMobile ? "" : "carousel-wrapper"} transition-opacity duration-700 ease-in-out ${isCarouselFullscreen && !isMobile
+            ? "hidden"
+            : "slide-in opacity-visible flex flex-col gap-y-5 md:w-[30%]"
+            }`}>
           <div data-aos="fade-right" className="w-full flex flex-col gap-y-5">
             <div className="w-full flex flex-row items-center justify-center pt-8 md:pt-12">
               <div className="w-3/12 md:w-4/12 h-full">
@@ -331,7 +357,7 @@ export default function Home() {
             </div>
 
             <div className="w-full flex flex-col gap-y-5">
-              <h5 className="text-line-10 text-[20px] md:px-8 text-center font-light">
+              <h5 className="text-line-10 text-xl md:text-3xl md:px-8 text-center font-light">
                 Berita Terkait Tentang Sipadu BKD Lampung Timur
               </h5>
 
@@ -496,7 +522,7 @@ export default function Home() {
 
       <section className="w-full flex snap-start scroll-mt-24 flex-col py-8 md:py-12 px-4 md:px-20 gap-y-8">
         <div className="w-full flex flex-col items-center gap-y-3">
-          <h5 className="text-black-80 px-6 md:px-0 text-xl md:text-3xl font-semibold">
+          <h5 className="text-black-80 px-6 md:px-0 text-xl md:text-3xl font-semibold text-center">
             MAPS BKD LAMPUNG TIMUR
           </h5>
         </div>
