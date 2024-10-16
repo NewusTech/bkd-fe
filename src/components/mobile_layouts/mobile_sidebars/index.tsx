@@ -14,8 +14,11 @@ import {
 } from "@/components/ui/sheet";
 import DashBoardSidebarPages from "@/components/layouts/sidebars";
 import { BuildingApartment } from "@phosphor-icons/react";
+import { usePathname } from "next/navigation";
 
 export default function MobileDashboardSideBarPages() {
+  const pathName = usePathname();
+
   return (
     <section className="w-full bg-line-10 px-5 py-5 flex flex-row justify-between items-center">
       <div className="flex flex-row w-full h-10 gap-x-2">
@@ -40,7 +43,7 @@ export default function MobileDashboardSideBarPages() {
         </div>
       </div>
 
-      <div className="w-1/12">
+      <div key={pathName} className="w-1/12">
         <Sheet>
           <SheetTrigger>
             <Menu className="w-7 h-7 text-line-80" />

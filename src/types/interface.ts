@@ -166,6 +166,14 @@ export interface InformationBKdInterface {
   createdAt: string;
 }
 
+export interface UploadBKDInterface {
+  id: number;
+  title: string;
+  file: string;
+  createdAt: string;
+  updatedAt: string;
+}
+
 export interface MissionInterface {
   id: number;
   value: string;
@@ -519,6 +527,7 @@ export interface UserApplicationHistoryDetailInterface {
   Layanan_form_inputs: UserApplicationHistoryFormServiceInputInterface[];
   status: number;
   fileoutput: string;
+  user_feedback: boolean;
   pesan: string;
 }
 
