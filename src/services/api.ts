@@ -3,7 +3,11 @@
 import Cookies from "js-cookie";
 // import useSWR from "swr";
 // import { fetcher, fetcherWithoutAuth } from "@/constants/fetcher";
-import { LoginUserInterface, NewUserInterface } from "@/types/interface";
+import {
+  ForgotPasswordUserInterface,
+  LoginUserInterface,
+  NewUserInterface,
+} from "@/types/interface";
 
 // get
 // export function useCarousel() {
@@ -90,6 +94,25 @@ export const postLoginUser = async (data: LoginUserInterface) => {
     body: JSON.stringify(data),
     cache: "no-store",
   });
+
+  return await response.json();
+};
+
+// post Forgot Password user
+export const postForgotPasswordUser = async (
+  data: ForgotPasswordUserInterface
+) => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/user/changepassword/:slug`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(data),
+      cache: "no-store",
+    }
+  );
 
   return await response.json();
 };
