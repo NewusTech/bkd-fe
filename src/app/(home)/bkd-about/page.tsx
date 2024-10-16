@@ -23,6 +23,9 @@ import { RichTextDisplay } from "@/components/elements/rich_text_display";
 import Image from "next/image";
 import { splitStringAndCreateObjectArray } from "@/lib/utils";
 import TypingEffect from "@/components/ui/TypingEffect";
+import { Download } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { FileText } from "@phosphor-icons/react";
 
 export default function ProfileAboutScreen() {
   const router = useRouter();
@@ -161,12 +164,43 @@ export default function ProfileAboutScreen() {
 
       <div className="w-full flex flex-col px-5 md:px-8 bg-line-10 py-12">
         <div className="w-full flex flex-col items-center justify-center gap-y-5">
-          <TypingEffect
-            className="custom-class text-black-80 text-xl text-center md:text-2xl font-semibold mb-2"
-            loop={false}
-            speed={100}
-            text={["Struktur Organisasi Lampung Timur"]}
-          />
+          <div className="w-full flex flex-col md:flex-row items-center justify-center gap-x-2">
+            <h3 className="text-black-80 text-center font-semibold text-[20px] md:text-[26px]">
+              Struktur Organisasi BKD Lampung Timur
+            </h3>
+
+            <div className="w-[5%] flex flex-row items-center justify-center gap-x-3">
+              <Button
+                // onClick={() =>
+                //   handleDownloadOutput(
+                //     application?.layanan_id ?? 0,
+                //     application?.id ?? 0
+                //   )
+                // }
+                className="group px-0 text-[14px] md:text-[16px] flex flex-row gap-x-5 items-center justify-center md:w-full text-line-10 bg-line-10 font-normal">
+                <FileText className="w-5 h-5 text-primary-40 group-hover:text-black-80" />
+
+                {/* <p className="text-[14px] md:text-[16px] text-primary-40 group-hover:text-line-10">
+                Unduh
+              </p> */}
+              </Button>
+
+              <Button
+                // onClick={() =>
+                //   handleDownloadOutput(
+                //     application?.layanan_id ?? 0,
+                //     application?.id ?? 0
+                //   )
+                // }
+                className="group px-0 text-[14px] md:text-[16px] flex flex-row gap-x-5 items-center justify-center md:w-full text-line-10 bg-line-10 font-normal">
+                <Download className="w-5 h-5 text-primary-40 group-hover:text-black-80" />
+
+                {/* <p className="text-[14px] md:text-[16px] text-primary-40 group-hover:text-line-10">
+                Unduh
+              </p> */}
+              </Button>
+            </div>
+          </div>
 
           <div className="w-full grid grid-cols-2 md:grid-cols-5 gap-y-5 group gap-x-3 md:gap-x-5 pb-16">
             {organizations &&
