@@ -35,7 +35,7 @@ export default function StructureOrganizarionCard({
           </div>
 
           <div className="w-full flex flex-col gap-y-1 items-center pb-2">
-            <h3 className="">
+            <div className="">
               <TypingEffect
                 className="custom-class text-black-80 font-semibold text-[14px] md:text-[16px]"
                 loop={false}
@@ -43,9 +43,9 @@ export default function StructureOrganizarionCard({
                 text={item?.nama ? [item.nama] : ["Tidak ada data"]}
               />
               {/* {item?.nama && item?.nama} */}
-            </h3>
+            </div>
 
-            <p className="text-black-80 text-[12px] md:text-[14px] font-light">
+            <div className="text-black-80 text-[12px] md:text-[14px] font-light">
               <TypingEffect
                 className="custom-class text-black-80 font-semibold text-[14px] md:text-[16px]"
                 loop={false}
@@ -53,7 +53,7 @@ export default function StructureOrganizarionCard({
                 text={item?.jabatan ? [item.jabatan] : ["Tidak ada data"]}
               />
               {/* {item?.jabatan && item?.jabatan} */}
-            </p>
+            </div>
           </div>
         </DialogTrigger>
         <DialogContent className="w-10/12 max-w-2xl bg-line-10 border border-primary-40 rounded-lg shadow-md">

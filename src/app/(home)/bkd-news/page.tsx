@@ -102,14 +102,14 @@ export default function ProfileAboutScreen() {
                 </Link>
               </div>
 
-              <h5 className="md:text-[16px] md:text-justify md:text-black md:font-light hover:opacity-100 transition-transform duration-300 ease-in-out transform hover:translate-x-4">
+              <div className="md:text-[16px] md:text-justify md:text-black md:font-light hover:opacity-100 transition-transform duration-300 ease-in-out transform hover:translate-x-4">
                 {parse(truncateTitle(desc, 700))}
                 <Link href={`/bkd-news/${slug}`}>
                   <span className="text-primary-40 pl-1 font-normal hover:underline text-[16px]">
                     Lihat Selengkapnya
                   </span>
                 </Link>
-              </h5>
+              </div>
             </div>
           </div>
         )}
