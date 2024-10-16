@@ -24,14 +24,14 @@ export default function MobileNavigationScreen() {
       className={`flex flex-row bg-line-10 shadow-md w-full fixed z-50 top-0 py-6 justify-between px-5`}>
       <Link
         href="/"
-        className="flex flex-row w-full h-10 gap-x-2 group hover:scale-[1.05] transition-transform duration-300 ease-in-out">
+        className="flex flex-row w-full h-10 gap-x-2 group transition-transform duration-300 ease-in-out">
         <div className="w-[12%] h-full flex flex-col items-center justify-center">
           <Image
             src={logo}
             alt="Lampung Timur"
             width={1000}
             height={1000}
-            className="w-full h-full transform group-hover:rotate-12 transition-transform ease-in-out"
+            className="w-9 h-10 md:w-full md:h-full transform transition-transform ease-in-out"
           />
         </div>
 
@@ -40,7 +40,7 @@ export default function MobileNavigationScreen() {
             SIPADU BKD
           </h3>
 
-          <h3 className="font-normal text-black-80 text-sm group-hover:animate-none transition-all ease-in-out">
+          <h3 className="font-normal text-black-80 text-sm group-hover:animate-none transition-all ease-in-out h-4">
             <TypingEffect
               className="custom-class text-[14px] md:text-[16px]"
               loop={true}

@@ -43,7 +43,7 @@ export default function BKDGalleryActivitiesScreen() {
   };
 
   return (
-    <section className="w-full h-screen flex flex-col background-about-us py-12 px-4 md:px-20 gap-y-8 mb-20">
+    <section className="w-full h-full md:h-screen flex flex-col background-about-us py-12 px-4 md:px-20 gap-y-8 mb-20">
       <div className="w-full flex flex-col items-center gap-y-3">
         <h5 className="text-line-10 text-center text-xl md:text-3xl font-semibold">
           FOTO KEGIATAN BKD LAMPUNG TIMUR
