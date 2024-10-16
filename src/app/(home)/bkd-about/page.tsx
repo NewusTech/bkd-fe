@@ -3,11 +3,16 @@
 import banner from "@/../../public/assets/images/bg-about-banner.jpg";
 import StructureOrganizarionCard from "@/components/all_cards/structureOrganizationsCard";
 import PaginationComponent from "@/components/elements/pagination";
-import { getInformationBkd, getStructureOrganization } from "@/services/api";
+import {
+  getInformationBkd,
+  getStructureOrganization,
+  getUploadStruktur,
+} from "@/services/api";
 import {
   InformationBKdInterface,
   MissionInterface,
   StructureOrganizationInterface,
+  UploadBKDInterface,
 } from "@/types/interface";
 import {
   Carousel,
@@ -26,6 +31,7 @@ import TypingEffect from "@/components/ui/TypingEffect";
 import { Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FileText } from "@phosphor-icons/react";
+import Link from "next/link";
 
 export default function ProfileAboutScreen() {
   const router = useRouter();
@@ -33,12 +39,29 @@ export default function ProfileAboutScreen() {
     StructureOrganizationInterface[]
   >([]);
   const [informations, setInformations] = useState<InformationBKdInterface>();
+  const [bkds, setBkds] = useState<UploadBKDInterface[]>();
   const [pagination, setPagination] = useState({
     currentPage: 1,
     perPage: 10,
     totalPages: 1,
     totalCount: 0,
   });
+
+  const fetchBKDUpload = async () => {
+    try {
+      const response = await getUploadStruktur();
+
+      setBkds(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    fetchBKDUpload();
+  }, []);
+
+  console.log(bkds, "bkds");
 
   const fetchGalleries = async (page: number, limit: number) => {
     try {
@@ -170,35 +193,33 @@ export default function ProfileAboutScreen() {
             </h3>
 
             <div className="w-[5%] flex flex-row items-center justify-center gap-x-3">
-              <Button
-                // onClick={() =>
-                //   handleDownloadOutput(
-                //     application?.layanan_id ?? 0,
-                //     application?.id ?? 0
-                //   )
-                // }
-                className="group px-0 text-[14px] md:text-[16px] flex flex-row gap-x-5 items-center justify-center md:w-full text-line-10 bg-line-10 font-normal">
-                <FileText className="w-5 h-5 text-primary-40 group-hover:text-black-80" />
+              {bkds &&
+                bkds.length > 0 &&
+                bkds?.map((bkd: UploadBKDInterface, i: number) => {
+                  return (
+                    <Link
+                      key={i}
+                      href={bkd.file}
+                      target="_blank"
+                      className="group px-0 text-[14px] md:text-[16px] flex flex-row gap-x-5 items-center justify-center md:w-full text-line-10 bg-line-10 font-normal">
+                      <FileText className="w-5 h-5 text-primary-40 group-hover:text-black-80" />
+                    </Link>
+                  );
+                })}
 
-                {/* <p className="text-[14px] md:text-[16px] text-primary-40 group-hover:text-line-10">
-                Unduh
-              </p> */}
-              </Button>
-
-              <Button
-                // onClick={() =>
-                //   handleDownloadOutput(
-                //     application?.layanan_id ?? 0,
-                //     application?.id ?? 0
-                //   )
-                // }
-                className="group px-0 text-[14px] md:text-[16px] flex flex-row gap-x-5 items-center justify-center md:w-full text-line-10 bg-line-10 font-normal">
-                <Download className="w-5 h-5 text-primary-40 group-hover:text-black-80" />
-
-                {/* <p className="text-[14px] md:text-[16px] text-primary-40 group-hover:text-line-10">
-                Unduh
-              </p> */}
-              </Button>
+              {bkds &&
+                bkds.length > 0 &&
+                bkds?.map((bkd: UploadBKDInterface, i: number) => {
+                  return (
+                    <Link
+                      key={i}
+                      href={bkd.file}
+                      target="_blank"
+                      className="group px-0 text-[14px] md:text-[16px] flex flex-row gap-x-5 items-center justify-center md:w-full text-line-10 bg-line-10 font-normal">
+                      <Download className="w-5 h-5 text-primary-40 group-hover:text-black-80" />
+                    </Link>
+                  );
+                })}
             </div>
           </div>
 
