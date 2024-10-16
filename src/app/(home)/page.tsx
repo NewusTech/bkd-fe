@@ -74,33 +74,33 @@ export default function Home() {
     }
   }, [router]);
 
-  // const fetchCarouselSliders = async () => {
-  //   try {
-  //     const response = await getCarouselSliders();
-
-  //     setSlides(response?.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
   const fetchCarouselSliders = async () => {
     try {
-      let response: any;
-
-      if (isMobile) {
-        response = await getCarouselSliders();
-        setSlides(response?.data);
-      } else {
-        response = await getCarouselSliders();
-        setSlides(response?.data);
-      }
+      const response = await getCarouselSliders();
 
       setSlides(response?.data);
     } catch (error) {
       console.log(error);
     }
   };
+
+  // const fetchCarouselSliders = async () => {
+  //   try {
+  //     let response: any;
+
+  //     if (isMobile) {
+  //       response = await getCarouselSliders();
+  //       setSlides(response?.data);
+  //     } else {
+  //       response = await getCarouselSliders();
+  //       setSlides(response?.data);
+  //     }
+
+  //     setSlides(response?.data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   // {
   //   !isMobile ? (
@@ -114,6 +114,8 @@ export default function Home() {
     fetchCarouselSliders();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  console.log(slides , "ini ini")
 
   const fetchAreasStructureOrganization = async (
     page: number,

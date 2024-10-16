@@ -105,7 +105,9 @@ export interface AdminApplicationHistoryInterface {
 export interface CarouselSliderInterface {
   id: number;
   image: string;
+  image_potrait: string;
   createdAt: string;
+  updatedAt: string;
 }
 
 export interface StructureOrganizationInterface {

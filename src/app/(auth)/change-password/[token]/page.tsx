@@ -29,7 +29,7 @@ export default function ForgotPasswordScreen({ params }: { params: { token: stri
         setIsLoading(true);
         try {
             const response = await fetch(
-                `${process.env.NEXT_PUBLIC_API_URL_MPP}/user/reset/password/${params.token}`,
+                `${process.env.NEXT_PUBLIC_API_URL}/${params.token}`,
                 {
                     method: "POST",
                     headers: {
