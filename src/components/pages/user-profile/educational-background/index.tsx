@@ -58,6 +58,8 @@ export default function EducationalBackgroundProfileScreen({
   isLoadingEducationDelete,
   returnDate,
   setReturnDate,
+  hasSubmittedEducationData,
+  errorsEducationData,
 }: {
   educations: UserEducationInterface[];
   openEducationCreate: boolean;
@@ -91,6 +93,13 @@ export default function EducationalBackgroundProfileScreen({
   isLoadingEducationDelete: boolean;
   returnDate: Date;
   setReturnDate: React.Dispatch<React.SetStateAction<Date>>;
+  hasSubmittedEducationData: boolean;
+  errorsEducationData: {
+    tingkat_pendidikan: { _errors: string[] };
+    program_study: { _errors: string[] };
+    institut: { _errors: string[] };
+    no_ijazah: { _errors: string[] };
+  };
 }) {
   const isMobile = useMediaQuery("(max-width: 768px)");
 
@@ -105,7 +114,7 @@ export default function EducationalBackgroundProfileScreen({
               </p>
             </div>
 
-            <div className="w-full md:w-4/12">
+            <div className="w-full md:w-2/12">
               <div className="w-full flex flex-row items-center justify-center gap-x-2">
                 <div className="w-full">
                   {!isMobile ? (
@@ -120,9 +129,7 @@ export default function EducationalBackgroundProfileScreen({
                         <div className="w-full gap-x-2 px-6 text-sm bg-primary-40 hover:bg-primary-70 text-line-10 flex items-center justify-center h-12 rounded-md">
                           <Plus className="w-6 h-6 text-line-10" />
 
-                          <p className="text-line-10 text-[16px]">
-                            Tambah Riwayat Pendidikan
-                          </p>
+                          <p className="text-line-10 text-[16px]">Tambah</p>
                         </div>
                       </AlertDialogTrigger>
                       <AlertDialogContent className="w-full max-w-2xl bg-line-10 rounded-lg shadow-md">
@@ -161,6 +168,17 @@ export default function EducationalBackgroundProfileScreen({
                                 className="w-full h-12 text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                                 placeholder="Masukkan Tingkat Pendidikan Anda"
                               />
+
+                              {hasSubmittedEducationData &&
+                                errorsEducationData?.tingkat_pendidikan
+                                  ?._errors && (
+                                  <div className="text-error-50 text-[14px] md:text-[16px]">
+                                    {
+                                      errorsEducationData.tingkat_pendidikan
+                                        ._errors[0]
+                                    }
+                                  </div>
+                                )}
                             </div>
 
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -186,6 +204,16 @@ export default function EducationalBackgroundProfileScreen({
                                 className="w-full h-12 text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                                 placeholder="Masukkan Jurusan/Program Studi Anda"
                               />
+
+                              {hasSubmittedEducationData &&
+                                errorsEducationData?.program_study?._errors && (
+                                  <div className="text-error-50 text-[14px] md:text-[16px]">
+                                    {
+                                      errorsEducationData.program_study
+                                        ._errors[0]
+                                    }
+                                  </div>
+                                )}
                             </div>
 
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -211,6 +239,13 @@ export default function EducationalBackgroundProfileScreen({
                                 className="w-full h-12 text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                                 placeholder="Masukkan Nama Instansi/Lembaga Anda"
                               />
+
+                              {hasSubmittedEducationData &&
+                                errorsEducationData?.institut?._errors && (
+                                  <div className="text-error-50 text-[14px] md:text-[16px]">
+                                    {errorsEducationData.institut._errors[0]}
+                                  </div>
+                                )}
                             </div>
 
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -236,6 +271,13 @@ export default function EducationalBackgroundProfileScreen({
                                 className="w-full h-12 text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                                 placeholder="Masukkan Nomor Ijazah Anda Anda"
                               />
+
+                              {hasSubmittedEducationData &&
+                                errorsEducationData?.no_ijazah?._errors && (
+                                  <div className="text-error-50 text-[14px] md:text-[16px]">
+                                    {errorsEducationData.no_ijazah._errors[0]}
+                                  </div>
+                                )}
                             </div>
 
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -254,8 +296,10 @@ export default function EducationalBackgroundProfileScreen({
                               />
                             </div>
 
-                            <div className="w-full flex flex-row justify-center items-center gap-x-5">
-                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <div className="w-full flex flex-row justify-between items-center gap-x-5">
+                              <AlertDialogCancel className="text-[14px] md:text-[16px]">
+                                Cancel
+                              </AlertDialogCancel>
 
                               <Button
                                 type="submit"
@@ -286,9 +330,7 @@ export default function EducationalBackgroundProfileScreen({
                         <div className="w-full gap-x-2 px-6 text-sm bg-primary-40 hover:bg-primary-70 text-line-10 flex items-center justify-center h-12 rounded-md">
                           <Plus className="w-6 h-6 text-line-10" />
 
-                          <p className="text-line-10 text-[16px]">
-                            Tambah Pendidikan
-                          </p>
+                          <p className="text-line-10 text-[16px]">Tambah</p>
                         </div>
                       </DrawerTrigger>
                       <DrawerContent className="flex flex-col gap-y-3 bg-line-10 rounded-lg w-full max-w-4xl h-4/6 px-3 pb-6">
@@ -329,6 +371,17 @@ export default function EducationalBackgroundProfileScreen({
                                 className="w-full h-12 text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                                 placeholder="Masukkan Tingkat Pendidikan Anda"
                               />
+
+                              {hasSubmittedEducationData &&
+                                errorsEducationData?.tingkat_pendidikan
+                                  ?._errors && (
+                                  <div className="text-error-50 text-[14px] md:text-[16px]">
+                                    {
+                                      errorsEducationData.tingkat_pendidikan
+                                        ._errors[0]
+                                    }
+                                  </div>
+                                )}
                             </div>
 
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -354,6 +407,16 @@ export default function EducationalBackgroundProfileScreen({
                                 className="w-full h-12 text-[14px] md:text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                                 placeholder="Masukkan Jurusan/Program Studi Anda"
                               />
+
+                              {hasSubmittedEducationData &&
+                                errorsEducationData?.program_study?._errors && (
+                                  <div className="text-error-50 text-[14px] md:text-[16px]">
+                                    {
+                                      errorsEducationData.program_study
+                                        ._errors[0]
+                                    }
+                                  </div>
+                                )}
                             </div>
 
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -379,6 +442,13 @@ export default function EducationalBackgroundProfileScreen({
                                 className="w-full h-12 text-[14px] md:text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                                 placeholder="Masukkan Nama Instansi/Lembaga Anda"
                               />
+
+                              {hasSubmittedEducationData &&
+                                errorsEducationData?.institut?._errors && (
+                                  <div className="text-error-50 text-[14px] md:text-[16px]">
+                                    {errorsEducationData.institut._errors[0]}
+                                  </div>
+                                )}
                             </div>
 
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -404,6 +474,13 @@ export default function EducationalBackgroundProfileScreen({
                                 className="w-full h-12 text-[14px] md:text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                                 placeholder="Masukkan Nomor Ijazah Anda Anda"
                               />
+
+                              {hasSubmittedEducationData &&
+                                errorsEducationData?.no_ijazah?._errors && (
+                                  <div className="text-error-50 text-[14px] md:text-[16px]">
+                                    {errorsEducationData.no_ijazah._errors[0]}
+                                  </div>
+                                )}
                             </div>
 
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">

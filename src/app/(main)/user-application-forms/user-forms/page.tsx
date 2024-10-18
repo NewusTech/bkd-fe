@@ -187,22 +187,20 @@ export default function UserFormPages() {
       }
     });
 
-    Object.keys(formValues).forEach((key) => {
-      console.log(key, formValues[key]);
-    });
+    // Object.keys(formValues).forEach((key) => {
+    //   console.log(key, formValues[key]);
+    // });
 
-    Object.keys(checkboxValues).forEach((key: any) => {
-      console.log(key, checkboxValues[key]);
-    });
+    // Object.keys(checkboxValues).forEach((key: any) => {
+    //   console.log(key, checkboxValues[key]);
+    // });
 
-    Object.keys(docValues).forEach((key) => {
-      console.log(key, docValues[key]);
-    });
+    // Object.keys(docValues).forEach((key) => {
+    //   console.log(key, docValues[key]);
+    // });
 
     try {
       const response = await postApplicationForm(formData, id);
-
-      console.log(response, "ini response");
 
       if (response.status === 201) {
         Swal.fire({
@@ -347,7 +345,9 @@ export default function UserFormPages() {
                             htmlFor={item?.field}
                             className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
                             {item?.field}
-                            {item?.isrequired && <span className="text-error-50">*</span>}
+                            {item?.isrequired && (
+                              <span className="text-error-50">*</span>
+                            )}
                           </Label>
 
                           <Input

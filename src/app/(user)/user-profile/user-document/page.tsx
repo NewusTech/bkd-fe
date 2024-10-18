@@ -385,7 +385,12 @@ export default function UserDocumentScreen() {
 
   return (
     <section className="w-full flex flex-col bg-line-10 rounded-lg shadow-md p-4 mb-16">
-      {documents ? (
+      {documents?.sk_80 ||
+      documents?.sk_100 ||
+      documents?.kartu_pegawai ||
+      documents?.ktp ||
+      documents?.kk ||
+      documents?.npwp ? (
         <div className="flex flex-col h-full items-center w-full gap-y-6">
           <div id="gallery">
             {documents && (

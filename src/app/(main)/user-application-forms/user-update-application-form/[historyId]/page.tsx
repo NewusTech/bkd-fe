@@ -53,8 +53,6 @@ export default function PermohonanUpdateHistory({
 
       response?.data?.Layanan_form_inputs?.forEach(
         (input: UserApplicationHistoryFormServiceInputInterface) => {
-          console.log(input?.data, "ini data");
-
           if (input.layananform_tipedata === "checkbox") {
             initialCheckboxValues[input.id] = [];
           } else {

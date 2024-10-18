@@ -59,6 +59,8 @@ export default function AwardHistoryProfileScreen({
   isLoadingAwardDelete,
   returnDate,
   setReturnDate,
+  hasSubmittedAwardData,
+  errorsAwardData,
 }: {
   awards: UserAwardsInterface[];
   openAwardCreate: boolean;
@@ -88,6 +90,11 @@ export default function AwardHistoryProfileScreen({
   isLoadingAwardDelete: boolean;
   returnDate: Date;
   setReturnDate: React.Dispatch<React.SetStateAction<Date>>;
+  hasSubmittedAwardData: boolean;
+  errorsAwardData: {
+    uraian_penghargaan: { _errors: string[] };
+    instansi_penghargaan: { _errors: string[] };
+  };
 }) {
   const isMobile = useMediaQuery("(max-width: 768px)");
 
@@ -102,7 +109,7 @@ export default function AwardHistoryProfileScreen({
               </p>
             </div>
 
-            <div className="w-full md:w-4/12">
+            <div className="w-full md:w-2/12">
               <div className="w-full flex flex-row items-center justify-center gap-x-2">
                 <div className="w-full">
                   {!isMobile ? (
@@ -117,9 +124,7 @@ export default function AwardHistoryProfileScreen({
                         <div className="w-full gap-x-2 px-6 text-sm bg-primary-40 hover:bg-primary-70 text-line-10 flex items-center justify-center h-12 rounded-md">
                           <Plus className="w-6 h-6 text-line-10" />
 
-                          <p className="text-line-10 text-[16px]">
-                            Tambah Data Penghargaan
-                          </p>
+                          <p className="text-line-10 text-[16px]">Tambah</p>
                         </div>
                       </AlertDialogTrigger>
                       <AlertDialogContent className="w-full max-w-2xl bg-line-10 rounded-lg shadow-md">
@@ -158,6 +163,17 @@ export default function AwardHistoryProfileScreen({
                                 className="w-full h-12 text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                                 placeholder="Masukkan Uraian Penghargaan Anda"
                               />
+
+                              {hasSubmittedAwardData &&
+                                errorsAwardData?.uraian_penghargaan
+                                  ?._errors && (
+                                  <div className="text-error-50 text-[14px] md:text-[16px]">
+                                    {
+                                      errorsAwardData.uraian_penghargaan
+                                        ._errors[0]
+                                    }
+                                  </div>
+                                )}
                             </div>
 
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -199,10 +215,23 @@ export default function AwardHistoryProfileScreen({
                                 className="w-full h-12 text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                                 placeholder="Masukkan Instansi/Lembaga Anda"
                               />
+
+                              {hasSubmittedAwardData &&
+                                errorsAwardData?.instansi_penghargaan
+                                  ?._errors && (
+                                  <div className="text-error-50 text-[14px] md:text-[16px]">
+                                    {
+                                      errorsAwardData.instansi_penghargaan
+                                        ._errors[0]
+                                    }
+                                  </div>
+                                )}
                             </div>
 
-                            <div className="w-full flex flex-row justify-center items-center gap-x-5">
-                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <div className="w-full flex flex-row justify-between items-center gap-x-5">
+                              <AlertDialogCancel className="text-[14px] md:text-[16px]">
+                                Cancel
+                              </AlertDialogCancel>
 
                               <Button
                                 type="submit"
@@ -231,9 +260,7 @@ export default function AwardHistoryProfileScreen({
                         <div className="w-full gap-x-2 px-6 text-sm bg-primary-40 hover:bg-primary-70 text-line-10 flex items-center justify-center h-12 rounded-md">
                           <Plus className="w-6 h-6 text-line-10" />
 
-                          <p className="text-line-10 text-[16px]">
-                            Tambah Penghargaan
-                          </p>
+                          <p className="text-line-10 text-[16px]">Tambah</p>
                         </div>
                       </DrawerTrigger>
                       <DrawerContent className="flex flex-col gap-y-3 bg-line-10 rounded-lg w-full max-w-4xl h-[55%] px-3 pb-6">
@@ -274,6 +301,17 @@ export default function AwardHistoryProfileScreen({
                                 className="w-full h-12 text-[14px] md:text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                                 placeholder="Masukkan Uraian Penghargaan Anda"
                               />
+
+                              {hasSubmittedAwardData &&
+                                errorsAwardData?.uraian_penghargaan
+                                  ?._errors && (
+                                  <div className="text-error-50 text-[14px] md:text-[16px]">
+                                    {
+                                      errorsAwardData.uraian_penghargaan
+                                        ._errors[0]
+                                    }
+                                  </div>
+                                )}
                             </div>
 
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -315,6 +353,17 @@ export default function AwardHistoryProfileScreen({
                                 className="w-full h-12 text-[14px] md:text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                                 placeholder="Masukkan Instansi/Lembaga Anda"
                               />
+
+                              {hasSubmittedAwardData &&
+                                errorsAwardData?.instansi_penghargaan
+                                  ?._errors && (
+                                  <div className="text-error-50 text-[14px] md:text-[16px]">
+                                    {
+                                      errorsAwardData.instansi_penghargaan
+                                        ._errors[0]
+                                    }
+                                  </div>
+                                )}
                             </div>
 
                             <div className="w-full flex flex-row justify-between items-center gap-x-5">

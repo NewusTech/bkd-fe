@@ -19,10 +19,12 @@ import parse from "html-react-parser";
 export default function FooterScreen() {
   const isMobile = useMediaQuery("(max-width: 768px)");
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isDialogOpenPrivacy, setIsDialogOpenPrivacy] = useState(false);
   const [terms, setTerms] = useState<TermConditionInterface>();
 
   const handleAgree = () => {
     setIsDialogOpen(false);
+    setIsDialogOpenPrivacy(false);
   };
 
   const fetchDataTerms = async () => {
@@ -45,8 +47,11 @@ export default function FooterScreen() {
         <div className="flex flex-col md:flex-row md:items-center justify-between w-full px-4 md:px-[49px] my-[29px] text-start md:text-center gap-y-4 ">
           <p className="text-[14px] md:text-[16px] text-line-10 font-normal hover:opacity-100 transition-transform duration-300 ease-in-out transform hover:translate-x-4">
             Copyright &copy; 2024
-            <span className="text-[14px] md:text-[16px] font-bold"> BKD Lampung Timur</span>.
-            All rights reserved
+            <span className="text-[14px] md:text-[16px] font-bold">
+              {" "}
+              BKD Lampung Timur
+            </span>
+            . All rights reserved
           </p>
 
           <Link
@@ -84,10 +89,10 @@ export default function FooterScreen() {
               </DialogContent>
             </Dialog>{" "}
             &{" "}
-            <Dialog open={isDialogOpen}>
+            <Dialog open={isDialogOpenPrivacy}>
               <DialogTrigger
                 className="text-line-10 font-semibold hover:underline"
-                onClick={() => setIsDialogOpen(true)}>
+                onClick={() => setIsDialogOpenPrivacy(true)}>
                 Kebijakan Privasi
               </DialogTrigger>
               <DialogContent className="flex py-4 flex-col bg-line-10 rounded-lg p-1 justify-center items-center w-10/12 max-h-[700px]">
@@ -101,7 +106,7 @@ export default function FooterScreen() {
                     </DialogDescription>
                   </div>
 
-                  <div>{terms && parse(terms?.desc)}</div>
+                  <div>{terms && parse(terms?.privacy_policy)}</div>
 
                   <div
                     onClick={handleAgree}
@@ -151,10 +156,10 @@ export default function FooterScreen() {
                 </DialogContent>
               </Dialog>{" "}
               &{" "}
-              <Dialog open={isDialogOpen}>
+              <Dialog open={isDialogOpenPrivacy}>
                 <DialogTrigger
                   className="text-line-10 font-semibold hover:underline"
-                  onClick={() => setIsDialogOpen(true)}>
+                  onClick={() => setIsDialogOpenPrivacy(true)}>
                   Kebijakan Privasi
                 </DialogTrigger>
                 <DialogContent className="flex flex-col bg-line-10 rounded-lg p-1 justify-center items-center w-11/12 max-h-[700px]">
@@ -168,7 +173,7 @@ export default function FooterScreen() {
                       </DialogDescription>
                     </div>
 
-                    <div>{terms && parse(terms?.desc)}</div>
+                    <div>{terms && parse(terms?.privacy_policy)}</div>
 
                     <div
                       onClick={handleAgree}

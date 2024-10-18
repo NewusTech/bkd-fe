@@ -3,7 +3,7 @@
 import DatePages from "@/components/elements/date";
 import SearchPages from "@/components/elements/search";
 import { formatDate } from "@/lib/utils";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   Select,
   SelectContent,
@@ -58,6 +58,8 @@ import { Button } from "@/components/ui/button";
 import PaginationComponent from "@/components/elements/pagination";
 import { userApplicationStatus, userComplaintStatus } from "@/constants/main";
 import { useDebounce } from "@/hooks/useDebounce";
+import { schemaUserComplaints } from "@/validations";
+import { z } from "zod";
 
 export default function UserComplaintScreen() {
   const router = useRouter();
@@ -95,6 +97,36 @@ export default function UserComplaintScreen() {
     totalPages: 1,
     totalCount: 0,
   });
+  const [formValid, setFormValid] = useState(false);
+  const [errors, setErrors] = useState<any>({});
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+
+  const validateForm = useCallback(async () => {
+    try {
+      await schemaUserComplaints.parseAsync({
+        ...data,
+      });
+      setErrors({});
+      return true;
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const formattedErrors = error.format();
+        setErrors(formattedErrors);
+      }
+      setIsLoading(false);
+      return false;
+    }
+  }, [data]);
+
+  useEffect(() => {
+    if (hasSubmitted) {
+      validateForm();
+    }
+  }, [hasSubmitted, validateForm]);
+
+  useEffect(() => {
+    setFormValid(Object.keys(errors).length === 0);
+  }, [errors]);
 
   const startDateFormatted = startDate
     ? formatDate(new Date(startDate))
@@ -239,7 +271,10 @@ export default function UserComplaintScreen() {
 
   const createUserComplaint = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setIsLoading(true);
+
+    setHasSubmitted(true);
+
+    const isValid = await validateForm();
 
     const formData = new FormData();
     formData.append("bidang_id", data.bidang_id);
@@ -251,44 +286,48 @@ export default function UserComplaintScreen() {
     }
     formData.append("status", data.status.toString());
 
-    try {
-      const response = await postUserComplaint(formData);
+    if (isValid) {
+      setIsLoading(true);
 
-      if (response?.status === 201) {
-        setData({
-          bidang_id: "",
-          layanan_id: "",
-          judul_pengaduan: "",
-          isi_pengaduan: "",
-          image: "",
-          status: 0,
-        });
-        setComplaintImage(null);
-        setPreviewImage("");
-        Swal.fire({
-          icon: "success",
-          title: "Berhasil Menambahkan Pengaduan Layanan!",
-          timer: 2000,
-          showConfirmButton: false,
-          position: "center",
-        });
+      try {
+        const response = await postUserComplaint(formData);
+
+        if (response?.status === 201) {
+          setData({
+            bidang_id: "",
+            layanan_id: "",
+            judul_pengaduan: "",
+            isi_pengaduan: "",
+            image: "",
+            status: 0,
+          });
+          setComplaintImage(null);
+          setPreviewImage("");
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil Menambahkan Pengaduan Layanan!",
+            timer: 2000,
+            showConfirmButton: false,
+            position: "center",
+          });
+          setIsDialogOpen(false);
+          fetchUserComplaints(pagination?.currentPage, 10, "", "", "", status);
+          router.push("/user-complaint");
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Gagal Menambahkan Pengaduan Layanan!",
+            timer: 2000,
+            showConfirmButton: false,
+            position: "center",
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        setIsLoading(false);
         setIsDialogOpen(false);
-        fetchUserComplaints(pagination?.currentPage, 10, "", "", "", status);
-        router.push("/user-complaint");
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Gagal Menambahkan Pengaduan Layanan!",
-          timer: 2000,
-          showConfirmButton: false,
-          position: "center",
-        });
       }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoading(false);
-      setIsDialogOpen(false);
     }
   };
 
@@ -378,7 +417,7 @@ export default function UserComplaintScreen() {
                       <AlertDialogTitle className="text-center">
                         Pengaduan
                       </AlertDialogTitle>
-                      <AlertDialogDescription className="text-center">
+                      <AlertDialogDescription className="text-center text-[14px] md:text-[16px]">
                         Input data yang diperlukan
                       </AlertDialogDescription>
                       <div className="w-full flex flex-col gap-y-3 verticalScroll">
@@ -487,6 +526,13 @@ export default function UserComplaintScreen() {
                             className="w-full text-[14px] md:text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                             placeholder="Judul Pengaduan Kamu"
                           />
+
+                          {hasSubmitted &&
+                            errors.judul_pengaduan?._errors[0] && (
+                              <p className="text-red-500 text-[12px] md:text-[14px]">
+                                {errors.judul_pengaduan?._errors[0]}
+                              </p>
+                            )}
                         </div>
 
                         <div className="w-full flex flex-col gap-y-2">
@@ -508,6 +554,12 @@ export default function UserComplaintScreen() {
                             }
                             className="w-full text-[14px] md:text-[16px] rounded-lg h-[74px] border border-line-20 md:h-[122px] placeholder:opacity-[70%]"
                           />
+
+                          {hasSubmitted && errors.isi_pengaduan?._errors[0] && (
+                            <p className="text-red-500 text-[12px] md:text-[14px]">
+                              {errors.isi_pengaduan?._errors[0]}
+                            </p>
+                          )}
                         </div>
 
                         <div className="flex flex-col mx-[1px]">
@@ -705,6 +757,12 @@ export default function UserComplaintScreen() {
                         className="w-full text-[14px] md:text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                         placeholder="Judul Pengaduan Kamu"
                       />
+
+                      {hasSubmitted && errors.judul_pengaduan?._errors[0] && (
+                        <p className="text-red-500 text-[12px] md:text-[14px]">
+                          {errors.judul_pengaduan?._errors[0]}
+                        </p>
+                      )}
                     </div>
 
                     <div className="w-full flex flex-col gap-y-2">
@@ -724,6 +782,12 @@ export default function UserComplaintScreen() {
                         }
                         className="w-full text-[14px] md:text-[16px] rounded-lg h-[74px] border border-line-20 md:h-[122px] placeholder:opacity-[70%]"
                       />
+
+                      {hasSubmitted && errors.isi_pengaduan?._errors[0] && (
+                        <p className="text-red-500 text-[12px] md:text-[14px]">
+                          {errors.isi_pengaduan?._errors[0]}
+                        </p>
+                      )}
                     </div>
 
                     <div className="flex flex-col mx-[1px]">
@@ -749,17 +813,12 @@ export default function UserComplaintScreen() {
                           <label
                             htmlFor="file-input"
                             className="text-[14px] md:text-[16px] text-center text-neutral-600 font-light cursor-pointer">
-                            {/* {data.image ? (
-                                data.image
-                              ) : ( */}
                             <span className="flex text-[14px] md:text-[16px] flex-col items-center justify-center">
-                              <CloudArrowUp className="w-8 h-8 text-black-70" />
-
-                              <p>
+                              <CloudArrowUp className="w-8 h-8 text-black-80" />
+                              <p className="text-[14px] md:text-[16px] text-center">
                                 Drag and drop file here or click to select file
                               </p>
                             </span>
-                            {/* )} */}
                           </label>
                         </>
                       </div>

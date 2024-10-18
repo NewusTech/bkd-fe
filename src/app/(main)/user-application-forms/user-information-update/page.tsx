@@ -24,16 +24,18 @@ import {
 } from "@/types/interface";
 import { ChevronDown, ChevronLeft, Loader } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { bloodTypes, genders, religions } from "@/constants/main";
 import { Textarea } from "@/components/ui/textarea";
 
 import { formatDate } from "@/lib/utils";
 import "react-datepicker/dist/react-datepicker.css";
-import { format } from 'date-fns';
+import { format } from "date-fns";
 import DatePickerInputNew from "@/components/elements/date_from_input_new";
 import DateFormInputNew from "@/components/elements/date_from_input_new";
+import { z } from "zod";
+import { schemaPersonalProfile } from "@/validations";
 
 export default function UserInformastionUpdatePages() {
   const router = useRouter();
@@ -60,6 +62,38 @@ export default function UserInformastionUpdatePages() {
     kecamatan_id: "",
     desa_id: "",
   });
+  const [formValid, setFormValid] = useState(false);
+  const [errors, setErrors] = useState<any>({});
+  const [hasSubmitted, setHasSubmitted] = useState(false);
+
+  const validateForm = useCallback(async () => {
+    try {
+      await schemaPersonalProfile.parseAsync({
+        ...userData,
+      });
+      setErrors({});
+      return true;
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const formattedErrors = error.format();
+        setErrors(formattedErrors);
+      }
+      setIsLoadingUserCreate(false);
+      return false;
+    }
+  }, [userData]);
+
+  useEffect(() => {
+    if (hasSubmitted) {
+      validateForm();
+    }
+  }, [hasSubmitted, validateForm]);
+
+  useEffect(() => {
+    setFormValid(Object.keys(errors).length === 0);
+  }, [errors]);
+
+  console.log(errors, "ini error");
 
   const fetchUserProfile = async () => {
     try {
@@ -126,7 +160,9 @@ export default function UserInformastionUpdatePages() {
   ) => {
     e.preventDefault();
 
-    setIsLoadingUserCreate(true);
+    setHasSubmitted(true);
+
+    const isValid = await validateForm();
 
     const formData = new FormData();
     formData.append("name", userData.name);
@@ -146,54 +182,58 @@ export default function UserInformastionUpdatePages() {
     formData.append("kecamatan_id", userData.kecamatan_id);
     formData.append("desa_id", userData.desa_id);
 
-    formData.forEach((value, key) => {
-      console.log(key + ": " + value);
-    });
+    // formData.forEach((value, key) => {
+    //   console.log(key + ": " + value);
+    // });
 
-    try {
-      const response = await updateUserData(formData);
+    if (isValid) {
+      setIsLoadingUserCreate(true);
 
-      if (response.status === 200) {
-        setUserData({
-          name: "",
-          email: "",
-          telepon: "",
-          nik: "",
-          nip: "",
-          unit_kerja: "",
-          tempat_lahir: "",
-          agama: "",
-          gender: "",
-          tgl_lahir: "",
-          goldar: "",
-          alamat: "",
-          rt: "",
-          rw: "",
-          kecamatan_id: "",
-          desa_id: "",
-        });
-        Swal.fire({
-          icon: "success",
-          title: "Berhasil Memperbarui Data Diri!",
-          timer: 2000,
-          showConfirmButton: false,
-          position: "center",
-        });
+      try {
+        const response = await updateUserData(formData);
+
+        if (response.status === 200) {
+          setUserData({
+            name: "",
+            email: "",
+            telepon: "",
+            nik: "",
+            nip: "",
+            unit_kerja: "",
+            tempat_lahir: "",
+            agama: "",
+            gender: "",
+            tgl_lahir: "",
+            goldar: "",
+            alamat: "",
+            rt: "",
+            rw: "",
+            kecamatan_id: "",
+            desa_id: "",
+          });
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil Memperbarui Data Diri!",
+            timer: 2000,
+            showConfirmButton: false,
+            position: "center",
+          });
+          setIsLoadingUserCreate(false);
+          router.push(`/user-application-forms/user-forms`);
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Gagal Memperbarui Data Diri!",
+            timer: 2000,
+            showConfirmButton: false,
+            position: "center",
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
         setIsLoadingUserCreate(false);
-        router.push(`/user-application-forms/user-forms`);
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Gagal Memperbarui Data Diri!",
-          timer: 2000,
-          showConfirmButton: false,
-          position: "center",
-        });
       }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoadingUserCreate(false);
     }
   };
 
@@ -242,6 +282,12 @@ export default function UserInformastionUpdatePages() {
                     className="w-full h-12 focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70 text-[14px] md:text-[16px]"
                     placeholder="Masukkan Nama Anda"
                   />
+
+                  {hasSubmitted && errors?.name?._errors && (
+                    <div className="text-error-50 text-[14px] md:text-[16px]">
+                      {errors.name._errors[0]}
+                    </div>
+                  )}
                 </div>
 
                 <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -262,6 +308,12 @@ export default function UserInformastionUpdatePages() {
                     className="w-full h-12 focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70 text-[14px] md:text-[16px]"
                     placeholder="Masukkan NIP Anda"
                   />
+
+                  {hasSubmitted && errors?.nip?._errors && (
+                    <div className="text-error-50 text-[14px] md:text-[16px]">
+                      {errors.nip._errors[0]}
+                    </div>
+                  )}
                 </div>
 
                 <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -282,6 +334,12 @@ export default function UserInformastionUpdatePages() {
                     className="w-full h-12 focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70 text-[14px] md:text-[16px]"
                     placeholder="Masukkan Unit Kerja Anda"
                   />
+
+                  {hasSubmitted && errors?.unit_kerja?._errors && (
+                    <div className="text-error-50 text-[14px] md:text-[16px]">
+                      {errors.unit_kerja._errors[0]}
+                    </div>
+                  )}
                 </div>
 
                 <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -302,6 +360,12 @@ export default function UserInformastionUpdatePages() {
                     className="w-full h-12 focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70 text-[14px] md:text-[16px]"
                     placeholder="Masukkan NIK Anda"
                   />
+
+                  {hasSubmitted && errors?.nik?._errors && (
+                    <div className="text-error-50 text-[14px] md:text-[16px]">
+                      {errors.nik._errors[0]}
+                    </div>
+                  )}
                 </div>
 
                 <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -322,6 +386,12 @@ export default function UserInformastionUpdatePages() {
                     className="w-full h-12 focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70 text-[14px] md:text-[16px]"
                     placeholder="Masukkan Email Anda"
                   />
+
+                  {hasSubmitted && errors?.email?._errors && (
+                    <div className="text-error-50 text-[14px] md:text-[16px]">
+                      {errors.email._errors[0]}
+                    </div>
+                  )}
                 </div>
 
                 <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -342,6 +412,12 @@ export default function UserInformastionUpdatePages() {
                     className="w-full h-12 focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70 text-[14px] md:text-[16px]"
                     placeholder="Masukkan Nomor Telepon Anda"
                   />
+
+                  {hasSubmitted && errors?.telepon?._errors && (
+                    <div className="text-error-50 text-[14px] md:text-[16px]">
+                      {errors.telepon._errors[0]}
+                    </div>
+                  )}
                 </div>
 
                 <div className="w-full flex flex-row gap-x-3 md:gap-x-5">
@@ -366,6 +442,12 @@ export default function UserInformastionUpdatePages() {
                       className="w-full h-12 focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70 text-[14px] md:text-[16px]"
                       placeholder="Masukkan Tempat Lahir Anda"
                     />
+
+                    {hasSubmitted && errors?.tempat_lahir?._errors && (
+                      <div className="text-error-50 text-[14px] md:text-[16px]">
+                        {errors.tempat_lahir._errors[0]}
+                      </div>
+                    )}
                   </div>
 
                   <div className="w-[48%] md:w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -383,7 +465,11 @@ export default function UserInformastionUpdatePages() {
                       }
                     /> */}
                     <DateFormInputNew
-                      value={userData.tgl_lahir ? new Date(userData.tgl_lahir) : new Date()}
+                      value={
+                        userData.tgl_lahir
+                          ? new Date(userData.tgl_lahir)
+                          : new Date()
+                      }
                       setValue={setReturnDate}
                       label="Tanggal Lahir"
                       className="bg-transparent w-full rounded-lg text-[14px] md:text-[16px]"
@@ -414,12 +500,15 @@ export default function UserInformastionUpdatePages() {
                       })
                     }>
                     <SelectTrigger
-                      className={`${!userData.agama ? "opacity-70" : ""
-                        } bg-transparent border border-line-20 h-12 pl-4 w-full mx-0 pr-2 text-[14px] md:text-[16px]`}>
+                      className={`${
+                        !userData.agama ? "opacity-70" : ""
+                      } bg-transparent border border-line-20 h-12 pl-4 w-full mx-0 pr-2 text-[14px] md:text-[16px]`}>
                       <SelectValue
                         placeholder="Pilih Agama Anda..."
                         className={
-                          userData.agama ? "" : "placeholder:opacity-50 text-[14px] md:text-[16px]"
+                          userData.agama
+                            ? ""
+                            : "placeholder:opacity-50 text-[14px] md:text-[16px]"
                         }
                       />
                     </SelectTrigger>
@@ -449,6 +538,12 @@ export default function UserInformastionUpdatePages() {
                       </div>
                     </SelectContent>
                   </Select>
+
+                  {hasSubmitted && errors?.agama?._errors && (
+                    <div className="text-error-50 text-[14px] md:text-[16px]">
+                      {errors.agama._errors[0]}
+                    </div>
+                  )}
                 </div>
 
                 <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -466,12 +561,15 @@ export default function UserInformastionUpdatePages() {
                       })
                     }>
                     <SelectTrigger
-                      className={`${!userData.gender ? "opacity-70" : ""
-                        } bg-transparent border border-line-20 h-12 pl-4 w-full mx-0 pr-2 text-[14px] md:text-[16px]`}>
+                      className={`${
+                        !userData.gender ? "opacity-70" : ""
+                      } bg-transparent border border-line-20 h-12 pl-4 w-full mx-0 pr-2 text-[14px] md:text-[16px]`}>
                       <SelectValue
                         placeholder="Pilih Jenis Kelamin Anda..."
                         className={
-                          userData.gender ? "" : "placeholder:opacity-50 text-[14px] md:text-[16px]"
+                          userData.gender
+                            ? ""
+                            : "placeholder:opacity-50 text-[14px] md:text-[16px]"
                         }
                       />
                     </SelectTrigger>
@@ -501,6 +599,12 @@ export default function UserInformastionUpdatePages() {
                       </div>
                     </SelectContent>
                   </Select>
+
+                  {hasSubmitted && errors?.gender?._errors && (
+                    <div className="text-error-50 text-[14px] md:text-[16px]">
+                      {errors.gender._errors[0]}
+                    </div>
+                  )}
                 </div>
 
                 <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -518,12 +622,15 @@ export default function UserInformastionUpdatePages() {
                       })
                     }>
                     <SelectTrigger
-                      className={`${!userData.goldar ? "opacity-70" : ""
-                        } bg-transparent border border-line-20 h-12 pl-4 w-full mx-0 pr-2 text-[14px] md:text-[16px]`}>
+                      className={`${
+                        !userData.goldar ? "opacity-70" : ""
+                      } bg-transparent border border-line-20 h-12 pl-4 w-full mx-0 pr-2 text-[14px] md:text-[16px]`}>
                       <SelectValue
                         placeholder="Pilih Golongan Darah Anda..."
                         className={
-                          userData.goldar ? "" : "placeholder:opacity-50 text-[14px] md:text-[16px]"
+                          userData.goldar
+                            ? ""
+                            : "placeholder:opacity-50 text-[14px] md:text-[16px]"
                         }
                       />
                     </SelectTrigger>
@@ -549,6 +656,12 @@ export default function UserInformastionUpdatePages() {
                       </div>
                     </SelectContent>
                   </Select>
+
+                  {hasSubmitted && errors?.goldar?._errors && (
+                    <div className="text-error-50 text-[14px] md:text-[16px]">
+                      {errors.goldar._errors[0]}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
@@ -580,12 +693,15 @@ export default function UserInformastionUpdatePages() {
                       })
                     }>
                     <SelectTrigger
-                      className={`${!userData.kecamatan_id ? "opacity-70" : ""
-                        } bg-transparent border border-line-20 h-12 pl-4 w-full mx-0 pr-2`}>
+                      className={`${
+                        !userData.kecamatan_id ? "opacity-70" : ""
+                      } bg-transparent border border-line-20 h-12 pl-4 w-full mx-0 pr-2`}>
                       <SelectValue
                         placeholder="Pilih Kecamatan"
                         className={
-                          userData.kecamatan_id ? "" : "placeholder:opacity-50 text-[14px] md:text-[16px]"
+                          userData.kecamatan_id
+                            ? ""
+                            : "placeholder:opacity-50 text-[14px] md:text-[16px]"
                         }
                       />
                     </SelectTrigger>
@@ -607,6 +723,12 @@ export default function UserInformastionUpdatePages() {
                       </div>
                     </SelectContent>
                   </Select>
+
+                  {hasSubmitted && errors?.kecamatan_id?._errors && (
+                    <div className="text-error-50 text-[14px] md:text-[16px]">
+                      {errors.kecamatan_id._errors[0]}
+                    </div>
+                  )}
                 </div>
 
                 <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -628,12 +750,15 @@ export default function UserInformastionUpdatePages() {
                         })
                       }>
                       <SelectTrigger
-                        className={` ${!userData.desa_id ? "opacity-70" : ""
-                          } bg-transparent border border-line-20 h-12 pl-4 w-full mx-0 pr-2 text-[14px] md:text-[16px]`}>
+                        className={` ${
+                          !userData.desa_id ? "opacity-70" : ""
+                        } bg-transparent border border-line-20 h-12 pl-4 w-full mx-0 pr-2 text-[14px] md:text-[16px]`}>
                         <SelectValue
                           placeholder="Pilih Desa"
                           className={
-                            userData.desa_id ? "" : "placeholder:opacity-50 text-[14px] md:text-[16px]"
+                            userData.desa_id
+                              ? ""
+                              : "placeholder:opacity-50 text-[14px] md:text-[16px]"
                           }
                         />
                       </SelectTrigger>
@@ -691,6 +816,12 @@ export default function UserInformastionUpdatePages() {
 
                     <ChevronDown className="w-6 h-6" />
                   </div> */}
+
+                  {hasSubmitted && errors?.desa_id?._errors && (
+                    <div className="text-error-50 text-[14px] md:text-[16px]">
+                      {errors.desa_id._errors[0]}
+                    </div>
+                  )}
                 </div>
 
                 <div className="w-full flex flex-row gap-x-5">
@@ -715,6 +846,12 @@ export default function UserInformastionUpdatePages() {
                       className="w-full h-12 focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70 text-[14px] md:text-[16px]"
                       placeholder="Masukkan RT Anda"
                     />
+
+                    {hasSubmitted && errors?.rt?._errors && (
+                      <div className="text-error-50 text-[14px] md:text-[16px]">
+                        {errors.rt._errors[0]}
+                      </div>
+                    )}
                   </div>
 
                   <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -738,11 +875,19 @@ export default function UserInformastionUpdatePages() {
                       className="w-full h-12 focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70 text-[14px] md:text-[16px]"
                       placeholder="Masukkan RW Anda"
                     />
+
+                    {hasSubmitted && errors?.rw?._errors && (
+                      <div className="text-error-50 text-[14px] md:text-[16px]">
+                        {errors.rw._errors[0]}
+                      </div>
+                    )}
                   </div>
                 </div>
 
                 <div className="w-full flex flex-col gap-y-2">
-                  <Label className="text-black-80 text-[14px] md:text-[16px]">Alamat</Label>
+                  <Label className="text-black-80 text-[14px] md:text-[16px]">
+                    Alamat
+                  </Label>
 
                   <Textarea
                     name="alamat"
@@ -756,6 +901,12 @@ export default function UserInformastionUpdatePages() {
                     }
                     className="w-full rounded-lg h-[74px] border border-black-10 md:h-[122px] placeholder:opacity-[70%] text-[14px] md:text-[16px]"
                   />
+
+                  {hasSubmitted && errors?.alamat?._errors && (
+                    <div className="text-error-50 text-[14px] md:text-[16px]">
+                      {errors.alamat._errors[0]}
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

@@ -18,7 +18,7 @@ import { formatDate } from "@/lib/utils";
 import { SubDistrictInterface, VillageInterface } from "@/types/interface";
 import { CalendarIcon, Loader } from "lucide-react";
 import "react-datepicker/dist/react-datepicker.css";
-import { format } from 'date-fns';
+import { format } from "date-fns";
 import DatePickerInputNew from "@/components/elements/date_from_input_new";
 import DateFormInputNew from "@/components/elements/date_from_input_new";
 
@@ -31,6 +31,8 @@ export default function PersonalDataProfileScreen({
   villages,
   isLoadingUserCreate,
   handleSubmitPersonalDataUser,
+  hasSubmittedPersonalData,
+  errorsPersonalData,
 }: {
   userData: {
     name: string;
@@ -78,6 +80,25 @@ export default function PersonalDataProfileScreen({
   handleSubmitPersonalDataUser: (
     e: React.FormEvent<HTMLFormElement>
   ) => Promise<void>;
+  hasSubmittedPersonalData: boolean;
+  errorsPersonalData: {
+    name: { _errors: string[] };
+    email: { _errors: string[] };
+    telepon: { _errors: string[] };
+    nik: { _errors: string[] };
+    nip: { _errors: string[] };
+    unit_kerja: { _errors: string[] };
+    tempat_lahir: { _errors: string[] };
+    agama: { _errors: string[] };
+    gender: { _errors: string[] };
+    tgl_lahir: { _errors: string[] };
+    goldar: { _errors: string[] };
+    alamat: { _errors: string[] };
+    rt: { _errors: string[] };
+    rw: { _errors: string[] };
+    kecamatan_id: { _errors: string[] };
+    desa_id: { _errors: string[] };
+  };
 }) {
   return (
     <div className="w-full flex flex-col gap-y-5 border-t border-line-20 py-4">
@@ -111,6 +132,13 @@ export default function PersonalDataProfileScreen({
                   className="w-full h-12 focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                   placeholder="Masukkan Nama Anda"
                 />
+
+                {hasSubmittedPersonalData &&
+                  errorsPersonalData?.name?._errors && (
+                    <div className="text-error-50 text-[14px] md:text-[16px]">
+                      {errorsPersonalData.name._errors[0]}
+                    </div>
+                  )}
               </div>
 
               <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -131,6 +159,12 @@ export default function PersonalDataProfileScreen({
                   className="w-full h-12 focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                   placeholder="Masukkan NIP Anda"
                 />
+                {hasSubmittedPersonalData &&
+                  errorsPersonalData?.nip?._errors && (
+                    <div className="text-error-50 text-[14px] md:text-[16px]">
+                      {errorsPersonalData.nip._errors[0]}
+                    </div>
+                  )}
               </div>
 
               <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -151,6 +185,13 @@ export default function PersonalDataProfileScreen({
                   className="w-full h-12 focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                   placeholder="Masukkan Unit Kerja Anda"
                 />
+
+                {hasSubmittedPersonalData &&
+                  errorsPersonalData?.unit_kerja?._errors && (
+                    <div className="text-error-50 text-[14px] md:text-[16px]">
+                      {errorsPersonalData.unit_kerja._errors[0]}
+                    </div>
+                  )}
               </div>
 
               <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -171,6 +212,13 @@ export default function PersonalDataProfileScreen({
                   className="w-full h-12 focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                   placeholder="Masukkan NIK Anda"
                 />
+
+                {hasSubmittedPersonalData &&
+                  errorsPersonalData?.nik?._errors && (
+                    <div className="text-error-50 text-[14px] md:text-[16px]">
+                      {errorsPersonalData.nik._errors[0]}
+                    </div>
+                  )}
               </div>
 
               <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -191,6 +239,13 @@ export default function PersonalDataProfileScreen({
                   className="w-full h-12 focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                   placeholder="Masukkan Email Anda"
                 />
+
+                {hasSubmittedPersonalData &&
+                  errorsPersonalData?.email?._errors && (
+                    <div className="text-error-50 text-[14px] md:text-[16px]">
+                      {errorsPersonalData.email._errors[0]}
+                    </div>
+                  )}
               </div>
 
               <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -211,6 +266,13 @@ export default function PersonalDataProfileScreen({
                   className="w-full h-12 focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                   placeholder="Masukkan Nomor Telepon Anda"
                 />
+
+                {hasSubmittedPersonalData &&
+                  errorsPersonalData?.telepon?._errors && (
+                    <div className="text-error-50 text-[14px] md:text-[16px]">
+                      {errorsPersonalData.telepon._errors[0]}
+                    </div>
+                  )}
               </div>
 
               <div className="w-full flex flex-row gap-x-3 md:gap-x-5">
@@ -232,6 +294,13 @@ export default function PersonalDataProfileScreen({
                     className="w-full h-[50px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                     placeholder="Masukkan Tempat Lahir Anda"
                   />
+
+                  {hasSubmittedPersonalData &&
+                    errorsPersonalData?.tempat_lahir?._errors && (
+                      <div className="text-error-50 text-[14px] md:text-[16px]">
+                        {errorsPersonalData.tempat_lahir._errors[0]}
+                      </div>
+                    )}
                 </div>
 
                 <div className="w-[48%] md:w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -249,7 +318,11 @@ export default function PersonalDataProfileScreen({
                     }
                   /> */}
                   <DateFormInputNew
-                    value={userData.tgl_lahir ? new Date(userData.tgl_lahir) : new Date()}
+                    value={
+                      userData.tgl_lahir
+                        ? new Date(userData.tgl_lahir)
+                        : new Date()
+                    }
                     setValue={setReturnDate}
                     label="Tanggal Lahir"
                     className="bg-transparent w-full rounded-lg"
@@ -280,8 +353,9 @@ export default function PersonalDataProfileScreen({
                     })
                   }>
                   <SelectTrigger
-                    className={`${!userData.agama ? "opacity-70" : ""
-                      } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                    className={`${
+                      !userData.agama ? "opacity-70" : ""
+                    } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
                     <SelectValue
                       placeholder="Pilih Agama Anda..."
                       className={userData.agama ? "" : "placeholder:opacity-50"}
@@ -313,6 +387,13 @@ export default function PersonalDataProfileScreen({
                     </div>
                   </SelectContent>
                 </Select>
+
+                {hasSubmittedPersonalData &&
+                  errorsPersonalData?.agama?._errors && (
+                    <div className="text-error-50 text-[14px] md:text-[16px]">
+                      {errorsPersonalData.agama._errors[0]}
+                    </div>
+                  )}
               </div>
 
               <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -330,8 +411,9 @@ export default function PersonalDataProfileScreen({
                     })
                   }>
                   <SelectTrigger
-                    className={`${!userData.gender ? "opacity-70" : ""
-                      } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                    className={`${
+                      !userData.gender ? "opacity-70" : ""
+                    } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
                     <SelectValue
                       placeholder="Pilih Jenis Kelamin Anda..."
                       className={
@@ -361,6 +443,13 @@ export default function PersonalDataProfileScreen({
                     </div>
                   </SelectContent>
                 </Select>
+
+                {hasSubmittedPersonalData &&
+                  errorsPersonalData?.gender?._errors && (
+                    <div className="text-error-50 text-[14px] md:text-[16px]">
+                      {errorsPersonalData.gender._errors[0]}
+                    </div>
+                  )}
               </div>
 
               <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -378,8 +467,9 @@ export default function PersonalDataProfileScreen({
                     })
                   }>
                   <SelectTrigger
-                    className={`${!userData.goldar ? "opacity-70" : ""
-                      } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                    className={`${
+                      !userData.goldar ? "opacity-70" : ""
+                    } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
                     <SelectValue
                       placeholder="Pilih Golongan Darah Anda..."
                       className={
@@ -406,6 +496,13 @@ export default function PersonalDataProfileScreen({
                     </div>
                   </SelectContent>
                 </Select>
+
+                {hasSubmittedPersonalData &&
+                  errorsPersonalData?.goldar?._errors && (
+                    <div className="text-error-50 text-[14px] md:text-[16px]">
+                      {errorsPersonalData.goldar._errors[0]}
+                    </div>
+                  )}
               </div>
             </div>
           </div>
@@ -437,8 +534,9 @@ export default function PersonalDataProfileScreen({
                     })
                   }>
                   <SelectTrigger
-                    className={`${!userData.kecamatan_id ? "opacity-70" : ""
-                      } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                    className={`${
+                      !userData.kecamatan_id ? "opacity-70" : ""
+                    } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
                     <SelectValue
                       placeholder="Pilih Kecamatan"
                       className={
@@ -473,6 +571,13 @@ export default function PersonalDataProfileScreen({
                     </div>
                   </SelectContent>
                 </Select>
+
+                {hasSubmittedPersonalData &&
+                  errorsPersonalData?.kecamatan_id?._errors && (
+                    <div className="text-error-50 text-[14px] md:text-[16px]">
+                      {errorsPersonalData.kecamatan_id._errors[0]}
+                    </div>
+                  )}
               </div>
 
               <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -494,8 +599,9 @@ export default function PersonalDataProfileScreen({
                     })
                   }>
                   <SelectTrigger
-                    className={` ${!userData.desa_id ? "opacity-70" : ""
-                      } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                    className={` ${
+                      !userData.desa_id ? "opacity-70" : ""
+                    } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
                     <SelectValue
                       placeholder="Pilih Desa"
                       className={
@@ -530,6 +636,13 @@ export default function PersonalDataProfileScreen({
                     </div>
                   </SelectContent>
                 </Select>
+
+                {hasSubmittedPersonalData &&
+                  errorsPersonalData?.desa_id?._errors && (
+                    <div className="text-error-50 text-[14px] md:text-[16px]">
+                      {errorsPersonalData.desa_id._errors[0]}
+                    </div>
+                  )}
               </div>
 
               <div className="w-full flex flex-row gap-x-5">
@@ -554,6 +667,13 @@ export default function PersonalDataProfileScreen({
                     className="w-full h-12 focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                     placeholder="Masukkan RT Anda"
                   />
+
+                  {hasSubmittedPersonalData &&
+                    errorsPersonalData?.rt?._errors && (
+                      <div className="text-error-50 text-[14px] md:text-[16px]">
+                        {errorsPersonalData.rt._errors[0]}
+                      </div>
+                    )}
                 </div>
 
                 <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -577,6 +697,13 @@ export default function PersonalDataProfileScreen({
                     className="w-full h-12 focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                     placeholder="Masukkan RW Anda"
                   />
+
+                  {hasSubmittedPersonalData &&
+                    errorsPersonalData?.rw?._errors && (
+                      <div className="text-error-50 text-[14px] md:text-[16px]">
+                        {errorsPersonalData.rw._errors[0]}
+                      </div>
+                    )}
                 </div>
               </div>
 
@@ -595,6 +722,13 @@ export default function PersonalDataProfileScreen({
                   }
                   className="w-full rounded-lg h-[74px] border border-black-10 md:h-[122px] text-[14px] placeholder:opacity-[70%]"
                 />
+
+                {hasSubmittedPersonalData &&
+                  errorsPersonalData?.alamat?._errors && (
+                    <div className="text-error-50 text-[14px] md:text-[16px]">
+                      {errorsPersonalData.alamat._errors[0]}
+                    </div>
+                  )}
               </div>
             </div>
           </div>

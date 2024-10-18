@@ -63,8 +63,6 @@ export default function UserChangePasswordScreen() {
     fetchUserProfile();
   }, []);
 
-  console.log(profile?.slug);
-
   const handleChangePassword = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setHasSubmitted(true);
@@ -83,8 +81,6 @@ export default function UserChangePasswordScreen() {
           },
           profile?.slug as string
         );
-
-        console.log(response);
 
         if (response.status === 201) {
           Swal.fire({

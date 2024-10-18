@@ -85,6 +85,10 @@ export default function FamilyDataProfileScreen({
   setReturnDate,
   durationDate,
   setDurationDate,
+  hasSubmittedCoupleData,
+  hasSubmittedChildrenData,
+  errorsCoupleData,
+  errorsChildrenData,
 }: {
   couples: UserCouplesInterface[];
   childrens: UserChildrenInterface[];
@@ -154,6 +158,23 @@ export default function FamilyDataProfileScreen({
   setReturnDate: React.Dispatch<React.SetStateAction<Date>>;
   durationDate: Date;
   setDurationDate: React.Dispatch<React.SetStateAction<Date>>;
+  hasSubmittedCoupleData: boolean;
+  hasSubmittedChildrenData: boolean;
+  errorsCoupleData: {
+    nama: { _errors: string[] };
+    tempat_lahir: { _errors: string[] };
+    tanggal_lahir: { _errors: string[] };
+    pekerjaan: { _errors: string[] };
+    status: { _errors: string[] };
+  };
+  errorsChildrenData: {
+    nama: { _errors: string[] };
+    tempat_lahir: { _errors: string[] };
+    tanggal_lahir: { _errors: string[] };
+    jenis_kelamin: { _errors: string[] };
+    pekerjaan: { _errors: string[] };
+    status: { _errors: string[] };
+  };
 }) {
   const isMobile = useMediaQuery("(max-width: 768px)");
 
@@ -168,7 +189,7 @@ export default function FamilyDataProfileScreen({
               </p>
             </div>
 
-            <div className="w-full md:w-4/12">
+            <div className="w-full md:w-2/12">
               <div className="w-full flex flex-row items-center justify-center gap-x-2">
                 <div className="w-full">
                   {!isMobile ? (
@@ -183,9 +204,7 @@ export default function FamilyDataProfileScreen({
                         <div className="w-full gap-x-2 px-6 text-sm bg-primary-40 hover:bg-primary-70 text-line-10 flex items-center justify-center h-12 rounded-md">
                           <Plus className="w-6 h-6 text-line-10" />
 
-                          <p className="text-line-10 text-[16px]">
-                            Tambah Pasangan
-                          </p>
+                          <p className="text-line-10 text-[16px]">Tambah</p>
                         </div>
                       </AlertDialogTrigger>
                       <AlertDialogContent className="w-full max-w-2xl bg-line-10 rounded-lg shadow-md">
@@ -224,6 +243,13 @@ export default function FamilyDataProfileScreen({
                                 className="w-full h-12 text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                                 placeholder="Masukkan Nama Pasangan Anda"
                               />
+
+                              {hasSubmittedCoupleData &&
+                                errorsCoupleData?.nama?._errors && (
+                                  <div className="text-error-50 text-[14px] md:text-[16px]">
+                                    {errorsCoupleData.nama._errors[0]}
+                                  </div>
+                                )}
                             </div>
 
                             <div className="w-full flex flex-row gap-x-5">
@@ -250,6 +276,13 @@ export default function FamilyDataProfileScreen({
                                   className="w-full h-12 text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                                   placeholder="Masukkan Nama Pasangan Anda"
                                 />
+
+                                {hasSubmittedCoupleData &&
+                                  errorsCoupleData?.tempat_lahir?._errors && (
+                                    <div className="text-error-50 text-[14px] md:text-[16px]">
+                                      {errorsCoupleData.tempat_lahir._errors[0]}
+                                    </div>
+                                  )}
                               </div>
 
                               <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -308,6 +341,13 @@ export default function FamilyDataProfileScreen({
                                 className="w-full h-12 text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                                 placeholder="Masukkan Pekerjaan Pasangan Anda Anda"
                               />
+
+                              {hasSubmittedCoupleData &&
+                                errorsCoupleData?.pekerjaan?._errors && (
+                                  <div className="text-error-50 text-[14px] md:text-[16px]">
+                                    {errorsCoupleData.pekerjaan._errors[0]}
+                                  </div>
+                                )}
                             </div>
 
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -327,8 +367,9 @@ export default function FamilyDataProfileScreen({
                                   })
                                 }>
                                 <SelectTrigger
-                                  className={`${!couple.status ? "opacity-70" : ""
-                                    } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                                  className={`${
+                                    !couple.status ? "opacity-70" : ""
+                                  } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
                                   <SelectValue
                                     placeholder="Pilih Status..."
                                     className={
@@ -360,10 +401,19 @@ export default function FamilyDataProfileScreen({
                                   </div>
                                 </SelectContent>
                               </Select>
+
+                              {hasSubmittedCoupleData &&
+                                errorsCoupleData?.status?._errors && (
+                                  <div className="text-error-50 text-[14px] md:text-[16px]">
+                                    {errorsCoupleData.status._errors[0]}
+                                  </div>
+                                )}
                             </div>
 
                             <div className="w-full flex flex-row justify-between items-center gap-x-5">
-                              <AlertDialogCancel className="text-[14px] md:text-[16px]">Cancel</AlertDialogCancel>
+                              <AlertDialogCancel className="text-[14px] md:text-[16px]">
+                                Cancel
+                              </AlertDialogCancel>
 
                               <Button
                                 type="submit"
@@ -392,9 +442,7 @@ export default function FamilyDataProfileScreen({
                         <div className="w-full gap-x-2 px-6 text-sm bg-primary-40 hover:bg-primary-70 text-line-10 flex items-center justify-center h-12 rounded-md">
                           <Plus className="w-6 h-6 text-line-10" />
 
-                          <p className="text-line-10 text-[16px]">
-                            Tambah Pasangan
-                          </p>
+                          <p className="text-line-10 text-[16px]">Tambah</p>
                         </div>
                       </DrawerTrigger>
                       <DrawerContent className="flex flex-col gap-y-3 bg-line-10 rounded-lg w-full max-w-4xl h-4/6 px-3 pb-6">
@@ -435,6 +483,13 @@ export default function FamilyDataProfileScreen({
                                 className="w-full h-12 text-[14px] md:text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                                 placeholder="Masukkan Nama Pasangan Anda"
                               />
+
+                              {hasSubmittedCoupleData &&
+                                errorsCoupleData?.nama?._errors && (
+                                  <div className="text-error-50 text-[14px] md:text-[16px]">
+                                    {errorsCoupleData.nama._errors[0]}
+                                  </div>
+                                )}
                             </div>
 
                             <div className="w-full flex flex-row gap-x-3 md:gap-x-5">
@@ -461,6 +516,13 @@ export default function FamilyDataProfileScreen({
                                   className="w-full h-12 text-[14px] md:text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                                   placeholder="Masukkan Nama Pasangan Anda"
                                 />
+
+                                {hasSubmittedCoupleData &&
+                                  errorsCoupleData?.tempat_lahir?._errors && (
+                                    <div className="text-error-50 text-[14px] md:text-[16px]">
+                                      {errorsCoupleData.tempat_lahir._errors[0]}
+                                    </div>
+                                  )}
                               </div>
 
                               <div className="w-[45%] md:w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -519,6 +581,13 @@ export default function FamilyDataProfileScreen({
                                 className="w-full h-12 text-[14px] md:text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                                 placeholder="Masukkan Pekerjaan Pasangan Anda Anda"
                               />
+
+                              {hasSubmittedCoupleData &&
+                                errorsCoupleData?.pekerjaan?._errors && (
+                                  <div className="text-error-50 text-[14px] md:text-[16px]">
+                                    {errorsCoupleData.pekerjaan._errors[0]}
+                                  </div>
+                                )}
                             </div>
 
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -538,8 +607,9 @@ export default function FamilyDataProfileScreen({
                                   })
                                 }>
                                 <SelectTrigger
-                                  className={`${!couple.status ? "opacity-70" : ""
-                                    } bg-transparent border border-line-20 h-[50px] pl-4 w-full mx-0 pr-2`}>
+                                  className={`${
+                                    !couple.status ? "opacity-70" : ""
+                                  } bg-transparent border border-line-20 h-[50px] pl-4 w-full mx-0 pr-2`}>
                                   <SelectValue
                                     placeholder="Pilih Status..."
                                     className={
@@ -571,6 +641,13 @@ export default function FamilyDataProfileScreen({
                                   </div>
                                 </SelectContent>
                               </Select>
+
+                              {hasSubmittedCoupleData &&
+                                errorsCoupleData?.status?._errors && (
+                                  <div className="text-error-50 text-[14px] md:text-[16px]">
+                                    {errorsCoupleData.status._errors[0]}
+                                  </div>
+                                )}
                             </div>
 
                             <div className="w-full flex flex-row justify-between items-center gap-x-5">
@@ -684,7 +761,7 @@ export default function FamilyDataProfileScreen({
               </p>
             </div>
 
-            <div className="w-full md:w-3/12">
+            <div className="w-full md:w-2/12">
               <div className="w-full flex flex-row items-center justify-center gap-x-2">
                 <div className="w-full">
                   {!isMobile ? (
@@ -699,9 +776,7 @@ export default function FamilyDataProfileScreen({
                         <div className="w-full gap-x-2 px-6 text-sm bg-primary-40 hover:bg-primary-70 text-line-10 flex items-center justify-center h-12 rounded-md">
                           <Plus className="w-6 h-6 text-line-10" />
 
-                          <p className="text-line-10 text-[16px]">
-                            Tambah Data Anak
-                          </p>
+                          <p className="text-line-10 text-[16px]">Tambah</p>
                         </div>
                       </AlertDialogTrigger>
                       <AlertDialogContent className="w-full max-w-2xl bg-line-10 rounded-lg shadow-md">
@@ -740,6 +815,13 @@ export default function FamilyDataProfileScreen({
                                 className="w-full h-12 text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                                 placeholder="Masukkan Nama Anak Anda"
                               />
+
+                              {hasSubmittedChildrenData &&
+                                errorsChildrenData?.nama?._errors && (
+                                  <div className="text-error-50 text-[14px] md:text-[16px]">
+                                    {errorsChildrenData.nama._errors[0]}
+                                  </div>
+                                )}
                             </div>
 
                             <div className="w-full flex flex-row gap-x-5">
@@ -766,6 +848,16 @@ export default function FamilyDataProfileScreen({
                                   className="w-full h-12 text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                                   placeholder="Masukkan Nama Anak Anda"
                                 />
+
+                                {hasSubmittedChildrenData &&
+                                  errorsChildrenData?.tempat_lahir?._errors && (
+                                    <div className="text-error-50 text-[14px] md:text-[16px]">
+                                      {
+                                        errorsChildrenData.tempat_lahir
+                                          ._errors[0]
+                                      }
+                                    </div>
+                                  )}
                               </div>
 
                               <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -791,7 +883,7 @@ export default function FamilyDataProfileScreen({
                               </Label>
 
                               <Select
-                                name="status"
+                                name="jenis_kelamin"
                                 value={
                                   kid.jenis_kelamin
                                     ? kid.jenis_kelamin
@@ -804,8 +896,9 @@ export default function FamilyDataProfileScreen({
                                   })
                                 }>
                                 <SelectTrigger
-                                  className={`${!kid.jenis_kelamin ? "opacity-70" : ""
-                                    } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                                  className={`${
+                                    !kid.jenis_kelamin ? "opacity-70" : ""
+                                  } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
                                   <SelectValue
                                     placeholder="Pilih Jenis Kelamin..."
                                     className={
@@ -837,6 +930,16 @@ export default function FamilyDataProfileScreen({
                                   </div>
                                 </SelectContent>
                               </Select>
+
+                              {hasSubmittedChildrenData &&
+                                errorsChildrenData?.jenis_kelamin?._errors && (
+                                  <div className="text-error-50 text-[14px] md:text-[16px]">
+                                    {
+                                      errorsChildrenData.jenis_kelamin
+                                        ._errors[0]
+                                    }
+                                  </div>
+                                )}
                             </div>
 
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -862,6 +965,13 @@ export default function FamilyDataProfileScreen({
                                 className="w-full h-12 text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                                 placeholder="Masukkan Pekerjaan Anak Anda"
                               />
+
+                              {hasSubmittedChildrenData &&
+                                errorsChildrenData?.pekerjaan?._errors && (
+                                  <div className="text-error-50 text-[14px] md:text-[16px]">
+                                    {errorsChildrenData.pekerjaan._errors[0]}
+                                  </div>
+                                )}
                             </div>
 
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -879,8 +989,9 @@ export default function FamilyDataProfileScreen({
                                   })
                                 }>
                                 <SelectTrigger
-                                  className={`${!kid.status ? "opacity-70" : ""
-                                    } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                                  className={`${
+                                    !kid.status ? "opacity-70" : ""
+                                  } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
                                   <SelectValue
                                     placeholder="Pilih Status..."
                                     className={
@@ -910,10 +1021,19 @@ export default function FamilyDataProfileScreen({
                                   </div>
                                 </SelectContent>
                               </Select>
+
+                              {hasSubmittedChildrenData &&
+                                errorsChildrenData?.status?._errors && (
+                                  <div className="text-error-50 text-[14px] md:text-[16px]">
+                                    {errorsChildrenData.status._errors[0]}
+                                  </div>
+                                )}
                             </div>
 
-                            <div className="w-full flex flex-row justify-center items-center gap-x-5">
-                              <AlertDialogCancel>Cancel</AlertDialogCancel>
+                            <div className="w-full flex flex-row justify-between items-center gap-x-5">
+                              <AlertDialogCancel className="text-[14px] md:text-[16px]">
+                                Cancel
+                              </AlertDialogCancel>
 
                               <Button
                                 type="submit"
@@ -944,9 +1064,7 @@ export default function FamilyDataProfileScreen({
                         <div className="w-full gap-x-2 px-6 text-sm bg-primary-40 hover:bg-primary-70 text-line-10 flex items-center justify-center h-12 rounded-md">
                           <Plus className="w-6 h-6 text-line-10" />
 
-                          <p className="text-line-10 text-[16px]">
-                            Tambah Anak
-                          </p>
+                          <p className="text-line-10 text-[16px]">Tambah</p>
                         </div>
                       </DrawerTrigger>
                       <DrawerContent className="flex flex-col gap-y-3 bg-line-10 rounded-lg w-full max-w-4xl h-4/6 px-3 pb-6">
@@ -987,6 +1105,13 @@ export default function FamilyDataProfileScreen({
                                 className="w-full h-12 text-[14px] md:text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                                 placeholder="Masukkan Nama Anak Anda"
                               />
+
+                              {hasSubmittedChildrenData &&
+                                errorsChildrenData?.nama?._errors && (
+                                  <div className="text-error-50 text-[14px] md:text-[16px]">
+                                    {errorsChildrenData.nama._errors[0]}
+                                  </div>
+                                )}
                             </div>
 
                             <div className="w-full flex flex-row gap-x-5">
@@ -1013,6 +1138,16 @@ export default function FamilyDataProfileScreen({
                                   className="w-full h-12 text-[14px] md:text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                                   placeholder="Masukkan Nama Anak Anda"
                                 />
+
+                                {hasSubmittedChildrenData &&
+                                  errorsChildrenData?.tempat_lahir?._errors && (
+                                    <div className="text-error-50 text-[14px] md:text-[16px]">
+                                      {
+                                        errorsChildrenData.tempat_lahir
+                                          ._errors[0]
+                                      }
+                                    </div>
+                                  )}
                               </div>
 
                               <div className="w-[45%] focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -1038,7 +1173,7 @@ export default function FamilyDataProfileScreen({
                               </Label>
 
                               <Select
-                                name="status"
+                                name="jenis_kelamin"
                                 value={
                                   kid.jenis_kelamin
                                     ? kid.jenis_kelamin
@@ -1051,8 +1186,9 @@ export default function FamilyDataProfileScreen({
                                   })
                                 }>
                                 <SelectTrigger
-                                  className={`${!kid.jenis_kelamin ? "opacity-70" : ""
-                                    } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                                  className={`${
+                                    !kid.jenis_kelamin ? "opacity-70" : ""
+                                  } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
                                   <SelectValue
                                     placeholder="Pilih Jenis Kelamin..."
                                     className={
@@ -1084,6 +1220,16 @@ export default function FamilyDataProfileScreen({
                                   </div>
                                 </SelectContent>
                               </Select>
+
+                              {hasSubmittedChildrenData &&
+                                errorsChildrenData?.jenis_kelamin?._errors && (
+                                  <div className="text-error-50 text-[14px] md:text-[16px]">
+                                    {
+                                      errorsChildrenData.jenis_kelamin
+                                        ._errors[0]
+                                    }
+                                  </div>
+                                )}
                             </div>
 
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -1109,6 +1255,13 @@ export default function FamilyDataProfileScreen({
                                 className="w-full h-12 text-[14px] md:text-[16px] focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70"
                                 placeholder="Masukkan Pekerjaan Anak Anda"
                               />
+
+                              {hasSubmittedChildrenData &&
+                                errorsChildrenData?.pekerjaan?._errors && (
+                                  <div className="text-error-50 text-[14px] md:text-[16px]">
+                                    {errorsChildrenData.pekerjaan._errors[0]}
+                                  </div>
+                                )}
                             </div>
 
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
@@ -1126,8 +1279,9 @@ export default function FamilyDataProfileScreen({
                                   })
                                 }>
                                 <SelectTrigger
-                                  className={`${!kid.status ? "opacity-70" : ""
-                                    } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                                  className={`${
+                                    !kid.status ? "opacity-70" : ""
+                                  } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
                                   <SelectValue
                                     placeholder="Pilih Status..."
                                     className={
@@ -1157,6 +1311,13 @@ export default function FamilyDataProfileScreen({
                                   </div>
                                 </SelectContent>
                               </Select>
+
+                              {hasSubmittedChildrenData &&
+                                errorsChildrenData?.status?._errors && (
+                                  <div className="text-error-50 text-[14px] md:text-[16px]">
+                                    {errorsChildrenData.status._errors[0]}
+                                  </div>
+                                )}
                             </div>
 
                             <div className="w-full flex flex-row justify-between items-center gap-x-5">
