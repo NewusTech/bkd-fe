@@ -91,6 +91,7 @@ export interface ServiceInterface {
 export interface TermConditionInterface {
   id: number;
   desc: string;
+  privacy_policy: string;
 }
 
 export interface AdminApplicationHistoryInterface {

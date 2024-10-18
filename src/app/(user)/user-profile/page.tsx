@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import PersonalDataProfileScreen from "@/components/pages/user-profile/personal-data";
@@ -53,6 +53,18 @@ import UserTabsTriggerScreen from "@/components/elements/tabs_user";
 import Swal from "sweetalert2";
 import Cookies from "js-cookie";
 import { formatDate, formatDateShortString } from "@/lib/utils";
+import {
+  schemaAwardData,
+  schemaChildrenData,
+  schemaCoupleData,
+  schemaEducationData,
+  schemaGradeData,
+  schemaKGBData,
+  schemaPersonalProfile,
+  schemaPositionData,
+  schemaTrainingData,
+} from "@/validations";
+import { z } from "zod";
 
 export default function UserProfileScreen() {
   const isMobile = useMediaQuery("(max-width: 768px)");
@@ -181,6 +193,46 @@ export default function UserProfileScreen() {
   });
   const [returnDate, setReturnDate] = useState<Date>(new Date());
   const [durationDate, setDurationDate] = useState<Date>(new Date());
+  const [formValidPersonalData, setFormValidPersonalData] = useState(false);
+  const [errorsPersonalData, setErrorsPersonalData] = useState<any>({});
+  const [hasSubmittedPersonalData, setHasSubmittedPersonalData] =
+    useState(false);
+
+  const [formValidCoupleData, setFormValidCoupleData] = useState(false);
+  const [errorsCoupleData, setErrorsCoupleData] = useState<any>({});
+  const [hasSubmittedCoupleData, setHasSubmittedCoupleData] = useState(false);
+
+  const [formValidChildrenData, setFormValidChildrenData] = useState(false);
+  const [errorsChildrenData, setErrorsChildrenData] = useState<any>({});
+  const [hasSubmittedChildrenData, setHasSubmittedChildrenData] =
+    useState(false);
+
+  const [formValidGradeData, setFormValidGradeData] = useState(false);
+  const [errorsGradeData, setErrorsGradeData] = useState<any>({});
+  const [hasSubmittedGradeData, setHasSubmittedGradeData] = useState(false);
+
+  const [formValidKGBData, setFormValidKGBData] = useState(false);
+  const [errorsKGBData, setErrorsKGBData] = useState<any>({});
+  const [hasSubmittedKGBData, setHasSubmittedKGBData] = useState(false);
+
+  const [formValidPositionData, setFormValidPositionData] = useState(false);
+  const [errorsPositionData, setErrorsPositionData] = useState<any>({});
+  const [hasSubmittedPositionData, setHasSubmittedPositionData] =
+    useState(false);
+
+  const [formValidEducationData, setFormValidEducationData] = useState(false);
+  const [errorsEducationData, setErrorsEducationData] = useState<any>({});
+  const [hasSubmittedEducationData, setHasSubmittedEducationData] =
+    useState(false);
+
+  const [formValidTrainingData, setFormValidTrainingData] = useState(false);
+  const [errorsTrainingData, setErrorsTrainingData] = useState<any>({});
+  const [hasSubmittedTrainingData, setHasSubmittedTrainingData] =
+    useState(false);
+
+  const [formValidAwardData, setFormValidAwardData] = useState(false);
+  const [errorsAwardData, setErrorsAwardData] = useState<any>({});
+  const [hasSubmittedAwardData, setHasSubmittedAwardData] = useState(false);
 
   useEffect(() => {
     const token = Cookies.get("Authorization");
@@ -209,6 +261,258 @@ export default function UserProfileScreen() {
       setIsTabs("riwayat-penghargaan");
     }
   }, [searchTabs]);
+
+  // validate personal data
+  const validateForm = useCallback(async () => {
+    try {
+      await schemaPersonalProfile.parseAsync({
+        ...userData,
+      });
+      setErrorsPersonalData({});
+      return true;
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const formattedErrors = error.format();
+        setErrorsPersonalData(formattedErrors);
+      }
+      setIsLoadingUserCreate(false);
+      return false;
+    }
+  }, [userData]);
+
+  useEffect(() => {
+    if (hasSubmittedPersonalData) {
+      validateForm();
+    }
+  }, [hasSubmittedPersonalData, validateForm]);
+
+  useEffect(() => {
+    setFormValidPersonalData(Object.keys(errorsPersonalData).length === 0);
+  }, [errorsPersonalData]);
+
+  // validate Couple Data
+  const validateFormCoupleData = useCallback(async () => {
+    try {
+      await schemaCoupleData.parseAsync({
+        ...couple,
+      });
+      setErrorsCoupleData({});
+      return true;
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const formattedErrors = error.format();
+        setErrorsCoupleData(formattedErrors);
+      }
+      setIsLoadingCoupleCreate(false);
+      return false;
+    }
+  }, [couple]);
+
+  useEffect(() => {
+    if (hasSubmittedCoupleData) {
+      validateFormCoupleData();
+    }
+  }, [hasSubmittedCoupleData, validateFormCoupleData]);
+
+  useEffect(() => {
+    setFormValidCoupleData(Object.keys(errorsCoupleData).length === 0);
+  }, [errorsCoupleData]);
+
+  // validate Children Data
+  const validateFormChildrenData = useCallback(async () => {
+    try {
+      await schemaChildrenData.parseAsync({
+        ...kid,
+      });
+      setErrorsChildrenData({});
+      return true;
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const formattedErrors = error.format();
+        setErrorsChildrenData(formattedErrors);
+      }
+      setIsLoadingChildrenCreate(false);
+      return false;
+    }
+  }, [kid]);
+
+  useEffect(() => {
+    if (hasSubmittedChildrenData) {
+      validateFormChildrenData();
+    }
+  }, [hasSubmittedChildrenData, validateFormChildrenData]);
+
+  useEffect(() => {
+    setFormValidChildrenData(Object.keys(errorsChildrenData).length === 0);
+  }, [errorsChildrenData]);
+
+  // validate Grade Data
+  const validateFormGradeData = useCallback(async () => {
+    try {
+      await schemaGradeData.parseAsync({
+        ...grade,
+      });
+      setErrorsGradeData({});
+      return true;
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const formattedErrors = error.format();
+        setErrorsGradeData(formattedErrors);
+      }
+      setIsLoadingGradeCreate(false);
+      return false;
+    }
+  }, [grade]);
+
+  useEffect(() => {
+    if (hasSubmittedGradeData) {
+      validateFormGradeData();
+    }
+  }, [hasSubmittedGradeData, validateFormGradeData]);
+
+  useEffect(() => {
+    setFormValidGradeData(Object.keys(errorsGradeData).length === 0);
+  }, [errorsGradeData]);
+
+  // validate KGB Data
+  const validateFormKGBData = useCallback(async () => {
+    try {
+      await schemaKGBData.parseAsync({
+        ...income,
+      });
+      setErrorsKGBData({});
+      return true;
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const formattedErrors = error.format();
+        setErrorsKGBData(formattedErrors);
+      }
+      setIsLoadingIncomeCreate(false);
+      return false;
+    }
+  }, [income]);
+
+  useEffect(() => {
+    if (hasSubmittedKGBData) {
+      validateFormKGBData();
+    }
+  }, [hasSubmittedKGBData, validateFormKGBData]);
+
+  useEffect(() => {
+    setFormValidKGBData(Object.keys(errorsKGBData).length === 0);
+  }, [errorsKGBData]);
+
+  // validate Position Data
+  const validateFormPositionData = useCallback(async () => {
+    try {
+      await schemaPositionData.parseAsync({
+        ...position,
+      });
+      setErrorsPositionData({});
+      return true;
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const formattedErrors = error.format();
+        setErrorsPositionData(formattedErrors);
+      }
+      setIsLoadingPositionCreate(false);
+      return false;
+    }
+  }, [position]);
+
+  useEffect(() => {
+    if (hasSubmittedPositionData) {
+      validateFormPositionData();
+    }
+  }, [hasSubmittedPositionData, validateFormPositionData]);
+
+  useEffect(() => {
+    setFormValidPositionData(Object.keys(errorsPositionData).length === 0);
+  }, [errorsPositionData]);
+
+  // validate Education Data
+  const validateFormEducationData = useCallback(async () => {
+    try {
+      await schemaEducationData.parseAsync({
+        ...education,
+      });
+      setErrorsEducationData({});
+      return true;
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const formattedErrors = error.format();
+        setErrorsEducationData(formattedErrors);
+      }
+      setIsLoadingEducationCreate(false);
+      return false;
+    }
+  }, [education]);
+
+  useEffect(() => {
+    if (hasSubmittedEducationData) {
+      validateFormEducationData();
+    }
+  }, [hasSubmittedEducationData, validateFormEducationData]);
+
+  useEffect(() => {
+    setFormValidEducationData(Object.keys(errorsEducationData).length === 0);
+  }, [errorsEducationData]);
+
+  // validate Training Data
+  const validateFormTrainingData = useCallback(async () => {
+    try {
+      await schemaTrainingData.parseAsync({
+        ...training,
+      });
+      setErrorsTrainingData({});
+      return true;
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const formattedErrors = error.format();
+        setErrorsTrainingData(formattedErrors);
+      }
+      setIsLoadingTrainingCreate(false);
+      return false;
+    }
+  }, [training]);
+
+  useEffect(() => {
+    if (hasSubmittedTrainingData) {
+      validateFormTrainingData();
+    }
+  }, [hasSubmittedTrainingData, validateFormTrainingData]);
+
+  useEffect(() => {
+    setFormValidTrainingData(Object.keys(errorsTrainingData).length === 0);
+  }, [errorsTrainingData]);
+
+  // validate Award Data
+  const validateFormAwardData = useCallback(async () => {
+    try {
+      await schemaAwardData.parseAsync({
+        ...award,
+      });
+      setErrorsAwardData({});
+      return true;
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const formattedErrors = error.format();
+        setErrorsAwardData(formattedErrors);
+      }
+      setIsLoadingAwardCreate(false);
+      return false;
+    }
+  }, [award]);
+
+  useEffect(() => {
+    if (hasSubmittedAwardData) {
+      validateFormAwardData();
+    }
+  }, [hasSubmittedAwardData, validateFormAwardData]);
+
+  useEffect(() => {
+    setFormValidAwardData(Object.keys(errorsAwardData).length === 0);
+  }, [errorsAwardData]);
 
   const fetchUserProfile = async () => {
     try {
@@ -283,7 +587,9 @@ export default function UserProfileScreen() {
   ) => {
     e.preventDefault();
 
-    setIsLoadingUserCreate(true);
+    setHasSubmittedPersonalData(true);
+
+    const isValid = await validateForm();
 
     const formData = new FormData();
     formData.append("name", userData.name);
@@ -303,62 +609,63 @@ export default function UserProfileScreen() {
     formData.append("kecamatan_id", userData.kecamatan_id);
     formData.append("desa_id", userData.desa_id);
 
-    formData.forEach((value, key) => {
-      console.log(key + ": " + value);
-    });
+    // formData.forEach((value, key) => {
+    //   console.log(key + ": " + value);
+    // });
+    if (isValid) {
+      setIsLoadingUserCreate(true);
 
-    try {
-      const response = await updateUserData(formData);
+      try {
+        const response = await updateUserData(formData);
 
-      console.log(response, "ini response: ");
+        if (response.status === 200) {
+          setUserData({
+            name: "",
+            email: "",
+            telepon: "",
+            nik: "",
+            nip: "",
+            unit_kerja: "",
+            tempat_lahir: "",
+            agama: "",
+            gender: "",
+            tgl_lahir: "",
+            goldar: "",
+            alamat: "",
+            rt: "",
+            rw: "",
+            kecamatan_id: "",
+            desa_id: "",
+          });
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil Memperbarui Data Diri!",
+            timer: 2000,
+            showConfirmButton: false,
+            position: "center",
+          });
 
-      if (response.status === 200) {
-        setUserData({
-          name: "",
-          email: "",
-          telepon: "",
-          nik: "",
-          nip: "",
-          unit_kerja: "",
-          tempat_lahir: "",
-          agama: "",
-          gender: "",
-          tgl_lahir: "",
-          goldar: "",
-          alamat: "",
-          rt: "",
-          rw: "",
-          kecamatan_id: "",
-          desa_id: "",
-        });
-        Swal.fire({
-          icon: "success",
-          title: "Berhasil Memperbarui Data Diri!",
-          timer: 2000,
-          showConfirmButton: false,
-          position: "center",
-        });
+          setTimeout(() => {
+            window.location.reload();
+          }, 2000);
 
-        setTimeout(() => {
-          window.location.reload();
-        }, 2000);
-
-        fetchUserProfile(); 
+          fetchUserProfile();
+          setIsLoadingUserCreate(false);
+          router.push(`/user-profile?tabs=${"data-diri"}`);
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Gagal Memperbarui Data Diri!",
+            timer: 2000,
+            showConfirmButton: false,
+            position: "center",
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
         setIsLoadingUserCreate(false);
-        router.push(`/user-profile?tabs=${"data-diri"}`);
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Gagal Memperbarui Data Diri!",
-          timer: 2000,
-          showConfirmButton: false,
-          position: "center",
-        });
       }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoadingUserCreate(false);
     }
   };
 
@@ -366,48 +673,54 @@ export default function UserProfileScreen() {
   const handleSubmitCouple = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    setIsLoadingCoupleCreate(true);
+    setHasSubmittedCoupleData(true);
+
+    const isValid = await validateFormCoupleData();
 
     const data = [];
 
     data.push(couple);
 
-    try {
-      const response = await postCoupleDataFamily(data);
+    if (isValid) {
+      setIsLoadingCoupleCreate(true);
 
-      if (response.status === 200) {
-        setCouple({
-          nama: "",
-          tempat_lahir: "",
-          tanggal_lahir: "",
-          tanggal_pernikahan: "",
-          pekerjaan: "",
-          status: "",
-        });
-        Swal.fire({
-          icon: "success",
-          title: "Berhasil Menambahkan Data Pasangan!",
-          timer: 2000,
-          showConfirmButton: false,
-          position: "center",
-        });
-        fetchUserProfile();
+      try {
+        const response = await postCoupleDataFamily(data);
+
+        if (response.status === 200) {
+          setCouple({
+            nama: "",
+            tempat_lahir: "",
+            tanggal_lahir: "",
+            tanggal_pernikahan: "",
+            pekerjaan: "",
+            status: "",
+          });
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil Menambahkan Data Pasangan!",
+            timer: 2000,
+            showConfirmButton: false,
+            position: "center",
+          });
+          fetchUserProfile();
+          setIsLoadingCoupleCreate(false);
+          setOpenCoupleCreate(false);
+          router.push(`/user-profile?tabs=${"data-keluarga"}`);
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Gagal Menambahkan Data Pasangan!",
+            timer: 2000,
+            showConfirmButton: false,
+            position: "center",
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
         setIsLoadingCoupleCreate(false);
-        setOpenCoupleCreate(false);
-        router.push(`/user-profile?tabs=${"data-keluarga"}`);
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Gagal Menambahkan Data Pasangan!",
-          timer: 2000,
-          showConfirmButton: false,
-          position: "center",
-        });
       }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoadingCoupleCreate(false);
     }
   };
 
@@ -505,48 +818,54 @@ export default function UserProfileScreen() {
   const handleSubmitChildren = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    setIsLoadingChildrenCreate(true);
+    setHasSubmittedChildrenData(true);
+
+    const isValid = await validateFormChildrenData();
 
     const data = [];
 
     data.push(kid);
 
-    try {
-      const response = await postChildrenDataFamily(data);
+    if (isValid) {
+      setIsLoadingChildrenCreate(true);
 
-      if (response.status === 200) {
-        setKid({
-          nama: "",
-          tempat_lahir: "",
-          tanggal_lahir: "",
-          jenis_kelamin: "",
-          pekerjaan: "",
-          status: "",
-        });
-        Swal.fire({
-          icon: "success",
-          title: "Berhasil Menambahkan Data Anak!",
-          timer: 2000,
-          showConfirmButton: false,
-          position: "center",
-        });
-        fetchUserProfile();
+      try {
+        const response = await postChildrenDataFamily(data);
+
+        if (response.status === 200) {
+          setKid({
+            nama: "",
+            tempat_lahir: "",
+            tanggal_lahir: "",
+            jenis_kelamin: "",
+            pekerjaan: "",
+            status: "",
+          });
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil Menambahkan Data Anak!",
+            timer: 2000,
+            showConfirmButton: false,
+            position: "center",
+          });
+          fetchUserProfile();
+          setIsLoadingChildrenCreate(false);
+          setOpenChildrenCreate(false);
+          router.push(`/user-profile?tabs=${"data-keluarga"}`);
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Gagal Menambahkan Data Anak!",
+            timer: 2000,
+            showConfirmButton: false,
+            position: "center",
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
         setIsLoadingChildrenCreate(false);
-        setOpenChildrenCreate(false);
-        router.push(`/user-profile?tabs=${"data-keluarga"}`);
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Gagal Menambahkan Data Anak!",
-          timer: 2000,
-          showConfirmButton: false,
-          position: "center",
-        });
       }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoadingChildrenCreate(false);
     }
   };
 
@@ -640,45 +959,51 @@ export default function UserProfileScreen() {
   const handleSubmitAwards = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    setIsLoadingAwardCreate(true);
+    setHasSubmittedAwardData(true);
+
+    const isValid = await validateFormAwardData();
 
     const data = [];
 
     data.push(award);
 
-    try {
-      const response = await postUserAwardHistory(data);
+    if (isValid) {
+      setIsLoadingAwardCreate(true);
 
-      if (response.status === 200) {
-        setAward({
-          uraian_penghargaan: "",
-          tanggal_penghargaan: "",
-          instansi_penghargaan: "",
-        });
-        Swal.fire({
-          icon: "success",
-          title: "Berhasil Menambahkan Riwayat Penghargaan!",
-          timer: 2000,
-          showConfirmButton: false,
-          position: "center",
-        });
-        fetchUserProfile();
+      try {
+        const response = await postUserAwardHistory(data);
+
+        if (response.status === 200) {
+          setAward({
+            uraian_penghargaan: "",
+            tanggal_penghargaan: "",
+            instansi_penghargaan: "",
+          });
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil Menambahkan Riwayat Penghargaan!",
+            timer: 2000,
+            showConfirmButton: false,
+            position: "center",
+          });
+          fetchUserProfile();
+          setIsLoadingAwardCreate(false);
+          setOpenAwardCreate(false);
+          router.push(`/user-profile?tabs=${"riwayat-penghargaan"}`);
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Gagal Menambahkan Riwayat Penghargaan!",
+            timer: 2000,
+            showConfirmButton: false,
+            position: "center",
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
         setIsLoadingAwardCreate(false);
-        setOpenAwardCreate(false);
-        router.push(`/user-profile?tabs=${"riwayat-penghargaan"}`);
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Gagal Menambahkan Riwayat Penghargaan!",
-          timer: 2000,
-          showConfirmButton: false,
-          position: "center",
-        });
       }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoadingAwardCreate(false);
     }
   };
 
@@ -772,47 +1097,53 @@ export default function UserProfileScreen() {
   const handleSubmitTrainings = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    setIsLoadingTrainingCreate(true);
+    setHasSubmittedTrainingData(true);
+
+    const isValid = await validateFormTrainingData();
 
     const data = [];
 
     data.push(training);
 
-    try {
-      const response = await postUserTrainingHistory(data);
+    if (isValid) {
+      setIsLoadingTrainingCreate(true);
 
-      if (response.status === 200) {
-        setTraining({
-          lama_pelatihan: "",
-          no_surat_pelatihan: "",
-          tanggal_pelatihan: "",
-          tempat_pelatihan: "",
-          uraian_pelatihan: "",
-        });
-        Swal.fire({
-          icon: "success",
-          title: "Berhasil Menambahkan Riwayat Pelatihan!",
-          timer: 2000,
-          showConfirmButton: false,
-          position: "center",
-        });
-        fetchUserProfile();
+      try {
+        const response = await postUserTrainingHistory(data);
+
+        if (response.status === 200) {
+          setTraining({
+            lama_pelatihan: "",
+            no_surat_pelatihan: "",
+            tanggal_pelatihan: "",
+            tempat_pelatihan: "",
+            uraian_pelatihan: "",
+          });
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil Menambahkan Riwayat Pelatihan!",
+            timer: 2000,
+            showConfirmButton: false,
+            position: "center",
+          });
+          fetchUserProfile();
+          setIsLoadingTrainingCreate(false);
+          setOpenTrainingCreate(false);
+          router.push(`/user-profile?tabs=${"riwayat-pelatihan"}`);
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Gagal Menambahkan Riwayat Pelatihan!",
+            timer: 2000,
+            showConfirmButton: false,
+            position: "center",
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
         setIsLoadingTrainingCreate(false);
-        setOpenTrainingCreate(false);
-        router.push(`/user-profile?tabs=${"riwayat-pelatihan"}`);
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Gagal Menambahkan Riwayat Pelatihan!",
-          timer: 2000,
-          showConfirmButton: false,
-          position: "center",
-        });
       }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoadingTrainingCreate(false);
     }
   };
 
@@ -908,47 +1239,53 @@ export default function UserProfileScreen() {
   const handleSubmitEducation = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    setIsLoadingEducationCreate(true);
+    setHasSubmittedEducationData(true);
+
+    const isValid = await validateFormEducationData();
 
     const data = [];
 
     data.push(education);
 
-    try {
-      const response = await postUserEducationHistory(data);
+    if (isValid) {
+      setIsLoadingEducationCreate(true);
 
-      if (response.status === 200) {
-        setEducation({
-          tingkat_pendidikan: "",
-          program_study: "",
-          institut: "",
-          no_ijazah: "",
-          tgl_ijazah: "",
-        });
-        Swal.fire({
-          icon: "success",
-          title: "Berhasil Menambahkan Riwayat Pendidikan!",
-          timer: 2000,
-          showConfirmButton: false,
-          position: "center",
-        });
-        fetchUserProfile();
+      try {
+        const response = await postUserEducationHistory(data);
+
+        if (response.status === 200) {
+          setEducation({
+            tingkat_pendidikan: "",
+            program_study: "",
+            institut: "",
+            no_ijazah: "",
+            tgl_ijazah: "",
+          });
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil Menambahkan Riwayat Pendidikan!",
+            timer: 2000,
+            showConfirmButton: false,
+            position: "center",
+          });
+          fetchUserProfile();
+          setIsLoadingEducationCreate(false);
+          setOpenEducationCreate(false);
+          router.push(`/user-profile?tabs=${"riwayat-pendidikan"}`);
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Gagal Menambahkan Riwayat Pendidikan!",
+            timer: 2000,
+            showConfirmButton: false,
+            position: "center",
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
         setIsLoadingEducationCreate(false);
-        setOpenEducationCreate(false);
-        router.push(`/user-profile?tabs=${"riwayat-pendidikan"}`);
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Gagal Menambahkan Riwayat Pendidikan!",
-          timer: 2000,
-          showConfirmButton: false,
-          position: "center",
-        });
       }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoadingEducationCreate(false);
     }
   };
 
@@ -1044,46 +1381,51 @@ export default function UserProfileScreen() {
   const handleSubmitPosition = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    setIsLoadingPositionCreate(true);
+    setHasSubmittedPositionData(true);
 
+    const isValid = await validateFormPositionData();
     const data = [];
 
     data.push(position);
 
-    try {
-      const response = await postUserPositionHistory(data);
+    if (isValid) {
+      setIsLoadingPositionCreate(true);
 
-      if (response.status === 200) {
-        setPosition({
-          nama_jabatan: "",
-          tmt: "",
-          no_sk_pangkat: "",
-          tgl_sk_pangkat: "",
-        });
-        Swal.fire({
-          icon: "success",
-          title: "Berhasil Menambahkan Riwayat Jabatan!",
-          timer: 2000,
-          showConfirmButton: false,
-          position: "center",
-        });
-        fetchUserProfile();
+      try {
+        const response = await postUserPositionHistory(data);
+
+        if (response.status === 200) {
+          setPosition({
+            nama_jabatan: "",
+            tmt: "",
+            no_sk_pangkat: "",
+            tgl_sk_pangkat: "",
+          });
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil Menambahkan Riwayat Jabatan!",
+            timer: 2000,
+            showConfirmButton: false,
+            position: "center",
+          });
+          fetchUserProfile();
+          setIsLoadingPositionCreate(false);
+          setOpenPositionCreate(false);
+          router.push(`/user-profile?tabs=${"riwayat-jabatan"}`);
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Gagal Menambahkan Riwayat Jabatan!",
+            timer: 2000,
+            showConfirmButton: false,
+            position: "center",
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
         setIsLoadingPositionCreate(false);
-        setOpenPositionCreate(false);
-        router.push(`/user-profile?tabs=${"riwayat-jabatan"}`);
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Gagal Menambahkan Riwayat Jabatan!",
-          timer: 2000,
-          showConfirmButton: false,
-          position: "center",
-        });
       }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoadingPositionCreate(false);
     }
   };
 
@@ -1179,46 +1521,52 @@ export default function UserProfileScreen() {
   const handleSubmitIncome = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    setIsLoadingIncomeCreate(true);
+    setHasSubmittedKGBData(true);
+
+    const isValid = await validateFormKGBData();
 
     const data = [];
 
     data.push(income);
 
-    try {
-      const response = await postUserIncomeHistory(data);
+    if (isValid) {
+      setIsLoadingIncomeCreate(true);
 
-      if (response.status === 200) {
-        setIncome({
-          uraian_berkala: "",
-          tmt: "",
-          no_sk_pangkat: "",
-          tgl_sk_pangkat: "",
-        });
-        Swal.fire({
-          icon: "success",
-          title: "Berhasil Menambahkan Riwayat KGB!",
-          timer: 2000,
-          showConfirmButton: false,
-          position: "center",
-        });
-        fetchUserProfile();
+      try {
+        const response = await postUserIncomeHistory(data);
+
+        if (response.status === 200) {
+          setIncome({
+            uraian_berkala: "",
+            tmt: "",
+            no_sk_pangkat: "",
+            tgl_sk_pangkat: "",
+          });
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil Menambahkan Riwayat KGB!",
+            timer: 2000,
+            showConfirmButton: false,
+            position: "center",
+          });
+          fetchUserProfile();
+          setIsLoadingIncomeCreate(false);
+          setOpenIncomeCreate(false);
+          router.push(`/user-profile?tabs=${"riwayat-kgb"}`);
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Gagal Menambahkan Riwayat KGB!",
+            timer: 2000,
+            showConfirmButton: false,
+            position: "center",
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
         setIsLoadingIncomeCreate(false);
-        setOpenIncomeCreate(false);
-        router.push(`/user-profile?tabs=${"riwayat-kgb"}`);
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Gagal Menambahkan Riwayat KGB!",
-          timer: 2000,
-          showConfirmButton: false,
-          position: "center",
-        });
       }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoadingIncomeCreate(false);
     }
   };
 
@@ -1314,46 +1662,52 @@ export default function UserProfileScreen() {
   const handleSubmitGrade = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    setIsLoadingGradeCreate(true);
+    setHasSubmittedGradeData(true);
+
+    const isValid = await validateFormGradeData();
 
     const data = [];
 
     data.push(grade);
 
-    try {
-      const response = await postUserGradeHistory(data);
+    if (isValid) {
+      setIsLoadingGradeCreate(true);
 
-      if (response.status === 200) {
-        setGrade({
-          jenjang_kepangkatan: "",
-          tmt: "",
-          no_sk_pangkat: "",
-          tgl_sk_pangkat: "",
-        });
-        Swal.fire({
-          icon: "success",
-          title: "Berhasil Menambahkan Riwayat Kepangkatan!",
-          timer: 2000,
-          showConfirmButton: false,
-          position: "center",
-        });
-        fetchUserProfile();
+      try {
+        const response = await postUserGradeHistory(data);
+
+        if (response.status === 200) {
+          setGrade({
+            jenjang_kepangkatan: "",
+            tmt: "",
+            no_sk_pangkat: "",
+            tgl_sk_pangkat: "",
+          });
+          Swal.fire({
+            icon: "success",
+            title: "Berhasil Menambahkan Riwayat Kepangkatan!",
+            timer: 2000,
+            showConfirmButton: false,
+            position: "center",
+          });
+          fetchUserProfile();
+          setIsLoadingGradeCreate(false);
+          setOpenGradeCreate(false);
+          router.push(`/user-profile?tabs=${"riwayat-pangkat"}`);
+        } else {
+          Swal.fire({
+            icon: "error",
+            title: "Gagal Menambahkan Riwayat Kepangkatan!",
+            timer: 2000,
+            showConfirmButton: false,
+            position: "center",
+          });
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
         setIsLoadingGradeCreate(false);
-        setOpenGradeCreate(false);
-        router.push(`/user-profile?tabs=${"riwayat-pangkat"}`);
-      } else {
-        Swal.fire({
-          icon: "error",
-          title: "Gagal Menambahkan Riwayat Kepangkatan!",
-          timer: 2000,
-          showConfirmButton: false,
-          position: "center",
-        });
       }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsLoadingGradeCreate(false);
     }
   };
 
@@ -1472,6 +1826,8 @@ export default function UserProfileScreen() {
                 villages={villages}
                 isLoadingUserCreate={isLoadingUserCreate}
                 handleSubmitPersonalDataUser={handleSubmitPersonalDataUser}
+                hasSubmittedPersonalData={hasSubmittedPersonalData}
+                errorsPersonalData={errorsPersonalData}
               />
             )}
           </TabsContent>
@@ -1510,6 +1866,10 @@ export default function UserProfileScreen() {
                 setReturnDate={setReturnDate}
                 durationDate={durationDate}
                 setDurationDate={setDurationDate}
+                hasSubmittedCoupleData={hasSubmittedCoupleData}
+                hasSubmittedChildrenData={hasSubmittedChildrenData}
+                errorsCoupleData={errorsCoupleData}
+                errorsChildrenData={errorsChildrenData}
               />
             )}
           </TabsContent>
@@ -1536,6 +1896,8 @@ export default function UserProfileScreen() {
                 setReturnDate={setReturnDate}
                 durationDate={durationDate}
                 setDurationDate={setDurationDate}
+                hasSubmittedGradeData={hasSubmittedGradeData}
+                errorsGradeData={errorsGradeData}
               />
             )}
           </TabsContent>
@@ -1561,6 +1923,8 @@ export default function UserProfileScreen() {
                 setReturnDate={setReturnDate}
                 durationDate={durationDate}
                 setDurationDate={setDurationDate}
+                hasSubmittedKGBData={hasSubmittedKGBData}
+                errorsKGBData={errorsKGBData}
               />
             )}
           </TabsContent>
@@ -1586,6 +1950,8 @@ export default function UserProfileScreen() {
                 setReturnDate={setReturnDate}
                 durationDate={durationDate}
                 setDurationDate={setDurationDate}
+                hasSubmittedPositionData={hasSubmittedPositionData}
+                errorsPositionData={errorsPositionData}
               />
             )}
           </TabsContent>
@@ -1609,6 +1975,8 @@ export default function UserProfileScreen() {
                 isLoadingEducationDelete={isLoadingEducationDelete}
                 returnDate={returnDate}
                 setReturnDate={setReturnDate}
+                hasSubmittedEducationData={hasSubmittedEducationData}
+                errorsEducationData={errorsEducationData}
               />
             )}
           </TabsContent>
@@ -1632,6 +2000,8 @@ export default function UserProfileScreen() {
                 isLoadingTrainingDelete={isLoadingTrainingDelete}
                 returnDate={returnDate}
                 setReturnDate={setReturnDate}
+                hasSubmittedTrainingData={hasSubmittedTrainingData}
+                errorsTrainingData={errorsTrainingData}
               />
             )}
           </TabsContent>
@@ -1655,6 +2025,8 @@ export default function UserProfileScreen() {
                 isLoadingAwardDelete={isLoadingAwardDelete}
                 returnDate={returnDate}
                 setReturnDate={setReturnDate}
+                hasSubmittedAwardData={hasSubmittedAwardData}
+                errorsAwardData={errorsAwardData}
               />
             )}
           </TabsContent>

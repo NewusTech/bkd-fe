@@ -115,8 +115,6 @@ export default function Home() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log(slides , "ini ini")
-
   const fetchAreasStructureOrganization = async (
     page: number,
     limit: number
@@ -170,8 +168,6 @@ export default function Home() {
     fetchActivities(1, 8);
     fetchFaqs();
   }, []);
-
-  console.log(organizations, "ini organisasi");
 
   const handleNextNewsPage = () => {
     setIsFirstLoading(true);
@@ -341,10 +337,11 @@ export default function Home() {
       <section
         className={`w-full flex flex-col md:flex-row snap-start scroll-mt-24 background-about-us pt-2 pb-16 md:py-12 gap-y-6 md:gap-y-8 gap-x-3`}>
         <div
-          className={`px-4 ${isMobile ? "" : "carousel-wrapper"} transition-opacity duration-700 ease-in-out ${isCarouselFullscreen && !isMobile
-            ? "hidden"
-            : "slide-in opacity-visible flex flex-col gap-y-5 md:w-[30%]"
-            }`}>
+          className={`px-4 ${isMobile ? "" : "carousel-wrapper"} transition-opacity duration-700 ease-in-out ${
+            isCarouselFullscreen && !isMobile
+              ? "hidden"
+              : "slide-in opacity-visible flex flex-col gap-y-5 md:w-[30%]"
+          }`}>
           <div data-aos="fade-right" className="w-full flex flex-col gap-y-5">
             <div className="w-full flex flex-row items-center justify-center pt-8 md:pt-12">
               <div className="w-3/12 md:w-4/12 h-full">

@@ -23,8 +23,6 @@ export default function UserApplicationHistoryFormCard({
 }) {
   let render;
 
-  console.log(item?.data, "ini item");
-
   if (item?.layananform_tipedata === "radio") {
     const radioOption = item?.layananform_datajson?.find(
       (option) => option.id.toString() === item.data

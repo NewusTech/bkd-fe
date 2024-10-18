@@ -61,8 +61,6 @@ export default function ProfileAboutScreen() {
     fetchBKDUpload();
   }, []);
 
-  console.log(bkds, "bkds");
-
   const fetchGalleries = async (page: number, limit: number) => {
     try {
       const structures = await getStructureOrganization(page, limit);

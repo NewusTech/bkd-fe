@@ -30,6 +30,7 @@ export default function LoginScreen() {
   const [seen, setSeen] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isDialogOpenPrivacy, setIsDialogOpenPrivacy] = useState(false);
   const [data, setData] = useState({
     nip: "",
     password: "",
@@ -123,6 +124,7 @@ export default function LoginScreen() {
 
   const handleAgree = () => {
     setIsDialogOpen(false);
+    setIsDialogOpenPrivacy(false);
   };
 
   return (
@@ -132,13 +134,13 @@ export default function LoginScreen() {
       <div className="relative z-50 flex flex-col w-11/12 md:w-6/12 items-center justify-center gap-y-8 bg-white p-4 md:p-12 shadow-lg rounded-lg">
         <div className="w-full flex flex-col items-center gap-y-2">
           <h2 className="text-black-80 text-xl text-center text-[18px]">
-            Selamat Datang di Aplikasi SIPADU BKD LAMPUNG TIMUR
+            Selamat Datang di Aplikasi SIPADU BKD LAMPUNG TIMUR
           </h2>
 
           <p className="text-black-80 text-center text-[14px] md:text-sm">
-            Aplikasi SIPADU mempermudah pengelolaan administrasi kepegawaian dengan
-            proses cepat, efisien, dan transparan. Login untuk mengakses fitur
-            sesuai kebutuhan Anda.
+            Aplikasi SIPADU mempermudah pengelolaan administrasi kepegawaian
+            dengan proses cepat, efisien, dan transparan. Login untuk mengakses
+            fitur sesuai kebutuhan Anda.
           </p>
         </div>
 
@@ -314,10 +316,10 @@ export default function LoginScreen() {
                 </AlertDialogContent>
               </AlertDialog>{" "}
               kami dan Anda telah membaca{" "}
-              <AlertDialog open={isDialogOpen}>
+              <AlertDialog open={isDialogOpenPrivacy}>
                 <AlertDialogTrigger
                   className="text-primary-40 font-semibold hover:underline"
-                  onClick={() => setIsDialogOpen(true)}>
+                  onClick={() => setIsDialogOpenPrivacy(true)}>
                   Kebijakan Privasi
                 </AlertDialogTrigger>
                 <AlertDialogContent className="flex flex-col bg-line-10 rounded-xl p-1 justify-center items-center w-10/12 md:w-4/12 max-h-[550px]">
@@ -327,7 +329,7 @@ export default function LoginScreen() {
                   </AlertDialogDescription>
 
                   <div className="m-3 px-4 flex flex-col items-center w-full verticalScroll gap-y-6">
-                    <div>{terms && parse(terms?.desc)}</div>
+                    <div>{terms && parse(terms?.privacy_policy)}</div>
 
                     <div
                       onClick={handleAgree}
