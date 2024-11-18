@@ -7,7 +7,7 @@ export const schemaRegister = z.object({
   // name: z.string({ message: "Nama Lengkap tidak boleh kosong!" }),
   nip: z
     .string({ message: "NIP tidak boleh kosong!" })
-    .length(18, "NIP harus terdiri dari 18 karakter"),
+    .min(18, "NIP harus terdiri dari 18 karakter"),
   telepon: z
     .string({ message: "Nomor telepon tidak boleh kosong!" })
     .min(10, "Nomor telepon harus terdiri dari minimal 12 digit")
@@ -17,7 +17,8 @@ export const schemaRegister = z.object({
     .email({ message: "Email harus sesuai dengan format email" }),
   password: z
     .string({ message: "Harap atur kata sandi anda" })
-    .length(6, { message: "Kata sandi minimal 6 karakter" }),
+    .min(6, { message: "Kata sandi minimal 6 karakter" })
+    .max(32, { message: "Kata sandi maksimal 32 karakter" }),
   kecamatan_id: z.string({ message: "Pilih Asal Kecamatan" }),
   desa_id: z.string({ message: "Pilih Asal Desa" }),
   rt: z.string().refine((val) => val !== "", "RT harus diisi"),
@@ -39,7 +40,6 @@ export const schemaLogin = z.object({
   password: z
     .string({ message: "Kata sandi tidak boleh kosong!" })
     .min(6, { message: "Kata sandi minimal 6 karakter" })
-    .max(32, { message: "Kata sandi maksimal 32 karakter" }),
 });
 
 export const schemaForgotPassword = z.object({

@@ -824,8 +824,8 @@ export default function RegisterScreen() {
                       text={["Silahkan dibaca dan dipahami. Terimakasih."]}
                     />
                   </div>
-                  <div className="m-3 px-4 flex flex-col items-center w-full verticalScroll gap-y-6">
-                    <div className="text-gray-700 text-[14px] md:text-[16px]">
+                  <div className="m-3 px-4 flex flex-col items-center w-full gap-y-6">
+                    <div className="text-gray-700 text-[14px] md:text-[16px] w-10/12 md:max-w-3xl verticalScroll">
                       {terms && parse(terms?.desc)}
                     </div>
                     <div

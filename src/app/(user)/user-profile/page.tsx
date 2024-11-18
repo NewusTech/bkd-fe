@@ -65,6 +65,7 @@ import {
   schemaTrainingData,
 } from "@/validations";
 import { z } from "zod";
+import { format } from "date-fns";
 
 export default function UserProfileScreen() {
   const isMobile = useMediaQuery("(max-width: 768px)");
@@ -529,7 +530,7 @@ export default function UserProfileScreen() {
         tempat_lahir: response.data.tempat_lahir,
         agama: response.data.agama,
         gender: response.data.gender,
-        tgl_lahir: response.data.tgl_lahir,
+        tgl_lahir: response.data.tgl_lahir || format(new Date(), "yyyy-MM-dd"),
         goldar: response.data.goldar,
         alamat: response.data.alamat,
         rt: response.data.rt,
@@ -589,6 +590,8 @@ export default function UserProfileScreen() {
 
     setHasSubmittedPersonalData(true);
 
+    console.log(userData);
+
     const isValid = await validateForm();
 
     const formData = new FormData();
@@ -612,6 +615,7 @@ export default function UserProfileScreen() {
     // formData.forEach((value, key) => {
     //   console.log(key + ": " + value);
     // });
+    console.log(isValid);
     if (isValid) {
       setIsLoadingUserCreate(true);
 
@@ -1802,9 +1806,11 @@ export default function UserProfileScreen() {
         <Tabs
           value={isTabs ? isTabs : "data-diri"}
           onValueChange={(value) => setIsTabs(value)}
-          className={`w-full flex flex-col`}>
+          className={`w-full flex flex-col`}
+        >
           <TabsList
-            className={`w-full px-0 py-0 h-full flex flex-row border border-line-20 verticalScroll`}>
+            className={`w-full px-0 py-0 h-full flex flex-row border border-line-20 verticalScroll`}
+          >
             <UserTabsTriggerScreen value="data-diri" />
             <UserTabsTriggerScreen value="data-keluarga" />
             <UserTabsTriggerScreen value="riwayat-pangkat" />
@@ -1833,7 +1839,8 @@ export default function UserProfileScreen() {
           </TabsContent>
           <TabsContent
             value="data-keluarga"
-            className="w-full flex flex-col mt-0">
+            className="w-full flex flex-col mt-0"
+          >
             {user && (
               <FamilyDataProfileScreen
                 couples={user?.pasangan}
@@ -1875,7 +1882,8 @@ export default function UserProfileScreen() {
           </TabsContent>
           <TabsContent
             value="riwayat-pangkat"
-            className="w-full flex flex-col mt-0">
+            className="w-full flex flex-col mt-0"
+          >
             {user && (
               <GradeHistoryProfileScreen
                 grades={user?.pangkats}
@@ -1903,7 +1911,8 @@ export default function UserProfileScreen() {
           </TabsContent>
           <TabsContent
             value="riwayat-kgb"
-            className="w-full flex flex-col mt-0">
+            className="w-full flex flex-col mt-0"
+          >
             {user && (
               <KGBHistoryProfileScreen
                 incomes={user?.kgb}
@@ -1930,7 +1939,8 @@ export default function UserProfileScreen() {
           </TabsContent>
           <TabsContent
             value="riwayat-jabatan"
-            className="w-full flex flex-col mt-0">
+            className="w-full flex flex-col mt-0"
+          >
             {user && (
               <PositionHistoryProfileScreen
                 positions={user?.jabatans}
@@ -1957,7 +1967,8 @@ export default function UserProfileScreen() {
           </TabsContent>
           <TabsContent
             value="riwayat-pendidikan"
-            className="w-full flex flex-col mt-0">
+            className="w-full flex flex-col mt-0"
+          >
             {user && (
               <EducationalBackgroundProfileScreen
                 educations={user?.pendidikans}
@@ -1982,7 +1993,8 @@ export default function UserProfileScreen() {
           </TabsContent>
           <TabsContent
             value="riwayat-pelatihan"
-            className="w-full flex flex-col mt-0">
+            className="w-full flex flex-col mt-0"
+          >
             {user && (
               <TrainingHistoryProfileScreen
                 trainings={user?.pelatihan}
@@ -2007,7 +2019,8 @@ export default function UserProfileScreen() {
           </TabsContent>
           <TabsContent
             value="riwayat-penghargaan"
-            className="w-full flex flex-col mt-0">
+            className="w-full flex flex-col mt-0"
+          >
             {user && (
               <AwardHistoryProfileScreen
                 awards={user?.penghargaan}
