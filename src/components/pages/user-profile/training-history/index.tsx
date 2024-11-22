@@ -56,6 +56,7 @@ import DateFormInput from "@/components/elements/date_form_input";
 import { Loader } from "lucide-react";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import MobileTrainingHistoryProfileCardPages from "@/components/mobile_all_cards/mobileTrainingHistoryProfileCard";
+import DateFormInputNew from "@/components/elements/date_from_input_new";
 
 export default function TrainingHistoryProfileScreen({
   trainings,
@@ -268,7 +269,7 @@ export default function TrainingHistoryProfileScreen({
                             </div>
 
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                              <DateFormInput
+                              <DateFormInputNew
                                 value={returnDate}
                                 setValue={setReturnDate}
                                 label="Tanggal Surat Tanda Lulus"
@@ -479,7 +480,7 @@ export default function TrainingHistoryProfileScreen({
                             </div>
 
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                              <DateFormInput
+                              <DateFormInputNew
                                 value={returnDate}
                                 setValue={setReturnDate}
                                 label="Tanggal Surat Tanda Lulus"

@@ -52,6 +52,7 @@ import { formatDate } from "@/lib/utils";
 import { Loader } from "lucide-react";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import MobileGradeHistoryProfileCardPages from "@/components/mobile_all_cards/mobileGradeHistoryProfileCard";
+import DateFormInputNew from "@/components/elements/date_from_input_new";
 
 export default function GradeHistoryProfileScreen({
   grades,
@@ -215,7 +216,7 @@ export default function GradeHistoryProfileScreen({
                             </div>
 
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                              <DateFormInput
+                              <DateFormInputNew
                                 value={durationDate}
                                 setValue={setDurationDate}
                                 label="Tanggal Terhitung Mulai"
@@ -263,7 +264,7 @@ export default function GradeHistoryProfileScreen({
                             </div>
 
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                              <DateFormInput
+                              <DateFormInputNew
                                 value={returnDate}
                                 setValue={setReturnDate}
                                 label="Tanggal SK Pangkat"
@@ -386,7 +387,7 @@ export default function GradeHistoryProfileScreen({
                             </div>
 
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                              <DateFormInput
+                              <DateFormInputNew
                                 value={durationDate}
                                 setValue={setDurationDate}
                                 label="Tanggal Terhitung Mulai"
@@ -434,7 +435,7 @@ export default function GradeHistoryProfileScreen({
                             </div>
 
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                              <DateFormInput
+                              <DateFormInputNew
                                 value={returnDate}
                                 setValue={setReturnDate}
                                 label="Tanggal SK Pangkat"

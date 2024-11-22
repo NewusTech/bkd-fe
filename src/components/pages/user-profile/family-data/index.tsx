@@ -53,6 +53,7 @@ import { childrenStatus, coupleStatus, genders } from "@/constants/main";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import MobileUserProfileFamilyDataCardPages from "@/components/mobile_all_cards/mobileUserProfileFamilyDataCard";
 import MobileUserProfileChildrenDataCardPages from "@/components/mobile_all_cards/mobileUserProfileChildrenDataCard";
+import DateFormInputNew from "@/components/elements/date_from_input_new";
 
 export default function FamilyDataProfileScreen({
   couples,
@@ -195,12 +196,14 @@ export default function FamilyDataProfileScreen({
                   {!isMobile ? (
                     <AlertDialog
                       open={openCoupleCreate}
-                      onOpenChange={setOpenCoupleCreate}>
+                      onOpenChange={setOpenCoupleCreate}
+                    >
                       <AlertDialogTrigger
                         onClick={() => {
                           setOpenCoupleCreate(true);
                         }}
-                        className="w-full">
+                        className="w-full"
+                      >
                         <div className="w-full gap-x-2 px-6 text-sm bg-primary-40 hover:bg-primary-70 text-line-10 flex items-center justify-center h-12 rounded-md">
                           <Plus className="w-6 h-6 text-line-10" />
 
@@ -219,11 +222,13 @@ export default function FamilyDataProfileScreen({
                             onSubmit={(e: React.FormEvent<HTMLFormElement>) =>
                               handleSubmitCouple(e)
                             }
-                            className="w-full flex flex-col gap-y-5 verticalScroll">
+                            className="w-full flex flex-col gap-y-5 verticalScroll"
+                          >
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                               <Label
                                 htmlFor="nama-pasangan"
-                                className="focus-within:text-primary-70 font-normal text-[16px]">
+                                className="focus-within:text-primary-70 font-normal text-[16px]"
+                              >
                                 Nama Pasangan
                               </Label>
 
@@ -256,7 +261,8 @@ export default function FamilyDataProfileScreen({
                               <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                                 <Label
                                   htmlFor="tempat-lahir"
-                                  className="focus-within:text-primary-70 font-normal text-[16px]">
+                                  className="focus-within:text-primary-70 font-normal text-[16px]"
+                                >
                                   Tempat Lahir
                                 </Label>
 
@@ -286,7 +292,7 @@ export default function FamilyDataProfileScreen({
                               </div>
 
                               <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                                <DateFormInput
+                                <DateFormInputNew
                                   value={durationDate}
                                   setValue={setDurationDate}
                                   label="Tanggal Lahir"
@@ -303,7 +309,7 @@ export default function FamilyDataProfileScreen({
                             </div>
 
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                              <DateFormInput
+                              <DateFormInputNew
                                 value={returnDate}
                                 setValue={setReturnDate}
                                 label="Tanggal Pernikahan"
@@ -321,7 +327,8 @@ export default function FamilyDataProfileScreen({
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                               <Label
                                 htmlFor="pekerjaan"
-                                className="focus-within:text-primary-70 font-normal text-[16px]">
+                                className="focus-within:text-primary-70 font-normal text-[16px]"
+                              >
                                 Pekerjaan
                               </Label>
 
@@ -365,11 +372,13 @@ export default function FamilyDataProfileScreen({
                                     ...couple,
                                     status: value,
                                   })
-                                }>
+                                }
+                              >
                                 <SelectTrigger
                                   className={`${
                                     !couple.status ? "opacity-70" : ""
-                                  } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                                  } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}
+                                >
                                   <SelectValue
                                     placeholder="Pilih Status..."
                                     className={
@@ -392,7 +401,8 @@ export default function FamilyDataProfileScreen({
                                             <SelectItem
                                               className="pr-none mt-2"
                                               value={item?.id.toString()}
-                                              key={i}>
+                                              key={i}
+                                            >
                                               {item?.name}
                                             </SelectItem>
                                           );
@@ -418,7 +428,8 @@ export default function FamilyDataProfileScreen({
                               <Button
                                 type="submit"
                                 disabled={isLoadingCoupleCreate ? true : false}
-                                className="bg-primary-40 hover:bg-primary-70 text-line-10 text-[14px] md:text-[16px]">
+                                className="bg-primary-40 hover:bg-primary-70 text-line-10 text-[14px] md:text-[16px]"
+                              >
                                 {isLoadingCoupleCreate ? (
                                   <Loader className="animate-spin" />
                                 ) : (
@@ -433,12 +444,14 @@ export default function FamilyDataProfileScreen({
                   ) : (
                     <Drawer
                       open={openCoupleCreate}
-                      onOpenChange={setOpenCoupleCreate}>
+                      onOpenChange={setOpenCoupleCreate}
+                    >
                       <DrawerTrigger
                         onClick={() => {
                           setOpenCoupleCreate(true);
                         }}
-                        className="w-full min-h-[50px] md:min-h-[60px] text-line-10 text-[13px] md:text-lg bg-primary-40 hover:bg-primary-70 rounded-lg">
+                        className="w-full min-h-[50px] md:min-h-[60px] text-line-10 text-[13px] md:text-lg bg-primary-40 hover:bg-primary-70 rounded-lg"
+                      >
                         <div className="w-full gap-x-2 px-6 text-sm bg-primary-40 hover:bg-primary-70 text-line-10 flex items-center justify-center h-12 rounded-md">
                           <Plus className="w-6 h-6 text-line-10" />
 
@@ -459,11 +472,13 @@ export default function FamilyDataProfileScreen({
                             onSubmit={(e: React.FormEvent<HTMLFormElement>) =>
                               handleSubmitCouple(e)
                             }
-                            className="w-full flex flex-col gap-y-5 verticalScroll">
+                            className="w-full flex flex-col gap-y-5 verticalScroll"
+                          >
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                               <Label
                                 htmlFor="nama-pasangan"
-                                className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
+                                className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]"
+                              >
                                 Nama Pasangan
                               </Label>
 
@@ -496,7 +511,8 @@ export default function FamilyDataProfileScreen({
                               <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                                 <Label
                                   htmlFor="tempat-lahir"
-                                  className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
+                                  className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]"
+                                >
                                   Tempat Lahir
                                 </Label>
 
@@ -526,7 +542,7 @@ export default function FamilyDataProfileScreen({
                               </div>
 
                               <div className="w-[45%] md:w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                                <DateFormInput
+                                <DateFormInputNew
                                   value={durationDate}
                                   setValue={setDurationDate}
                                   label="Tanggal Lahir"
@@ -543,7 +559,7 @@ export default function FamilyDataProfileScreen({
                             </div>
 
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                              <DateFormInput
+                              <DateFormInputNew
                                 value={returnDate}
                                 setValue={setReturnDate}
                                 label="Tanggal Pernikahan"
@@ -561,7 +577,8 @@ export default function FamilyDataProfileScreen({
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                               <Label
                                 htmlFor="pekerjaan"
-                                className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
+                                className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]"
+                              >
                                 Pekerjaan
                               </Label>
 
@@ -605,11 +622,13 @@ export default function FamilyDataProfileScreen({
                                     ...couple,
                                     status: value,
                                   })
-                                }>
+                                }
+                              >
                                 <SelectTrigger
                                   className={`${
                                     !couple.status ? "opacity-70" : ""
-                                  } bg-transparent border border-line-20 h-[50px] pl-4 w-full mx-0 pr-2`}>
+                                  } bg-transparent border border-line-20 h-[50px] pl-4 w-full mx-0 pr-2`}
+                                >
                                   <SelectValue
                                     placeholder="Pilih Status..."
                                     className={
@@ -632,7 +651,8 @@ export default function FamilyDataProfileScreen({
                                             <SelectItem
                                               className="pr-none mt-2"
                                               value={item?.id.toString()}
-                                              key={i}>
+                                              key={i}
+                                            >
                                               {item?.name}
                                             </SelectItem>
                                           );
@@ -654,14 +674,16 @@ export default function FamilyDataProfileScreen({
                               <Button
                                 type="button"
                                 onClick={() => setOpenCoupleCreate(false)}
-                                className="border border-line-20 text-black-80 hover:bg-error-50 hover:text-line-10 text-[14px] md:text-[16px]">
+                                className="border border-line-20 text-black-80 hover:bg-error-50 hover:text-line-10 text-[14px] md:text-[16px]"
+                              >
                                 Cancel
                               </Button>
 
                               <Button
                                 type="submit"
                                 disabled={isLoadingCoupleCreate ? true : false}
-                                className="bg-primary-40 hover:bg-primary-70 text-line-10 text-[14px] md:text-[16px]">
+                                className="bg-primary-40 hover:bg-primary-70 text-line-10 text-[14px] md:text-[16px]"
+                              >
                                 {isLoadingCoupleCreate ? (
                                   <Loader className="animate-spin" />
                                 ) : (
@@ -767,12 +789,14 @@ export default function FamilyDataProfileScreen({
                   {!isMobile ? (
                     <AlertDialog
                       open={openChildrenCreate}
-                      onOpenChange={setOpenChildrenCreate}>
+                      onOpenChange={setOpenChildrenCreate}
+                    >
                       <AlertDialogTrigger
                         onClick={() => {
                           setOpenChildrenCreate(true);
                         }}
-                        className="w-full">
+                        className="w-full"
+                      >
                         <div className="w-full gap-x-2 px-6 text-sm bg-primary-40 hover:bg-primary-70 text-line-10 flex items-center justify-center h-12 rounded-md">
                           <Plus className="w-6 h-6 text-line-10" />
 
@@ -791,11 +815,13 @@ export default function FamilyDataProfileScreen({
                             onSubmit={(e: React.FormEvent<HTMLFormElement>) =>
                               handleSubmitChildren(e)
                             }
-                            className="w-full flex flex-col gap-y-5 verticalScroll">
+                            className="w-full flex flex-col gap-y-5 verticalScroll"
+                          >
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                               <Label
                                 htmlFor="nama-anak"
-                                className="focus-within:text-primary-70 font-normal text-[16px]">
+                                className="focus-within:text-primary-70 font-normal text-[16px]"
+                              >
                                 Nama Anak
                               </Label>
 
@@ -828,7 +854,8 @@ export default function FamilyDataProfileScreen({
                               <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                                 <Label
                                   htmlFor="tempat-lahir"
-                                  className="focus-within:text-primary-70 font-normal text-[16px]">
+                                  className="focus-within:text-primary-70 font-normal text-[16px]"
+                                >
                                   Tampat Lahir
                                 </Label>
 
@@ -861,7 +888,7 @@ export default function FamilyDataProfileScreen({
                               </div>
 
                               <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                                <DateFormInput
+                                <DateFormInputNew
                                   value={durationDate}
                                   setValue={setDurationDate}
                                   label="Tanggal Lahir"
@@ -894,11 +921,13 @@ export default function FamilyDataProfileScreen({
                                     ...kid,
                                     jenis_kelamin: value,
                                   })
-                                }>
+                                }
+                              >
                                 <SelectTrigger
                                   className={`${
                                     !kid.jenis_kelamin ? "opacity-70" : ""
-                                  } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                                  } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}
+                                >
                                   <SelectValue
                                     placeholder="Pilih Jenis Kelamin..."
                                     className={
@@ -921,7 +950,8 @@ export default function FamilyDataProfileScreen({
                                             <SelectItem
                                               className="pr-none mt-2"
                                               value={item?.value}
-                                              key={i}>
+                                              key={i}
+                                            >
                                               {item?.value}
                                             </SelectItem>
                                           );
@@ -945,7 +975,8 @@ export default function FamilyDataProfileScreen({
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                               <Label
                                 htmlFor="pekerjaan"
-                                className="focus-within:text-primary-70 font-normal text-[16px]">
+                                className="focus-within:text-primary-70 font-normal text-[16px]"
+                              >
                                 Pekerjaan
                               </Label>
 
@@ -987,11 +1018,13 @@ export default function FamilyDataProfileScreen({
                                     ...kid,
                                     status: value,
                                   })
-                                }>
+                                }
+                              >
                                 <SelectTrigger
                                   className={`${
                                     !kid.status ? "opacity-70" : ""
-                                  } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                                  } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}
+                                >
                                   <SelectValue
                                     placeholder="Pilih Status..."
                                     className={
@@ -1012,7 +1045,8 @@ export default function FamilyDataProfileScreen({
                                             <SelectItem
                                               className="pr-none mt-2"
                                               value={item?.name}
-                                              key={i}>
+                                              key={i}
+                                            >
                                               {item?.name}
                                             </SelectItem>
                                           );
@@ -1040,7 +1074,8 @@ export default function FamilyDataProfileScreen({
                                 disabled={
                                   isLoadingChildrenCreate ? true : false
                                 }
-                                className="bg-primary-40 hover:bg-primary-70 text-line-10">
+                                className="bg-primary-40 hover:bg-primary-70 text-line-10"
+                              >
                                 {isLoadingChildrenCreate ? (
                                   <Loader className="animate-spin" />
                                 ) : (
@@ -1055,12 +1090,14 @@ export default function FamilyDataProfileScreen({
                   ) : (
                     <Drawer
                       open={openChildrenCreate}
-                      onOpenChange={setOpenChildrenCreate}>
+                      onOpenChange={setOpenChildrenCreate}
+                    >
                       <DrawerTrigger
                         onClick={() => {
                           setOpenChildrenCreate(true);
                         }}
-                        className="w-full min-h-[50px] md:min-h-[60px] text-line-10 text-[13px] md:text-lg bg-primary-40 hover:bg-primary-70 rounded-lg">
+                        className="w-full min-h-[50px] md:min-h-[60px] text-line-10 text-[13px] md:text-lg bg-primary-40 hover:bg-primary-70 rounded-lg"
+                      >
                         <div className="w-full gap-x-2 px-6 text-sm bg-primary-40 hover:bg-primary-70 text-line-10 flex items-center justify-center h-12 rounded-md">
                           <Plus className="w-6 h-6 text-line-10" />
 
@@ -1081,11 +1118,13 @@ export default function FamilyDataProfileScreen({
                             onSubmit={(e: React.FormEvent<HTMLFormElement>) =>
                               handleSubmitChildren(e)
                             }
-                            className="w-full flex flex-col gap-y-5 verticalScroll">
+                            className="w-full flex flex-col gap-y-5 verticalScroll"
+                          >
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                               <Label
                                 htmlFor="nama-anak"
-                                className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
+                                className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]"
+                              >
                                 Nama Anak
                               </Label>
 
@@ -1118,7 +1157,8 @@ export default function FamilyDataProfileScreen({
                               <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                                 <Label
                                   htmlFor="tempat-lahir"
-                                  className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
+                                  className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]"
+                                >
                                   Tampat Lahir
                                 </Label>
 
@@ -1151,7 +1191,7 @@ export default function FamilyDataProfileScreen({
                               </div>
 
                               <div className="w-[45%] focus-within:text-primary-70 flex flex-col gap-y-2">
-                                <DateFormInput
+                                <DateFormInputNew
                                   value={durationDate}
                                   setValue={setDurationDate}
                                   label="Tanggal Lahir"
@@ -1184,11 +1224,13 @@ export default function FamilyDataProfileScreen({
                                     ...kid,
                                     jenis_kelamin: value,
                                   })
-                                }>
+                                }
+                              >
                                 <SelectTrigger
                                   className={`${
                                     !kid.jenis_kelamin ? "opacity-70" : ""
-                                  } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                                  } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}
+                                >
                                   <SelectValue
                                     placeholder="Pilih Jenis Kelamin..."
                                     className={
@@ -1211,7 +1253,8 @@ export default function FamilyDataProfileScreen({
                                             <SelectItem
                                               className="pr-none mt-2"
                                               value={item?.value}
-                                              key={i}>
+                                              key={i}
+                                            >
                                               {item?.value}
                                             </SelectItem>
                                           );
@@ -1235,7 +1278,8 @@ export default function FamilyDataProfileScreen({
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                               <Label
                                 htmlFor="pekerjaan"
-                                className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
+                                className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]"
+                              >
                                 Pekerjaan
                               </Label>
 
@@ -1277,11 +1321,13 @@ export default function FamilyDataProfileScreen({
                                     ...kid,
                                     status: value,
                                   })
-                                }>
+                                }
+                              >
                                 <SelectTrigger
                                   className={`${
                                     !kid.status ? "opacity-70" : ""
-                                  } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                                  } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}
+                                >
                                   <SelectValue
                                     placeholder="Pilih Status..."
                                     className={
@@ -1302,7 +1348,8 @@ export default function FamilyDataProfileScreen({
                                             <SelectItem
                                               className="pr-none mt-2"
                                               value={item?.name}
-                                              key={i}>
+                                              key={i}
+                                            >
                                               {item?.name}
                                             </SelectItem>
                                           );
@@ -1324,7 +1371,8 @@ export default function FamilyDataProfileScreen({
                               <Button
                                 type="button"
                                 onClick={() => setOpenChildrenCreate(false)}
-                                className="border border-line-20 text-black-80 hover:bg-error-50 hover:text-line-10">
+                                className="border border-line-20 text-black-80 hover:bg-error-50 hover:text-line-10"
+                              >
                                 Cancel
                               </Button>
 
@@ -1333,7 +1381,8 @@ export default function FamilyDataProfileScreen({
                                 disabled={
                                   isLoadingChildrenCreate ? true : false
                                 }
-                                className="bg-primary-40 hover:bg-primary-70 text-line-10">
+                                className="bg-primary-40 hover:bg-primary-70 text-line-10"
+                              >
                                 {isLoadingChildrenCreate ? (
                                   <Loader className="animate-spin" />
                                 ) : (

@@ -41,6 +41,7 @@ import { Button } from "@/components/ui/button";
 import { Loader } from "lucide-react";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import MobileEducationHistoryProfileCardPages from "@/components/mobile_all_cards/mobileEducationHistoryProfileCard";
+import DateFormInputNew from "@/components/elements/date_from_input_new";
 
 export default function EducationalBackgroundProfileScreen({
   educations,
@@ -281,7 +282,7 @@ export default function EducationalBackgroundProfileScreen({
                             </div>
 
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                              <DateFormInput
+                              <DateFormInputNew
                                 value={returnDate}
                                 setValue={setReturnDate}
                                 label="Tanggal Ijazah"
@@ -484,7 +485,7 @@ export default function EducationalBackgroundProfileScreen({
                             </div>
 
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                              <DateFormInput
+                              <DateFormInputNew
                                 value={returnDate}
                                 setValue={setReturnDate}
                                 label="Tanggal Ijazah"

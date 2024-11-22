@@ -30,6 +30,7 @@ import { UserChildrenInterface } from "@/types/interface";
 import { formatDate, formatDateString } from "@/lib/utils";
 import { childrenStatus, genders } from "@/constants/main";
 import DateFormInput from "../elements/date_form_input";
+import DateFormInputNew from "../elements/date_from_input_new";
 
 export default function FamilyDataChildrenProfileCard({
   index,
@@ -177,7 +178,7 @@ export default function FamilyDataChildrenProfileCard({
                       </div>
 
                       <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                        <DateFormInput
+                        <DateFormInputNew
                           value={durationDate}
                           setValue={setDurationDate}
                           label="Tanggal Lahir"

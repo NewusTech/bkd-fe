@@ -27,6 +27,7 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import DateFormInput from "../elements/date_form_input";
 import { formatDate, formatDateString } from "@/lib/utils";
+import DateFormInputNew from "../elements/date_from_input_new";
 
 export default function MobileUserProfileFamilyDataCardPages({
   index,
@@ -149,7 +150,8 @@ export default function MobileUserProfileFamilyDataCardPages({
               setOpenCoupleUpdate(true);
               handleSetCouple();
             }}
-            className="w-full text-[14px] border border-black-80 hover:bg-black-80 hover:bg-opacity-20 hover:text-line-10 rounded-lg">
+            className="w-full text-[14px] border border-black-80 hover:bg-black-80 hover:bg-opacity-20 hover:text-line-10 rounded-lg"
+          >
             <div className="w-full">Edit</div>
           </DrawerTrigger>
           <DrawerContent className="flex flex-col gap-y-3 bg-line-10 rounded-lg w-full max-w-4xl h-4/6 px-3 pb-6">
@@ -166,11 +168,13 @@ export default function MobileUserProfileFamilyDataCardPages({
                 onSubmit={(e: React.FormEvent<HTMLFormElement>) =>
                   handleSubmitCoupleUpdate(e, item.id)
                 }
-                className="w-full flex flex-col gap-y-3 verticalScroll">
+                className="w-full flex flex-col gap-y-3 verticalScroll"
+              >
                 <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                   <Label
                     htmlFor="nama-pasangan"
-                    className="focus-within:text-primary-70 font-normal text-[16px]">
+                    className="focus-within:text-primary-70 font-normal text-[16px]"
+                  >
                     Nama Pasangan
                   </Label>
 
@@ -194,7 +198,8 @@ export default function MobileUserProfileFamilyDataCardPages({
                   <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                     <Label
                       htmlFor="tempat-lahir"
-                      className="focus-within:text-primary-70 font-normal text-[16px]">
+                      className="focus-within:text-primary-70 font-normal text-[16px]"
+                    >
                       Tempat Lahir
                     </Label>
 
@@ -215,7 +220,7 @@ export default function MobileUserProfileFamilyDataCardPages({
                   </div>
 
                   <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                    <DateFormInput
+                    <DateFormInputNew
                       value={durationDate}
                       setValue={setDurationDate}
                       label="Tanggal Lahir"
@@ -232,7 +237,7 @@ export default function MobileUserProfileFamilyDataCardPages({
                 </div>
 
                 <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                  <DateFormInput
+                  <DateFormInputNew
                     value={returnDate}
                     setValue={setReturnDate}
                     label="Tanggal Pernikahan"
@@ -250,7 +255,8 @@ export default function MobileUserProfileFamilyDataCardPages({
                 <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                   <Label
                     htmlFor="pekerjaan"
-                    className="focus-within:text-primary-70 font-normal text-[16px]">
+                    className="focus-within:text-primary-70 font-normal text-[16px]"
+                  >
                     Pekerjaan
                   </Label>
 
@@ -283,11 +289,13 @@ export default function MobileUserProfileFamilyDataCardPages({
                         ...couple,
                         status: value,
                       })
-                    }>
+                    }
+                  >
                     <SelectTrigger
                       className={`${
                         !couple.status ? "opacity-70" : ""
-                      } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                      } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}
+                    >
                       <SelectValue
                         placeholder="Pilih Status..."
                         className={
@@ -305,7 +313,8 @@ export default function MobileUserProfileFamilyDataCardPages({
                                 <SelectItem
                                   className="pr-none mt-2"
                                   value={item?.id.toString()}
-                                  key={i}>
+                                  key={i}
+                                >
                                   {item?.name}
                                 </SelectItem>
                               );
@@ -320,14 +329,16 @@ export default function MobileUserProfileFamilyDataCardPages({
                   <Button
                     type="button"
                     onClick={() => setOpenCoupleUpdate(false)}
-                    className="border border-line-20 text-black-80 hover:bg-error-50 hover:text-line-10">
+                    className="border border-line-20 text-black-80 hover:bg-error-50 hover:text-line-10"
+                  >
                     Cancel
                   </Button>
 
                   <Button
                     type="submit"
                     disabled={isLoadingCoupleUpdate ? true : false}
-                    className="bg-primary-40 hover:bg-primary-70 text-line-10">
+                    className="bg-primary-40 hover:bg-primary-70 text-line-10"
+                  >
                     {isLoadingCoupleUpdate ? (
                       <Loader className="animate-spin" />
                     ) : (
@@ -343,7 +354,8 @@ export default function MobileUserProfileFamilyDataCardPages({
         <Button
           disabled={isLoadingCoupleDelete ? true : false}
           onClick={() => handleSubmitCoupleDelete(item?.id)}
-          className="bg-error-50 hover:bg-error-70 text-line-10 w-full rounded-lg">
+          className="bg-error-50 hover:bg-error-70 text-line-10 w-full rounded-lg"
+        >
           {isLoadingCoupleDelete ? (
             <Loader className="animate-spin" />
           ) : isLoadingCoupleDelete ? (

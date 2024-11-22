@@ -10,6 +10,15 @@ import { Button } from "@/components/ui/button";
 import { Loader } from "lucide-react";
 import UserDocumentCard from "@/components/all_cards/userDocumentCard";
 import { UserDocumentInterface } from "@/types/interface";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 export default function UserDocumentScreen() {
   const router = useRouter();
@@ -330,21 +339,27 @@ export default function UserDocumentScreen() {
     const formData = new FormData();
     if (sk80) {
       formData.append("sk_80", sk80);
+      console.log("sk_80")
     }
     if (sk100) {
       formData.append("sk_100", sk100);
+      console.log("sk_100")
     }
     if (kartuPegawai) {
       formData.append("kartu_pegawai", kartuPegawai);
+      console.log("kartu_pegawai")
     }
     if (ktp) {
       formData.append("ktp", ktp);
+      console.log("ktp")
     }
     if (kk) {
       formData.append("kk", kk);
+      console.log("kk")
     }
     if (npwp) {
       formData.append("npwp", npwp);
+      console.log("npwp")
     }
 
     // Object.entries(formData).forEach(([key, value]) => {
@@ -385,7 +400,7 @@ export default function UserDocumentScreen() {
 
   return (
     <section className="w-full flex flex-col bg-line-10 rounded-lg shadow-md p-4 mb-16">
-      {documents?.sk_80 ||
+      {/* {documents?.sk_80 ||
       documents?.sk_100 ||
       documents?.kartu_pegawai ||
       documents?.ktp ||
@@ -441,347 +456,358 @@ export default function UserDocumentScreen() {
             )}
           </div>
         </div>
-      ) : (
-        <form
-          onSubmit={handleCreateUserDocument}
-          className="w-full flex flex-col gap-y-5">
-          <div className="flex flex-col gap-y-5 mt-3 md:mt-0 px-6">
-            <div className="flex flex-col items-center w-full gap-y-5">
-              <div className="flex flex-row justify-between w-full h-[80px] rounded-xl mb-[8px] bg-line-10 border border-primary-40 px-4">
-                <div className="flex flex-col w-full justify-center gap-[9px]">
-                  <h6 className="text-[14px] md:text-[16px] text-black-80 font-normal">
-                    SK 80
-                    <span className="text-error-50 text-[14px] font-normal">
-                      *
-                    </span>
-                  </h6>
+      ) : ( */}
+      <form
+        onSubmit={handleCreateUserDocument}
+        className="w-full flex flex-col gap-y-5"
+      >
+        <div className="flex flex-col gap-y-5 mt-3 md:mt-0 px-6">
+          <div className="flex flex-col items-center w-full gap-y-5">
+            <div className="flex flex-row justify-between w-full h-[80px] rounded-xl mb-[8px] bg-line-10 border border-primary-40 px-4">
+              <div className="flex flex-col w-full justify-center gap-[9px]">
+                <h6 className="text-[14px] md:text-[16px] text-black-80 font-normal">
+                  SK 80
+                  <span className="text-error-50 text-[14px] font-normal">
+                    *
+                  </span>
+                </h6>
 
-                  <div className="text-error-50 text-[14px]">
-                    Data Wajib Diisi!
-                  </div>
-                </div>
-                <div className="flex self-center items-center w-full md:justify-end">
-                  <input
-                    id="sk80"
-                    name={data?.sk_80}
-                    type="file"
-                    className="md:appearance-none hidden"
-                    onChange={handleFileSK80Change}
-                  />
-                  <label
-                    htmlFor={`sk80`}
-                    className="flex items-center w-full md:w-5/12 h-[25px] md:h-[40px] rounded-[50px] justify-center font-normal text-sm hover:bg-primary-40 hover:text-line-10 border border-primary-40 text-primary-40 py-[10px] cursor-pointer">
-                    {nameSk80 || "Upload"}
-                  </label>
-
-                  <Dialog>
-                    <DialogTrigger className="w-full md:w-3/12">
-                      <div className="flex items-center text-sm justify-center w-full text-black-80 font-normal hover:text-primary-40 hover:border-b hover:border-line-20 ml-4 mr-2">
-                        Lihat File
-                      </div>
-                    </DialogTrigger>
-                    <DialogContent className="flex flex-col justify-between w-full bg-line-10">
-                      <div className="fixed inset-0 flex items-center justify-center bg-neutral-900 bg-opacity-50 z-50">
-                        <div className="bg-primary-100 rounded-xl shadow-md max-w-full">
-                          {previewSk80 && (
-                            <div className="w-full h-full p-4 rounded-xl">
-                              <Image
-                                src={previewSk80}
-                                alt="File preview"
-                                className="w-full h-full object-cover rounded-xl"
-                                width={500}
-                                height={500}
-                              />
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </DialogContent>
-                  </Dialog>
+                <div className="text-error-50 text-[14px]">
+                  Data Wajib Diisi!
                 </div>
               </div>
+              <div className="flex self-center items-center w-full md:justify-end">
+                <input
+                  id="sk80"
+                  name={data?.sk_80}
+                  type="file"
+                  className="md:appearance-none hidden"
+                  onChange={handleFileSK80Change}
+                />
+                <label
+                  htmlFor={`sk80`}
+                  className="flex items-center w-full md:w-5/12 h-[25px] md:h-[40px] rounded-[50px] justify-center font-normal text-sm hover:bg-primary-40 hover:text-line-10 border border-primary-40 text-primary-40 py-[10px] cursor-pointer line-clamp-1"
+                >
+                  {nameSk80 || "Upload"}
+                </label>
 
-              <div className="flex flex-row justify-between w-full h-[80px] rounded-xl mb-[8px] bg-line-10 border border-primary-40 px-4">
-                <div className="flex flex-col w-full justify-center gap-[9px]">
-                  <h6 className="text-[14px] md:text-[16px] text-black-80 font-normal">
-                    SK 100
-                    <span className="text-error-50 text-[14px] font-normal">
-                      *
-                    </span>
-                  </h6>
-
-                  <div className="text-error-50 text-[14px]">
-                    Data Wajib Diisi!
-                  </div>
-                </div>
-                <div className="flex self-center items-center w-full md:justify-end">
-                  <input
-                    id="sk100"
-                    name={data?.sk_100}
-                    type="file"
-                    className="md:appearance-none hidden"
-                    onChange={handleFileSK100Change}
-                  />
-                  <label
-                    htmlFor={`sk100`}
-                    className="flex items-center w-full md:w-5/12 h-[25px] md:h-[40px] rounded-[50px] justify-center font-normal text-sm hover:bg-primary-40 hover:text-line-10 border border-primary-40 text-primary-40 py-[10px] cursor-pointer">
-                    {nameSk100 || "Upload"}
-                  </label>
-
-                  <Dialog>
-                    <DialogTrigger className="w-full md:w-3/12">
-                      <div className="flex items-center text-sm justify-center w-full text-black-80 font-normal hover:text-primary-40 hover:border-b hover:border-line-20 ml-4 mr-2">
-                        Lihat File
+                <Dialog>
+                  <DialogTrigger className="w-full md:w-3/12">
+                    <div className="flex items-center text-sm justify-center w-full text-black-80 font-normal hover:text-primary-40 hover:border-b hover:border-line-20 ml-4 mr-2">
+                      Lihat File
+                    </div>
+                  </DialogTrigger>
+                  <DialogContent className="bg-transparent border-none shadow-none">
+                    <div className="max-w-full">
+                      <div className="w-full h-full p-0 rounded-xl">
+                        <Image
+                          src={previewSk80 || documents?.sk_80 || ""}
+                          alt="File preview"
+                          className="w-full h-full object-cover rounded-xl"
+                          width={900}
+                          height={900}
+                        />
                       </div>
-                    </DialogTrigger>
-                    <DialogContent className="flex flex-col justify-between w-full bg-line-10">
-                      <div className="fixed inset-0 flex items-center justify-center bg-neutral-900 bg-opacity-50 z-50">
-                        <div className="bg-primary-100 rounded-xl shadow-md max-w-full">
-                          {previewSk100 && (
-                            <div className="w-full h-full p-4 rounded-xl">
-                              <Image
-                                src={previewSk100}
-                                alt="File preview"
-                                className="w-full h-full object-cover rounded-xl"
-                                width={500}
-                                height={500}
-                              />
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </DialogContent>
-                  </Dialog>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+              </div>
+            </div>
+
+            <div className="flex flex-row justify-between w-full h-[80px] rounded-xl mb-[8px] bg-line-10 border border-primary-40 px-4">
+              <div className="flex flex-col w-full justify-center gap-[9px]">
+                <h6 className="text-[14px] md:text-[16px] text-black-80 font-normal">
+                  SK 100
+                  <span className="text-error-50 text-[14px] font-normal">
+                    *
+                  </span>
+                </h6>
+
+                <div className="text-error-50 text-[14px]">
+                  Data Wajib Diisi!
                 </div>
               </div>
+              <div className="flex self-center items-center w-full md:justify-end">
+                <input
+                  id="sk100"
+                  name={data?.sk_100}
+                  type="file"
+                  className="md:appearance-none hidden"
+                  onChange={handleFileSK100Change}
+                />
+                <label
+                  htmlFor={`sk100`}
+                  className="flex items-center w-full md:w-5/12 h-[25px] md:h-[40px] rounded-[50px] justify-center font-normal text-sm hover:bg-primary-40 hover:text-line-10 border border-primary-40 text-primary-40 py-[10px] cursor-pointer"
+                >
+                  {nameSk100 || documents?.sk_100 || "Upload"}
+                </label>
 
-              <div className="flex flex-row justify-between w-full h-[80px] rounded-xl mb-[8px] bg-line-10 border border-primary-40 px-4">
-                <div className="flex flex-col w-full justify-center gap-[9px]">
-                  <h6 className="text-[14px] md:text-[16px] text-black-80 font-normal">
-                    Kartu Pegawai
-                    <span className="text-error-50 text-[14px] font-normal">
-                      *
-                    </span>
-                  </h6>
-
-                  <div className="text-error-50 text-[14px]">
-                    Data Wajib Diisi!
-                  </div>
-                </div>
-                <div className="flex self-center items-center w-full md:justify-end">
-                  <input
-                    id="kartuPegawai"
-                    name={data?.kartu_pegawai}
-                    type="file"
-                    className="md:appearance-none hidden"
-                    onChange={handleFileKartuPegawaiChange}
-                  />
-                  <label
-                    htmlFor={`kartuPegawai`}
-                    className="flex items-center w-full md:w-5/12 h-[25px] md:h-[40px] rounded-[50px] justify-center font-normal text-sm hover:bg-primary-40 hover:text-line-10 border border-primary-40 text-primary-40 py-[10px] cursor-pointer">
-                    {nameKartuPegawai || "Upload"}
-                  </label>
-
-                  <Dialog>
-                    <DialogTrigger className="w-full md:w-3/12">
-                      <div className="flex items-center text-sm justify-center w-full text-black-80 font-normal hover:text-primary-40 hover:border-b hover:border-line-20 ml-4 mr-2">
-                        Lihat File
+                <Dialog>
+                  <DialogTrigger className="w-full md:w-3/12">
+                    <div className="flex items-center text-sm justify-center w-full text-black-80 font-normal hover:text-primary-40 hover:border-b hover:border-line-20 ml-4 mr-2">
+                      Lihat File
+                    </div>
+                  </DialogTrigger>
+                  <DialogContent className="bg-transparent border-none shadow-none">
+                    <div className="max-w-full">
+                      <div className="w-full h-full p-0 rounded-xl">
+                        <Image
+                          src={previewSk100 || documents?.sk_100 || ""}
+                          alt="File preview"
+                          className="w-full h-full object-cover rounded-xl"
+                          width={900}
+                          height={900}
+                        />
                       </div>
-                    </DialogTrigger>
-                    <DialogContent className="flex flex-col justify-between w-full bg-line-10">
-                      <div className="fixed inset-0 flex items-center justify-center bg-neutral-900 bg-opacity-50 z-50">
-                        <div className="bg-primary-100 rounded-xl shadow-md max-w-full">
-                          {previewKartuPegawai && (
-                            <div className="w-full h-full p-4 rounded-xl">
-                              <Image
-                                src={previewKartuPegawai}
-                                alt="File preview"
-                                className="w-full h-full object-cover rounded-xl"
-                                width={500}
-                                height={500}
-                              />
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </DialogContent>
-                  </Dialog>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+              </div>
+            </div>
+
+            <div className="flex flex-row justify-between w-full h-[80px] rounded-xl mb-[8px] bg-line-10 border border-primary-40 px-4">
+              <div className="flex flex-col w-full justify-center gap-[9px]">
+                <h6 className="text-[14px] md:text-[16px] text-black-80 font-normal">
+                  Kartu Pegawai
+                  <span className="text-error-50 text-[14px] font-normal">
+                    *
+                  </span>
+                </h6>
+
+                <div className="text-error-50 text-[14px]">
+                  Data Wajib Diisi!
                 </div>
               </div>
+              <div className="flex self-center items-center w-full md:justify-end">
+                <input
+                  id="kartuPegawai"
+                  name={data?.kartu_pegawai}
+                  type="file"
+                  className="md:appearance-none hidden"
+                  onChange={handleFileKartuPegawaiChange}
+                />
+                <label
+                  htmlFor={`kartuPegawai`}
+                  className="flex items-center w-full md:w-5/12 h-[25px] md:h-[40px] rounded-[50px] justify-center font-normal text-sm hover:bg-primary-40 hover:text-line-10 border border-primary-40 text-primary-40 py-[10px] cursor-pointer"
+                >
+                  {nameKartuPegawai || documents?.kartu_pegawai || "Upload"}
+                </label>
 
-              <div className="flex flex-row justify-between w-full h-[80px] rounded-xl mb-[8px] bg-line-10 border border-primary-40 px-4">
-                <div className="flex flex-col w-full justify-center gap-[9px]">
-                  <h6 className="text-[14px] md:text-[16px] text-black-80 font-normal">
-                    KTP
-                    <span className="text-error-50 text-[14px] font-normal">
-                      *
-                    </span>
-                  </h6>
-
-                  <div className="text-error-50 text-[14px]">
-                    Data Wajib Diisi!
-                  </div>
-                </div>
-                <div className="flex self-center items-center w-full md:justify-end">
-                  <input
-                    id="ktp"
-                    name={data?.ktp}
-                    type="file"
-                    className="md:appearance-none hidden"
-                    onChange={handleFileKtpChange}
-                  />
-                  <label
-                    htmlFor={`ktp`}
-                    className="flex items-center w-full md:w-5/12 h-[25px] md:h-[40px] rounded-[50px] justify-center font-normal text-sm hover:bg-primary-40 hover:text-line-10 border border-primary-40 text-primary-40 py-[10px] cursor-pointer">
-                    {nameKtp || "Upload"}
-                  </label>
-
-                  <Dialog>
-                    <DialogTrigger className="w-full md:w-3/12">
-                      <div className="flex items-center text-sm justify-center w-full text-black-80 font-normal hover:text-primary-40 hover:border-b hover:border-line-20 ml-4 mr-2">
-                        Lihat File
+                <Dialog>
+                  <DialogTrigger className="w-full md:w-3/12">
+                    <div className="flex items-center text-sm justify-center w-full text-black-80 font-normal hover:text-primary-40 hover:border-b hover:border-line-20 ml-4 mr-2">
+                      Lihat File
+                    </div>
+                  </DialogTrigger>
+                  <DialogContent className="bg-transparent border-none shadow-none">
+                    <div className="max-w-full">
+                      <div className="w-full h-full p-0 rounded-xl">
+                        <Image
+                          src={
+                            previewKartuPegawai ||
+                            documents?.kartu_pegawai ||
+                            ""
+                          }
+                          alt="File preview"
+                          className="w-full h-full object-cover rounded-xl"
+                          width={900}
+                          height={900}
+                        />
                       </div>
-                    </DialogTrigger>
-                    <DialogContent className="flex flex-col justify-between w-full bg-line-10">
-                      <div className="fixed inset-0 flex items-center justify-center bg-neutral-900 bg-opacity-50 z-50">
-                        <div className="bg-primary-100 rounded-xl shadow-md max-w-full">
-                          {previewKtp && (
-                            <div className="w-full h-full p-4 rounded-xl">
-                              <Image
-                                src={previewKtp}
-                                alt="File preview"
-                                className="w-full h-full object-cover rounded-xl"
-                                width={500}
-                                height={500}
-                              />
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </DialogContent>
-                  </Dialog>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+              </div>
+            </div>
+
+            <div className="flex flex-row justify-between w-full h-[80px] rounded-xl mb-[8px] bg-line-10 border border-primary-40 px-4">
+              <div className="flex flex-col w-full justify-center gap-[9px]">
+                <h6 className="text-[14px] md:text-[16px] text-black-80 font-normal">
+                  KTP
+                  <span className="text-error-50 text-[14px] font-normal">
+                    *
+                  </span>
+                </h6>
+
+                <div className="text-error-50 text-[14px]">
+                  Data Wajib Diisi!
                 </div>
               </div>
+              <div className="flex self-center items-center w-full md:justify-end">
+                <input
+                  id="ktp"
+                  name={data?.ktp}
+                  type="file"
+                  className="md:appearance-none hidden"
+                  onChange={handleFileKtpChange}
+                />
+                <label
+                  htmlFor={`ktp`}
+                  className="flex items-center w-full md:w-5/12 h-[25px] md:h-[40px] rounded-[50px] justify-center font-normal text-sm hover:bg-primary-40 hover:text-line-10 border border-primary-40 text-primary-40 py-[10px] cursor-pointer"
+                >
+                  {nameKtp || documents?.ktp || "Upload"}
+                </label>
 
-              <div className="flex flex-row justify-between w-full h-[80px] rounded-xl mb-[8px] bg-line-10 border border-primary-40 px-4">
-                <div className="flex flex-col w-full justify-center gap-[9px]">
-                  <h6 className="text-[14px] md:text-[16px] text-black-80 font-normal">
-                    KK
-                    <span className="text-error-50 text-[14px] font-normal">
-                      *
-                    </span>
-                  </h6>
-
-                  <div className="text-error-50 text-[14px]">
-                    Data Wajib Diisi!
-                  </div>
-                </div>
-                <div className="flex self-center items-center w-full md:justify-end">
-                  <input
-                    id="kk"
-                    name={data?.kk}
-                    type="file"
-                    className="md:appearance-none hidden"
-                    onChange={handleFileKkChange}
-                  />
-                  <label
-                    htmlFor={`kk`}
-                    className="flex items-center w-full md:w-5/12 h-[25px] md:h-[40px] rounded-[50px] justify-center font-normal text-sm hover:bg-primary-40 hover:text-line-10 border border-primary-40 text-primary-40 py-[10px] cursor-pointer">
-                    {nameKk || "Upload"}
-                  </label>
-
-                  <Dialog>
-                    <DialogTrigger className="w-full md:w-3/12">
-                      <div className="flex items-center text-sm justify-center w-full text-black-80 font-normal hover:text-primary-40 hover:border-b hover:border-line-20 ml-4 mr-2">
-                        Lihat File
+                <Dialog>
+                  <DialogTrigger className="w-full md:w-3/12">
+                    <div className="flex items-center text-sm justify-center w-full text-black-80 font-normal hover:text-primary-40 hover:border-b hover:border-line-20 ml-4 mr-2">
+                      Lihat File
+                    </div>
+                  </DialogTrigger>
+                  <DialogContent className="bg-transparent border-none shadow-none">
+                    <div className="max-w-full">
+                      <div className="w-full h-full p-0 rounded-xl">
+                        <Image
+                          src={previewKtp || documents?.ktp || ""}
+                          alt="File preview"
+                          className="w-full h-full object-cover rounded-xl"
+                          width={900}
+                          height={900}
+                        />
                       </div>
-                    </DialogTrigger>
-                    <DialogContent className="flex flex-col justify-between w-full bg-line-10">
-                      <div className="fixed inset-0 flex items-center justify-center bg-neutral-900 bg-opacity-50 z-50">
-                        <div className="bg-primary-100 rounded-xl shadow-md max-w-full">
-                          {previewKk && (
-                            <div className="w-full h-full p-4 rounded-xl">
-                              <Image
-                                src={previewKk}
-                                alt="File preview"
-                                className="w-full h-full object-cover rounded-xl"
-                                width={500}
-                                height={500}
-                              />
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </DialogContent>
-                  </Dialog>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+              </div>
+            </div>
+
+            <div className="flex flex-row justify-between w-full h-[80px] rounded-xl mb-[8px] bg-line-10 border border-primary-40 px-4">
+              <div className="flex flex-col w-full justify-center gap-[9px]">
+                <h6 className="text-[14px] md:text-[16px] text-black-80 font-normal">
+                  KK
+                  <span className="text-error-50 text-[14px] font-normal">
+                    *
+                  </span>
+                </h6>
+
+                <div className="text-error-50 text-[14px]">
+                  Data Wajib Diisi!
                 </div>
               </div>
+              <div className="flex self-center items-center w-full md:justify-end">
+                <input
+                  id="kk"
+                  name={data?.kk}
+                  type="file"
+                  className="md:appearance-none hidden"
+                  onChange={handleFileKkChange}
+                />
+                <label
+                  htmlFor={`kk`}
+                  className="flex items-center w-full md:w-5/12 h-[25px] md:h-[40px] rounded-[50px] justify-center font-normal text-sm hover:bg-primary-40 hover:text-line-10 border border-primary-40 text-primary-40 py-[10px] cursor-pointer"
+                >
+                  {nameKk || "Upload"}
+                </label>
 
-              <div className="flex flex-row justify-between w-full h-[80px] rounded-xl mb-[8px] bg-line-10 border border-primary-40 px-4">
-                <div className="flex flex-col w-full justify-center gap-[9px]">
-                  <h6 className="text-[14px] md:text-[16px] text-black-80 font-normal">
-                    NPWP
-                    <span className="text-error-50 text-[14px] font-normal">
-                      *
-                    </span>
-                  </h6>
-
-                  <div className="text-error-50 text-[14px]">
-                    Data Wajib Diisi!
-                  </div>
-                </div>
-                <div className="flex self-center items-center w-full md:justify-end">
-                  <input
-                    id="npwp"
-                    name={data?.npwp}
-                    type="file"
-                    className="md:appearance-none hidden"
-                    onChange={handleFileNpwpChange}
-                  />
-                  <label
-                    htmlFor={`npwp`}
-                    className="flex items-center w-full md:w-5/12 h-[25px] md:h-[40px] rounded-[50px] justify-center font-normal text-sm hover:bg-primary-40 hover:text-line-10 border border-primary-40 text-primary-40 py-[10px] cursor-pointer">
-                    {nameNpwp || "Upload"}
-                  </label>
-
-                  <Dialog>
-                    <DialogTrigger className="w-full md:w-3/12">
-                      <div className="flex items-center text-sm justify-center w-full text-black-80 font-normal hover:text-primary-40 hover:border-b hover:border-line-20 ml-4 mr-2">
-                        Lihat File
+                <Dialog>
+                  <DialogTrigger className="w-full md:w-3/12">
+                    <div className="flex items-center text-sm justify-center w-full text-black-80 font-normal hover:text-primary-40 hover:border-b hover:border-line-20 ml-4 mr-2">
+                      Lihat File
+                    </div>
+                  </DialogTrigger>
+                  <DialogContent className="bg-transparent border-none shadow-none">
+                    <div className="max-w-full">
+                      <div className="w-full h-full p-0 rounded-xl">
+                        <Image
+                          src={previewKk || documents?.kk || ""}
+                          alt="File preview"
+                          className="w-full h-full object-cover rounded-xl"
+                          width={900}
+                          height={900}
+                        />
                       </div>
-                    </DialogTrigger>
-                    <DialogContent className="flex flex-col justify-between w-full bg-line-10">
-                      <div className="fixed inset-0 flex items-center justify-center bg-neutral-900 bg-opacity-50 z-50">
-                        <div className="bg-primary-100 rounded-xl shadow-md max-w-full">
-                          {previewNpwp && (
-                            <div className="w-full h-full p-4 rounded-xl">
-                              <Image
-                                src={previewNpwp}
-                                alt="File preview"
-                                className="w-full h-full object-cover rounded-xl"
-                                width={500}
-                                height={500}
-                              />
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </DialogContent>
-                  </Dialog>
+                    </div>
+                  </DialogContent>
+                </Dialog>
+              </div>
+            </div>
+
+            <div className="flex flex-row justify-between w-full h-[80px] rounded-xl mb-[8px] bg-line-10 border border-primary-40 px-4">
+              <div className="flex flex-col w-full justify-center gap-[9px]">
+                <h6 className="text-[14px] md:text-[16px] text-black-80 font-normal">
+                  NPWP
+                  <span className="text-error-50 text-[14px] font-normal">
+                    *
+                  </span>
+                </h6>
+
+                <div className="text-error-50 text-[14px]">
+                  Data Wajib Diisi!
                 </div>
+              </div>
+              <div className="flex self-center items-center w-full md:justify-end">
+                <input
+                  id="npwp"
+                  name={data?.npwp}
+                  type="file"
+                  className="md:appearance-none hidden"
+                  onChange={handleFileNpwpChange}
+                />
+                <label
+                  htmlFor={`npwp`}
+                  className="flex items-center w-full md:w-5/12 h-[25px] md:h-[40px] rounded-[50px] justify-center font-normal text-sm hover:bg-primary-40 hover:text-line-10 border border-primary-40 text-primary-40 py-[10px] cursor-pointer"
+                >
+                  {nameNpwp || "Upload"}
+                </label>
+
+                <Dialog>
+                  <DialogTrigger className="w-full md:w-3/12">
+                    <div className="flex items-center text-sm justify-center w-full text-black-80 font-normal hover:text-primary-40 hover:border-b hover:border-line-20 ml-4 mr-2">
+                      Lihat File
+                    </div>
+                  </DialogTrigger>
+                  <DialogContent className="bg-transparent border-none shadow-none">
+                    <div className="max-w-full">
+                      <div className="w-full h-full p-0 rounded-xl">
+                        <Image
+                          src={previewNpwp || documents?.npwp || ""}
+                          alt="File preview"
+                          className="w-full h-full object-cover rounded-xl"
+                          width={900}
+                          height={900}
+                        />
+                      </div>
+                    </div>
+                  </DialogContent>
+                </Dialog>
               </div>
             </div>
           </div>
-          <div className="w-full flex flex-col items-center">
-            <Button
-              type="submit"
-              className="w-3/12 text-[14px] md:text-[16px] bg-primary-40 hover:bg-primary-70 text-line-10 rounded-lg py-5"
-              disabled={isLoading ? true : false}>
-              {isLoading ? <Loader className="animate-spin mr-2" /> : "Simpan"}
-            </Button>
-          </div>
-        </form>
-      )}
+        </div>
+        <div className="w-full flex flex-col items-center">
+          <Button
+            type="submit"
+            className="w-3/12 text-[14px] md:text-[16px] bg-primary-40 hover:bg-primary-70 text-line-10 rounded-lg py-5"
+            disabled={isLoading ? true : false}
+          >
+            {isLoading ? <Loader className="animate-spin mr-2" /> : "Simpan"}
+          </Button>
+        </div>
+      </form>
+      {/* )} */}
+      {/* <Table>
+        <TableCaption>A list of your recent invoices.</TableCaption>
+        <TableHeader>
+          <TableRow>
+            <TableHead className="w-[100px]">Invoice</TableHead>
+            <TableHead>Status</TableHead>
+            <TableHead>Method</TableHead>
+            <TableHead className="text-right">Amount</TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {invoices.map((invoice) => (
+            <TableRow key={invoice.invoice}>
+              <TableCell className="font-medium">{invoice.invoice}</TableCell>
+              <TableCell>{invoice.paymentStatus}</TableCell>
+              <TableCell>{invoice.paymentMethod}</TableCell>
+              <TableCell className="text-right">
+                {invoice.totalAmount}
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table> */}
     </section>
   );
 }

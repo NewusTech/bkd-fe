@@ -20,13 +20,10 @@ import {
   postApplicationForm,
 } from "@/services/api";
 import { Label } from "@/components/ui/label";
-import DateFormInput from "@/components/elements/date_form_input";
-import { formatDate, truncateTitle } from "@/lib/utils";
+import { truncateTitle } from "@/lib/utils";
 import { Textarea } from "@/components/ui/textarea";
-import { set } from "date-fns";
 import Image from "next/image";
 import Swal from "sweetalert2";
-import DateFormInputNew from "@/components/elements/date_from_input_new";
 import { Input } from "@/components/ui/input";
 
 export default function UserFormPages() {

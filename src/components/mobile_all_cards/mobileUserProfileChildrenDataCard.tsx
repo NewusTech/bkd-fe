@@ -26,6 +26,7 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import DateFormInput from "../elements/date_form_input";
 import { childrenStatus, genders } from "@/constants/main";
+import DateFormInputNew from "../elements/date_from_input_new";
 
 export default function MobileUserProfileChildrenDataCardPages({
   index,
@@ -209,7 +210,7 @@ export default function MobileUserProfileChildrenDataCardPages({
                   </div>
 
                   <div className="w-[45%] focus-within:text-primary-70 flex flex-col gap-y-2">
-                    <DateFormInput
+                    <DateFormInputNew
                       value={durationDate}
                       setValue={setDurationDate}
                       label="Tanggal Lahir"

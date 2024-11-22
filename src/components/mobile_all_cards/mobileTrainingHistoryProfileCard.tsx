@@ -34,6 +34,7 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import DateFormInput from "../elements/date_form_input";
 import { formatDate, formatDateString } from "@/lib/utils";
+import DateFormInputNew from "../elements/date_from_input_new";
 
 export default function MobileTrainingHistoryProfileCardPages({
   item,
@@ -230,7 +231,7 @@ export default function MobileTrainingHistoryProfileCardPages({
                 </div>
 
                 <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                  <DateFormInput
+                  <DateFormInputNew
                     value={returnDate}
                     setValue={setReturnDate}
                     label="Tanggal Surat Tanda Lulus"

@@ -23,6 +23,7 @@ import { UserAwardsInterface } from "@/types/interface";
 import { formatDate, formatDateString } from "@/lib/utils";
 import DateFormInput from "../elements/date_form_input";
 import { set } from "date-fns";
+import DateFormInputNew from "../elements/date_from_input_new";
 
 export default function AwardHistoryProfileCard({
   index,
@@ -89,13 +90,15 @@ export default function AwardHistoryProfileCard({
           <div className="w-full">
             <AlertDialog
               open={openAwardUpdate}
-              onOpenChange={setOpenAwardUpdate}>
+              onOpenChange={setOpenAwardUpdate}
+            >
               <AlertDialogTrigger
                 onClick={() => {
                   handleSetAward();
                   setOpenAwardUpdate(true);
                 }}
-                className="w-full">
+                className="w-full"
+              >
                 <div className="w-full px-6 text-sm bg-black-80 bg-opacity-20 hover:bg-opacity-40 flex items-center justify-center h-10 text-black-80 hover:text-line-10 rounded-lg">
                   Edit
                 </div>
@@ -112,11 +115,13 @@ export default function AwardHistoryProfileCard({
                     onSubmit={(e: React.FormEvent<HTMLFormElement>) =>
                       handleSubmitAwardsUpdate(e, item?.id)
                     }
-                    className="w-full flex flex-col gap-y-3 verticalScroll">
+                    className="w-full flex flex-col gap-y-3 verticalScroll"
+                  >
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                       <Label
                         htmlFor="uraian-penghargaan"
-                        className="focus-within:text-primary-70 font-normal text-[16px]">
+                        className="focus-within:text-primary-70 font-normal text-[16px]"
+                      >
                         Uraian Penghargaan
                       </Label>
 
@@ -137,7 +142,7 @@ export default function AwardHistoryProfileCard({
                     </div>
 
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                      <DateFormInput
+                      <DateFormInputNew
                         value={returnDate}
                         setValue={setReturnDate}
                         label="Tanggal Penghargaan"
@@ -155,7 +160,8 @@ export default function AwardHistoryProfileCard({
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                       <Label
                         htmlFor="instansi-penghargaan"
-                        className="focus-within:text-primary-70 font-normal text-sm">
+                        className="focus-within:text-primary-70 font-normal text-sm"
+                      >
                         Nama Instansi/Lembaga
                       </Label>
 
@@ -181,7 +187,8 @@ export default function AwardHistoryProfileCard({
                       <Button
                         type="submit"
                         disabled={isLoadingAwardUpdate ? true : false}
-                        className="bg-primary-40 hover:bg-primary-70 text-line-10">
+                        className="bg-primary-40 hover:bg-primary-70 text-line-10"
+                      >
                         {isLoadingAwardUpdate ? (
                           <Loader className="animate-spin" />
                         ) : (
@@ -199,7 +206,8 @@ export default function AwardHistoryProfileCard({
             <Button
               disabled={isLoadingAwardDelete ? true : false}
               onClick={() => handleSubmitAwardsDelete(item?.id)}
-              className="w-full rounded-lg bg-error-60 hover:bg-error-70 text-line-10">
+              className="w-full rounded-lg bg-error-60 hover:bg-error-70 text-line-10"
+            >
               {isLoadingAwardDelete ? (
                 <Loader className="animate-spin" />
               ) : isLoadingAwardDelete ? (

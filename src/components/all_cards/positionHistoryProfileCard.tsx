@@ -22,6 +22,7 @@ import { Textarea } from "../ui/textarea";
 import { UserPositionInterface } from "@/types/interface";
 import DateFormInput from "../elements/date_form_input";
 import { formatDate, formatDateString } from "@/lib/utils";
+import DateFormInputNew from "../elements/date_from_input_new";
 
 export default function PositionHistoryProfileCard({
   index,
@@ -145,7 +146,7 @@ export default function PositionHistoryProfileCard({
                     </div>
 
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                      <DateFormInput
+                      <DateFormInputNew
                         value={durationDate}
                         setValue={setDurationDate}
                         label="Tanggal Terhitung Mulai"
@@ -184,7 +185,7 @@ export default function PositionHistoryProfileCard({
                     </div>
 
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                      <DateFormInput
+                      <DateFormInputNew
                         value={returnDate}
                         setValue={setReturnDate}
                         label="Tanggal SK Pangkat"

@@ -22,6 +22,7 @@ import { Textarea } from "../ui/textarea";
 import { UserEducationInterface } from "@/types/interface";
 import { formatDate, formatDateString } from "@/lib/utils";
 import DateFormInput from "../elements/date_form_input";
+import DateFormInputNew from "../elements/date_from_input_new";
 
 export default function EducationalBackgroundProfileCard({
   index,
@@ -94,13 +95,15 @@ export default function EducationalBackgroundProfileCard({
           <div className="w-full">
             <AlertDialog
               open={openEducationUpdate}
-              onOpenChange={setOpenEducationUpdate}>
+              onOpenChange={setOpenEducationUpdate}
+            >
               <AlertDialogTrigger
                 onClick={() => {
                   handleSetEducation();
                   setOpenEducationUpdate(true);
                 }}
-                className="w-full">
+                className="w-full"
+              >
                 <div className="w-full px-6 text-sm bg-black-80 bg-opacity-20 hover:bg-opacity-40 flex items-center justify-center h-10 text-black-80 hover:text-line-10 rounded-lg">
                   Edit
                 </div>
@@ -117,11 +120,13 @@ export default function EducationalBackgroundProfileCard({
                     onSubmit={(e: React.FormEvent<HTMLFormElement>) =>
                       handleSubmitEducationUpdate(e, item.id)
                     }
-                    className="w-full flex flex-col gap-y-3 verticalScroll">
+                    className="w-full flex flex-col gap-y-3 verticalScroll"
+                  >
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                       <Label
                         htmlFor="tingkat-pendidikan"
-                        className="focus-within:text-primary-70 font-normal text-[16px]">
+                        className="focus-within:text-primary-70 font-normal text-[16px]"
+                      >
                         Tingkat Pendidikan
                       </Label>
 
@@ -144,7 +149,8 @@ export default function EducationalBackgroundProfileCard({
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                       <Label
                         htmlFor="program-studi"
-                        className="focus-within:text-primary-70 font-normal text-[16px]">
+                        className="focus-within:text-primary-70 font-normal text-[16px]"
+                      >
                         Jurusan/Program Studi
                       </Label>
 
@@ -167,7 +173,8 @@ export default function EducationalBackgroundProfileCard({
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                       <Label
                         htmlFor="institut"
-                        className="focus-within:text-primary-70 font-normal text-[16px]">
+                        className="focus-within:text-primary-70 font-normal text-[16px]"
+                      >
                         Nama Instansi/Lembaga
                       </Label>
 
@@ -190,7 +197,8 @@ export default function EducationalBackgroundProfileCard({
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                       <Label
                         htmlFor="no-ijazah"
-                        className="focus-within:text-primary-70 font-normal text-[16px]">
+                        className="focus-within:text-primary-70 font-normal text-[16px]"
+                      >
                         Nomor Ijazah
                       </Label>
 
@@ -211,7 +219,7 @@ export default function EducationalBackgroundProfileCard({
                     </div>
 
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                      <DateFormInput
+                      <DateFormInputNew
                         value={returnDate}
                         setValue={setReturnDate}
                         label="Tanggal Ijazah"
@@ -232,7 +240,8 @@ export default function EducationalBackgroundProfileCard({
                       <Button
                         type="submit"
                         disabled={isLoadingEducationUpdate ? true : false}
-                        className="bg-primary-40 hover:bg-primary-70 text-line-10">
+                        className="bg-primary-40 hover:bg-primary-70 text-line-10"
+                      >
                         {isLoadingEducationUpdate ? (
                           <Loader className="animate-spin" />
                         ) : (
@@ -250,7 +259,8 @@ export default function EducationalBackgroundProfileCard({
             <Button
               disabled={isLoadingEducationDelete ? true : false}
               onClick={() => handleSubmitEducationDelete(item?.id)}
-              className="w-full rounded-lg bg-error-60 hover:bg-error-70 text-line-10">
+              className="w-full rounded-lg bg-error-60 hover:bg-error-70 text-line-10"
+            >
               {isLoadingEducationDelete ? (
                 <Loader className="animate-spin" />
               ) : isLoadingEducationDelete ? (
