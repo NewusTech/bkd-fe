@@ -22,6 +22,7 @@ import { Textarea } from "../ui/textarea";
 import { UserGradesInterface } from "@/types/interface";
 import { formatDate, formatDateString } from "@/lib/utils";
 import DateFormInput from "../elements/date_form_input";
+import DateFormInputNew from "../elements/date_from_input_new";
 
 export default function GradeHistoryProfileCard({
   index,
@@ -145,7 +146,7 @@ export default function GradeHistoryProfileCard({
                     </div>
 
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                      <DateFormInput
+                      <DateFormInputNew
                         value={durationDate}
                         setValue={setDurationDate}
                         label="Tanggal Terhitung Mulai"
@@ -184,7 +185,7 @@ export default function GradeHistoryProfileCard({
                     </div>
 
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                      <DateFormInput
+                      <DateFormInputNew
                         value={returnDate}
                         setValue={setReturnDate}
                         label="Tanggal SK Pangkat"

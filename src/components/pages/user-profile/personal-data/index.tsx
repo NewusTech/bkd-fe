@@ -304,19 +304,6 @@ export default function PersonalDataProfileScreen({
                 </div>
 
                 <div className="w-[48%] md:w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                  {/* <DateFormInput
-                    value={returnDate}
-                    setValue={setReturnDate}
-                    label="Tanggal Lahir"
-                    className={`bg-transparent w-full rounded-lg`}
-                    // ${errors.tanggal_akhir_sewa ? "text-error-700" : ""}
-                    onChange={(value) =>
-                      setUserData({
-                        ...userData,
-                        tgl_lahir: formatDate(value),
-                      })
-                    }
-                  /> */}
                   <DateFormInputNew
                     value={
                       userData.tgl_lahir

@@ -30,6 +30,7 @@ import { UserCouplesInterface } from "@/types/interface";
 import { formatDate, formatDateString } from "@/lib/utils";
 import DateFormInput from "../elements/date_form_input";
 import { coupleStatus } from "@/constants/main";
+import DateFormInputNew from "../elements/date_from_input_new";
 
 export default function FamilyDataMarriedProfileCard({
   index,
@@ -186,7 +187,7 @@ export default function FamilyDataMarriedProfileCard({
                       </div>
 
                       <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                        <DateFormInput
+                        <DateFormInputNew
                           value={durationDate}
                           setValue={setDurationDate}
                           label="Tanggal Lahir"
@@ -203,7 +204,7 @@ export default function FamilyDataMarriedProfileCard({
                     </div>
 
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                      <DateFormInput
+                      <DateFormInputNew
                         value={returnDate}
                         setValue={setReturnDate}
                         label="Tanggal Pernikahan"

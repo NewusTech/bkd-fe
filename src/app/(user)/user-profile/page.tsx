@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useCallback, useEffect, useState } from "react";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList } from "@/components/ui/tabs";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import PersonalDataProfileScreen from "@/components/pages/user-profile/personal-data";
 import FamilyDataProfileScreen from "@/components/pages/user-profile/family-data";
@@ -52,7 +52,7 @@ import {
 import UserTabsTriggerScreen from "@/components/elements/tabs_user";
 import Swal from "sweetalert2";
 import Cookies from "js-cookie";
-import { formatDate, formatDateShortString } from "@/lib/utils";
+import { formatDateShortString } from "@/lib/utils";
 import {
   schemaAwardData,
   schemaChildrenData,

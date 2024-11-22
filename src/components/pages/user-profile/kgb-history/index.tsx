@@ -48,6 +48,7 @@ import { formatDate } from "@/lib/utils";
 import { Loader } from "lucide-react";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import MobileKGBHistoryProfileCardPages from "@/components/mobile_all_cards/mobileKgbHistoryProfileCard";
+import DateFormInputNew from "@/components/elements/date_from_input_new";
 
 export default function KGBHistoryProfileScreen({
   incomes,
@@ -127,12 +128,14 @@ export default function KGBHistoryProfileScreen({
                   {!isMobile ? (
                     <AlertDialog
                       open={openIncomeCreate}
-                      onOpenChange={setOpenIncomeCreate}>
+                      onOpenChange={setOpenIncomeCreate}
+                    >
                       <AlertDialogTrigger
                         onClick={() => {
                           setOpenIncomeCreate(true);
                         }}
-                        className="w-full">
+                        className="w-full"
+                      >
                         <div className="w-full gap-x-2 px-6 text-sm bg-primary-40 hover:bg-primary-70 text-line-10 flex items-center justify-center h-12 rounded-md">
                           <Plus className="w-6 h-6 text-line-10" />
 
@@ -151,11 +154,13 @@ export default function KGBHistoryProfileScreen({
                             onSubmit={(e: React.FormEvent<HTMLFormElement>) =>
                               handleSubmitIncome(e)
                             }
-                            className="w-full flex flex-col gap-y-5 verticalScroll">
+                            className="w-full flex flex-col gap-y-5 verticalScroll"
+                          >
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                               <Label
                                 htmlFor="uraian-berkala"
-                                className="focus-within:text-primary-70 font-normal text-[16px]">
+                                className="focus-within:text-primary-70 font-normal text-[16px]"
+                              >
                                 Uraian Berkala
                               </Label>
 
@@ -185,7 +190,7 @@ export default function KGBHistoryProfileScreen({
                             </div>
 
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                              <DateFormInput
+                              <DateFormInputNew
                                 value={durationDate}
                                 setValue={setDurationDate}
                                 label="Tanggal Terhitung Mulai"
@@ -203,7 +208,8 @@ export default function KGBHistoryProfileScreen({
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                               <Label
                                 htmlFor="no-sk-pangkat"
-                                className="focus-within:text-primary-70 font-normal text-[16px]">
+                                className="focus-within:text-primary-70 font-normal text-[16px]"
+                              >
                                 Nomor SK Pangkat
                               </Label>
 
@@ -233,7 +239,7 @@ export default function KGBHistoryProfileScreen({
                             </div>
 
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                              <DateFormInput
+                              <DateFormInputNew
                                 value={returnDate}
                                 setValue={setReturnDate}
                                 label="Tanggal SK Pangkat"
@@ -256,7 +262,8 @@ export default function KGBHistoryProfileScreen({
                               <Button
                                 type="submit"
                                 disabled={isLoadingIncomeCreate ? true : false}
-                                className="bg-primary-40 hover:bg-primary-70 text-line-10">
+                                className="bg-primary-40 hover:bg-primary-70 text-line-10"
+                              >
                                 {isLoadingIncomeCreate ? (
                                   <Loader className="animate-spin" />
                                 ) : (
@@ -271,12 +278,14 @@ export default function KGBHistoryProfileScreen({
                   ) : (
                     <Drawer
                       open={openIncomeCreate}
-                      onOpenChange={setOpenIncomeCreate}>
+                      onOpenChange={setOpenIncomeCreate}
+                    >
                       <DrawerTrigger
                         onClick={() => {
                           setOpenIncomeCreate(true);
                         }}
-                        className="w-full min-h-[50px] md:min-h-[60px] text-line-10 text-[13px] md:text-lg bg-primary-40 hover:bg-primary-70 rounded-lg">
+                        className="w-full min-h-[50px] md:min-h-[60px] text-line-10 text-[13px] md:text-lg bg-primary-40 hover:bg-primary-70 rounded-lg"
+                      >
                         <div className="w-full gap-x-2 px-6 text-sm bg-primary-40 hover:bg-primary-70 text-line-10 flex items-center justify-center h-12 rounded-md">
                           <Plus className="w-6 h-6 text-line-10" />
 
@@ -297,11 +306,13 @@ export default function KGBHistoryProfileScreen({
                             onSubmit={(e: React.FormEvent<HTMLFormElement>) =>
                               handleSubmitIncome(e)
                             }
-                            className="w-full flex flex-col gap-y-5 verticalScroll">
+                            className="w-full flex flex-col gap-y-5 verticalScroll"
+                          >
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                               <Label
                                 htmlFor="uraian-berkala"
-                                className="focus-within:text-primary-70 font-normal text-[16px]">
+                                className="focus-within:text-primary-70 font-normal text-[16px]"
+                              >
                                 Uraian Berkala
                               </Label>
 
@@ -331,7 +342,7 @@ export default function KGBHistoryProfileScreen({
                             </div>
 
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                              <DateFormInput
+                              <DateFormInputNew
                                 value={durationDate}
                                 setValue={setDurationDate}
                                 label="Tanggal Terhitung Mulai"
@@ -349,7 +360,8 @@ export default function KGBHistoryProfileScreen({
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                               <Label
                                 htmlFor="no-sk-pangkat"
-                                className="focus-within:text-primary-70 font-normal text-[16px]">
+                                className="focus-within:text-primary-70 font-normal text-[16px]"
+                              >
                                 Nomor SK Pangkat
                               </Label>
 
@@ -379,7 +391,7 @@ export default function KGBHistoryProfileScreen({
                             </div>
 
                             <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                              <DateFormInput
+                              <DateFormInputNew
                                 value={returnDate}
                                 setValue={setReturnDate}
                                 label="Tanggal SK Pangkat"
@@ -398,14 +410,16 @@ export default function KGBHistoryProfileScreen({
                               <Button
                                 type="button"
                                 onClick={() => setOpenIncomeCreate(false)}
-                                className="border border-line-20 text-black-80 hover:bg-error-50 hover:text-line-10">
+                                className="border border-line-20 text-black-80 hover:bg-error-50 hover:text-line-10"
+                              >
                                 Cancel
                               </Button>
 
                               <Button
                                 type="submit"
                                 disabled={isLoadingIncomeCreate ? true : false}
-                                className="bg-primary-40 hover:bg-primary-70 text-line-10">
+                                className="bg-primary-40 hover:bg-primary-70 text-line-10"
+                              >
                                 {isLoadingIncomeCreate ? (
                                   <Loader className="animate-spin" />
                                 ) : (

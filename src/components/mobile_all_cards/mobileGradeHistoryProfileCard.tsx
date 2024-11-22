@@ -27,6 +27,7 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import DateFormInput from "../elements/date_form_input";
 import { formatDate, formatDateString } from "@/lib/utils";
+import DateFormInputNew from "../elements/date_from_input_new";
 
 export default function MobileGradeHistoryProfileCardPages({
   index,
@@ -179,7 +180,7 @@ export default function MobileGradeHistoryProfileCardPages({
                 </div>
 
                 <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                  <DateFormInput
+                  <DateFormInputNew
                     value={durationDate}
                     setValue={setDurationDate}
                     label="Tanggal Terhitung Mulai"
@@ -218,7 +219,7 @@ export default function MobileGradeHistoryProfileCardPages({
                 </div>
 
                 <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
-                  <DateFormInput
+                  <DateFormInputNew
                     value={returnDate}
                     setValue={setReturnDate}
                     label="Tanggal SK Pangkat"

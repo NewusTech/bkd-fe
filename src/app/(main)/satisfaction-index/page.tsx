@@ -35,7 +35,6 @@ import {
 } from "@/components/ui/select";
 import SatisfactionIndexTablePages from "@/components/tables/satifaction_index_table";
 import {
-  AreasInterface,
   SatisfactionHistoryInterface,
   ServiceInterface,
 } from "@/types/interface";
@@ -46,8 +45,6 @@ import {
   getServiceByAreas,
 } from "@/services/api";
 import { Label } from "@/components/ui/label";
-import DateFormInput from "@/components/elements/date_form_input";
-import { Input } from "@/components/ui/input";
 import { useRouter } from "next/navigation";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
 import MobileSatisfactionIndexCardPages from "@/components/mobile_all_cards/mobileSatisfactionIndexCard";
