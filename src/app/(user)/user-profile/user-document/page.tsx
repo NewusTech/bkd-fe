@@ -1,6 +1,10 @@
 "use client";
 
-import { createUserDocuments, getUserDocuments } from "@/services/api";
+import {
+  createUserDocuments,
+  getUserDocuments,
+  updateUserDocuments,
+} from "@/services/api";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
@@ -61,8 +65,8 @@ export default function UserDocumentScreen() {
   const fetchUserDocuments = async () => {
     try {
       const response = await getUserDocuments();
-
       setDocuments(response.data);
+      // console.log(response.data);
     } catch (error) {
       console.log(error);
     }
@@ -72,39 +76,39 @@ export default function UserDocumentScreen() {
     fetchUserDocuments();
   }, []);
 
-  useEffect(() => {
-    // Ensure this code runs only on the client-side
-    const obj = document.querySelector("#gallery");
-    const time = 10000;
+  // useEffect(() => {
+  //   // Ensure this code runs only on the client-side
+  //   const obj = document.querySelector("#gallery");
+  //   const time = 10000;
 
-    function animStart() {
-      if (obj?.classList.contains("active") === false) {
-        obj?.classList.add("active");
-        setTimeout(() => {
-          animEnd();
-        }, time);
-      }
-    }
+  //   function animStart() {
+  //     if (obj?.classList.contains("active") === false) {
+  //       obj?.classList.add("active");
+  //       setTimeout(() => {
+  //         animEnd();
+  //       }, time);
+  //     }
+  //   }
 
-    function animEnd() {
-      obj?.classList.remove("active");
-      (obj as HTMLElement).offsetWidth; // Trigger reflow
-    }
+  //   function animEnd() {
+  //     obj?.classList.remove("active");
+  //     (obj as HTMLElement).offsetWidth; // Trigger reflow
+  //   }
 
-    // Add event listeners for scroll and resize
-    const handleScroll = () => animStart();
-    document.addEventListener("scroll", handleScroll);
-    window.addEventListener("resize", animStart);
+  //   // Add event listeners for scroll and resize
+  //   const handleScroll = () => animStart();
+  //   document.addEventListener("scroll", handleScroll);
+  //   window.addEventListener("resize", animStart);
 
-    // Run the animation on load
-    animStart();
+  //   // Run the animation on load
+  //   animStart();
 
-    // Cleanup event listeners when component unmounts
-    return () => {
-      document.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", animStart);
-    };
-  }, []);
+  //   // Cleanup event listeners when component unmounts
+  //   return () => {
+  //     document.removeEventListener("scroll", handleScroll);
+  //     window.removeEventListener("resize", animStart);
+  //   };
+  // }, []);
 
   const handleFileSK80Change = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -339,27 +343,21 @@ export default function UserDocumentScreen() {
     const formData = new FormData();
     if (sk80) {
       formData.append("sk_80", sk80);
-      console.log("sk_80")
     }
     if (sk100) {
       formData.append("sk_100", sk100);
-      console.log("sk_100")
     }
     if (kartuPegawai) {
       formData.append("kartu_pegawai", kartuPegawai);
-      console.log("kartu_pegawai")
     }
     if (ktp) {
       formData.append("ktp", ktp);
-      console.log("ktp")
     }
     if (kk) {
       formData.append("kk", kk);
-      console.log("kk")
     }
     if (npwp) {
       formData.append("npwp", npwp);
-      console.log("npwp")
     }
 
     // Object.entries(formData).forEach(([key, value]) => {
@@ -367,13 +365,18 @@ export default function UserDocumentScreen() {
     // });
 
     try {
-      const response = await createUserDocuments(formData);
+      let response;
+      if (documents) {
+        response = await updateUserDocuments(formData);
+      } else {
+        response = await createUserDocuments(formData);
+      }
 
       if (response.status === 200) {
         Swal.fire({
           icon: "success",
-          title: "Berhasil mengupdate dokumen!",
-          text: "Berhasil mengupdate dokumen!",
+          title: `Berhasil ${documents ? "mengupdate" : "membuat"} dokumen!`,
+          text: `Berhasil ${documents ? "mengupdate" : "membuat"} dokumen!`,
           timer: 2000,
           showConfirmButton: false,
           position: "center",
@@ -384,8 +387,8 @@ export default function UserDocumentScreen() {
       } else {
         Swal.fire({
           icon: "error",
-          title: "Gagal mengupdate dokumen!",
-          text: "Gagal mengupdate dokumen!",
+          title: `Gagal ${documents ? "mengupdate" : "membuat"} dokumen!`,
+          text: `Gagal ${documents ? "mengupdate" : "membuat"} dokumen!`,
           timer: 2000,
           showConfirmButton: false,
           position: "center",
@@ -488,7 +491,7 @@ export default function UserDocumentScreen() {
                   htmlFor={`sk80`}
                   className="flex items-center w-full md:w-5/12 h-[25px] md:h-[40px] rounded-[50px] justify-center font-normal text-sm hover:bg-primary-40 hover:text-line-10 border border-primary-40 text-primary-40 py-[10px] cursor-pointer line-clamp-1"
                 >
-                  {nameSk80 || "Upload"}
+                  {nameSk80 || documents?.sk_80 ? "Update" : "Upload"}
                 </label>
 
                 <Dialog>
@@ -539,7 +542,7 @@ export default function UserDocumentScreen() {
                   htmlFor={`sk100`}
                   className="flex items-center w-full md:w-5/12 h-[25px] md:h-[40px] rounded-[50px] justify-center font-normal text-sm hover:bg-primary-40 hover:text-line-10 border border-primary-40 text-primary-40 py-[10px] cursor-pointer"
                 >
-                  {nameSk100 || documents?.sk_100 || "Upload"}
+                  {nameSk100 || documents?.sk_100 ? "Update" : "Upload"}
                 </label>
 
                 <Dialog>
@@ -590,7 +593,9 @@ export default function UserDocumentScreen() {
                   htmlFor={`kartuPegawai`}
                   className="flex items-center w-full md:w-5/12 h-[25px] md:h-[40px] rounded-[50px] justify-center font-normal text-sm hover:bg-primary-40 hover:text-line-10 border border-primary-40 text-primary-40 py-[10px] cursor-pointer"
                 >
-                  {nameKartuPegawai || documents?.kartu_pegawai || "Upload"}
+                  {nameKartuPegawai || documents?.kartu_pegawai
+                    ? "Update"
+                    : "Upload"}
                 </label>
 
                 <Dialog>
@@ -645,7 +650,7 @@ export default function UserDocumentScreen() {
                   htmlFor={`ktp`}
                   className="flex items-center w-full md:w-5/12 h-[25px] md:h-[40px] rounded-[50px] justify-center font-normal text-sm hover:bg-primary-40 hover:text-line-10 border border-primary-40 text-primary-40 py-[10px] cursor-pointer"
                 >
-                  {nameKtp || documents?.ktp || "Upload"}
+                  {nameKtp || documents?.ktp ? "Update" : "Upload"}
                 </label>
 
                 <Dialog>
@@ -696,7 +701,7 @@ export default function UserDocumentScreen() {
                   htmlFor={`kk`}
                   className="flex items-center w-full md:w-5/12 h-[25px] md:h-[40px] rounded-[50px] justify-center font-normal text-sm hover:bg-primary-40 hover:text-line-10 border border-primary-40 text-primary-40 py-[10px] cursor-pointer"
                 >
-                  {nameKk || "Upload"}
+                  {nameKk || documents?.kk ? "Update" : "Upload"}
                 </label>
 
                 <Dialog>
@@ -747,7 +752,7 @@ export default function UserDocumentScreen() {
                   htmlFor={`npwp`}
                   className="flex items-center w-full md:w-5/12 h-[25px] md:h-[40px] rounded-[50px] justify-center font-normal text-sm hover:bg-primary-40 hover:text-line-10 border border-primary-40 text-primary-40 py-[10px] cursor-pointer"
                 >
-                  {nameNpwp || "Upload"}
+                  {nameNpwp || documents?.npwp ? "Update" : "Upload"}
                 </label>
 
                 <Dialog>

@@ -552,3 +552,24 @@ export type UserRegulationsInterface = {
   title: string;
   file: string;
 };
+
+export interface manualBookInterface {
+  id: number;
+  title: string;
+  dokumen?: string;
+  video_tutorial?: string;
+}
+
+export interface documentHistoryInterface {
+  bidang_id: number;
+  bidang_name: string;
+  dokumen: 
+    {
+      id: number;
+      userinfo_id: number;
+      tgl_selesai?: string;
+      layanan_name: string;
+      fileoutput: string;
+      no_request: string;
+    }[],
+}

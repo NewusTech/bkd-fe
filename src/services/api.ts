@@ -1181,6 +1181,23 @@ export const createUserDocuments = async (formData: FormData) => {
 
   return await response.json();
 };
+export const updateUserDocuments = async (formData: FormData) => {
+  const token = Cookies.get("Authorization");
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/user/dokumen/update`,
+    {
+      method: "PUT",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+      cache: "no-store",
+    }
+  );
+
+  return await response.json();
+};
 
 // get user regulation
 export const getUserRegulation = async () => {
@@ -1267,6 +1284,41 @@ export const getUploadStruktur = async () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
+      },
+      cache: "no-store",
+    }
+  );
+
+  return await response.json();
+};
+
+// get manual book
+export const getManualBook = async () => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/user/manual/book/get`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      cache: "no-store",
+    }
+  );
+
+  return await response.json();
+};
+
+// get history document
+export const getHistoryDocument = async () => {
+  const token = Cookies.get("Authorization");
+
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_URL}/user/history/dokumen`,
+    {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
       cache: "no-store",
     }

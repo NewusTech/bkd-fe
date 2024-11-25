@@ -5,7 +5,7 @@ import { Camera, X } from "@phosphor-icons/react";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { HomeIcon, List, Loader, LogOut, User2 } from "lucide-react";
+import { History, HomeIcon, List, Loader, LogOut, User2 } from "lucide-react";
 import Cookies from "js-cookie";
 import Swal from "sweetalert2";
 import {
@@ -166,7 +166,8 @@ export default function MobileProfileSideBarScreen() {
                     <DialogTrigger asChild>
                       <div
                         onClick={() => setIsOpen(true)}
-                        className="w-7 h-7 flex items-center justify-center rounded-full bg-primary-40">
+                        className="w-7 h-7 flex items-center justify-center rounded-full bg-primary-40"
+                      >
                         <Camera className="w-4 h-4 text-line-10" />
                       </div>
                     </DialogTrigger>
@@ -187,7 +188,8 @@ export default function MobileProfileSideBarScreen() {
                       </DialogHeader>
                       <form
                         onSubmit={handleNewUpdateImageProfile}
-                        className="flex flex-col w-full mt-2 md:mt-4">
+                        className="flex flex-col w-full mt-2 md:mt-4"
+                      >
                         <div className="flex flex-col w-full h-full mt-2 px-4">
                           <div className="flex flex-col w-full gap-y-5">
                             {(previewPPImage || profile?.image_profile) && (
@@ -209,7 +211,8 @@ export default function MobileProfileSideBarScreen() {
                               onDragOver={handleDragOver}
                               onDragLeave={handleDragLeave}
                               onDrop={handleDropPP}
-                              className={`w-full h-[100px] border-2 border-dashed border-neutral-800 rounded-xl mt-1 flex flex-col items-center justify-center `}>
+                              className={`w-full h-[100px] border-2 border-dashed border-neutral-800 rounded-xl mt-1 flex flex-col items-center justify-center `}
+                            >
                               <>
                                 <input
                                   type="file"
@@ -221,7 +224,8 @@ export default function MobileProfileSideBarScreen() {
                                 />
                                 <label
                                   htmlFor="file-input-pp"
-                                  className="text-[16px] md:text-[20px] text-center text-neutral-800 p-2 md:p-4 font-light cursor-pointer">
+                                  className="text-[16px] md:text-[20px] text-center text-neutral-800 p-2 md:p-4 font-light cursor-pointer"
+                                >
                                   Drag and drop file here or click to select
                                   file
                                 </label>
@@ -233,7 +237,8 @@ export default function MobileProfileSideBarScreen() {
                           <Button
                             className="w-full bg-primary-40 hover:bg-primary-70 text-neutral-50 h-[30px] md:h-[40px] text-[12px] md:text-[16px]"
                             type="submit"
-                            disabled={isLoading ? true : false}>
+                            disabled={isLoading ? true : false}
+                          >
                             {isLoading ? (
                               <Loader className="animate-spin" />
                             ) : (
@@ -268,26 +273,44 @@ export default function MobileProfileSideBarScreen() {
             <div className="w-full flex flex-row gap-x-3">
               <Link
                 href={"/user-profile"}
-                className={`w-full flex flex-row px-4 py-3 ${pathName === "/user-profile" ? "bg-primary-40 bg-opacity-20" : ""} items-center rounded-lg gap-x-2`}>
+                className={`w-full flex flex-row px-4 py-3 ${pathName === "/user-profile" ? "bg-primary-40 bg-opacity-20" : ""} items-center rounded-lg gap-x-2`}
+              >
                 <User2
                   className={`w-6 h-6 ${pathName === "/user-profile" ? "text-primary-40" : "text-black-80"}`}
                 />
 
                 <p
-                  className={`${pathName === "/user-profile" ? "text-primary-40" : "text-black-80"} text-[16px]`}>
+                  className={`${pathName === "/user-profile" ? "text-primary-40" : "text-black-80"} text-[16px]`}
+                >
                   Akun Saya
                 </p>
               </Link>
 
               <Link
                 href={"/user-profile/user-document"}
-                className={`w-full flex flex-row px-4 py-3 ${pathName === "/user-profile/user-document" ? "bg-primary-40 bg-opacity-20" : ""} items-center rounded-lg gap-x-2`}>
+                className={`w-full flex flex-row px-4 py-3 ${pathName === "/user-profile/user-document" ? "bg-primary-40 bg-opacity-20" : ""} items-center rounded-lg gap-x-2`}
+              >
                 <List
                   className={`w-6 h-6 ${pathName === "/user-profile/user-document" ? "bg-primary-40 bg-opacity-20" : ""}`}
                 />
 
                 <p
-                  className={`${pathName === "/user-profile/user-document" ? "bg-primary-40 bg-opacity-20" : ""} text-[16px]`}>
+                  className={`${pathName === "/user-profile/user-document" ? "bg-primary-40 bg-opacity-20" : ""} text-[16px]`}
+                >
+                  Dokumen
+                </p>
+              </Link>
+              <Link
+                href={"/user-profile/user-history"}
+                className={`w-full flex flex-row px-4 py-3 ${pathName === "/user-profile/user-history" ? "bg-primary-40 bg-opacity-20" : ""} items-center rounded-lg gap-x-2`}
+              >
+                <History
+                  className={`w-6 h-6 ${pathName === "/user-profile/user-history" ? "bg-primary-40 bg-opacity-20" : ""}`}
+                />
+
+                <p
+                  className={`${pathName === "/user-profile/user-history" ? "bg-primary-40 bg-opacity-20" : ""} text-[16px]`}
+                >
                   Dokumen
                 </p>
               </Link>
@@ -296,7 +319,8 @@ export default function MobileProfileSideBarScreen() {
             <div className="w-full flex flex-row items-center">
               <Button
                 onClick={handleLogout}
-                className="w-full flex flex-row border border-line-20 items-center justify-start px-5 py-6 gap-x-3 group">
+                className="w-full flex flex-row border border-line-20 items-center justify-start px-5 py-6 gap-x-3 group"
+              >
                 {isLoadingOut ? (
                   <Loader className="animate-spin" />
                 ) : (
