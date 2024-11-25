@@ -110,7 +110,7 @@ export default function ProvisionApplicationFormPages({
             {isLoading ? (
               <Loader className="animate-spin" />
             ) : (
-              "Ajukan Pengaduan Pangkat"
+              "Pengajuan Usulan Pangkat"
             )}
           </Button>
         </div>

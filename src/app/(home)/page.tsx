@@ -21,6 +21,7 @@ import {
   getCarouselSliders,
   getFaqs,
   getInformationBkd,
+  getManualBook,
   getNews,
   getStructureOrganization,
   getStructureOrganizationMain,
@@ -31,12 +32,13 @@ import {
   FaqsInterface,
   GalleryActivitiesInterface,
   InformationBKdInterface,
+  manualBookInterface,
   NewsInterface,
   StructureOrganizationInterface,
   StructureOrganizationMainInterface,
 } from "@/types/interface";
 import { Button } from "@/components/ui/button";
-import { Loader } from "lucide-react";
+import { Loader, LoaderCircle } from "lucide-react";
 import EmblaCarousel from "@/components/elements/carousels/carousel_main";
 import { EmblaOptionsType } from "embla-carousel";
 import EmblaCarouselStuctureOrganization from "@/components/elements/carousel-scroll-structure-organization/carousel_main_structure_organization";
@@ -65,6 +67,7 @@ export default function Home() {
   const [isSecondHovered, setIsSecondHovered] = useState(false);
   const lettersRef = useRef<(HTMLSpanElement | null)[]>([]);
   const lettersSecondRef = useRef<(HTMLSpanElement | null)[]>([]);
+  const [manualBook, setManualBook] = useState<manualBookInterface>();
 
   useEffect(() => {
     const token = Cookies.get("Authorization");
@@ -82,6 +85,11 @@ export default function Home() {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const fetchManualBook = async () => {
+    const response = await getManualBook();
+    if (response.data) setManualBook(response.data[0]);
   };
 
   // const fetchCarouselSliders = async () => {
@@ -112,6 +120,7 @@ export default function Home() {
 
   useEffect(() => {
     fetchCarouselSliders();
+    fetchManualBook();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -272,7 +281,8 @@ export default function Home() {
       <section className="w-full background-about-us snap-start scroll-mt-24 py-12 px-4 md:px-20 flex flex-col md:flex-row items-center md:items-start gap-y-6 md:gap-x-8">
         <div
           data-aos="fade-right"
-          className="w-10/12 md:w-7/12 h-full transition-transform duration-500 ease-in-out transform hover:scale-105">
+          className="w-10/12 md:w-7/12 h-full transition-transform duration-500 ease-in-out transform hover:scale-105"
+        >
           <Image
             src={about}
             alt="About Us"
@@ -283,7 +293,8 @@ export default function Home() {
         </div>
         <div
           data-aos="fade-left"
-          className="w-full flex flex-col gap-y-0 md:gap-y-8 transition-opacity duration-500 ease-in-out">
+          className="w-full flex flex-col gap-y-0 md:gap-y-8 transition-opacity duration-500 ease-in-out"
+        >
           <div className="w-full flex flex-col items-center md:items-start md:gap-y-2 transition-transform duration-300 ease-in-out transform md:hover:translate-x-4 mb-4 md:mb-0">
             <p className="text-line-10 text-xl md:text-3xl tracking-wider md:opacity-80 md:transition-opacity md:hover:opacity-100">
               Tentang Sipadu BKD
@@ -335,13 +346,15 @@ export default function Home() {
       </section>
 
       <section
-        className={`w-full flex flex-col md:flex-row snap-start scroll-mt-24 background-about-us pt-2 pb-16 md:py-12 gap-y-6 md:gap-y-8 gap-x-3`}>
+        className={`w-full flex flex-col md:flex-row snap-start scroll-mt-24 background-about-us pt-2 pb-16 md:py-12 gap-y-6 md:gap-y-8 gap-x-3`}
+      >
         <div
           className={`px-4 ${isMobile ? "" : "carousel-wrapper"} transition-opacity duration-700 ease-in-out ${
             isCarouselFullscreen && !isMobile
               ? "hidden"
               : "slide-in opacity-visible flex flex-col gap-y-5 md:w-[30%]"
-          }`}>
+          }`}
+        >
           <div data-aos="fade-right" className="w-full flex flex-col gap-y-5">
             <div className="w-full flex flex-row items-center justify-center pt-8 md:pt-12">
               <div className="w-3/12 md:w-4/12 h-full">
@@ -366,7 +379,8 @@ export default function Home() {
                     onClick={handleNextNewsPage}
                     onMouseEnter={handleMouseEnter}
                     onMouseLeave={handleMouseLeave}
-                    className="bg-line-10 hover:bg-primary-70 text-primary-40 hover:text-line-10 rounded-lg">
+                    className="bg-line-10 hover:bg-primary-70 text-primary-40 hover:text-line-10 rounded-lg"
+                  >
                     {isFirstLoading ? (
                       <Loader className="animate-spin" />
                     ) : (
@@ -385,7 +399,8 @@ export default function Home() {
                               ref={(el) => {
                                 lettersRef.current[index] = el;
                               }}
-                              className="letter">
+                              className="letter"
+                            >
                               {letter}
                             </span>
                           );
@@ -400,9 +415,11 @@ export default function Home() {
         </div>
 
         <div
-          className={` ${isCarouselFullscreen && !isMobile ? "w-full px-8" : "md:w-8/12"}`}>
+          className={` ${isCarouselFullscreen && !isMobile ? "w-full px-8" : "md:w-8/12"}`}
+        >
           <div
-            className={`embla ${isCarouselFullscreen && !isMobile ? "fullscreen" : ""}`}>
+            className={`embla ${isCarouselFullscreen && !isMobile ? "fullscreen" : ""}`}
+          >
             {news && news.length > 0 && (
               <EmblaCarousel
                 options={{
@@ -425,7 +442,8 @@ export default function Home() {
           <div className="w-full flex items-center justify-center">
             <Button
               onClick={handleNextNewsPage}
-              className="bg-line-10 hover:bg-primary-70 text-primary-40 hover:text-line-10 rounded-lg">
+              className="bg-line-10 hover:bg-primary-70 text-primary-40 hover:text-line-10 rounded-lg"
+            >
               {isFirstLoading ? (
                 <Loader className="animate-spin" />
               ) : (
@@ -489,7 +507,8 @@ export default function Home() {
             onClick={handleNextGalleryPage}
             onMouseEnter={handleSecondMouseEnter}
             onMouseLeave={handleMouseLeave}
-            className="bg-line-10 hover:text-line-10 text-primary-40 hover:bg-primary-70 rounded-lg">
+            className="bg-line-10 hover:text-line-10 text-primary-40 hover:bg-primary-70 rounded-lg"
+          >
             {isSecondLoading ? (
               <Loader className="animate-spin" />
             ) : (
@@ -508,7 +527,8 @@ export default function Home() {
                       ref={(el) => {
                         lettersSecondRef.current[index] = el;
                       }}
-                      className="letter">
+                      className="letter"
+                    >
                       {letter}
                     </span>
                   );
@@ -516,6 +536,55 @@ export default function Home() {
               </span>
             )}
           </Button>
+        </div>
+      </section>
+
+      <section className="w-full flex snap-start scroll-mt-24 flex-col py-4 md:py-8 px-4 md:px-20 gap-y-8">
+        <div className="w-full flex flex-col gap-y-10 md:flex-row md:gap-x-10">
+          <div className="w-full md:w-1/2 bg-primary-20 flex flex-col rounded-lg overflow-hidden">
+            <span className="w-full py-4 bg-primary-50 flex items-center justify-center text-xl text-white font-medium">
+              Sipadu BKD
+            </span>
+            {manualBook && manualBook.video_tutorial ? (
+              <video
+                className="md:w-full md:h-full object-cover rounded-sm p-4"
+                width={650}
+                height={310}
+                autoPlay
+                src={manualBook.video_tutorial}
+                muted
+                controls
+                loop
+              >
+                <source src={manualBook.video_tutorial} type="video/mp4" />
+                Your browser does not support the video tag.
+              </video>
+            ) : (
+              <Image
+                src={"/assets/images/placeholder_video.png"}
+                width={600}
+                height={600}
+                alt="mp4"
+                className="w-full h-full p-4"
+              />
+            )}
+          </div>
+          <div className="w-full md:w-1/2 h-[30rem] md:h-auto bg-primary-20 flex flex-col rounded-lg overflow-hidden">
+            <span className="w-full py-4 bg-primary-50 flex items-center justify-center text-xl text-white font-medium">
+              Manual Book Sipadu BKD
+            </span>
+            {manualBook && manualBook.dokumen && (
+              <div className="flex justify-center rounded-lg overflow-hidden h-full w-full p-4 relative">
+                <iframe
+                  src={`${manualBook.dokumen}#toolbar=0&zoom=50&view=FitH`}
+                  className="w-full h-full z-[10]"
+                ></iframe>
+                <span className="flex flex-row items-center justify-center w-full h-full absolute">
+                  Loading... <LoaderCircle className="animate-spin" />
+                </span>
+              </div>
+            )}
+          </div>
         </div>
       </section>
 
@@ -537,7 +606,8 @@ export default function Home() {
                 className="border-0 w-full rounded-xl"
                 allowFullScreen
                 loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade">
+                referrerPolicy="no-referrer-when-downgrade"
+              >
                 {informations?.kontak}
               </iframe>
             )}
@@ -558,7 +628,8 @@ export default function Home() {
                 <AccordionItem
                   key={index}
                   className="w-full h-full mb-2 border-none flex flex-col gap-y-3"
-                  value={`item-${index}`}>
+                  value={`item-${index}`}
+                >
                   <AccordionTrigger className="text-[14px] md:text-[16px] hover:bg-primary-40 hover:text-line-10 hover:px-2 hover:rounded-lg text-start h-[50px] md:h-full">
                     {faq.question}
                   </AccordionTrigger>
