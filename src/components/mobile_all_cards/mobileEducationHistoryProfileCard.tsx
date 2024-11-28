@@ -265,6 +265,7 @@ export default function MobileEducationHistoryProfileCardPages({
                         tgl_ijazah: formatDate(value),
                       })
                     }
+                    maxDate={new Date()}
                   />
                 </div>
 

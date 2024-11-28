@@ -281,22 +281,24 @@ export default function RegisterScreen() {
               <div className="w-full flex flex-col md:grid grid-cols-2 gap-x-5">
                 <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                   <Label
-                    htmlFor="name"
-                    className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
-                    Nama Lengkap
+                    htmlFor="nip"
+                    className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]"
+                  >
+                    NIP
                   </Label>
                   <Input
-                    id="name"
-                    name="name"
-                    value={data.name}
+                    id="nip"
+                    name="nip"
+                    value={data.nip}
                     onChange={changeUser}
                     type="text"
+                    inputMode="numeric"
                     className="w-full focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70 text-[14px] md:text-[16px]"
-                    placeholder="Masukkan Nama Anda"
+                    placeholder="Masukkan NIP Anda"
                   />
-                  {hasSubmitted && errors?.name?._errors && (
+                  {hasSubmitted && errors?.nip?._errors && (
                     <div className="text-red-500 text-[12px] md:text-[14px]">
-                      {errors.name._errors[0]}
+                      {errors.nip._errors[0]}
                     </div>
                   )}
                 </div>
@@ -305,7 +307,8 @@ export default function RegisterScreen() {
                   <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                     <Label
                       htmlFor="name"
-                      className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
+                      className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]"
+                    >
                       Kecamatan
                     </Label>
                     <Select
@@ -317,11 +320,13 @@ export default function RegisterScreen() {
                       }
                       onValueChange={(value) =>
                         setSelectedSubDistrict(Number(value))
-                      }>
+                      }
+                    >
                       <SelectTrigger
                         className={`${
                           !selectedSubDistrict ? "opacity-70" : ""
-                        } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2 text-[14px] md:text-[16px]`}>
+                        } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2 text-[14px] md:text-[16px]`}
+                      >
                         <SelectValue
                           placeholder="Pilih Kecamatan"
                           className={
@@ -348,7 +353,8 @@ export default function RegisterScreen() {
                                   <SelectItem
                                     className="pr-none mt-2 text-[14px] md:text-[16px]"
                                     value={sub?.id.toString()}
-                                    key={i}>
+                                    key={i}
+                                  >
                                     {sub?.nama}
                                   </SelectItem>
                                 );
@@ -369,23 +375,23 @@ export default function RegisterScreen() {
               <div className="w-full flex flex-col md:grid grid-cols-2 gap-x-5">
                 <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                   <Label
-                    htmlFor="nip"
-                    className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
-                    NIP
+                    htmlFor="name"
+                    className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]"
+                  >
+                    Nama Lengkap
                   </Label>
                   <Input
-                    id="nip"
-                    name="nip"
-                    value={data.nip}
+                    id="name"
+                    name="name"
+                    value={data.name}
                     onChange={changeUser}
                     type="text"
-                    inputMode="numeric"
                     className="w-full focus-visible:text-black-70 focus-visible:border focus-visible:border-primary-70 text-[14px] md:text-[16px]"
-                    placeholder="Masukkan NIP Anda"
+                    placeholder="Masukkan Nama Anda"
                   />
-                  {hasSubmitted && errors?.nip?._errors && (
+                  {hasSubmitted && errors?.name?._errors && (
                     <div className="text-red-500 text-[12px] md:text-[14px]">
-                      {errors.nip._errors[0]}
+                      {errors.name._errors[0]}
                     </div>
                   )}
                 </div>
@@ -393,7 +399,8 @@ export default function RegisterScreen() {
                   <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                     <Label
                       htmlFor="name"
-                      className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
+                      className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]"
+                    >
                       Desa
                     </Label>
                     <Select
@@ -403,11 +410,13 @@ export default function RegisterScreen() {
                       }
                       onValueChange={(value) =>
                         setSelectedVillage(Number(value))
-                      }>
+                      }
+                    >
                       <SelectTrigger
                         className={`${
                           !selectedVillage ? "opacity-70" : ""
-                        } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                        } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}
+                      >
                         <SelectValue
                           placeholder="Pilih Desa"
                           className={
@@ -434,7 +443,8 @@ export default function RegisterScreen() {
                                   <SelectItem
                                     className="pr-none mt-2 text-[14px] md:text-[16px]"
                                     value={village?.id.toString()}
-                                    key={i}>
+                                    key={i}
+                                  >
                                     {village?.nama}
                                   </SelectItem>
                                 );
@@ -456,7 +466,8 @@ export default function RegisterScreen() {
                 <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                   <Label
                     htmlFor="email"
-                    className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
+                    className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]"
+                  >
                     Email
                   </Label>
                   <Input
@@ -480,7 +491,8 @@ export default function RegisterScreen() {
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                       <Label
                         htmlFor="rt"
-                        className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
+                        className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]"
+                      >
                         RT
                       </Label>
                       <Input
@@ -502,7 +514,8 @@ export default function RegisterScreen() {
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                       <Label
                         htmlFor="rw"
-                        className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
+                        className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]"
+                      >
                         RW
                       </Label>
                       <Input
@@ -529,7 +542,8 @@ export default function RegisterScreen() {
                   <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                     <Label
                       htmlFor="no-telp"
-                      className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
+                      className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]"
+                    >
                       Nomor Telepon
                     </Label>
                     <Input
@@ -551,7 +565,8 @@ export default function RegisterScreen() {
                   <div className="w-full focus-within:text-black-70 flex flex-col gap-y-2">
                     <Label
                       htmlFor="password"
-                      className="focus-within:text-primary-40 font-normal text-[14px] md:text-[16px]">
+                      className="focus-within:text-primary-40 font-normal text-[14px] md:text-[16px]"
+                    >
                       Kata Sandi
                     </Label>
                     <div className="focus-within:border focus-within:border-primary-40 flex items-center mt-1 justify-between rounded-lg bg-transparent text-[14px] w-full h-[40px] font-normal border border-grey-50 placeholder:text-[14px] placeholder:text-neutral-700">
@@ -572,7 +587,8 @@ export default function RegisterScreen() {
                       />
                       <div
                         onClick={() => setSeen(!seen)}
-                        className="p-2 cursor-pointer">
+                        className="p-2 cursor-pointer"
+                      >
                         {seen ? (
                           <EyeOff className="text-black-40 focus-within:text-primary-40 w-[20px] h-[20px]" />
                         ) : (
@@ -614,7 +630,8 @@ export default function RegisterScreen() {
                   <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                     <Label
                       htmlFor="name"
-                      className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
+                      className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]"
+                    >
                       Kecamatan
                     </Label>
                     <Select
@@ -626,11 +643,13 @@ export default function RegisterScreen() {
                       }
                       onValueChange={(value) =>
                         setSelectedSubDistrict(Number(value))
-                      }>
+                      }
+                    >
                       <SelectTrigger
                         className={`${
                           !selectedSubDistrict ? "opacity-70" : ""
-                        } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                        } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}
+                      >
                         <SelectValue
                           placeholder="Pilih Kecamatan"
                           className={
@@ -657,7 +676,8 @@ export default function RegisterScreen() {
                                   <SelectItem
                                     className="pr-none mt-2 text-[14px] md:text-[16px]"
                                     value={sub?.id.toString()}
-                                    key={i}>
+                                    key={i}
+                                  >
                                     {sub?.nama}
                                   </SelectItem>
                                 );
@@ -676,7 +696,8 @@ export default function RegisterScreen() {
                   <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                     <Label
                       htmlFor="name"
-                      className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
+                      className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]"
+                    >
                       Desa
                     </Label>
                     <Select
@@ -686,11 +707,13 @@ export default function RegisterScreen() {
                       }
                       onValueChange={(value) =>
                         setSelectedVillage(Number(value))
-                      }>
+                      }
+                    >
                       <SelectTrigger
                         className={`${
                           !selectedVillage ? "opacity-70" : ""
-                        } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                        } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}
+                      >
                         <SelectValue
                           placeholder="Pilih Desa"
                           className={
@@ -717,7 +740,8 @@ export default function RegisterScreen() {
                                   <SelectItem
                                     className="pr-none mt-2 text-[14px] md:text-[16px]"
                                     value={village?.id.toString()}
-                                    key={i}>
+                                    key={i}
+                                  >
                                     {village?.nama}
                                   </SelectItem>
                                 );
@@ -737,7 +761,8 @@ export default function RegisterScreen() {
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                       <Label
                         htmlFor="rt"
-                        className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
+                        className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]"
+                      >
                         RT
                       </Label>
                       <Input
@@ -759,7 +784,8 @@ export default function RegisterScreen() {
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                       <Label
                         htmlFor="rw"
-                        className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]">
+                        className="focus-within:text-primary-70 font-normal text-[14px] md:text-[16px]"
+                      >
                         RW
                       </Label>
                       <Input
@@ -830,7 +856,8 @@ export default function RegisterScreen() {
                     </div>
                     <div
                       onClick={handleAgree}
-                      className="bg-blue-600 hover:bg-blue-500 transition-transform duration-300 hover:scale-105 text-center cursor-pointer w-4/12 rounded-full text-white py-2 px-5 shadow-md hover:shadow-lg">
+                      className="bg-blue-600 hover:bg-blue-500 transition-transform duration-300 hover:scale-105 text-center cursor-pointer w-4/12 rounded-full text-white py-2 px-5 shadow-md hover:shadow-lg"
+                    >
                       Setuju
                     </div>
                   </div>
@@ -853,7 +880,8 @@ export default function RegisterScreen() {
               <Button
                 type="submit"
                 className="w-full bg-primary-40 hover:bg-primary-70 text-line-10 py-4 text-[14px] md:text-[16px]"
-                disabled={isLoading ? true : false}>
+                disabled={isLoading ? true : false}
+              >
                 {isLoading ? (
                   <Loader className="animate-spin" />
                 ) : (

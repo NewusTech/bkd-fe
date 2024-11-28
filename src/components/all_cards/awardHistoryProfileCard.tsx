@@ -154,6 +154,7 @@ export default function AwardHistoryProfileCard({
                             tanggal_penghargaan: formatDate(value),
                           })
                         }
+                        maxDate={new Date()}
                       />
                     </div>
 

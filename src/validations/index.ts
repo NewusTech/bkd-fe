@@ -39,7 +39,7 @@ export const schemaLogin = z.object({
     .length(18, "NIP harus terdiri dari 18 karakter"),
   password: z
     .string({ message: "Kata sandi tidak boleh kosong!" })
-    .min(6, { message: "Kata sandi minimal 6 karakter" })
+    .min(6, { message: "Kata sandi minimal 6 karakter" }),
 });
 
 export const schemaForgotPassword = z.object({
@@ -84,11 +84,11 @@ export const schemaPersonalProfile = z.object({
   agama: z.string({ message: "Agama harus diisi" }),
   gender: z.string({ message: "Jenis kelamin harus diisi" }),
   goldar: z.string({ message: "Golongan darah harus diisi" }),
-  kecamatan_id: z.string({ message: "Pilih Asal Kecamatan" }),
-  desa_id: z.string({ message: "Pilih Asal Desa" }),
   rt: z.string().refine((val) => val !== "", "RT harus diisi"),
   rw: z.string().refine((val) => val !== "", "RW harus diisi"),
   alamat: z.string().refine((val) => val !== "", "Alamat harus diisi"),
+  kecamatan_id: z.string({ message: "Pilih Asal Kecamatan" }),
+  desa_id: z.string({ message: "Pilih Asal Desa" }),
 });
 
 export const schemaUserComplaints = z.object({

@@ -191,6 +191,7 @@ export default function FamilyDataChildrenProfileCard({
                             })
                           }
                         />
+                        maxDate={new Date()}
                       </div>
                     </div>
 

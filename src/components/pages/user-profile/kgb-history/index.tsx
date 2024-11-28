@@ -202,6 +202,7 @@ export default function KGBHistoryProfileScreen({
                                     tmt: formatDate(value),
                                   })
                                 }
+                                maxDate={new Date()}
                               />
                             </div>
 
@@ -251,6 +252,7 @@ export default function KGBHistoryProfileScreen({
                                     tgl_sk_pangkat: formatDate(value),
                                   })
                                 }
+                                maxDate={new Date()}
                               />
                             </div>
 
@@ -354,6 +356,7 @@ export default function KGBHistoryProfileScreen({
                                     tmt: formatDate(value),
                                   })
                                 }
+                                maxDate={new Date()}
                               />
                             </div>
 
@@ -403,6 +406,7 @@ export default function KGBHistoryProfileScreen({
                                     tgl_sk_pangkat: formatDate(value),
                                   })
                                 }
+                                maxDate={new Date()}
                               />
                             </div>
 

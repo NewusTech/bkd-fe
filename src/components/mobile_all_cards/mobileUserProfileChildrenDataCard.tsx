@@ -222,6 +222,7 @@ export default function MobileUserProfileChildrenDataCardPages({
                           tanggal_lahir: formatDate(value),
                         })
                       }
+                      maxDate={new Date()}
                     />
                   </div>
                 </div>

@@ -199,6 +199,7 @@ export default function FamilyDataMarriedProfileCard({
                               tanggal_lahir: formatDate(value),
                             })
                           }
+                          maxDate={new Date()}
                         />
                       </div>
                     </div>
@@ -216,6 +217,7 @@ export default function FamilyDataMarriedProfileCard({
                             tanggal_pernikahan: formatDate(value),
                           })
                         }
+                        maxDate={new Date()}
                       />
                     </div>
 

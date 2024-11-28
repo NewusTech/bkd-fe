@@ -243,6 +243,7 @@ export default function MobileTrainingHistoryProfileCardPages({
                         tanggal_pelatihan: formatDate(value),
                       })
                     }
+                    maxDate={new Date()}
                   />
                 </div>
 

@@ -294,6 +294,7 @@ export default function EducationalBackgroundProfileScreen({
                                     tgl_ijazah: formatDate(value),
                                   })
                                 }
+                                maxDate={new Date()}
                               />
                             </div>
 
@@ -497,6 +498,7 @@ export default function EducationalBackgroundProfileScreen({
                                     tgl_ijazah: formatDate(value),
                                   })
                                 }
+                                maxDate={new Date()}
                               />
                             </div>
 

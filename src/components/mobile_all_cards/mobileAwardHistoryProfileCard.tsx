@@ -184,6 +184,7 @@ export default function MobileAwardHistoryProfileCardPages({
                         tanggal_penghargaan: formatDate(value),
                       })
                     }
+                    maxDate={new Date()}
                   />
                 </div>
 

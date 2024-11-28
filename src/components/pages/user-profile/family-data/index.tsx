@@ -304,6 +304,7 @@ export default function FamilyDataProfileScreen({
                                       tanggal_lahir: formatDate(value),
                                     })
                                   }
+                                  maxDate={new Date()}
                                 />
                               </div>
                             </div>
@@ -321,6 +322,7 @@ export default function FamilyDataProfileScreen({
                                     tanggal_pernikahan: formatDate(value),
                                   })
                                 }
+                                maxDate={new Date()}
                               />
                             </div>
 
@@ -554,6 +556,7 @@ export default function FamilyDataProfileScreen({
                                       tanggal_lahir: formatDate(value),
                                     })
                                   }
+                                  maxDate={new Date()}
                                 />
                               </div>
                             </div>
@@ -571,6 +574,7 @@ export default function FamilyDataProfileScreen({
                                     tanggal_pernikahan: formatDate(value),
                                   })
                                 }
+                                maxDate={new Date()}
                               />
                             </div>
 
@@ -900,6 +904,7 @@ export default function FamilyDataProfileScreen({
                                       tanggal_lahir: formatDate(value),
                                     })
                                   }
+                                  maxDate={new Date()}
                                 />
                               </div>
                             </div>
@@ -1203,6 +1208,7 @@ export default function FamilyDataProfileScreen({
                                       tanggal_lahir: formatDate(value),
                                     })
                                   }
+                                  maxDate={new Date()}
                                 />
                               </div>
                             </div>

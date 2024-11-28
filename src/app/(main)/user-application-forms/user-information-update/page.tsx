@@ -481,6 +481,7 @@ export default function UserInformastionUpdatePages() {
                           });
                         }
                       }}
+                      maxDate={new Date()}
                     />
                   </div>
                 </div>
