@@ -192,6 +192,7 @@ export default function MobileKGBHistoryProfileCardPages({
                         tmt: formatDate(value),
                       })
                     }
+                    maxDate={new Date()}
                   />
                 </div>
 
@@ -231,6 +232,7 @@ export default function MobileKGBHistoryProfileCardPages({
                         tgl_sk_pangkat: formatDate(value),
                       })
                     }
+                    maxDate={new Date()}
                   />
                 </div>
 

@@ -158,6 +158,7 @@ export default function GradeHistoryProfileCard({
                             tmt: formatDate(value),
                           })
                         }
+                        maxDate={new Date()}
                       />
                     </div>
 
@@ -197,6 +198,7 @@ export default function GradeHistoryProfileCard({
                             tgl_sk_pangkat: formatDate(value),
                           })
                         }
+                        maxDate={new Date()}
                       />
                     </div>
 

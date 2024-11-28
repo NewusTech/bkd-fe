@@ -195,6 +195,7 @@ export default function MobilePositionHistoryProfileCardPages({
                         tmt: formatDate(value),
                       })
                     }
+                    maxDate={new Date()}
                   />
                 </div>
 
@@ -234,6 +235,7 @@ export default function MobilePositionHistoryProfileCardPages({
                         tgl_sk_pangkat: formatDate(value),
                       })
                     }
+                    maxDate={new Date()}
                   />
                 </div>
 

@@ -281,6 +281,7 @@ export default function TrainingHistoryProfileScreen({
                                     tanggal_pelatihan: formatDate(value),
                                   })
                                 }
+                                maxDate={new Date()}
                               />
                             </div>
 
@@ -492,6 +493,7 @@ export default function TrainingHistoryProfileScreen({
                                     tanggal_pelatihan: formatDate(value),
                                   })
                                 }
+                                maxDate={new Date()}
                               />
                             </div>
 

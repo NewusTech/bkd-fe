@@ -228,6 +228,7 @@ export default function GradeHistoryProfileScreen({
                                     tmt: formatDate(value),
                                   })
                                 }
+                                maxDate={new Date()}
                               />
                             </div>
 
@@ -276,6 +277,7 @@ export default function GradeHistoryProfileScreen({
                                     tgl_sk_pangkat: formatDate(value),
                                   })
                                 }
+                                maxDate={new Date()}
                               />
                             </div>
 
@@ -399,6 +401,7 @@ export default function GradeHistoryProfileScreen({
                                     tmt: formatDate(value),
                                   })
                                 }
+                                maxDate={new Date()}
                               />
                             </div>
 
@@ -447,6 +450,7 @@ export default function GradeHistoryProfileScreen({
                                     tgl_sk_pangkat: formatDate(value),
                                   })
                                 }
+                                maxDate={new Date()}
                               />
                             </div>
 

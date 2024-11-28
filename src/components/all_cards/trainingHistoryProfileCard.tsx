@@ -216,6 +216,7 @@ export default function TrainingHistoryProfileCard({
                             tanggal_pelatihan: formatDate(value),
                           })
                         }
+                        maxDate={new Date()}
                       />
                     </div>
 

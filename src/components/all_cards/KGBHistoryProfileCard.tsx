@@ -158,6 +158,7 @@ export default function KGBHistoryProfileCard({
                             tmt: formatDate(value),
                           })
                         }
+                        maxDate={new Date()}
                       />
                     </div>
 
@@ -197,6 +198,7 @@ export default function KGBHistoryProfileCard({
                             tgl_sk_pangkat: formatDate(value),
                           })
                         }
+                        maxDate={new Date()}
                       />
                     </div>
 

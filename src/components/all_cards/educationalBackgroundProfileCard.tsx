@@ -231,6 +231,7 @@ export default function EducationalBackgroundProfileCard({
                             tgl_ijazah: formatDate(value),
                           })
                         }
+                        maxDate={new Date()}
                       />
                     </div>
 

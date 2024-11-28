@@ -321,6 +321,7 @@ export default function PersonalDataProfileScreen({
                         });
                       }
                     }}
+                    maxDate={new Date()}
                   />
                 </div>
               </div>

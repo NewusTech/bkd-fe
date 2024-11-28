@@ -535,8 +535,8 @@ export default function UserProfileScreen() {
         alamat: response.data.alamat,
         rt: response.data.rt,
         rw: response.data.rw,
-        kecamatan_id: response.data.kecamatan_id,
-        desa_id: response.data.desa_id,
+        kecamatan_id: response.data.kecamatan_id.toString(),
+        desa_id: response.data.desa_id.toString(),
       });
     } catch (error) {
       console.log(error);

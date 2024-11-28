@@ -197,6 +197,7 @@ export default function PositionHistoryProfileScreen({
                                     tmt: formatDate(value),
                                   })
                                 }
+                                maxDate={new Date()}
                               />
                             </div>
 
@@ -248,6 +249,7 @@ export default function PositionHistoryProfileScreen({
                                     tgl_sk_pangkat: formatDate(value),
                                   })
                                 }
+                                maxDate={new Date()}
                               />
                             </div>
 
@@ -348,6 +350,7 @@ export default function PositionHistoryProfileScreen({
                                     tmt: formatDate(value),
                                   })
                                 }
+                                maxDate={new Date()}
                               />
                             </div>
 
@@ -399,6 +402,7 @@ export default function PositionHistoryProfileScreen({
                                     tgl_sk_pangkat: formatDate(value),
                                   })
                                 }
+                                maxDate={new Date()}
                               />
                             </div>
 
