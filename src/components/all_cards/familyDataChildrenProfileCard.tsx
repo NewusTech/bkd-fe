@@ -106,13 +106,15 @@ export default function FamilyDataChildrenProfileCard({
           <div className="w-full">
             <AlertDialog
               open={openChildrenUpdate}
-              onOpenChange={setOpenChildrenUpdate}>
+              onOpenChange={setOpenChildrenUpdate}
+            >
               <AlertDialogTrigger
                 onClick={() => {
                   handleSetChildren();
                   setOpenChildrenUpdate(true);
                 }}
-                className="w-full">
+                className="w-full"
+              >
                 <div className="w-full px-6 text-sm bg-black-80 bg-opacity-20 hover:bg-opacity-40 flex items-center justify-center h-10 text-black-80 hover:text-line-10 rounded-lg">
                   Edit
                 </div>
@@ -129,11 +131,13 @@ export default function FamilyDataChildrenProfileCard({
                     onSubmit={(e: React.FormEvent<HTMLFormElement>) =>
                       handleSubmitChildrenUpdate(e, item?.id)
                     }
-                    className="w-full flex flex-col gap-y-3 verticalScroll">
+                    className="w-full flex flex-col gap-y-3 verticalScroll"
+                  >
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                       <Label
                         htmlFor="nama-anak"
-                        className="focus-within:text-primary-70 font-normal text-[16px]">
+                        className="focus-within:text-primary-70 font-normal text-[16px]"
+                      >
                         Nama Anak
                       </Label>
 
@@ -157,7 +161,8 @@ export default function FamilyDataChildrenProfileCard({
                       <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                         <Label
                           htmlFor="tempat-lahir"
-                          className="focus-within:text-primary-70 font-normal text-[16px]">
+                          className="focus-within:text-primary-70 font-normal text-[16px]"
+                        >
                           Tampat Lahir
                         </Label>
 
@@ -190,8 +195,8 @@ export default function FamilyDataChildrenProfileCard({
                               tanggal_lahir: formatDate(value),
                             })
                           }
+                          maxDate={new Date()}
                         />
-                        maxDate={new Date()}
                       </div>
                     </div>
 
@@ -210,11 +215,13 @@ export default function FamilyDataChildrenProfileCard({
                             ...kid,
                             jenis_kelamin: value,
                           })
-                        }>
+                        }
+                      >
                         <SelectTrigger
                           className={`${
                             !kid.jenis_kelamin ? "opacity-70" : ""
-                          } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                          } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}
+                        >
                           <SelectValue
                             placeholder="Pilih Jenis Kelamin..."
                             className={
@@ -235,7 +242,8 @@ export default function FamilyDataChildrenProfileCard({
                                     <SelectItem
                                       className="pr-none mt-2"
                                       value={item?.value}
-                                      key={i}>
+                                      key={i}
+                                    >
                                       {item?.value}
                                     </SelectItem>
                                   );
@@ -249,7 +257,8 @@ export default function FamilyDataChildrenProfileCard({
                     <div className="w-full focus-within:text-primary-70 flex flex-col gap-y-2">
                       <Label
                         htmlFor="pekerjaan"
-                        className="focus-within:text-primary-70 font-normal text-[16px]">
+                        className="focus-within:text-primary-70 font-normal text-[16px]"
+                      >
                         Pekerjaan
                       </Label>
 
@@ -282,11 +291,13 @@ export default function FamilyDataChildrenProfileCard({
                             ...kid,
                             status: value,
                           })
-                        }>
+                        }
+                      >
                         <SelectTrigger
                           className={`${
                             !kid.status ? "opacity-70" : ""
-                          } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}>
+                          } bg-transparent border border-line-20 md:h-[40px] pl-4 w-full mx-0 pr-2`}
+                        >
                           <SelectValue
                             placeholder="Pilih Status..."
                             className={
@@ -307,7 +318,8 @@ export default function FamilyDataChildrenProfileCard({
                                     <SelectItem
                                       className="pr-none mt-2"
                                       value={item?.name}
-                                      key={i}>
+                                      key={i}
+                                    >
                                       {item?.name}
                                     </SelectItem>
                                   );
@@ -324,7 +336,8 @@ export default function FamilyDataChildrenProfileCard({
                       <Button
                         type="submit"
                         disabled={isLoadingChildrenUpdate ? true : false}
-                        className="bg-primary-40 hover:bg-primary-70 text-line-10">
+                        className="bg-primary-40 hover:bg-primary-70 text-line-10"
+                      >
                         {isLoadingChildrenUpdate ? (
                           <Loader className="animate-spin" />
                         ) : (
@@ -342,7 +355,8 @@ export default function FamilyDataChildrenProfileCard({
             <Button
               disabled={isLoadingChildrenDelete ? true : false}
               onClick={() => handleSubmitChildrenDelete(item?.id)}
-              className="w-full rounded-lg bg-error-60 hover:bg-error-70 text-line-10">
+              className="w-full rounded-lg bg-error-60 hover:bg-error-70 text-line-10"
+            >
               {isLoadingChildrenDelete ? (
                 <Loader className="animate-spin" />
               ) : isLoadingChildrenDelete ? (
